@@ -1,13 +1,11 @@
 ﻿using System;
 using UniRx;
-using System.Numerics;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Vector2 = System.Numerics.Vector2;
 
 namespace _Project.Scripts.Scenes.Game.Unit.Controls
 {
-    public class UserInputControls : IInputControls
+    public class UserInputControls : IInputControls, PlayerControls.IPlayerActions
     {
         private readonly Subject<Vector2> _movement = new();
         private readonly Subject<Vector2> _rotation = new();
@@ -20,6 +18,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Controls
         public UserInputControls()
         {
             _input = new PlayerControls();
+            
             _input.Player.Move.performed += OnMove;
             _input.Player.Move.canceled  += OnMove;
             
@@ -29,19 +28,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Controls
             _input.Enable();
         }
 
-        private void OnMove(InputAction.CallbackContext ctx)
-        {
-            UnityEngine.Vector2 unityValue = ctx.ReadValue<UnityEngine.Vector2>();
-            var v = new Vector2(unityValue.x, unityValue.y);
-            _movement.OnNext(v);
-        }
-
-        private void OnLook(InputAction.CallbackContext ctx)
-        {
-            UnityEngine.Vector2 unityValue = ctx.ReadValue<UnityEngine.Vector2>();
-            var v = new Vector2(unityValue.x, unityValue.y);
-
-            _rotation.OnNext(v);
-        }
+        public void OnMove(InputAction.CallbackContext ctx) => _movement.OnNext(ctx.ReadValue<Vector2>());
+        public void OnLook(InputAction.CallbackContext ctx)  => _rotation.OnNext(ctx.ReadValue<Vector2>());
     }
 }
