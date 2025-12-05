@@ -1,12 +1,14 @@
 ﻿using System;
-using System.Numerics;
-using UniRx;
+using UnityEngine;
 
 namespace _Project.Scripts.Scenes.Game.Unit
 {
   public interface IInputControls
   {
+    void Initialize();
     IObservable<Vector2> OnMovement { get; }
     IObservable<Vector2> OnRotation { get; }
+    IObservable<Vector3> OnShoot { get; }
+    IObservable<UniRx.Unit> OnAbilityUse { get; }
   }
 }

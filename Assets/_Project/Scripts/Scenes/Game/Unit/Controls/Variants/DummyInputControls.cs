@@ -1,19 +1,19 @@
 ﻿using System;
-using System.Numerics;
 using UniRx;
+using UnityEngine;
 
 namespace _Project.Scripts.Scenes.Game.Unit.Controls
 {
-  public class UserInputControls : IInputControls
+  public class DummyInputControls : IInputControls
   {
     private readonly Subject<Vector2> _movement = new();
     private readonly Subject<Vector2> _rotation = new();
-    
+
     public IObservable<Vector2> OnMovement => _movement;
     public IObservable<Vector2> OnRotation => _rotation;
-
-
-    //_movement.OnNext(directionDelta);
-    //_rotation.OnNext(rotationDelta);
+    public void Initialize()
+    {
+      
+    }
   }
 }
