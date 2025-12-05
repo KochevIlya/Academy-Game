@@ -8,5 +8,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     void Initialize();
     IObservable<Vector2> OnMovement { get; }
     IObservable<Vector2> OnRotation { get; }
+    IObservable<Vector3> OnShoot { get; }
+    IObservable<UniRx.Unit> OnAbilityUse { get; }
   }
 }

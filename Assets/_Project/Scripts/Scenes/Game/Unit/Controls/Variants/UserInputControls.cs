@@ -2,9 +2,6 @@
 using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Zenject;
-
-
 
 namespace _Project.Scripts.Scenes.Game.Unit.Controls
 {

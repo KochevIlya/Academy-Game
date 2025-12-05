@@ -1,20 +1,28 @@
 using _Project.Scripts.Scenes.Game.Unit;
+using _Project.Scripts.Scenes.Game.Unit.Attacker;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
 using UnityEngine;
 
 public class GameEntryPoint : MonoBehaviour
 {
-  [SerializeField] private GameUnit _gameUnit;
+  [SerializeField] private GameUnit _player;
+  [SerializeField] private GameUnit _enemy;
   
   private void Start()
   {
-    UserInputControls inputControls = new UserInputControls();
+    UserInputControls playerInputControls = new UserInputControls();
+    playerInputControls.Initialize();
     
-    _gameUnit.UpdateControls(
-      inputControls: inputControls, 
+    _player.UpdateControls(
+      inputControls: playerInputControls, 
       mover: new MainCharacterMover(), 
-      rotator: new MainCharacterRotator());
+      rotator: new MainCharacterRotator(),
+      unitAttacker: new MainCharacterAttacker());
     
-    inputControls.Initialize();
+    _enemy.UpdateControls(      
+      inputControls: playerInputControls, 
+      mover: new MainCharacterMover(), 
+      rotator: new MainCharacterRotator(),
+      unitAttacker: new MainCharacterAttacker());
   }
 }
