@@ -8,9 +8,13 @@ public class GameEntryPoint : MonoBehaviour
   
   private void Start()
   {
+    UserInputControls inputControls = new UserInputControls();
+    
     _gameUnit.UpdateControls(
-      inputControls: new UserInputControls(), 
+      inputControls: inputControls, 
       mover: new MainCharacterMover(), 
       rotator: new MainCharacterRotator());
+    
+    inputControls.Initialize();
   }
 }

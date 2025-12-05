@@ -2,15 +2,13 @@
 using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
-public interface IUserInputControls
-{
-    void EnablePlayerActions();
-}
+
 
 namespace _Project.Scripts.Scenes.Game.Unit.Controls
 {
-    public class UserInputControls : IInputControls, IUserInputControls, PlayerControls.IPlayerActions
+    public class UserInputControls : IInputControls, PlayerControls.IPlayerActions
     {
         private readonly Subject<Vector2> _movement = new();
         private readonly Subject<Vector2> _rotation = new();
@@ -19,17 +17,19 @@ namespace _Project.Scripts.Scenes.Game.Unit.Controls
         public IObservable<Vector2> OnRotation => _rotation;
 
         private PlayerControls _input;
-
-        public void OnMove(InputAction.CallbackContext ctx) => _movement.OnNext(ctx.ReadValue<Vector2>());
-        public void OnLook(InputAction.CallbackContext ctx)  => _rotation.OnNext(ctx.ReadValue<Vector2>());
-        public void EnablePlayerActions()
+        
+        public void Initialize()
         {
             if(_input == null)
             {
                 _input = new PlayerControls();
                 _input.Player.SetCallbacks(this);
             }
+            
             _input.Enable();
         }
+
+        public void OnMove(InputAction.CallbackContext ctx) => _movement.OnNext(ctx.ReadValue<Vector2>());
+        public void OnLook(InputAction.CallbackContext ctx)  => _rotation.OnNext(ctx.ReadValue<Vector2>());
     }
 }
