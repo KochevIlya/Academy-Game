@@ -10,6 +10,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     
     private IUnitMover _mover;
     private IUnitAttacker _attacker;
+    private IUnitRotator _rotator;
     
     private readonly CompositeDisposable _lifetimeDisposable = new CompositeDisposable();
 
@@ -22,17 +23,18 @@ namespace _Project.Scripts.Scenes.Game.Unit
 
     public void UpdateControls(IInputControls inputControls)
     {
-      UpdateControls(inputControls, _mover, _attacker);
+      UpdateControls(inputControls, _mover, _attacker, _rotator);
     }
     
-    public void UpdateControls(IInputControls inputControls, IUnitMover mover, IUnitAttacker unitAttacker)
+    public void UpdateControls(IInputControls inputControls, IUnitMover mover, IUnitAttacker unitAttacker, IUnitRotator unitRotator)
     {
       _lifetimeDisposable.Clear();
       
       InputControls = inputControls;
       _mover = mover;
       _attacker = unitAttacker;
-
+      _rotator = unitRotator;
+      
       SubscribeMovement();
       SubscribeShoot();
       SubscribeAbility();

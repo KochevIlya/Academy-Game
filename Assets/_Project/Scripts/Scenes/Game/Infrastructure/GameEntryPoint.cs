@@ -15,16 +15,18 @@ public class GameEntryPoint : MonoBehaviour
   {
     UserInputControls playerInputControls = new UserInputControls();
     playerInputControls.Initialize();
-    
+
     _player.UpdateControls(
-      inputControls: playerInputControls, 
-      mover: new MainCharacterMover(_cameraService), 
-      unitAttacker: new MainCharacterAttacker(_cameraService));
+      inputControls: playerInputControls,
+      mover: new MainCharacterMover(_cameraService),
+      unitAttacker: new MainCharacterAttacker(_cameraService),
+      unitRotator: new MainCharacterRotator(playerInputControls, _cameraService, _player));
     
     _enemy.UpdateControls(      
       inputControls: new DummyInputControls(), 
       mover: new MainCharacterMover(_cameraService), 
-      unitAttacker: new MainCharacterAttacker(_cameraService));
+      unitAttacker: new MainCharacterAttacker(_cameraService),
+      unitRotator: new MainCharacterRotator(playerInputControls, _cameraService, _enemy));
     
     _cameraService.SetTarget(_player);
   }
