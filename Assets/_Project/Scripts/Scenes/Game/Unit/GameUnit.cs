@@ -1,18 +1,20 @@
-using _Project.Scripts.Scenes.Game.Unit.Attacker;
 using UniRx;
 using UnityEngine;
+using _Project.Scripts.Scenes.Game.Unit.Attacker;
 
 namespace _Project.Scripts.Scenes.Game.Unit
 {
   public class GameUnit : MonoBehaviour
   {
-    private IInputControls _inputControls;
+    [field: SerializeField] public UnitAnimator Animator;
+    
     private IUnitMover _mover;
-    private IUnitRotator _rotator;
+    private IUnitAttacker _attacker;
     
     private readonly CompositeDisposable _lifetimeDisposable = new CompositeDisposable();
-    private IUnitAttacker _attacker;
 
+    public  IInputControls InputControls { get; private set; }
+    
     private void OnDestroy()
     {
       _lifetimeDisposable.Clear();
@@ -20,32 +22,44 @@ namespace _Project.Scripts.Scenes.Game.Unit
 
     public void UpdateControls(IInputControls inputControls)
     {
-      UpdateControls(inputControls, _mover, _rotator, _attacker);
+      UpdateControls(inputControls, _mover, _attacker);
     }
     
-    public void UpdateControls(IInputControls inputControls, IUnitMover mover, IUnitRotator rotator, IUnitAttacker unitAttacker)
+    public void UpdateControls(IInputControls inputControls, IUnitMover mover, IUnitAttacker unitAttacker)
     {
       _lifetimeDisposable.Clear();
       
-      _inputControls = inputControls;
+      InputControls = inputControls;
       _mover = mover;
-      _rotator = rotator;
       _attacker = unitAttacker;
 
-      _inputControls.OnMovement
-        .Subscribe(_mover.Move)
+      SubscribeMovement();
+      SubscribeShoot();
+      SubscribeAbility();
+    }
+
+    private void SubscribeMovement()
+    {
+      InputControls.OnMovement
+        .Subscribe(delta => _mover.Move(this, delta))
         .AddTo(_lifetimeDisposable);
-      
-      _inputControls.OnRotation
-        .Subscribe(_rotator.Rotate)
-        .AddTo(_lifetimeDisposable);
-      
-      _inputControls.OnShoot
-        .Subscribe(_attacker.Shoot)
+    }
+
+    private void SubscribeShoot()
+    {
+      InputControls.OnShoot
+        .Subscribe(_ => _attacker.Shoot(this))
         .AddTo(_lifetimeDisposable);
 
-      _inputControls.OnAbilityUse
-        .Subscribe(_ => _attacker.AbilityUse())
+      Animator.OnShootCast
+        .Subscribe(_ => _attacker.OnShootCast(this))
+        .AddTo(_lifetimeDisposable);
+    }
+    
+    private void SubscribeAbility()
+    {
+      InputControls.OnAbilityUse
+        .Subscribe(_ => _attacker.AbilityUse(this))
         .AddTo(_lifetimeDisposable);
     }
   }

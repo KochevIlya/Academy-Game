@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using _Project.Scripts.Scenes.Game.Unit;
+using UnityEngine;
 
 namespace _Project.Scripts.Infrastructure.Gui.Camera
 {
@@ -6,7 +7,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Camera
     {
         UnityEngine.Camera Camera { get; }
         void Init();
-        void SetTarget(Transform target);
+        void SetTarget(GameUnit unit);
         void Cleanup();
     }
 }

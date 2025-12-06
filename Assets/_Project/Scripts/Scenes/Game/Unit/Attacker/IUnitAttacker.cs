@@ -1,10 +1,9 @@
-﻿using UnityEngine;
-
-namespace _Project.Scripts.Scenes.Game.Unit.Attacker
+﻿namespace _Project.Scripts.Scenes.Game.Unit.Attacker
 {
   public interface IUnitAttacker
   {
-    void Shoot(Vector3 position);
-    void AbilityUse();
+    void Shoot(GameUnit unit);
+    void OnShootCast(GameUnit unit);
+    void AbilityUse(GameUnit unit);
   }
 }

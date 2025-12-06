@@ -6,11 +6,11 @@ namespace _Project.Scripts.Scenes.Game.Unit.Controls
 {
   public class DummyInputControls : IInputControls
   {
-    private readonly Subject<Vector2> _movement = new();
-    private readonly Subject<Vector2> _rotation = new();
-
-    public IObservable<Vector2> OnMovement => _movement;
-    public IObservable<Vector2> OnRotation => _rotation;
+    public IObservable<Vector2> OnMovement { get; } = new Subject<Vector2>();
+    public IObservable<UniRx.Unit> OnShoot { get; } = new Subject<UniRx.Unit>();
+    public IObservable<UniRx.Unit> OnAbilityUse { get; } = new Subject<UniRx.Unit>();
+    public Vector2 MousePosition { get; } = new();
+    
     public void Initialize()
     {
       

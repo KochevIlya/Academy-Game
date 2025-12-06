@@ -1,4 +1,5 @@
-﻿using Unity.Cinemachine;
+﻿using _Project.Scripts.Scenes.Game.Unit;
+using Unity.Cinemachine;
 using UnityEngine;
 
 namespace _Project.Scripts.Infrastructure.Gui.Camera
@@ -15,9 +16,9 @@ namespace _Project.Scripts.Infrastructure.Gui.Camera
             
         }
 
-        void ICameraService.SetTarget(Transform target)
+        public void SetTarget(GameUnit unit)
         {
-            _cameraZoomIn.Follow = target;
+            _cameraZoomIn.Follow = unit.transform;
         }
 
         void ICameraService.Cleanup()
