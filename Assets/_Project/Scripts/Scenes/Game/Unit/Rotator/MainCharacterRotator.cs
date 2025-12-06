@@ -34,14 +34,12 @@ public class MainCharacterRotator : IUnitRotator
 
         if (_plane.Raycast(ray, out float enter))
         {
-            Vector3 hit = ray.GetPoint(enter);
-            Vector3 dir = hit - unit.transform.position;
-            dir.y = 0f;
-            if (dir.sqrMagnitude > 0.0001f)
+            Vector3 targetPoint = ray.GetPoint(enter);
+            Vector3 direction = targetPoint - unit.transform.position;
+            direction.y = 0; 
+            if (direction != Vector3.zero)
             {
-                float angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
-                
-                unit.transform.rotation = Quaternion.Euler(0f, angle, 0f);
+                unit.transform.rotation = Quaternion.LookRotation(direction);
             }
         }
     }
