@@ -11,15 +11,9 @@ public class MainCharacterRotator : IUnitRotator
     private readonly CompositeDisposable _disposable = new();
     private readonly Plane _plane = new Plane(Vector3.up, Vector3.zero);
     
-    public MainCharacterRotator(IInputControls input, ICameraService cameraService, GameUnit unit)
+    public MainCharacterRotator(IInputControls input, ICameraService cameraService)
     {
         _cameraService = cameraService;
-        
-        Observable.EveryUpdate()
-            .Select(_ => input.MousePosition) 
-            .DistinctUntilChanged()           
-            .Subscribe(mousePos => Rotate(unit, mousePos))
-            .AddTo(_disposable);
     }
         
     public void Rotate(GameUnit gameUnit, Vector2 movementDelta)

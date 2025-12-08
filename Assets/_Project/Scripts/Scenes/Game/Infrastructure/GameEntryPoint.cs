@@ -20,13 +20,13 @@ public class GameEntryPoint : MonoBehaviour
       inputControls: playerInputControls,
       mover: new MainCharacterMover(_cameraService),
       unitAttacker: new MainCharacterAttacker(_cameraService),
-      unitRotator: new MainCharacterRotator(playerInputControls, _cameraService, _player));
+      unitRotator: new MainCharacterRotator(playerInputControls, _cameraService));
     
     _enemy.UpdateControls(      
       inputControls: new DummyInputControls(), 
       mover: new MainCharacterMover(_cameraService), 
       unitAttacker: new MainCharacterAttacker(_cameraService),
-      unitRotator: new MainCharacterRotator(playerInputControls, _cameraService, _enemy));
+      unitRotator: new MainCharacterRotator(playerInputControls, _cameraService));
     
     _cameraService.SetTarget(_player);
   }

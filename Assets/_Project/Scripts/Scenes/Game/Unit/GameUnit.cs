@@ -38,8 +38,18 @@ namespace _Project.Scripts.Scenes.Game.Unit
       SubscribeMovement();
       SubscribeShoot();
       SubscribeAbility();
+      SubscribeRotate();
+
     }
 
+    private void SubscribeRotate()
+    {
+      Observable.EveryUpdate()
+        .Select(_ => InputControls.MousePosition) 
+        .DistinctUntilChanged()           
+        .Subscribe(mousePos => _rotator.Rotate(this, mousePos))
+        .AddTo(_lifetimeDisposable);
+    }
     private void SubscribeMovement()
     {
       InputControls.OnMovement
