@@ -1,14 +1,16 @@
 ﻿using _Project.Scripts.Infrastructure.Gui.Camera;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
 using UnityEngine;
+using Zenject;
 
 namespace _Project.Scripts.Scenes.Game.Unit.Attacker
 {
-  public class MainCharacterAttacker : IUnitAttacker
+  public class MainCharacterAttacker : MonoBehaviour, IUnitAttacker
   {
-    private readonly ICameraService _cameraService;
+    private ICameraService _cameraService;
     
-    public MainCharacterAttacker(ICameraService cameraService)
+    [Inject]
+    public void Construct(ICameraService cameraService)
     {
       _cameraService = cameraService;
     }
