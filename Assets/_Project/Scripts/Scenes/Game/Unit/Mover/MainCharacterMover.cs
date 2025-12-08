@@ -34,7 +34,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
 
     private void UpdateAnimator(GameUnit gameUnit, Vector3 movement)
     {
-      gameUnit.Animator.Run(movement.normalized.magnitude);
+      gameUnit.Animator.Run(new Vector2(movement.x, movement.z).normalized, 0.1f);
     }
   }
 }
