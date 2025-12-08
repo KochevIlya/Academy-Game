@@ -8,29 +8,29 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
   public sealed class GuiService : MonoBehaviour, IGuiService
   {
     [SerializeField] private Canvas.StaticCanvas _staticCanvas;
-        
-    private readonly Stack<BaseScreen> _screens = new ();
+
+    private readonly Stack<BaseScreen> _screens = new Stack<BaseScreen>();
 
     Canvas.StaticCanvas IGuiService.StaticCanvas => _staticCanvas;
 
     void IGuiService.Push(BaseScreen screen)
     {
-      if (_screens.TryPeek(out BaseScreen oldScreen))
+      if (_screens.TryPeek(out var oldScreen))
       {
         oldScreen.SetActive(false);
       }
-            
+
       _screens.Push(screen);
     }
 
     void IGuiService.Pop()
     {
-      if (_screens.TryPop(out BaseScreen oldScreen))
+      if (_screens.TryPop(out var oldScreen))
       {
         Destroy(oldScreen.gameObject);
       }
-            
-      if (_screens.TryPeek(out BaseScreen screen))
+
+      if (_screens.TryPeek(out var screen))
       {
         screen.Show().Forget();
       }
@@ -38,11 +38,11 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
 
     void IGuiService.Cleanup()
     {
-      foreach (BaseScreen screen in _screens)
+      foreach (var screen in _screens)
       {
         Destroy(screen.gameObject);
       }
-            
+
       _screens.Clear();
     }
   }

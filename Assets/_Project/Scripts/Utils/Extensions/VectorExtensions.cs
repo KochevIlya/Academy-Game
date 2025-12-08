@@ -59,7 +59,7 @@ namespace _Project.Scripts.Common.Extensions
       v = tmp;
       return v;
     }
-    
+
     public static Vector3 AddZ(this Vector3 v, float zDelta)
     {
       var tmp = v;

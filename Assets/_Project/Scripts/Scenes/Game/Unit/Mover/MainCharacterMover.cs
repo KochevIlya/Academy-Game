@@ -1,5 +1,6 @@
 ﻿using _Project.Scripts.Common.Extensions;
 using _Project.Scripts.Infrastructure.Gui.Camera;
+using _Project.Scripts.Utils;
 using UnityEngine;
 using Zenject;
 
@@ -7,9 +8,6 @@ namespace _Project.Scripts.Scenes.Game.Unit
 {
   public class MainCharacterMover : MonoBehaviour, IUnitMover
   {
-    [SerializeField] private float _interpolateValue = 0.1f;
-    [SerializeField] private float _movementThreshold = 0.01f;
-
     private ICameraService _cameraService;
 
     [Inject]
@@ -21,11 +19,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     public void Move(GameUnit gameUnit, Vector2 movementDelta, float deltaTime)
     {
       var movement = UpdatePosition(gameUnit, movementDelta, deltaTime);
-      
-      if (movementDelta.sqrMagnitude > _movementThreshold * _movementThreshold)
-        UpdateAnimator(gameUnit, gameUnit.transform.InverseTransformDirection(movement));
-      else
-        gameUnit.Animator.Run(Vector2.zero, _interpolateValue);
+      UpdateAnimator(gameUnit, movementDelta, deltaTime, movement);
     }
 
     private Vector3 UpdatePosition(GameUnit gameUnit, Vector2 movementDelta, float deltaTime)
@@ -41,9 +35,15 @@ namespace _Project.Scripts.Scenes.Game.Unit
       return movement;
     }
 
-    private void UpdateAnimator(GameUnit gameUnit, Vector3 movement)
+    private void UpdateAnimator(GameUnit gameUnit, Vector2 movementDelta, float deltaTime, Vector3 movement)
     {
-      gameUnit.Animator.Run(new Vector2(movement.x, movement.z).normalized, _interpolateValue);
+      if (movementDelta.sqrMagnitude > Constants.Epsilon)
+      {
+        var localDirection = gameUnit.transform.InverseTransformDirection(movement);
+        gameUnit.Animator.Run(new Vector2(localDirection.x, localDirection.z).normalized, deltaTime);
+      }
+      else
+        gameUnit.Animator.Run(new Vector2(Vector3.zero.x, Vector3.zero.z).normalized, deltaTime);
     }
   }
 }

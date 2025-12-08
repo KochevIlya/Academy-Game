@@ -8,10 +8,10 @@ namespace _Project.Scripts.Infrastructure.Gui.Screens
   public abstract class BaseScreen : MonoBehaviour
   {
     [SerializeField] private CanvasGroup _canvasGroup;
-        
-    public readonly ReactiveCommand CloseScreen = new ();
-        
-    protected readonly CompositeDisposable LifeTimeDisposable = new();
+
+    public readonly ReactiveCommand CloseScreen = new ReactiveCommand();
+
+    protected readonly CompositeDisposable LifeTimeDisposable = new CompositeDisposable();
 
     protected virtual void OnEnable() { }
     protected virtual void OnDisable() => LifeTimeDisposable.Clear();
@@ -25,12 +25,9 @@ namespace _Project.Scripts.Infrastructure.Gui.Screens
       await FadeCanvas(0f, 1f).AsyncWaitForCompletion().AsUniTask();
       SetCanvasEnable(true);
     }
-        
-    protected virtual async UniTask Hide()
-    {
-      SetCanvasEnable(false);
-    }
-        
+
+    protected virtual async UniTask Hide() => SetCanvasEnable(false);
+
     public void SetActive(bool isActive)
     {
       _canvasGroup.alpha = isActive ? 1f : 0f;
@@ -38,14 +35,11 @@ namespace _Project.Scripts.Infrastructure.Gui.Screens
       _canvasGroup.blocksRaycasts = isActive;
     }
 
-    protected Tween FadeCanvas(float from, float to)
-    {
-      return _canvasGroup
-        .DOFade(to, 0.15f)
-        .From(from)
-        .SetEase(Ease.Linear)
-        .SetLink(gameObject);
-    }
+    protected Tween FadeCanvas(float from, float to) => _canvasGroup
+      .DOFade(to, 0.15f)
+      .From(from)
+      .SetEase(Ease.Linear)
+      .SetLink(gameObject);
 
     private void SetCanvasEnable(bool isEnable)
     {
@@ -53,11 +47,11 @@ namespace _Project.Scripts.Infrastructure.Gui.Screens
       _canvasGroup.blocksRaycasts = isEnable;
     }
   }
-  
+
   public abstract class BaseScreen<T> : BaseScreen
   {
-    public new readonly ReactiveCommand<T> CloseScreen = new ();
-    
+    public new readonly ReactiveCommand<T> CloseScreen = new ReactiveCommand<T>();
+
     protected virtual async UniTask Hide(T data)
     {
       await base.Hide();

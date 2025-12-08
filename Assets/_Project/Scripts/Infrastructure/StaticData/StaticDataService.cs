@@ -13,7 +13,7 @@ namespace _Project.Scripts.Infrastructure.StaticData
 
     public void LoadAll()
     {
-      
+
     }
   }
 }

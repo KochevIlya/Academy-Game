@@ -7,10 +7,10 @@ namespace _Project.Scripts.Infrastructure.PersistentProgress.Data
   {
     public float BestScore;
     public bool TutorialCompleted;
-    
+
     public PlayerProgress()
     {
-      
+
     }
   }
 }

@@ -8,13 +8,13 @@ namespace _Project.Scripts.Scenes.Game.Unit.Attacker
   public class MainCharacterAttacker : MonoBehaviour, IUnitAttacker
   {
     private ICameraService _cameraService;
-    
+
     [Inject]
     public void Construct(ICameraService cameraService)
     {
       _cameraService = cameraService;
     }
-    
+
     public void Shoot(GameUnit unit)
     {
       unit.Animator.Shoot();
@@ -25,10 +25,10 @@ namespace _Project.Scripts.Scenes.Game.Unit.Attacker
     {
       Debug.Log($"Shoot Cast with position: {unit.InputControls.MousePosition}");
     }
-    
+
     public void AbilityUse(GameUnit unit)
     {
-      foreach (GameUnit sceneUnit in Object.FindObjectsOfType<GameUnit>())
+      foreach (var sceneUnit in FindObjectsOfType<GameUnit>())
       {
         if (sceneUnit != unit)
         {
@@ -37,7 +37,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Attacker
           userInputControls.Initialize();
           sceneUnit.UpdateControls(userInputControls);
           _cameraService.SetTarget(sceneUnit);
-          
+
           break;
         }
       }

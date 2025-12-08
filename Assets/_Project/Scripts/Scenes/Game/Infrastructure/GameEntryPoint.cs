@@ -10,18 +10,18 @@ public class GameEntryPoint : MonoBehaviour
   [SerializeField] private GameUnit _enemy;
 
   [SerializeField] private CameraService _cameraService;
-  
+
   private void Start()
   {
-    UserInputControls playerInputControls = new UserInputControls();
+    var playerInputControls = new UserInputControls();
     playerInputControls.Initialize();
 
     _player.UpdateControls(
       inputControls: playerInputControls);
-    
+
     // _enemy.UpdateControls(      
     //   inputControls: new DummyInputControls());
-    
+
     _cameraService.SetTarget(_player);
   }
 }
