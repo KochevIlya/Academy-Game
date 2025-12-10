@@ -6,6 +6,8 @@ namespace _Project.Scripts.Infrastructure.StaticData
   {
     private readonly IConfigsLoader _configsLoader;
 
+    public UnitsConfig UnitsConfig { get; private set; }
+
     public StaticDataService(IConfigsLoader configsLoader)
     {
       _configsLoader = configsLoader;
@@ -13,7 +15,7 @@ namespace _Project.Scripts.Infrastructure.StaticData
 
     public void LoadAll()
     {
-
+      UnitsConfig = _configsLoader.LoadSoConfig<UnitsConfig>();
     }
   }
 }
