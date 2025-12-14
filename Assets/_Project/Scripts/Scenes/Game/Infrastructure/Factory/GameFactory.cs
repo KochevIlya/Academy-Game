@@ -8,6 +8,7 @@ using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Pool;
 using UnityEngine.AddressableAssets;
 using Zenject;
 
@@ -21,6 +22,9 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     private readonly UserInputControls _userInputControls;
     private readonly DummyInputControls _dummyInputControls;
     private readonly IAssetProvider _assetProvider;
+    
+    private IObjectPool<Bullet> _bulletPool;
+    private GameObject _bulletPrefab;
     
     public GameFactory(IStaticDataService staticData, DiContainer diContainer, 
       UserInputControls userInputControls, DummyInputControls dummyInputControls, 
@@ -74,13 +78,40 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     
     public async UniTask<Bullet> SpawnBullet(AssetReference prefabRefence, Transform spawnPoint)
     {
-      var prefab = await _assetProvider.LoadFromAddressable<GameObject>(prefabRefence);
-      
-      var bullet = _diContainer
-        .InstantiatePrefabForComponent<Bullet>(prefab,
-          spawnPoint.position, Quaternion.identity, null);
+      if (_bulletPool == null)
+      {
+        _bulletPrefab = await _assetProvider.LoadFromAddressable<GameObject>(prefabRefence);
 
-      return bullet;
+        _bulletPool = new ObjectPool<Bullet>(
+          createFunc: () =>
+          {
+            var bullet = _diContainer.InstantiatePrefabForComponent<Bullet>(
+              _bulletPrefab, Vector3.zero, Quaternion.identity, null);
+            bullet.SetPool(_bulletPool);
+            bullet.gameObject.SetActive(false);
+            return bullet;
+          },
+          actionOnGet: bullet =>
+          {
+            bullet.gameObject.SetActive(true);
+          },
+          actionOnRelease: bullet =>
+          {
+            bullet.gameObject.SetActive(false);
+            bullet.transform.position = Vector3.zero;
+          },
+          actionOnDestroy: bullet =>
+          {
+            UnityEngine.Object.Destroy(bullet.gameObject);
+          },
+          maxSize: 50
+        );
+      }
+
+      var b = _bulletPool.Get();
+      b.transform.position = spawnPoint.position;
+      b.transform.rotation = spawnPoint.rotation;
+      return b;
     }
   }
 }
