@@ -1,6 +1,5 @@
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit.Rotator;
-using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Animator;
 using NUnit.Framework;
 using UnityEngine;
@@ -141,18 +140,6 @@ namespace _Project.Scripts.Tests.Editor
 
             Assert.Less(rotationDifference, 45f,
                 "Unit должен повернуться в направлении цели");
-        }
-    }
-    
-    public class FakeInputHelper : IInputHelper
-    {
-        public bool ShouldReturnTrue = true;
-        public Vector3 WorldPositionToReturn = Vector3.zero;
-
-        public bool ScreenToGroundPosition(Vector2 screenPos, float y, out Vector3 worldPos)
-        {
-            worldPos = WorldPositionToReturn;
-            return ShouldReturnTrue;
         }
     }
 }
