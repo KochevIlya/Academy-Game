@@ -1,8 +1,10 @@
 ﻿namespace _Project.Scripts.Scenes.Game.Unit._Data
 {
-  public enum UnitType
+  public enum UnitType : byte
   {
-    Character,
-    Bot,
+    Unknown = 0,
+    
+    Character = 1,
+    Bot = 2,
   }
 }

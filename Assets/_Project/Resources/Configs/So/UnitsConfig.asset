@@ -21,5 +21,13 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  Character: {fileID: 3029900669262944937, guid: 0d571c597da462243b8e5d89d8304f49,
-    type: 3}
+  Character:
+    m_AssetGUID: 0d571c597da462243b8e5d89d8304f49
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1
+  Bot:
+    m_AssetGUID: 0d571c597da462243b8e5d89d8304f49
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1

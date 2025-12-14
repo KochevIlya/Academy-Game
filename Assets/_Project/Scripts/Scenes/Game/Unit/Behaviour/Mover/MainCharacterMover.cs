@@ -18,11 +18,16 @@ namespace _Project.Scripts.Scenes.Game.Unit.Mover
 
     public void Move(GameUnit gameUnit, Vector2 movementDelta, float deltaTime)
     {
-      var movement = UpdatePosition(gameUnit, movementDelta, deltaTime);
+      var movement = CalculateMovement(gameUnit, movementDelta, deltaTime);
       UpdateAnimator(gameUnit, movementDelta, deltaTime, movement);
     }
 
-    private Vector3 UpdatePosition(GameUnit gameUnit, Vector2 movementDelta, float deltaTime)
+    public void ResetMovement(GameUnit gameUnit)
+    { 
+      gameUnit.Animator.Idle();
+    }
+
+    private Vector3 CalculateMovement(GameUnit gameUnit, Vector2 movementDelta, float deltaTime)
     {
       var cameraForward = _cameraService.Camera.transform.forward.SetY(0f).normalized;
       var cameraRight = _cameraService.Camera.transform.right.SetY(0f).normalized;
@@ -43,7 +48,9 @@ namespace _Project.Scripts.Scenes.Game.Unit.Mover
         gameUnit.Animator.Run(new Vector2(localDirection.x, localDirection.z).normalized, deltaTime);
       }
       else
-        gameUnit.Animator.Run(new Vector2(Vector3.zero.x, Vector3.zero.z).normalized, deltaTime);
+      {
+        gameUnit.Animator.Run(Vector2.zero, deltaTime);
+      }
     }
   }
 }

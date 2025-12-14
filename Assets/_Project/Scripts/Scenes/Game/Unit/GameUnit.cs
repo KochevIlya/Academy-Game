@@ -1,8 +1,10 @@
 using _Project.Scripts.Libs.SerializeInterface;
+using _Project.Scripts.Scenes.Game.Shoot;
 using _Project.Scripts.Scenes.Game.Unit.Animator;
 using UniRx;
 using UnityEngine;
 using _Project.Scripts.Scenes.Game.Unit.Attacker;
+using _Project.Scripts.Scenes.Game.Unit.Components.Health;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Mover;
 using _Project.Scripts.Scenes.Game.Unit.Rotator;
@@ -11,13 +13,19 @@ namespace _Project.Scripts.Scenes.Game.Unit
 {
   public class GameUnit : MonoBehaviour
   {
-    [field: SerializeField] public UnitAnimator Animator;
+    public UnitAnimator Animator;
+    public Health Health;
+    
+    [field: SerializeField] public Transform WeaponPoint { get; private set; }
+    public WeaponBase Weapon { get; private set; }
+    public bool HasWeapon { get; private set; }
 
     [SerializeField] private InterfaceReference<IUnitMover> _mover;
     [SerializeField] private InterfaceReference<IUnitRotator> _rotator;
     [SerializeField] private InterfaceReference<IUnitAttacker> _attacker;
 
     private readonly CompositeDisposable _lifetimeDisposable = new CompositeDisposable();
+    
 
     public IInputControls InputControls { get; private set; }
 
@@ -28,6 +36,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
 
     public void UpdateControls(IInputControls inputControls)
     {
+      ResetMovement();
       _lifetimeDisposable.Clear();
 
       InputControls = inputControls;
@@ -38,6 +47,15 @@ namespace _Project.Scripts.Scenes.Game.Unit
       SubscribeRotate();
     }
 
+    public void UpdateWeapon(WeaponBase weapon)
+    {
+      if (Weapon != null)
+        Weapon.Remove();
+
+      HasWeapon = weapon != null;
+      Weapon = weapon;
+    }
+
     private void SubscribeRotate()
     {
       Observable.EveryUpdate()
@@ -45,6 +63,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
         .Subscribe(mousePos => _rotator.Value.Rotate(this, mousePos, Time.deltaTime))
         .AddTo(_lifetimeDisposable);
     }
+    
     private void SubscribeMovement()
     {
       InputControls.OnMovement
@@ -55,7 +74,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     private void SubscribeShoot()
     {
       InputControls.OnShoot
-        .Subscribe(_ => _attacker.Value.Shoot(this))
+        .Subscribe(_ => _attacker.Value.Shoot(this, InputControls.MousePosition))
         .AddTo(_lifetimeDisposable);
 
       Animator.OnShootCast
@@ -69,5 +88,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
         .Subscribe(_ => _attacker.Value.AbilityUse(this))
         .AddTo(_lifetimeDisposable);
     }
+    
+    private void ResetMovement() => _mover.Value.ResetMovement(this);
   }
 }

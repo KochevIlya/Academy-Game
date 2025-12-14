@@ -1,11 +1,17 @@
-﻿using _Project.Scripts.Scenes.Game.Unit;
+﻿using _Project.Scripts.Scenes.Game.Shoot;
+using _Project.Scripts.Scenes.Game.Shoot.Data;
+using _Project.Scripts.Scenes.Game.Unit;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
 {
   public interface IGameFactory
   {
-    GameUnit SpawnCharacter(Vector3 position);
-    GameUnit SpawnBot(Vector3 position);
+    UniTask<GameUnit> SpawnCharacter(Vector3 position, WeaponType weapon);
+    UniTask<GameUnit> SpawnBot(Vector3 position);
+    UniTask<WeaponBase> SpawnWeapon(WeaponType weaponType, GameUnit unit);
+    UniTask<Bullet> SpawnBullet(AssetReference prefabRefence, Transform spawnPoint);
   }
 }

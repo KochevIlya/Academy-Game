@@ -1,10 +1,13 @@
-﻿using _Project.Scripts.Infrastructure.StateMachine;
+﻿using System;
+using _Project.Scripts.Infrastructure.StateMachine;
 using _Project.Scripts.Infrastructure.StateMachine.States.Interfaces;
 using _Project.Scripts.Scenes.Game.Infrastructure.Factory;
+using _Project.Scripts.Scenes.Game.Shoot.Data;
 using _Project.Scripts.Scenes.Game.Unit._Data;
-using _Project.Scripts.Scenes.Game.Unit.Spawner;
+using _Project.Scripts.Scenes.Game.Unit.Components.Spawner;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace _Project.Scripts.Scenes.Game.Infrastructure.States
 {
@@ -16,18 +19,17 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
       _gameFactory = gameFactory;
     }
     
-    public UniTask Enter(IGameStateMachine gameStateMachine)
+    public async UniTask Enter(IGameStateMachine gameStateMachine)
     {
       foreach (UnitSpawner spawner in Object.FindObjectsOfType<UnitSpawner>())
-      { 
+      {
         if(spawner.UnitType == UnitType.Character) 
-          _gameFactory.SpawnCharacter(spawner.Position);
+          await _gameFactory.SpawnCharacter(spawner.Position, WeaponType.Riffle);
         else if (spawner.UnitType == UnitType.Bot)
-          _gameFactory.SpawnBot(spawner.Position);
+          await _gameFactory.SpawnBot(spawner.Position);
       }
       
-      gameStateMachine.Enter<GameLoopState>();
-      return UniTask.CompletedTask;
+      gameStateMachine.Enter<GameLoopState>().Forget();
     }
   }
 }

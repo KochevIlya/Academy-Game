@@ -9,34 +9,44 @@ namespace _Project.Scripts.Scenes.Game.Unit.Attacker
   public class MainCharacterAttacker : MonoBehaviour, IUnitAttacker
   {
     private ICameraService _cameraService;
+    
+    private Vector3 _shootMousePosition;
+    private UserInputControls _userInputControls;
+    private DummyInputControls _dummyInputControls;
 
     [Inject]
-    public void Construct(ICameraService cameraService)
+    public void Construct(ICameraService cameraService, 
+      UserInputControls userInputControls, DummyInputControls dummyInputControls)
     {
+      _dummyInputControls = dummyInputControls;
+      _userInputControls = userInputControls;
       _cameraService = cameraService;
     }
 
-    public void Shoot(GameUnit unit)
+    public void Shoot(GameUnit unit, Vector2 shootPosition)
     {
-      unit.Animator.Shoot();
-      Debug.Log("Start Shoot");
+      if (unit.HasWeapon)
+      {
+        _shootMousePosition = shootPosition; 
+        unit.Animator.Shoot();
+      }
     }
 
     public void OnShootCast(GameUnit unit)
     {
-      Debug.Log($"Shoot Cast with position: {unit.InputControls.MousePosition}");
+      if(unit.HasWeapon) 
+        unit.Weapon.Shoot(_shootMousePosition);
     }
-
+    
     public void AbilityUse(GameUnit unit)
     {
       foreach (var sceneUnit in FindObjectsOfType<GameUnit>())
       {
         if (sceneUnit != unit)
         {
-          unit.UpdateControls(new DummyInputControls());
-          var userInputControls = new UserInputControls();
-          userInputControls.Initialize();
-          sceneUnit.UpdateControls(userInputControls);
+          unit.UpdateControls(_dummyInputControls);
+          sceneUnit.UpdateControls(_userInputControls);
+          
           _cameraService.SetTarget(sceneUnit);
 
           break;

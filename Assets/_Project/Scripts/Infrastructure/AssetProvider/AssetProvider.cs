@@ -16,6 +16,11 @@ namespace _Project.Scripts.Infrastructure.AssetProvider
       new Dictionary<string, IList<AsyncOperationHandle>>();
 
 
+    public void Initialize()
+    {
+      Addressables.InitializeAsync();
+    }
+    
     T IAssetProvider.LoadFromResources<T>(string path) => Resources.Load<T>(path);
 
     T[] IAssetProvider.LoadAllFromResources<T>(string path) => Resources.LoadAll<T>(path);

@@ -1,5 +1,6 @@
 using _Project.Scripts.Infrastructure.Gui.Camera;
 using _Project.Scripts.Scenes.Game.Infrastructure.Factory;
+using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
     public override void InstallBindings()
     {
       Container.Bind<ICameraService>().To<CameraService>().FromInstance(_cameraService).AsSingle();
+      Container.Bind<IInputHelper>().To<InputHelper>().AsSingle();
 
       Container.Bind<IGameFactory>().To<GameFactory>().AsSingle();
 
