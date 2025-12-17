@@ -8,9 +8,9 @@ using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Pool;
 using UnityEngine.AddressableAssets;
 using Zenject;
+using _Project.Scripts.Libs.Pool;
 
 namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
 {
@@ -23,7 +23,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     private readonly DummyInputControls _dummyInputControls;
     private readonly IAssetProvider _assetProvider;
     
-    private IObjectPool<Bullet> _bulletPool;
+    private ObjectPool<Bullet> _bulletPool;
     private GameObject _bulletPrefab;
     
     public GameFactory(IStaticDataService staticData, DiContainer diContainer, 
@@ -80,38 +80,29 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     {
       if (_bulletPool == null)
       {
-        _bulletPrefab = await _assetProvider.LoadFromAddressable<GameObject>(prefabRefence);
-
-        _bulletPool = new ObjectPool<Bullet>(
-          createFunc: () =>
-          {
-            var bullet = _diContainer.InstantiatePrefabForComponent<Bullet>(
-              _bulletPrefab, Vector3.zero, Quaternion.identity, null);
-            bullet.SetPool(_bulletPool);
-            bullet.gameObject.SetActive(false);
-            return bullet;
-          },
-          actionOnGet: bullet =>
-          {
-            bullet.gameObject.SetActive(true);
-          },
-          actionOnRelease: bullet =>
-          {
-            bullet.gameObject.SetActive(false);
-            bullet.transform.position = Vector3.zero;
-          },
-          actionOnDestroy: bullet =>
-          {
-            UnityEngine.Object.Destroy(bullet.gameObject);
-          },
-          maxSize: 50
-        );
+        await Initialize(prefabRefence);
       }
-
-      var b = _bulletPool.Get();
-      b.transform.position = spawnPoint.position;
-      b.transform.rotation = spawnPoint.rotation;
-      return b;
+      var bullet = _bulletPool.Spawn();
+      bullet.transform.position = spawnPoint.position;
+      bullet.transform.rotation = spawnPoint.rotation;
+      bullet.gameObject.SetActive(true);
+    
+      return bullet;
+    }
+    
+    public async UniTask Initialize(AssetReference prefabRefence)
+    {
+      _bulletPrefab = await _assetProvider.LoadFromAddressable<GameObject>(prefabRefence);
+    
+      _bulletPool = new ObjectPool<Bullet>(() =>
+      {
+        var bullet = _diContainer
+          .InstantiatePrefabForComponent<Bullet>(_bulletPrefab,
+            Vector3.zero, Quaternion.identity, null);
+        bullet.OnCreated(_bulletPool);
+        bullet.gameObject.SetActive(false);
+        return bullet;
+      });
     }
   }
 }

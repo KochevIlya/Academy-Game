@@ -22,6 +22,7 @@ namespace _Project.Scripts.Infrastructure.StateMachine.States
       _assetProvider.Initialize();
 
       gameStateMachine.Enter<InitializeCurrentSceneState>();
+      gameStateMachine.Enter<InitializeGameServices>();
       return UniTask.CompletedTask;
     }
   }

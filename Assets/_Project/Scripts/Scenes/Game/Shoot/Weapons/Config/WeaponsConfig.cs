@@ -9,5 +9,6 @@ namespace _Project.Scripts.Scenes.Game.Shoot.Config
   public class WeaponsConfig : SoConfig<WeaponsConfig>
   {
     public Dictionary<WeaponType, WeaponData> Weapons;
+    public static float BulletLifeTime = 3f;
   }
 }
