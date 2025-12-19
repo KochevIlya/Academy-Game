@@ -102,7 +102,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
         bullet.OnCreated(_bulletPool);
         bullet.gameObject.SetActive(false);
         return bullet;
-      });
+      }, 0);
     }
   }
 }

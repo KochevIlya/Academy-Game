@@ -28,6 +28,7 @@ namespace _Project.Scripts.Scenes.Game.Shoot
     private void OnCollisionEnter(Collision other)
     {
       Debug.Log("Collision!!");
+      _lifeTime = 0f;
       Remove();
     }
   }
