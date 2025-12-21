@@ -8,6 +8,8 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
   {
     public IReadOnlyReactiveProperty<int> CurrentHealth => _currentHealth;
     public IObservable<UniRx.Unit> Die => _die;
+    
+    public int MaxHealth = 100;
 
     public bool IsAlive => CurrentHealth.Value > 0;
 
