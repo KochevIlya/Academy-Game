@@ -1,8 +1,11 @@
+using System;
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit.Mover;
 using _Project.Scripts.Scenes.Game.Unit.Animator;
 using NUnit.Framework;
 using UnityEngine;
+using FluentAssertions;
+using Object = UnityEngine.Object;
 
 namespace _Project.Scripts.Tests.Editor
 {
@@ -14,6 +17,11 @@ namespace _Project.Scripts.Tests.Editor
         private GameObject _moverGameObject;
         private GameObject _unitGameObject;
         private UnitAnimator _unitAnimator;
+        
+        private const float DefaultDeltaTime = 0.016f;
+        private static readonly Vector2 MovementForwardDelta = new Vector2(0, 1);
+        private static readonly Vector2 MovementDiagonallyDelta = new Vector2(1, 1);
+        private static readonly Vector2 MovementZeroDelta = Vector2.zero;
 
         [SetUp]
         public void Setup()
@@ -57,32 +65,30 @@ namespace _Project.Scripts.Tests.Editor
         public void Move_WithForwardInput_MovesForward()
         {
             // Arrange
-            var movementDelta = new Vector2(0, 1);
-            var deltaTime = 0.016f;
+            var movementDelta = MovementForwardDelta;
+            var deltaTime = DefaultDeltaTime;
             var initialPosition = _gameUnit.transform.position;
 
             // Act
             _mover.Move(_gameUnit, movementDelta, deltaTime);
 
             // Assert
-            Assert.AreNotEqual(initialPosition, _gameUnit.transform.position,
-                "Unit должен переместиться вперёд");
+            initialPosition.Should().NotBe(_gameUnit.transform.position);
         }
 
         [Test]
         public void Move_WithZeroInput_DoesNotMove()
         {
             // Arrange
-            var movementDelta = Vector2.zero;
-            var deltaTime = 0.016f;
+            var movementDelta = MovementZeroDelta;
+            var deltaTime = DefaultDeltaTime;
             var initialPosition = _gameUnit.transform.position;
 
             // Act
             _mover.Move(_gameUnit, movementDelta, deltaTime);
 
             // Assert
-            Assert.AreEqual(initialPosition, _gameUnit.transform.position,
-                "Unit НЕ должен переместиться при нулевом вводе");
+            initialPosition.Should().Be(_gameUnit.transform.position);
         }
 
 
@@ -90,8 +96,8 @@ namespace _Project.Scripts.Tests.Editor
         public void Move_WithDiagonalInput_MovesDiagonally()
         {
             // Arrange
-            var movementDelta = new Vector2(1, 1);
-            var deltaTime = 0.016f;
+            var movementDelta = MovementDiagonallyDelta;
+            var deltaTime = DefaultDeltaTime;
             var initialPosition = _gameUnit.transform.position;
 
             // Act
@@ -99,12 +105,10 @@ namespace _Project.Scripts.Tests.Editor
 
             // Assert
             var deltaPosition = _gameUnit.transform.position - initialPosition;
-            Assert.AreNotEqual(initialPosition, _gameUnit.transform.position,
-                "Unit должен переместиться диагонально");
-            Assert.NotZero(deltaPosition.x,
-                "X должен был измениться");
-            Assert.NotZero(deltaPosition.z,
-                "Z должен был измениться");
+            
+            initialPosition.Should().NotBe(_gameUnit.transform.position);
+            deltaPosition.x.Should().NotBe(0);
+            deltaPosition.z.Should().NotBe(0);
         }
         
         
@@ -116,6 +120,37 @@ namespace _Project.Scripts.Tests.Editor
 
             // Assert
             Assert.Pass("ResetMovement без ошибок");
+        }
+        
+        [TestCase(0.000001f)]
+        [TestCase(0.0001f)]
+        [TestCase(DefaultDeltaTime)]
+        [TestCase(0.033f)]
+        [TestCase(1f)]
+        [TestCase(10f)]
+        public void Move_WithDifferentDeltaTimes_DoesNotThrow(float deltaTime)
+        {
+            var initialPosition = _gameUnit.transform.position;
+
+            Action act = () => _mover.Move(_gameUnit, MovementDiagonallyDelta, deltaTime);
+
+            act.Should().NotThrow();
+
+            var displacement = _gameUnit.transform.position - initialPosition;
+            displacement.magnitude.Should().BeGreaterThan(0f);
+        }
+        
+        [TestCase(1e6f, 0f)]
+        [TestCase(0f, 1e6f)]
+        [TestCase(-1e6f, -1e6f)]
+        public void Move_WithExtremeInputValues_DoesNotThrow(float x, float y)
+        {
+            var deltaTime = DefaultDeltaTime;
+            var movementDelta = new Vector2(x, y);
+
+            Action act = () => _mover.Move(_gameUnit, movementDelta, deltaTime);
+
+            act.Should().NotThrow();
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit.Attacker;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
@@ -8,6 +9,8 @@ using _Project.Scripts.Scenes.Game.Shoot;
 using _Project.Scripts.Scenes.Game.Shoot.Data;
 using NUnit.Framework;
 using UnityEngine;
+using FluentAssertions;
+using Object = UnityEngine.Object;
 
 namespace _Project.Scripts.Tests.Editor
 {
@@ -22,6 +25,8 @@ namespace _Project.Scripts.Tests.Editor
         private TestWeapon _testWeapon;
         private UserInputControls _userInputControls;
         private DummyInputControls _dummyInputControls;
+        
+        private static readonly Vector2 DefaultShootPosition = new Vector2(500, 300);
 
         [SetUp]
         public void Setup()
@@ -83,26 +88,26 @@ namespace _Project.Scripts.Tests.Editor
         public void Shoot_WhenUnitHasWeapon_CallsAnimatorShoot()
         {
             // Arrange
-            var shootPosition = new Vector2(500, 300);
+            var shootPosition = DefaultShootPosition;
             _gameUnit.UpdateWeapon(_testWeapon);
 
             // Act
             _attacker.Shoot(_gameUnit, shootPosition);
 
             // Assert
-            Assert.Pass("Shoot завершён без ошибок");
+            Assert.Pass("Shoot завершён без ошибок"); // change on fake animator calls shoot
         }
 
         [Test]
         public void Shoot_WhenUnitHasNoWeapon_DoesNotThrow()
         {
             // Arrange
-            var shootPosition = new Vector2(500, 300);
+            var shootPosition = DefaultShootPosition;
             _gameUnit.UpdateWeapon(null);
 
             // Act Assert
-            Assert.DoesNotThrow(() => _attacker.Shoot(_gameUnit, shootPosition),
-                "Shoot не должен выбросить исключение если нет оружия");
+            Action shootAction = () => _attacker.Shoot(_gameUnit, shootPosition);
+            shootAction.Should().NotThrow();
         }
         
 
@@ -110,7 +115,7 @@ namespace _Project.Scripts.Tests.Editor
         public void OnShootCast_WhenUnitHasWeapon_CallsWeaponShoot()
         {
             // Arrange
-            var shootPosition = new Vector2(500, 300);
+            var shootPosition = DefaultShootPosition;
             _gameUnit.UpdateWeapon(_testWeapon);
             
             _attacker.Shoot(_gameUnit, shootPosition);
@@ -119,10 +124,8 @@ namespace _Project.Scripts.Tests.Editor
             _attacker.OnShootCast(_gameUnit);
 
             // Assert
-            Assert.IsTrue(_testWeapon.ShootWasCalled,
-                "Weapon.Shoot должен быть вызван");
-            Assert.AreEqual(shootPosition, _testWeapon.LastShootPosition,
-                "Weapon должен получить сохранённую позицию");
+            _testWeapon.ShootWasCalled.Should().BeTrue();
+            shootPosition.Should().Be(_testWeapon.LastShootPosition);
         }
 
         [Test]
@@ -132,22 +135,8 @@ namespace _Project.Scripts.Tests.Editor
             _gameUnit.UpdateWeapon(null);
 
             // Act Assert
-            Assert.DoesNotThrow(() => _attacker.OnShootCast(_gameUnit),
-                "OnShootCast не должен выбросить исключение если нет оружия");
-        }
-
-        [Test]
-        public void Shoot_WithZeroPosition_Works()
-        {
-            // Arrange
-            var shootPosition = Vector2.zero;
-            _gameUnit.UpdateWeapon(_testWeapon);
-
-            // Act
-            _attacker.Shoot(_gameUnit, shootPosition);
-
-            // Assert
-            Assert.Pass("Shoot с нулевой позицией работает");
+            Action onShootAction = () => _attacker.OnShootCast(_gameUnit);
+            onShootAction.Should().NotThrow();
         }
     }
     

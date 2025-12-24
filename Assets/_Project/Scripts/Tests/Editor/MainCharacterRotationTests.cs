@@ -1,8 +1,11 @@
+using System;
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit.Rotator;
 using _Project.Scripts.Scenes.Game.Unit.Animator;
 using NUnit.Framework;
 using UnityEngine;
+using FluentAssertions;
+using Object = UnityEngine.Object;
 
 namespace _Project.Scripts.Tests.Editor
 {
@@ -13,6 +16,13 @@ namespace _Project.Scripts.Tests.Editor
         private GameUnit _gameUnit;
         private GameObject _rotatorGo;
         private GameObject _unitGo;
+        
+        private const float AcceptableRotationError = 45f;
+        private const float DefaultDeltaTime = 0.016f;
+        private static readonly Vector3 DefaultWorldPosition = new Vector3(5, 0, 5);
+        private static readonly Vector3 RotateRightTargetPosition = new Vector3(10, 0, 0);
+        private static readonly Vector2 DefaultMouseScreenPos = new Vector2(500, 300);
+        
 
         [SetUp]
         public void Setup()
@@ -56,9 +66,9 @@ namespace _Project.Scripts.Tests.Editor
         public void Rotate_WhenValidMousePosition_RotatesUnit()
         {
             // Arrange
-            var mouseScreenPos = new Vector2(500, 300);
-            var worldPosition = new Vector3(5, 0, 5);
-            var deltaTime = 0.016f;
+            var mouseScreenPos = DefaultMouseScreenPos;
+            var worldPosition = DefaultWorldPosition;
+            var deltaTime = DefaultDeltaTime;
 
             _fakeInputHelper.ShouldReturnTrue = true;
             _fakeInputHelper.WorldPositionToReturn = worldPosition;
@@ -69,16 +79,15 @@ namespace _Project.Scripts.Tests.Editor
             _rotator.Rotate(_gameUnit, mouseScreenPos, deltaTime);
 
             // Assert
-            Assert.AreNotEqual(initialRotation, _gameUnit.transform.rotation,
-                "Unit должен повернуться к целевой точке");
+            initialRotation.Should().NotBe(_gameUnit.transform.rotation);
         }
 
         [Test]
         public void Rotate_WhenScreenToGroundFails_DoesNotRotate()
         {
             // Arrange
-            var mouseScreenPos = new Vector2(500, 300);
-            var deltaTime = 0.016f;
+            var mouseScreenPos = DefaultMouseScreenPos;
+            var deltaTime = DefaultDeltaTime;
 
             _fakeInputHelper.ShouldReturnTrue = false;
 
@@ -88,17 +97,16 @@ namespace _Project.Scripts.Tests.Editor
             _rotator.Rotate(_gameUnit, mouseScreenPos, deltaTime);
 
             // Assert
-            Assert.AreEqual(initialRotation, _gameUnit.transform.rotation,
-                "Unit НЕ должен повернуться если ScreenToGroundPosition вернул false");
+            initialRotation.Should().Be(_gameUnit.transform.rotation);
         }
 
         [Test]
         public void Rotate_WhenTargetIsAtUnit_DoesNotRotate()
         {
             // Arrange
-            var mouseScreenPos = new Vector2(500, 300);
+            var mouseScreenPos = DefaultMouseScreenPos;
             var unitPosition = _gameUnit.transform.position;
-            var deltaTime = 0.016f;
+            var deltaTime = DefaultDeltaTime;
 
             _fakeInputHelper.ShouldReturnTrue = true;
             _fakeInputHelper.WorldPositionToReturn = unitPosition;
@@ -109,8 +117,7 @@ namespace _Project.Scripts.Tests.Editor
             _rotator.Rotate(_gameUnit, mouseScreenPos, deltaTime);
 
             // Assert
-            Assert.AreEqual(initialRotation, _gameUnit.transform.rotation,
-                "Unit НЕ должен повернуться когда цель у его ног");
+            initialRotation.Should().Be(_gameUnit.transform.rotation);
         }
         
 
@@ -118,9 +125,9 @@ namespace _Project.Scripts.Tests.Editor
         public void Rotate_WhenTargetIsRight_RotatesRight()
         {
             // Arrange
-            var mouseScreenPos = new Vector2(500, 300);
-            var targetPosition = new Vector3(10, 0, 0);
-            var deltaTime = 0.016f;
+            var mouseScreenPos = DefaultMouseScreenPos;
+            var targetPosition = RotateRightTargetPosition;
+            var deltaTime = DefaultDeltaTime;
 
             _fakeInputHelper.ShouldReturnTrue = true;
             _fakeInputHelper.WorldPositionToReturn = targetPosition;
@@ -138,8 +145,61 @@ namespace _Project.Scripts.Tests.Editor
             var angleToTarget = Quaternion.FromToRotation(Vector3.forward, targetPosition.normalized);
             var rotationDifference = Quaternion.Angle(unitTransform.rotation, angleToTarget);
 
-            Assert.Less(rotationDifference, 45f,
-                "Unit должен повернуться в направлении цели");
+            rotationDifference.Should().BeLessThan(AcceptableRotationError);
+        }
+        
+        [TestCase(0.005f)]
+        [TestCase(0.016f)]
+        [TestCase(0.033f)]
+        [TestCase(0.5f)]
+        [TestCase(5f)]
+        public void Rotate_WithDifferentDeltaTimes_DoesNotCrash(float deltaTime)
+        {
+            // Arrange
+            var mouseScreenPos = DefaultMouseScreenPos;
+            var targetPosition = RotateRightTargetPosition;
+
+            _fakeInputHelper.ShouldReturnTrue = true;
+            _fakeInputHelper.WorldPositionToReturn = targetPosition;
+
+            var unitTransform = _gameUnit.transform;
+            unitTransform.rotation = Quaternion.identity;
+
+            // Act
+            Action rotateAction = () => _rotator.Rotate(_gameUnit, mouseScreenPos, deltaTime);
+            
+
+            // Assert
+            for (int i = 0; i < 10; i++)
+            {
+                rotateAction.Should().NotThrow();
+            }
+            var angleToTarget = Quaternion.FromToRotation(Vector3.forward, targetPosition.normalized);
+            var rotationDifference = Quaternion.Angle(unitTransform.rotation, angleToTarget);
+
+            rotationDifference.Should().BeLessThan(AcceptableRotationError);
+        }
+        
+        [TestCase(0f, 0f)]
+        [TestCase(1e6f, 1e6f)]
+        [TestCase(-1e6f, -1e6f)]
+        [TestCase(float.MaxValue / 2, 0f)]
+        [TestCase(0f, float.MinValue / 2)]
+        public void Rotate_WithExtremeMousePositions_DoesNotThrow(float x, float y)
+        {
+            // Arrange
+            var deltaTime = DefaultDeltaTime;
+            var worldPosition = DefaultWorldPosition;
+            
+            _fakeInputHelper.ShouldReturnTrue = true;
+            _fakeInputHelper.WorldPositionToReturn = worldPosition;
+            var mousePos = new Vector2(x, y);
+
+            // Act
+            Action act = () => _rotator.Rotate(_gameUnit, mousePos, deltaTime);
+
+            // Assert
+            act.Should().NotThrow();
         }
     }
 }
