@@ -24,7 +24,6 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     private readonly IAssetProvider _assetProvider;
     
     private ObjectPool<Bullet> _bulletPool;
-    private GameObject _bulletPrefab;
     
     public GameFactory(IStaticDataService staticData, DiContainer diContainer, 
       UserInputControls userInputControls, DummyInputControls dummyInputControls, 
@@ -92,12 +91,12 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     
     public async UniTask Initialize(AssetReference prefabRefence)
     {
-      _bulletPrefab = await _assetProvider.LoadFromAddressable<GameObject>(prefabRefence);
+      var bulletPrefab = await _assetProvider.LoadFromAddressable<GameObject>(prefabRefence);
     
       _bulletPool = new ObjectPool<Bullet>(() =>
       {
         var bullet = _diContainer
-          .InstantiatePrefabForComponent<Bullet>(_bulletPrefab,
+          .InstantiatePrefabForComponent<Bullet>(bulletPrefab,
             Vector3.zero, Quaternion.identity, null);
         bullet.OnCreated(_bulletPool);
         bullet.gameObject.SetActive(false);

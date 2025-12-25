@@ -9,8 +9,8 @@ namespace _Project.Scripts.Infrastructure.StateMachine.States
 {
     public class InitializeGameServices : IEnterState
     {
-        //private readonly IGameFactory _gameFactory;
-        //private readonly WeaponData _weaponData;
+        private readonly IGameFactory _gameFactory;
+        private readonly WeaponData _weaponData;
         
         public InitializeGameServices(/*IGameFactory gameFactory, WeaponData  data*/)
         {
@@ -22,6 +22,8 @@ namespace _Project.Scripts.Infrastructure.StateMachine.States
         {
             //_gameFactory.Initialize(_weaponData.Bullet);
             Debug.Log("Initializing game services");
+            
+            gameStateMachine.Enter<InitializeCurrentSceneState>();
             return UniTask.CompletedTask;
         }
     }
