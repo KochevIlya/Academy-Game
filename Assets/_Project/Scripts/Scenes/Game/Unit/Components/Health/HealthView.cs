@@ -4,9 +4,9 @@ using UniRx;
 using _Project.Scripts.Scenes.Game.Unit;
 using TMPro;
 
-namespace _Project.Scripts.UI
+namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
 {
-    public class HealthViewComponent : MonoBehaviour
+    public class HealthView : MonoBehaviour
     {
         [SerializeField] private Image _fillImage;
         [SerializeField] private CanvasGroup _canvasGroup;

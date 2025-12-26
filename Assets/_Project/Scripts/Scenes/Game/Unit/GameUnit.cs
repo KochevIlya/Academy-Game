@@ -8,6 +8,7 @@ using _Project.Scripts.Scenes.Game.Unit.Components.Health;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Mover;
 using _Project.Scripts.Scenes.Game.Unit.Rotator;
+using _Project.Scripts.Scenes.Game.Unit.Components.Health;
 
 namespace _Project.Scripts.Scenes.Game.Unit
 {
@@ -16,6 +17,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     public UnitAnimator Animator;
     public Health Health;
     
+    [field: SerializeField] public HealthView HealthView { get; set; }
     [field: SerializeField] public Transform WeaponPoint { get; private set; }
     public WeaponBase Weapon { get; private set; }
     public bool HasWeapon { get; private set; }
