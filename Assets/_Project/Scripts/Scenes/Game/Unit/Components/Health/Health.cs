@@ -13,7 +13,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
 
     public bool IsAlive => CurrentHealth.Value > 0;
 
-    private ReactiveProperty<int> _currentHealth = new();
+    private ReactiveProperty<int> _currentHealth = new(50);
     private Subject<UniRx.Unit> _die = new();
     
     public void TakeDamage(int amount)
