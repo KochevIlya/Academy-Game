@@ -36,14 +36,14 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     public async UniTask<GameUnit> SpawnCharacter(Vector3 position, WeaponType weapon)
     {
       var prefab = await _assetProvider.LoadFromAddressable<GameObject>(_staticData.UnitsConfig.Character);
-
+      
       GameUnit character = _diContainer
         .InstantiatePrefabForComponent<GameUnit>(prefab, 
           position, Quaternion.identity, null);
       
       character.UpdateWeapon(await SpawnWeapon(weapon, character));
       character.UpdateControls(_userInputControls);
-      
+      CreateCrosshair().Forget();
       return character;
     }
 
@@ -82,5 +82,21 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
 
       return bullet;
     }
+    public async UniTask CreateCrosshair()
+    {
+      var prefabReference = _staticData.UnitsConfig.Crosshair; 
+      var prefab = await _assetProvider.LoadFromAddressable<GameObject>(prefabReference);
+      GameObject crosshairInstance = _diContainer
+        .InstantiatePrefab(prefab, Vector3.zero, Quaternion.identity, null);
+      if (crosshairInstance.TryGetComponent(out CrosshairController controller))
+      {
+        controller.Initialize(_userInputControls);
+      }
+      else
+      {
+        Debug.LogError("На префабе прицела нет скрипта CrosshairController!");
+      }
+    }
   }
+  
 }
