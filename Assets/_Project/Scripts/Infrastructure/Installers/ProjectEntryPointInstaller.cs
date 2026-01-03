@@ -14,7 +14,6 @@ namespace _Project.Scripts.Infrastructure.Installers
 
       Container.BindState<LoadProjectState>();
       Container.BindState<InitializeCurrentSceneState>();
-      Container.BindState<InitializeGameServices>();
       Container.Bind<IGameStateMachine>().To<GameStateMachine>().AsSingle();
     }
   }

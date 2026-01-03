@@ -22,12 +22,10 @@ namespace _Project.Scripts.Libs.Pool.Item
     {
       if (_objectPool is null)
       {
-        Debug.Log("The bullet did not return to pool");
         OnRemoved();
         return;
       }
       gameObject.SetActive(false);
-      Debug.Log("The bullet returned to pool");
       _objectPool.Despawn(this);
     }
   }

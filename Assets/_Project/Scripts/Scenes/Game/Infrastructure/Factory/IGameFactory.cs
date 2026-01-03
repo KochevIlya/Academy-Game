@@ -15,6 +15,6 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     UniTask<WeaponBase> SpawnWeapon(WeaponType weaponType, GameUnit unit);
     UniTask<Bullet> SpawnBullet(AssetReference prefabRefence, Transform spawnPoint);
 
-    UniTask Initialize(AssetReference prefabRefence);
+    UniTask Initialize(AssetReference prefabReference);
   }
 }

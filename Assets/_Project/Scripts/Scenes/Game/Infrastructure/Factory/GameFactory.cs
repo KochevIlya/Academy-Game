@@ -89,11 +89,11 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       return bullet;
     }
     
-    public async UniTask Initialize(AssetReference prefabRefence)
+    public async UniTask Initialize(AssetReference prefabReference)
     {
-      var bulletPrefab = await _assetProvider.LoadFromAddressable<GameObject>(prefabRefence);
+      var bulletPrefab = await _assetProvider.LoadFromAddressable<GameObject>(prefabReference);
     
-      _bulletPool = new ObjectPool<Bullet>(() =>
+      _bulletPool = new ObjectPoolSpawnable<Bullet>(() =>
       {
         var bullet = _diContainer
           .InstantiatePrefabForComponent<Bullet>(bulletPrefab,
@@ -101,7 +101,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
         bullet.OnCreated(_bulletPool);
         bullet.gameObject.SetActive(false);
         return bullet;
-      }, 0);
+      }, 20);
     }
   }
 }

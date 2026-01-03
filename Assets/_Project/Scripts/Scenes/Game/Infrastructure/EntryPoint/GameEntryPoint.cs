@@ -1,4 +1,5 @@
 using _Project.Scripts.Infrastructure.StateMachine;
+using _Project.Scripts.Infrastructure.StateMachine.States;
 using _Project.Scripts.Scenes.Game.Infrastructure.States;
 using UnityEngine;
 using Zenject;

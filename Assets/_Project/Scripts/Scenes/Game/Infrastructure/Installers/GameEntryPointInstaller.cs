@@ -9,6 +9,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
   {
     public override void InstallBindings()
     {
+      Container.BindState<InitializeGameServices>();
       Container.BindState<SpawnGameState>();
       Container.BindState<GameLoopState>();
       Container.Bind<IGameStateMachine>().To<GameStateMachine>().AsSingle();
