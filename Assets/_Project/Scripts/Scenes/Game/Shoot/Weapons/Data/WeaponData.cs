@@ -6,6 +6,7 @@ namespace _Project.Scripts.Scenes.Game.Shoot.Data
   [Serializable]
   public class WeaponData
   {
+    public float BulletLifeTime;
     public float Speed;
     public AssetReference Bullet;
     public AssetReference Prefab;

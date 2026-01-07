@@ -25,14 +25,15 @@ namespace _Project.Scripts.Scenes.Game.Shoot
     {
       _inputHelper.ScreenToGroundPosition(shootMousePosition, Unit.transform.position.y, out var worldPosition); 
       var direction = (worldPosition - Unit.transform.position).SetY(0f).normalized;
-      SpawnAndSetup(direction, WeaponData.Speed).Forget();
+      SpawnAndSetup(direction, WeaponData.Speed, WeaponData.BulletLifeTime).Forget();
     }
     
-    private async UniTaskVoid SpawnAndSetup(Vector3 direction, float speed)
+    private async UniTaskVoid SpawnAndSetup(Vector3 direction, float speed, float lifetime)
     {
       Bullet bullet = await _gameFactory.SpawnBullet(WeaponData.Bullet, SpawnPoint);
       bullet.SetDirection(direction);
       bullet.SetSpeed(speed);
+      bullet.SetLifeTime(lifetime);
     }
   }
 }

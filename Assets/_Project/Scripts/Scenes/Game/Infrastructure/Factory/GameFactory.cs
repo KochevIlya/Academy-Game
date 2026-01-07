@@ -77,10 +77,6 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     
     public async UniTask<Bullet> SpawnBullet(AssetReference prefabRefence, Transform spawnPoint)
     {
-      if (_bulletPool == null)
-      {
-        await Initialize(prefabRefence);
-      }
       var bullet = _bulletPool.Spawn();
       bullet.transform.position = spawnPoint.position;
       bullet.transform.rotation = spawnPoint.rotation;
