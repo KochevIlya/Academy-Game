@@ -11,7 +11,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
   public class GameServicesInstaller : MonoInstaller
   {
     [SerializeField] private CameraService _cameraService;
-
+    [SerializeField] private HackingView _hackingView;
     public override void InstallBindings()
     {
       Container.Bind<ICameraService>().To<CameraService>().FromInstance(_cameraService).AsSingle();
@@ -21,6 +21,9 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
 
       Container.BindInterfacesAndSelfTo<DummyInputControls>().AsSingle();
       Container.BindInterfacesAndSelfTo<UserInputControls>().AsSingle();
+      
+      Container.Bind<HackingView>().FromInstance(_hackingView).AsSingle();
+      Container.Bind<HackingService>().AsSingle();
     }
   }
 }

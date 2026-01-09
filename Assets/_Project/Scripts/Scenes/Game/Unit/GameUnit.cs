@@ -6,6 +6,7 @@ using UnityEngine;
 using _Project.Scripts.Scenes.Game.Unit.Attacker;
 using _Project.Scripts.Scenes.Game.Unit.Components.Health;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
+using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using _Project.Scripts.Scenes.Game.Unit.Mover;
 using _Project.Scripts.Scenes.Game.Unit.Rotator;
 

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,8 +12,9 @@ public class HackingView : MonoBehaviour
     [SerializeField] private Sprite _leftSprite;
     [SerializeField] private Sprite _rightSprite;
 
-    [SerializeField] private Color _defaultColor = Color.white;
-    [SerializeField] private Color _activeColor = Color.green;
+    [SerializeField] private Color _completedColor = Color.green;
+    [SerializeField] private Color _currentColor = Color.white;
+    [SerializeField] private Color _futureColor = new Color(1f, 1f, 1f, 0.3f);
     [SerializeField] private Color _errorColor = Color.red;
 
     private List<Image> _spawnedArrows = new List<Image>();
@@ -27,33 +27,47 @@ public class HackingView : MonoBehaviour
         foreach (var direction in sequence)
         {
             Image arrow = Instantiate(_arrowPrefab, _arrowsContainer, false);
-        
             arrow.transform.localScale = Vector3.one;
-        
             arrow.sprite = GetSprite(direction);
-            arrow.color = _defaultColor;
+            
+            arrow.color = _futureColor;
         
             _spawnedArrows.Add(arrow);
         }
+        
         Canvas.ForceUpdateCanvases();
-        LayoutRebuilder.ForceRebuildLayoutImmediate(_arrowsContainer.GetComponent<RectTransform>());
+        LayoutRebuilder.ForceRebuildLayoutImmediate(_arrowsContainer);
     }
 
     public void UpdateProgress(int currentIndex)
     {
         for (int i = 0; i < _spawnedArrows.Count; i++)
         {
+            Image arrow = _spawnedArrows[i];
+            
             if (i < currentIndex)
-                _spawnedArrows[i].color = _activeColor;
+            {
+                arrow.color = _completedColor;
+                arrow.transform.localScale = Vector3.one;
+            }
+            else if (i == currentIndex)
+            {
+                arrow.color = _currentColor;
+                arrow.transform.localScale = Vector3.one * 1.3f;
+            }
             else
-                _spawnedArrows[i].color = _defaultColor;
+            {
+                arrow.color = _futureColor;
+                arrow.transform.localScale = Vector3.one;
+            }
         }
     }
 
-    public void ShowError()
+    public void ShowError(int errorIndex)
     {
-        foreach (var arrow in _spawnedArrows)
-            arrow.color = _errorColor;
+        if (errorIndex >= 0 && errorIndex < _spawnedArrows.Count)
+            _spawnedArrows[errorIndex].color = _errorColor;
+        
     }
 
     public void Hide()
@@ -64,7 +78,9 @@ public class HackingView : MonoBehaviour
 
     private void Clear()
     {
-        foreach (var arrow in _spawnedArrows) Destroy(arrow.gameObject);
+        foreach (var arrow in _spawnedArrows) 
+            if(arrow != null) Destroy(arrow.gameObject);
+        
         _spawnedArrows.Clear();
     }
 
