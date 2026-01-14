@@ -8,4 +8,5 @@ public class UnitsConfig : SoConfig<UnitsConfig>
 {
   public AssetReference Character;
   public AssetReference Bot;
+  public AssetReference Crosshair;
 }
