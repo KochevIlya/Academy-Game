@@ -5,11 +5,12 @@ using Zenject;
 
 public class HackingTest : MonoBehaviour 
 {
+    [Inject]
     public HackingService _hackingService;
     
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             var dummy = new GameObject("TestTarget").AddComponent<HackableComponent>();
             _hackingService.StartHacking(dummy);

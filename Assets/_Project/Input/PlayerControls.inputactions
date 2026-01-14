@@ -41,6 +41,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Hacking",
+                    "type": "Button",
+                    "id": "92756797-96d6-49dd-935c-c124f83dd23f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -129,6 +138,17 @@
                     "processors": "",
                     "groups": ";Keyboard",
                     "action": "MousePosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "141bcfab-963a-493f-9657-284a73a1f423",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "Hacking",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

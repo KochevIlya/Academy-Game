@@ -127,6 +127,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Hacking"",
+                    ""type"": ""Button"",
+                    ""id"": ""92756797-96d6-49dd-935c-c124f83dd23f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -217,6 +226,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""MousePosition"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""141bcfab-963a-493f-9657-284a73a1f423"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""Hacking"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -257,6 +277,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
         m_Player_MousePosition = m_Player.FindAction("MousePosition", throwIfNotFound: true);
         m_Player_Ability = m_Player.FindAction("Ability", throwIfNotFound: true);
+        m_Player_Hacking = m_Player.FindAction("Hacking", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -341,6 +362,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Shoot;
     private readonly InputAction m_Player_MousePosition;
     private readonly InputAction m_Player_Ability;
+    private readonly InputAction m_Player_Hacking;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -368,6 +390,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Ability".
         /// </summary>
         public InputAction @Ability => m_Wrapper.m_Player_Ability;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Hacking".
+        /// </summary>
+        public InputAction @Hacking => m_Wrapper.m_Player_Hacking;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -406,6 +432,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Ability.started += instance.OnAbility;
             @Ability.performed += instance.OnAbility;
             @Ability.canceled += instance.OnAbility;
+            @Hacking.started += instance.OnHacking;
+            @Hacking.performed += instance.OnHacking;
+            @Hacking.canceled += instance.OnHacking;
         }
 
         /// <summary>
@@ -429,6 +458,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Ability.started -= instance.OnAbility;
             @Ability.performed -= instance.OnAbility;
             @Ability.canceled -= instance.OnAbility;
+            @Hacking.started -= instance.OnHacking;
+            @Hacking.performed -= instance.OnHacking;
+            @Hacking.canceled -= instance.OnHacking;
         }
 
         /// <summary>
@@ -515,7 +547,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnMousePosition(InputAction.CallbackContext ctx);
+        void OnMousePosition(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Ability" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -523,5 +555,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnAbility(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Hacking" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnHacking(InputAction.CallbackContext context);
     }
 }

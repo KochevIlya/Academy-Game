@@ -150,7 +150,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0293f5dde0c84714eaa82780e046b903, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _extraAngleRotation: -10
   _smoothFactor: 10
   _minAngleForAnimation: 2
 --- !u!114 &8639626550087304000

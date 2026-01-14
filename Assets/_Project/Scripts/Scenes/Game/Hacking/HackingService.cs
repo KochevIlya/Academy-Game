@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using _Project.Scripts.Infrastructure.Gui.Camera;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
@@ -7,51 +8,48 @@ using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
 
-public class HackingService : MonoBehaviour
+public class HackingService : IDisposable
 {
-    [SerializeField] private HackingView _view;
-    private UserInputControls _input; 
-    private ICameraService _cameraService;
-
+    private readonly UserInputControls _input;
     private readonly CompositeDisposable _disposables = new CompositeDisposable();
+    public ReactiveProperty<bool> IsHacking { get; } = new ReactiveProperty<bool>(false);
+    public ReactiveProperty<int> CurrentProgressIndex { get; } = new ReactiveProperty<int>(0);
+    public Subject<List<Vector2>> OnHackingStarted { get; } = new Subject<List<Vector2>>();
+    public Subject<int> OnError { get; } = new Subject<int>();
+    public Subject<bool> OnHackingFinished { get; } = new Subject<bool>();
 
-    private List<Vector2> _currentSequence = new List<Vector2>();
-    private int _currentIndex;
-    private bool _isHacking;
-    
-    private bool _waitForRelease; 
-
+    private List<Vector2> _currentSequence;
     private HackableComponent _currentTarget;
-    public ReactiveProperty<bool> IsHackingProcess { get; } = new ReactiveProperty<bool>(false);
+    private bool _waitForRelease;
 
-    [Inject]
-    public void Construct(UserInputControls input, ICameraService cameraService)
+    public HackingService(UserInputControls input)
     {
         _input = input;
-        _cameraService = cameraService;
         SubscribeToInput();
     }
 
     public void StartHacking(HackableComponent target)
     {
-        if (_view == null) return;
-
         _currentTarget = target;
-        _isHacking = true;
+        _currentSequence = GenerateSequence(target.Difficulty);
         _waitForRelease = false;
-        IsHackingProcess.Value = true;
+        
+        CurrentProgressIndex.Value = 0;
+        IsHacking.Value = true;
 
-        GenerateSequence(target.Difficulty);
-        _view.Show(_currentSequence);
-        _view.UpdateProgress(0);
+        OnHackingStarted.OnNext(_currentSequence);
+    }
+
+    public void StopHacking()
+    {
+        IsHacking.Value = false;
+        OnHackingFinished.OnNext(false);
     }
 
     private void SubscribeToInput()
     {
-        if (_input == null) return;
-
         _input.OnMovement
-            .Where(_ => _isHacking)
+            .Where(_ => IsHacking.Value)
             .Subscribe(CheckInput)
             .AddTo(_disposables);
     }
@@ -74,30 +72,43 @@ public class HackingService : MonoBehaviour
 
         _waitForRelease = true;
 
-        if (cardinal == _currentSequence[_currentIndex])
+        ValidateStep(cardinal);
+    }
+
+    private void ValidateStep(Vector2 inputDir)
+    {
+        int index = CurrentProgressIndex.Value;
+        
+        if (inputDir == _currentSequence[index])
         {
-            _currentIndex++;
-            
-            if (_currentIndex >= _currentSequence.Count)
+            index++;
+            CurrentProgressIndex.Value = index;
+
+            if (index >= _currentSequence.Count)
             {
-                _view.UpdateProgress(_currentIndex); 
                 CompleteHacking();
-            }
-            else
-            {
-                _view.UpdateProgress(_currentIndex);
             }
         }
         else
         {
-            _view.ShowError(_currentIndex);
+            OnError.OnNext(index);
         }
     }
 
-    private void GenerateSequence(int length)
+    private void CompleteHacking()
     {
-        _currentSequence = new List<Vector2>();
-        _currentIndex = 0;
+        Debug.Log($"Взлом {_currentTarget.name} успешен!");
+        
+        Observable.Timer(TimeSpan.FromSeconds(0.5f))
+            .Subscribe(_ =>
+            {
+                StopHacking();
+            });
+    }
+
+    private List<Vector2> GenerateSequence(int length)
+    {
+        var seq = new List<Vector2>();
         for (int i = 0; i < length; i++)
         {
             int rand = Random.Range(0, 4);
@@ -109,27 +120,13 @@ public class HackingService : MonoBehaviour
                 case 2: dir = Vector2.left; break;
                 case 3: dir = Vector2.right; break;
             }
-            _currentSequence.Add(dir);
+            seq.Add(dir);
         }
+        return seq;
     }
 
-    private void CompleteHacking()
+    public void Dispose()
     {
-        Debug.Log($"Взлом {_currentTarget.name} успешен!");
-        
-        Observable.Timer(System.TimeSpan.FromSeconds(0.5f))
-            .Subscribe(_ => 
-            {
-                _isHacking = false;
-                IsHackingProcess.Value = false;
-                _view.Hide();
-            }).AddTo(_disposables);
-    }
-
-    public void StopHacking()
-    {
-        _isHacking = false;
-        IsHackingProcess.Value = false;
-        _view.Hide();
+        _disposables.Dispose();
     }
 }
