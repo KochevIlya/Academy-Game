@@ -86,11 +86,11 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     
       return bullet;
     }
-    
+
     public async UniTask Initialize(AssetReference prefabReference)
     {
       var bulletPrefab = await _assetProvider.LoadFromAddressable<GameObject>(prefabReference);
-    
+
       _bulletPool = new ObjectPoolSpawnable<Bullet>(() =>
       {
         var bullet = _diContainer
@@ -100,6 +100,8 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
         bullet.gameObject.SetActive(false);
         return bullet;
       }, 20);
+    }
+
     public async UniTask CreateCrosshair()
     {
       var prefabReference = _staticData.UnitsConfig.Crosshair; 
