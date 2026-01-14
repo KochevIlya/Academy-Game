@@ -43,7 +43,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       
       character.UpdateWeapon(await SpawnWeapon(weapon, character));
       character.UpdateControls(_userInputControls);
-      
+      character.HealthView.Initialize(character);
       return character;
     }
 
@@ -56,6 +56,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
           position, Quaternion.identity, null);
       
       bot.UpdateControls(_dummyInputControls);
+      bot.HealthView.Initialize(bot);
       return bot;
     }
     
