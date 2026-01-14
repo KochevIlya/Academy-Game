@@ -12,6 +12,7 @@ namespace _Project.Scripts.Scenes.Game.Shoot
   {
     private IGameFactory _gameFactory;
     private IInputHelper _inputHelper;
+    private float _currentTime;
 
     [Inject]
     public void Construct(IGameFactory gameFactory, IInputHelper inputHelper)
@@ -19,20 +20,32 @@ namespace _Project.Scripts.Scenes.Game.Shoot
       _inputHelper = inputHelper;
       _gameFactory = gameFactory;
     }
-    
+
+    private void Update()
+    {
+      if (_currentTime < WeaponData.CoolDown)
+      {
+        _currentTime += Time.deltaTime;
+      }
+    }
     
     public override void Shoot(Vector2 shootMousePosition)
     {
-      _inputHelper.ScreenToGroundPosition(shootMousePosition, Unit.transform.position.y, out var worldPosition); 
-      var direction = (worldPosition - Unit.transform.position).SetY(0f).normalized;
-      SpawnAndSetup(direction, WeaponData.Speed).Forget();
+      if (_currentTime >= WeaponData.CoolDown)
+      {
+        _inputHelper.ScreenToGroundPosition(shootMousePosition, Unit.transform.position.y, out var worldPosition); 
+        var direction = (worldPosition - Unit.transform.position).SetY(0f).normalized;
+        SpawnAndSetup(direction, WeaponData.Speed, WeaponData.BulletLifeTime).Forget();
+        _currentTime = 0f;
+      }
     }
     
-    private async UniTaskVoid SpawnAndSetup(Vector3 direction, float speed)
+    private async UniTaskVoid SpawnAndSetup(Vector3 direction, float speed, float lifetime)
     {
       Bullet bullet = await _gameFactory.SpawnBullet(WeaponData.Bullet, SpawnPoint);
       bullet.SetDirection(direction);
       bullet.SetSpeed(speed);
+      bullet.SetLifeTime(lifetime);
     }
   }
 }

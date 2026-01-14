@@ -29,7 +29,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
           await _gameFactory.SpawnBot(spawner.Position);
       }
       
-      gameStateMachine.Enter<GameLoopState>().Forget();
+      gameStateMachine.Enter<InitializeGameServices>();
     }
   }
 }

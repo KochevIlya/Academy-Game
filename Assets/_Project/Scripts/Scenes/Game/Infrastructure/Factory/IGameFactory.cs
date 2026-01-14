@@ -4,6 +4,7 @@ using _Project.Scripts.Scenes.Game.Unit;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using _Project.Scripts.Libs.Pool;
 
 namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
 {
@@ -13,5 +14,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     UniTask<GameUnit> SpawnBot(Vector3 position);
     UniTask<WeaponBase> SpawnWeapon(WeaponType weaponType, GameUnit unit);
     UniTask<Bullet> SpawnBullet(AssetReference prefabRefence, Transform spawnPoint);
+
+    UniTask Initialize(AssetReference prefabReference);
   }
 }

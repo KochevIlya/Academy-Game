@@ -51,6 +51,12 @@ MonoBehaviour:
     - Name: $v
       Entry: 7
       Data: 2|_Project.Scripts.Scenes.Game.Shoot.Data.WeaponData, Assembly-CSharp
+    - Name: CoolDown
+      Entry: 4
+      Data: 0.2
+    - Name: BulletLifeTime
+      Entry: 4
+      Data: 3
     - Name: Speed
       Entry: 4
       Data: 15

@@ -10,6 +10,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Zenject;
+using _Project.Scripts.Libs.Pool;
 
 namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
 {
@@ -21,6 +22,8 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     private readonly UserInputControls _userInputControls;
     private readonly DummyInputControls _dummyInputControls;
     private readonly IAssetProvider _assetProvider;
+    
+    private ObjectPool<Bullet> _bulletPool;
     
     public GameFactory(IStaticDataService staticData, DiContainer diContainer, 
       UserInputControls userInputControls, DummyInputControls dummyInputControls, 
@@ -76,14 +79,27 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     
     public async UniTask<Bullet> SpawnBullet(AssetReference prefabRefence, Transform spawnPoint)
     {
-      var prefab = await _assetProvider.LoadFromAddressable<GameObject>(prefabRefence);
-      
-      var bullet = _diContainer
-        .InstantiatePrefabForComponent<Bullet>(prefab,
-          spawnPoint.position, Quaternion.identity, null);
-
+      var bullet = _bulletPool.Spawn();
+      bullet.transform.position = spawnPoint.position;
+      bullet.transform.rotation = spawnPoint.rotation;
+      bullet.gameObject.SetActive(true);
+    
       return bullet;
     }
+    
+    public async UniTask Initialize(AssetReference prefabReference)
+    {
+      var bulletPrefab = await _assetProvider.LoadFromAddressable<GameObject>(prefabReference);
+    
+      _bulletPool = new ObjectPoolSpawnable<Bullet>(() =>
+      {
+        var bullet = _diContainer
+          .InstantiatePrefabForComponent<Bullet>(bulletPrefab,
+            Vector3.zero, Quaternion.identity, null);
+        bullet.OnCreated(_bulletPool);
+        bullet.gameObject.SetActive(false);
+        return bullet;
+      }, 20);
     public async UniTask CreateCrosshair()
     {
       var prefabReference = _staticData.UnitsConfig.Crosshair; 

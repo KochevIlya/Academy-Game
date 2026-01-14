@@ -25,7 +25,7 @@ namespace _Project.Scripts.Libs.Pool.Item
         OnRemoved();
         return;
       }
-
+      gameObject.SetActive(false);
       _objectPool.Despawn(this);
     }
   }
