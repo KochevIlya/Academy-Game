@@ -13,6 +13,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character
       objectReference: {fileID: 0}
+    - target: {fileID: 1787969264439270792, guid: fe0d8696859b47940851431c5478d46c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 4778806491978198493, guid: fe0d8696859b47940851431c5478d46c,
         type: 3}
       propertyPath: m_Avatar

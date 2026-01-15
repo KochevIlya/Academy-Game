@@ -1,4 +1,5 @@
-﻿using _Project.Scripts.Scenes.Game.Shoot.Config;
+﻿using System;
+using _Project.Scripts.Scenes.Game.Shoot.Config;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -22,14 +23,26 @@ namespace _Project.Scripts.Scenes.Game.Shoot
       _currentLifeTime += Time.deltaTime;
       if (_currentLifeTime >= _lifeTime)
       {
-        _currentLifeTime = 0f;
-        Remove();
+        ResetAndRemove();
       }
     }
 
     private void OnCollisionEnter(Collision other)
     {
       Debug.Log("Collision!!");
+      ResetAndRemove();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+      if (other.gameObject.tag == "Player")
+      {
+        ResetAndRemove();
+      }
+    }
+    
+    private void ResetAndRemove()
+    {
       _currentLifeTime = 0f;
       Remove();
     }
