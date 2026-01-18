@@ -9,6 +9,11 @@ namespace _Project.Scripts.Scenes.Game.Unit.Mover
   public class MainCharacterMover : MonoBehaviour, IUnitMover
   {
     private ICameraService _cameraService;
+    private CharacterController _controller;
+    
+    private Vector3 _verticalVelocity;
+    private const float Gravity = -9.81f; 
+    private const float GroundedGravity = -2f;
 
     [Inject]
     public void Construct(ICameraService cameraService)
@@ -16,9 +21,16 @@ namespace _Project.Scripts.Scenes.Game.Unit.Mover
       _cameraService = cameraService;
     }
 
+    private void Awake()
+    {
+      _controller = GetComponent<CharacterController>();
+    }
+
     public void Move(GameUnit gameUnit, Vector2 movementDelta, float deltaTime)
     {
-      var movement = CalculateMovement(gameUnit, movementDelta, deltaTime);
+      var movement = CalculateMovement(movementDelta); 
+      ApplyGravity(deltaTime); 
+      ApplyMovement(movement, deltaTime); 
       UpdateAnimator(gameUnit, movementDelta, deltaTime, movement);
     }
 
@@ -27,17 +39,31 @@ namespace _Project.Scripts.Scenes.Game.Unit.Mover
       gameUnit.Animator.Idle();
     }
 
-    private Vector3 CalculateMovement(GameUnit gameUnit, Vector2 movementDelta, float deltaTime)
+    private Vector3 CalculateMovement(Vector2 movementDelta)
     {
-      var cameraForward = _cameraService.Camera.transform.forward.SetY(0f).normalized;
-      var cameraRight = _cameraService.Camera.transform.right.SetY(0f).normalized;
+      var cameraForward = _cameraService.Camera.transform.forward.SetY(0f).normalized; 
+      var cameraRight = _cameraService.Camera.transform.right.SetY(0f).normalized; 
+      
+      return cameraForward * movementDelta.y + cameraRight * movementDelta.x;
+    }
+    
+    private void ApplyGravity(float deltaTime) 
+    {
+      if (_controller.isGrounded)
+      {
+        _verticalVelocity.y = GroundedGravity;
+      }
+      else
+      {
+        _verticalVelocity.y += Gravity * deltaTime;
+      } 
+    }
 
-      var movement = cameraForward * movementDelta.y + cameraRight * movementDelta.x;
-
-      if (movement != Vector3.zero)
-        gameUnit.transform.Translate(movement * deltaTime, Space.World);
-
-      return movement;
+    private void ApplyMovement(Vector3 horizontal, float deltaTime)
+    {
+      var finalMovement = horizontal * deltaTime; 
+      finalMovement += _verticalVelocity * deltaTime; 
+      _controller.Move(finalMovement);
     }
 
     private void UpdateAnimator(GameUnit gameUnit, Vector2 movementDelta, float deltaTime, Vector3 movement)
