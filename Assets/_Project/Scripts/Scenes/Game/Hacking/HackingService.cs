@@ -116,8 +116,14 @@ public class HackingService : IDisposable
     private void ValidateStep(Vector2 inputDir)
     {
         if (_isErrorState) return;
+        if (!IsHacking.Value) return;
+        
         int index = CurrentProgressIndex.Value;
         
+        if (index >= _currentSequence.Count) 
+        {
+            return; 
+        }
         if (inputDir == _currentSequence[index])
         {
             index++;
