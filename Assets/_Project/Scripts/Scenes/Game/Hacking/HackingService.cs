@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using _Project.Scripts.Infrastructure.Gui.Camera;
+using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using UniRx;
@@ -12,24 +13,36 @@ public class HackingService : IDisposable
 {
     private readonly UserInputControls _input;
     private readonly CompositeDisposable _disposables = new CompositeDisposable();
+    private readonly DiContainer _container;
     public ReactiveProperty<bool> IsHacking { get; } = new ReactiveProperty<bool>(false);
     public ReactiveProperty<int> CurrentProgressIndex { get; } = new ReactiveProperty<int>(0);
     public Subject<List<Vector2>> OnHackingStarted { get; } = new Subject<List<Vector2>>();
     public Subject<int> OnError { get; } = new Subject<int>();
     public Subject<bool> OnHackingFinished { get; } = new Subject<bool>();
+    public bool IsPossessing => _isPossessing;
 
     private List<Vector2> _currentSequence;
     private HackableComponent _currentTarget;
     private bool _waitForRelease;
+    private GameUnit _hackerUnit;
+    private GameUnit _originalHero;
+    private GameUnit _currentPossessedUnit;
+    private bool _isPossessing;
 
-    public HackingService(UserInputControls input)
+    public HackingService(UserInputControls input, DiContainer container)
     {
         _input = input;
+        _container = container;
         SubscribeToInput();
     }
 
-    public void StartHacking(HackableComponent target)
+    public void StartHacking(HackableComponent target, GameUnit hacker)
     {
+        if (_originalHero == null) 
+        {
+            _originalHero = hacker;
+        }
+        _hackerUnit = hacker;
         _currentTarget = target;
         _currentSequence = GenerateSequence(target.Difficulty);
         _waitForRelease = false;
@@ -52,8 +65,31 @@ public class HackingService : IDisposable
             .Where(_ => IsHacking.Value)
             .Subscribe(CheckInput)
             .AddTo(_disposables);
+        
+        _input.OnCancel
+            .Where(_ => _isPossessing && !IsHacking.Value)
+            .Subscribe(_ => ReturnToOriginalBody())
+            .AddTo(_disposables);
     }
+    private void ReturnToOriginalBody()
+    {
+        if (_originalHero == null || _currentPossessedUnit == null) 
+        {
+            Debug.LogError("Ошибка возврата: не найден герой или текущее тело!");
+            return;
+        }
+        Debug.Log("Возврат в оригинальное тело...");
+        var dummy = _container.Resolve<DummyInputControls>();
 
+        _currentPossessedUnit.DisableControl(dummy);
+
+        _originalHero.UpdateControls(_input);
+
+        _isPossessing = false;
+        _currentPossessedUnit = null;
+        _hackerUnit = _originalHero;
+        Debug.Log("Сознание вернулось в оригинальное тело.");
+    }
     private void CheckInput(Vector2 input)
     {
         if (input == Vector2.zero)
@@ -98,12 +134,29 @@ public class HackingService : IDisposable
     private void CompleteHacking()
     {
         Debug.Log($"Взлом {_currentTarget.name} успешен!");
-        
-        Observable.Timer(TimeSpan.FromSeconds(0.5f))
-            .Subscribe(_ =>
+        GameUnit victimUnit = _currentTarget.GetComponent<GameUnit>();
+
+        if (victimUnit != null && _hackerUnit != null)
+        {
+            var dummy = _container.Resolve<DummyInputControls>();
+            _isPossessing = true;
+            _currentPossessedUnit = victimUnit;
+            
+            _hackerUnit.DisableControl(dummy);
+            victimUnit.UpdateControls(_input);
+
+            var newHackerLogic = victimUnit.gameObject.GetComponent<PlayerHacker>();
+            if (newHackerLogic == null)
             {
-                StopHacking();
-            });
+                newHackerLogic = victimUnit.gameObject.AddComponent<PlayerHacker>();
+                _container.Inject(newHackerLogic);
+            }
+        }
+
+        OnHackingFinished.OnNext(true);
+
+        Observable.Timer(TimeSpan.FromSeconds(0.5f))
+            .Subscribe(_ => StopHacking());
     }
 
     private List<Vector2> GenerateSequence(int length)
@@ -124,7 +177,6 @@ public class HackingService : IDisposable
         }
         return seq;
     }
-
     public void Dispose()
     {
         _disposables.Dispose();

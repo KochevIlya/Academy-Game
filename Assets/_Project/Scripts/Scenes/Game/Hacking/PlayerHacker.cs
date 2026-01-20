@@ -38,6 +38,15 @@ public class PlayerHacker : MonoBehaviour
 
     private void TryToHack()
     {
+        if (!(_myUnit.InputControls is UserInputControls)) 
+        {
+            return;
+        }
+        if (_hackingService.IsPossessing) 
+        {
+            Debug.Log("В этом теле нельзя использовать взлом (вы уже вселились)!");
+            return;
+        }
         var allTargets = Object.FindObjectsByType<HackableComponent>(FindObjectsSortMode.None);
 
         var bestTarget = allTargets
@@ -47,11 +56,11 @@ public class PlayerHacker : MonoBehaviour
             .OrderBy(t => t.Distance)
             .Select(t => t.Component)
             .FirstOrDefault();
-
+        
         if (bestTarget != null)
         {
             Debug.Log($"[TestHacking] Цель найдена: {bestTarget.name}. Дистанция: {Vector3.Distance(transform.position, bestTarget.transform.position)}");
-            _hackingService.StartHacking(bestTarget);
+            _hackingService.StartHacking(bestTarget, _myUnit);
         }
         else
         {
@@ -59,7 +68,6 @@ public class PlayerHacker : MonoBehaviour
         }
     }
 
-    // Отрисовка радиуса в редакторе для наглядности
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;

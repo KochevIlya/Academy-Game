@@ -16,13 +16,14 @@ namespace _Project.Scripts.Scenes.Game.Unit.Controls.Variants
     private readonly Subject<UniRx.Unit> _abilityUse = new Subject<UniRx.Unit>();
     private readonly CompositeDisposable _disposable = new CompositeDisposable();
     private readonly Subject<UniRx.Unit> _hackingUse = new Subject<UniRx.Unit>();
-
+    private readonly Subject<UniRx.Unit> _cancelUse = new Subject<UniRx.Unit>();
     public Vector2 MousePosition { get; private set; }
 
     public IObservable<Vector2> OnMovement => _movement;
     public IObservable<UniRx.Unit> OnShoot => _shoot;
     public IObservable<UniRx.Unit> OnAbilityUse => _abilityUse;
     public IObservable<UniRx.Unit> OnHacking => _hackingUse;
+    public IObservable<UniRx.Unit> OnCancel => _cancelUse;
 
 
     public void Initialize()
@@ -61,6 +62,15 @@ namespace _Project.Scripts.Scenes.Game.Unit.Controls.Variants
     {
       if (ctx.phase == InputActionPhase.Started)
         _hackingUse.OnNext(UniRx.Unit.Default);
+    }
+
+    void PlayerControls.IPlayerActions.OnCancel(InputAction.CallbackContext ctx)
+    {
+      if (ctx.phase == InputActionPhase.Performed || ctx.phase == InputActionPhase.Started)
+      {
+        Debug.Log("Кнопка ESC нажата в UserInputControls!");
+        _cancelUse.OnNext(UniRx.Unit.Default);
+      }
     }
 
     public void Dispose()

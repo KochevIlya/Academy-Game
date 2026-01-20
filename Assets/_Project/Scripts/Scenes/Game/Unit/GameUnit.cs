@@ -91,5 +91,11 @@ namespace _Project.Scripts.Scenes.Game.Unit
     }
     
     private void ResetMovement() => _mover.Value.ResetMovement(this);
+    
+    public void DisableControl(IInputControls dummyInput)
+    {
+      UpdateControls(dummyInput);
+      Debug.Log($"[{name}] Управление переведено на Dummy.");
+    }
   }
 }
