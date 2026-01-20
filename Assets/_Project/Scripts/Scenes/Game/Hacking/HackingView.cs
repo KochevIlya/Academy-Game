@@ -52,6 +52,7 @@ public class HackingView : MonoBehaviour
             .Where(isHacking => !isHacking)
             .Subscribe(_ => Hide())
             .AddTo(this);
+        UpdateProgress(0);
     }
 
     private void Show(List<Vector2> sequence)
@@ -69,6 +70,7 @@ public class HackingView : MonoBehaviour
         }
         
         LayoutRebuilder.ForceRebuildLayoutImmediate(_arrowsContainer);
+        UpdateProgress(0);
     }
 
     private void UpdateProgress(int currentIndex)
@@ -92,8 +94,17 @@ public class HackingView : MonoBehaviour
 
     private void ShowError(int index)
     {
-        if (index < _spawnedArrows.Count)
-            _spawnedArrows[index].color = _errorColor;
+        if (index == -1) 
+        {
+            foreach (var arrow in _spawnedArrows) 
+            {
+                arrow.color = _errorColor;
+            }
+        }
+        else if (index == -2)
+        {
+            UpdateProgress(0); 
+        }
     }
 
     private void Hide()

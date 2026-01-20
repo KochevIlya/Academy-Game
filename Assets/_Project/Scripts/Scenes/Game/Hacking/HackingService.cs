@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using _Project.Scripts.Infrastructure.Gui.Camera;
 using _Project.Scripts.Scenes.Game.Unit;
@@ -28,6 +29,7 @@ public class HackingService : IDisposable
     private GameUnit _originalHero;
     private GameUnit _currentPossessedUnit;
     private bool _isPossessing;
+    private bool _isErrorState;
 
     public HackingService(UserInputControls input, DiContainer container)
     {
@@ -113,6 +115,7 @@ public class HackingService : IDisposable
 
     private void ValidateStep(Vector2 inputDir)
     {
+        if (_isErrorState) return;
         int index = CurrentProgressIndex.Value;
         
         if (inputDir == _currentSequence[index])
@@ -127,10 +130,25 @@ public class HackingService : IDisposable
         }
         else
         {
-            OnError.OnNext(index);
+            ExecuteErrorState();
         }
     }
+    private void ExecuteErrorState()
+    {
+        _isErrorState = true;
+        
+        OnError.OnNext(-1); 
 
+        Observable.Timer(TimeSpan.FromSeconds(1f))
+            .Subscribe(_ => 
+            {
+                CurrentProgressIndex.Value = 0;
+                _isErrorState = false;
+                
+                OnError.OnNext(-2); 
+            })
+            .AddTo(_disposables);
+    }
     private void CompleteHacking()
     {
         Debug.Log($"Взлом {_currentTarget.name} успешен!");
