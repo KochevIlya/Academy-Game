@@ -51,19 +51,21 @@ public class HackingService : IDisposable
         
         CurrentProgressIndex.Value = 0;
         IsHacking.Value = true;
-
+        _input.IsBlocked.Value = true;
+        hacker.DisableControl(_container.Resolve<DummyInputControls>());
         OnHackingStarted.OnNext(_currentSequence);
     }
 
     public void StopHacking()
     {
+        _input.IsBlocked.Value = false;
         IsHacking.Value = false;
         OnHackingFinished.OnNext(false);
     }
 
     private void SubscribeToInput()
     {
-        _input.OnMovement
+        _input.OnRawMovement
             .Where(_ => IsHacking.Value)
             .Subscribe(CheckInput)
             .AddTo(_disposables);
@@ -178,9 +180,10 @@ public class HackingService : IDisposable
         }
 
         OnHackingFinished.OnNext(true);
-
+        
         Observable.Timer(TimeSpan.FromSeconds(0.5f))
             .Subscribe(_ => StopHacking());
+        _input.IsBlocked.Value = false;
     }
 
     private List<Vector2> GenerateSequence(int length)

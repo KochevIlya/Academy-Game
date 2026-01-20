@@ -17,10 +17,15 @@ namespace _Project.Scripts.Scenes.Game.Unit.Controls.Variants
     private readonly CompositeDisposable _disposable = new CompositeDisposable();
     private readonly Subject<UniRx.Unit> _hackingUse = new Subject<UniRx.Unit>();
     private readonly Subject<UniRx.Unit> _cancelUse = new Subject<UniRx.Unit>();
+    public BoolReactiveProperty IsBlocked { get; } = new BoolReactiveProperty(false);
     public Vector2 MousePosition { get; private set; }
-
-    public IObservable<Vector2> OnMovement => _movement;
-    public IObservable<UniRx.Unit> OnShoot => _shoot;
+    public IObservable<Vector2> OnRawMovement => _movement;
+    public IObservable<Vector2> OnMovement => IsBlocked
+      .Select(blocked => blocked 
+        ? Observable.Return(Vector2.zero)
+        : _movement)
+      .Switch();
+    public IObservable<UniRx.Unit> OnShoot => _shoot.Where(_ => !IsBlocked.Value);
     public IObservable<UniRx.Unit> OnAbilityUse => _abilityUse;
     public IObservable<UniRx.Unit> OnHacking => _hackingUse;
     public IObservable<UniRx.Unit> OnCancel => _cancelUse;
