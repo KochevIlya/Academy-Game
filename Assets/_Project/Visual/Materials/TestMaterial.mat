@@ -8,9 +8,9 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: TestMaterial
-  m_Shader: {fileID: -6465566751694194690, guid: abffa34bf0f222e48bbd413148cf5d38,
+  m_Shader: {fileID: -6465566751694194690, guid: c2f7777d3a52b184e90de9001b95a033,
     type: 3}
-  m_Parent: {fileID: -876546973899608171, guid: abffa34bf0f222e48bbd413148cf5d38,
+  m_Parent: {fileID: -876546973899608171, guid: c2f7777d3a52b184e90de9001b95a033,
     type: 3}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -27,6 +27,7 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
+    - _Alpha: 1
     - _Fade: 1
     - _QueueControl: 0
     m_Colors: []
