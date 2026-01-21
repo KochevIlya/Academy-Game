@@ -9,5 +9,6 @@ namespace _Project.Scripts.Scenes.Game.Unit.Controls
     IObservable<Vector2> OnMovement { get; }
     IObservable<UniRx.Unit> OnShoot { get; }
     IObservable<UniRx.Unit> OnAbilityUse { get; }
+    IObservable<Vector2> OnRawMovement { get; }
   }
 }

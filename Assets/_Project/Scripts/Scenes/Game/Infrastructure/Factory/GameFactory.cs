@@ -7,6 +7,7 @@ using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using Cysharp.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Zenject;
@@ -48,6 +49,8 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       character.UpdateControls(_userInputControls);
       character.HealthView.Initialize(character);
       CreateCrosshair().Forget();
+      var hacker = character.gameObject.AddComponent<PlayerHacker>();
+      _diContainer.Inject(hacker);
       return character;
     }
 
@@ -61,6 +64,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       
       bot.UpdateControls(_dummyInputControls);
       bot.HealthView.Initialize(bot);
+      bot.AddComponent<HackableComponent>();
       return bot;
     }
     

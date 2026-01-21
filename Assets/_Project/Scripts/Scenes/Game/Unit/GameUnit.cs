@@ -6,6 +6,7 @@ using UnityEngine;
 using _Project.Scripts.Scenes.Game.Unit.Attacker;
 using _Project.Scripts.Scenes.Game.Unit.Components.Health;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
+using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using _Project.Scripts.Scenes.Game.Unit.Mover;
 using _Project.Scripts.Scenes.Game.Unit.Rotator;
 using _Project.Scripts.Scenes.Game.Unit.Components.Health;
@@ -92,5 +93,11 @@ namespace _Project.Scripts.Scenes.Game.Unit
     }
     
     private void ResetMovement() => _mover.Value.ResetMovement(this);
+    
+    public void DisableControl(IInputControls dummyInput)
+    {
+      UpdateControls(dummyInput);
+      Debug.Log($"[{name}] Управление переведено на Dummy.");
+    }
   }
 }
