@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using _Project.Scripts.Infrastructure.AssetProvider;
+using _Project.Scripts.Infrastructure.Gui.Camera;
 using _Project.Scripts.Infrastructure.StaticData;
 using _Project.Scripts.Scenes.Game.Shoot;
 using _Project.Scripts.Scenes.Game.Shoot.Data;
@@ -25,11 +26,12 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     private readonly IAssetProvider _assetProvider;
     
     private ObjectPool<Bullet> _bulletPool;
-    
+    [Inject] private ICameraService _cameraService { get; set; }
     public GameFactory(IStaticDataService staticData, DiContainer diContainer, 
       UserInputControls userInputControls, DummyInputControls dummyInputControls, 
       IAssetProvider assetProvider)
     {
+      
       _staticData = staticData;
       _diContainer = diContainer;
       _userInputControls = userInputControls;
@@ -40,11 +42,11 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     public async UniTask<GameUnit> SpawnCharacter(Vector3 position, WeaponType weapon)
     {
       var prefab = await _assetProvider.LoadFromAddressable<GameObject>(_staticData.UnitsConfig.Character);
-      
       GameUnit character = _diContainer
         .InstantiatePrefabForComponent<GameUnit>(prefab, 
           position, Quaternion.identity, null);
       
+      _cameraService.SetTarget(character);
       character.HealthView.Initialize(character);
       CreateCrosshair().Forget();
       var hacker = character.gameObject.AddComponent<PlayerHacker>();
