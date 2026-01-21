@@ -53,10 +53,11 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       character.UpdateWeapon(await SpawnWeapon(weapon, character));
       character.UpdateControls(_userInputControls);
       
+      
       return character;
     }
 
-    public async UniTask<GameUnit> SpawnBot(Vector3 position)
+    public async UniTask<GameUnit> SpawnBot(Vector3 position, WeaponType weapon)
     {
       var prefab = await _assetProvider.LoadFromAddressable<GameObject>(_staticData.UnitsConfig.Bot);
       
@@ -64,9 +65,10 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
         .InstantiatePrefabForComponent<GameUnit>(prefab, 
           position, Quaternion.identity, null);
       
-      bot.UpdateControls(_dummyInputControls);
       bot.HealthView.Initialize(bot);
       bot.AddComponent<HackableComponent>();
+      bot.UpdateWeapon(await SpawnWeapon(weapon, bot));
+      bot.UpdateControls(_dummyInputControls);
       return bot;
     }
     

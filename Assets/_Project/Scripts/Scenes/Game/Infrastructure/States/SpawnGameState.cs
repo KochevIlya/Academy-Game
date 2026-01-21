@@ -26,7 +26,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
         if(spawner.UnitType == UnitType.Character) 
           await _gameFactory.SpawnCharacter(spawner.Position, WeaponType.Riffle);
         else if (spawner.UnitType == UnitType.Bot)
-          await _gameFactory.SpawnBot(spawner.Position);
+          await _gameFactory.SpawnBot(spawner.Position, WeaponType.Riffle);
       }
       
       gameStateMachine.Enter<InitializeGameServices>();
