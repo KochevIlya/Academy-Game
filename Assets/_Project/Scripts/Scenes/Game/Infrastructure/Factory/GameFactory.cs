@@ -45,12 +45,14 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
         .InstantiatePrefabForComponent<GameUnit>(prefab, 
           position, Quaternion.identity, null);
       
-      character.UpdateWeapon(await SpawnWeapon(weapon, character));
-      character.UpdateControls(_userInputControls);
       character.HealthView.Initialize(character);
       CreateCrosshair().Forget();
       var hacker = character.gameObject.AddComponent<PlayerHacker>();
       _diContainer.Inject(hacker);
+      
+      character.UpdateWeapon(await SpawnWeapon(weapon, character));
+      character.UpdateControls(_userInputControls);
+      
       return character;
     }
 
