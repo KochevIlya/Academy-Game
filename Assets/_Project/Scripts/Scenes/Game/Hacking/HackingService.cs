@@ -24,6 +24,7 @@ public class HackingService : IDisposable
 
     private List<Vector2> _currentSequence;
     private HackableComponent _currentTarget;
+    [Inject] private ICameraService _cameraService;
     private bool _waitForRelease;
     private GameUnit _hackerUnit;
     private GameUnit _originalHero;
@@ -81,6 +82,10 @@ public class HackingService : IDisposable
         {
             Debug.LogError("Ошибка возврата: не найден герой или текущее тело!");
             return;
+        }
+        if (_originalHero != null)
+        {
+            _cameraService.SetTarget(_originalHero);
         }
         Debug.Log("Возврат в оригинальное тело...");
         var dummy = _container.Resolve<DummyInputControls>();
@@ -161,7 +166,12 @@ public class HackingService : IDisposable
     {
         Debug.Log($"Взлом {_currentTarget.name} успешен!");
         GameUnit victimUnit = _currentTarget.GetComponent<GameUnit>();
-
+        
+        if (victimUnit != null)
+        {
+            _cameraService.SetTarget(victimUnit);
+        }
+        
         if (victimUnit != null && _hackerUnit != null)
         {
             var dummy = _container.Resolve<DummyInputControls>();
