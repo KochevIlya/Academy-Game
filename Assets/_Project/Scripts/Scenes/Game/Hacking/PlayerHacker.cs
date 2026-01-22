@@ -29,13 +29,6 @@ public class PlayerHacker : MonoBehaviour
     {
         _myUnit = GetComponent<GameUnit>();
     }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F1)) {
-            Debug.Log($"Input Blocked: {_input.IsBlocked.Value} | Cursor Lock: {Cursor.lockState}");
-        }
-    }
     private void Start()
     {
         _input.OnHacking
