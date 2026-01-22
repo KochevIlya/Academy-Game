@@ -13,6 +13,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Zenject;
 using _Project.Scripts.Libs.Pool;
+using _Project.Scripts.Scenes.Game.Hacking.Terminal;
 
 namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
 {
@@ -24,7 +25,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     private readonly UserInputControls _userInputControls;
     private readonly DummyInputControls _dummyInputControls;
     private readonly IAssetProvider _assetProvider;
-    
+    private bool _isBulletPoolReady;
     private ObjectPool<Bullet> _bulletPool;
     [Inject] private ICameraService _cameraService { get; set; }
     public GameFactory(IStaticDataService staticData, DiContainer diContainer, 
@@ -73,7 +74,15 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       bot.UpdateControls(_dummyInputControls);
       return bot;
     }
-    
+
+    public async UniTask<HackingTerminal> SpawnTerminal(Vector3 position)
+    {
+      var prefab = await _assetProvider.LoadFromAddressable<GameObject>(_staticData.TerminalConfig.Prefab);
+      GameObject terminalObject =
+        _diContainer.InstantiatePrefab(prefab, position, Quaternion.identity, null);
+      HackingTerminal terminal = terminalObject.GetComponentInChildren<HackingTerminal>();
+      return terminal;
+    }
     public async UniTask<WeaponBase> SpawnWeapon(WeaponType weaponType, GameUnit unit)
     {
       var weaponData = _staticData.WeaponsConfig.Weapons[weaponType];
@@ -89,6 +98,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     
     public async UniTask<Bullet> SpawnBullet(AssetReference prefabRefence, Transform spawnPoint)
     {
+      await UniTask.WaitUntil(() => _isBulletPoolReady);
       var bullet = _bulletPool.Spawn();
       bullet.transform.position = spawnPoint.position;
       bullet.transform.rotation = spawnPoint.rotation;
@@ -110,6 +120,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
         bullet.gameObject.SetActive(false);
         return bullet;
       }, 20);
+      _isBulletPoolReady = true;
     }
 
     public async UniTask CreateCrosshair()
@@ -126,7 +137,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       {
         Debug.LogError("На префабе прицела нет скрипта CrosshairController!");
       }
-    }
+    } 
   }
   
 }
