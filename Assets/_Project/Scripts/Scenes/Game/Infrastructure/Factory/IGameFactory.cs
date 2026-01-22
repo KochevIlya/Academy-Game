@@ -1,4 +1,5 @@
-﻿using _Project.Scripts.Scenes.Game.Shoot;
+﻿using System.Collections.Generic;
+using _Project.Scripts.Scenes.Game.Shoot;
 using _Project.Scripts.Scenes.Game.Shoot.Data;
 using _Project.Scripts.Scenes.Game.Unit;
 using Cysharp.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     UniTask<GameUnit> SpawnBot(Vector3 position, WeaponType weapon);
     UniTask<WeaponBase> SpawnWeapon(WeaponType weaponType, GameUnit unit);
     UniTask<Bullet> SpawnBullet(AssetReference prefabRefence, Transform spawnPoint);
-    UniTask<HackingTerminal> SpawnTerminal(Vector3 position);
+    UniTask<HackingTerminal> SpawnTerminal(Vector3 position, Transform warZoneTransform);
     UniTask Initialize(AssetReference prefabReference);
   }
 }

@@ -1,4 +1,5 @@
 using _Project.Scripts.Infrastructure.Gui.Camera;
+using _Project.Scripts.Scenes.Game.Hacking;
 using _Project.Scripts.Scenes.Game.Infrastructure.Factory;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
@@ -23,7 +24,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
 
       Container.BindInterfacesAndSelfTo<DummyInputControls>().AsSingle();
       Container.BindInterfacesAndSelfTo<UserInputControls>().AsSingle();
-      
+      Container.Bind<HackableSelector>().AsSingle();
       Container.BindInterfacesAndSelfTo<HackingService>().AsSingle();
       Container.Bind<HackingView>()
         .FromComponentInNewPrefab(_hackingPrefab) 

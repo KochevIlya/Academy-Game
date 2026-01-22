@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using _Project.Scripts.Infrastructure.AssetProvider;
 using _Project.Scripts.Infrastructure.Gui.Camera;
 using _Project.Scripts.Infrastructure.StaticData;
@@ -74,13 +75,14 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       bot.UpdateControls(_dummyInputControls);
       return bot;
     }
-
-    public async UniTask<HackingTerminal> SpawnTerminal(Vector3 position)
+    
+    public async UniTask<HackingTerminal> SpawnTerminal(Vector3 position, Transform warZoneTransform)
     {
       var prefab = await _assetProvider.LoadFromAddressable<GameObject>(_staticData.TerminalConfig.Prefab);
       GameObject terminalObject =
         _diContainer.InstantiatePrefab(prefab, position, Quaternion.identity, null);
       HackingTerminal terminal = terminalObject.GetComponentInChildren<HackingTerminal>();
+      terminal.WarZoneTransform = warZoneTransform; 
       return terminal;
     }
     public async UniTask<WeaponBase> SpawnWeapon(WeaponType weaponType, GameUnit unit)
