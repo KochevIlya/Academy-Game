@@ -51,13 +51,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Animator: {fileID: 3745044819507979051}
   Health: {fileID: 2791659882551571227}
+  <HealthView>k__BackingField: {fileID: 0}
+  <WeaponPoint>k__BackingField: {fileID: 0}
   _mover:
     underlyingValue: {fileID: 0}
   _rotator:
     underlyingValue: {fileID: 0}
   _attacker:
     underlyingValue: {fileID: 0}
-  <WeaponPoint>k__BackingField: {fileID: 0}
+  _moveSpeed: 1.5
 --- !u!114 &2791659882551571227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,6 +72,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 794f7fc6be4e4713a28cc2ef035af788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxHealth: 100
 --- !u!114 &3745044819507979051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,8 +107,8 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
+  m_Height: 1.8
+  m_Radius: 0.3
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08

@@ -25,6 +25,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     [SerializeField] private InterfaceReference<IUnitMover> _mover;
     [SerializeField] private InterfaceReference<IUnitRotator> _rotator;
     [SerializeField] private InterfaceReference<IUnitAttacker> _attacker;
+    [SerializeField] private float _moveSpeed = 1.5f;
 
     private readonly CompositeDisposable _lifetimeDisposable = new CompositeDisposable();
     
@@ -69,7 +70,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     private void SubscribeMovement()
     {
       InputControls.OnMovement
-        .Subscribe(delta => _mover.Value.Move(this, delta, Time.deltaTime))
+        .Subscribe(delta => _mover.Value.Move(this, delta * _moveSpeed, Time.deltaTime))
         .AddTo(_lifetimeDisposable);
     }
 
