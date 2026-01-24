@@ -146,7 +146,7 @@ namespace _Project.Scripts.Tests.Editor
         public Vector2 LastShootPosition { get; private set; }
         public int ShootCallCount { get; private set; }
 
-        public override void Shoot(Vector2 shootMousePosition)
+        public override void Shoot(Vector2 shootMousePosition, GameUnit owner)
         {
             ShootWasCalled = true;
             LastShootPosition = shootMousePosition;

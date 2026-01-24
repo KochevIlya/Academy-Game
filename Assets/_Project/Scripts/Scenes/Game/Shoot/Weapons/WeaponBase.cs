@@ -12,7 +12,7 @@ namespace _Project.Scripts.Scenes.Game.Shoot
     protected WeaponData WeaponData;
     protected GameUnit Unit;
 
-    public abstract void Shoot(Vector2 shootMousePosition);
+    public abstract void Shoot(Vector2 shootMousePosition, GameUnit unit);
     public void Setup(WeaponData weaponData, GameUnit unit)
     {
       WeaponData = weaponData;

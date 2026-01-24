@@ -1,6 +1,8 @@
 ﻿using System;
 using _Project.Scripts.Scenes.Game.Shoot.Config;
+using _Project.Scripts.Scenes.Game.Unit;
 using UnityEngine;
+using _Project.Scripts.Scenes.Game.Unit.Components.Health;
 using UnityEngine.Pool;
 
 namespace _Project.Scripts.Scenes.Game.Shoot
@@ -11,11 +13,15 @@ namespace _Project.Scripts.Scenes.Game.Shoot
     private float _speed = 1f;
     private float _lifeTime = 1f;
     private float _currentLifeTime = 0f;
+    private int _damage = 20; 
+    private GameUnit _owner;
     
 
     public void SetDirection(Vector3 direction) => _direction = direction;
     public void SetSpeed(float speed) => _speed = speed;
     public void SetLifeTime(float lifeTime) => _lifeTime = lifeTime;
+    public void SetDamage(int damage) => _damage = damage;
+    public void SetOwner(GameUnit owner) => _owner = owner;
 
     private void Update()
     {
@@ -35,11 +41,13 @@ namespace _Project.Scripts.Scenes.Game.Shoot
 
     private void OnTriggerEnter(Collider other)
     {
-      if (other.gameObject.tag == "Player")
+      if (other.gameObject.tag == "Player" && other.gameObject != _owner.gameObject)
       {
+        other.gameObject.GetComponent<Health>().TakeDamage(_damage);
         ResetAndRemove();
       }
     }
+
     
     private void ResetAndRemove()
     {
