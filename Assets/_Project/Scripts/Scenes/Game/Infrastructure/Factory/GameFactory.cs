@@ -29,6 +29,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     private bool _isBulletPoolReady;
     private ObjectPool<Bullet> _bulletPool;
     [Inject] private ICameraService _cameraService { get; set; }
+    [Inject] private ICrosshairService _crosshairService;
     public GameFactory(IStaticDataService staticData, DiContainer diContainer, 
       UserInputControls userInputControls, DummyInputControls dummyInputControls, 
       IAssetProvider assetProvider)
@@ -43,6 +44,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     
     public async UniTask<GameUnit> SpawnCharacter(Vector3 position, WeaponType weapon)
     {
+      CreateCrosshair().Forget();
       var prefab = await _assetProvider.LoadFromAddressable<GameObject>(_staticData.UnitsConfig.Character);
       GameUnit character = _diContainer
         .InstantiatePrefabForComponent<GameUnit>(prefab, 
@@ -50,7 +52,6 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       
       _cameraService.SetTarget(character);
       character.HealthView.Initialize(character);
-      CreateCrosshair().Forget();
       var hacker = character.gameObject.AddComponent<PlayerHacker>();
       _diContainer.Inject(hacker);
       
@@ -133,6 +134,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
         .InstantiatePrefab(prefab, Vector3.zero, Quaternion.identity, null);
       if (crosshairInstance.TryGetComponent(out CrosshairController controller))
       {
+        _crosshairService.Register(controller);
         controller.Initialize(_userInputControls);
       }
       else

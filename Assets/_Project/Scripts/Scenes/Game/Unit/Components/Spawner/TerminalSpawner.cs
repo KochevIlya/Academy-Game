@@ -16,4 +16,4 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Spawner
         public GameObject WarZonePoint;
         public Transform WarZoneTransform =>  WarZonePoint.transform; 
     }
-}
+}   

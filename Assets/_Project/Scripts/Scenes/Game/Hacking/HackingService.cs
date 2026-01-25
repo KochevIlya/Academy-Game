@@ -33,6 +33,7 @@ public class HackingService : IDisposable
     private List<Vector2> _currentSequence;
     private HackableComponent _currentTarget;
     [Inject] private ICameraService _cameraService;
+    [Inject] private ICrosshairService _crosshairService;
     private bool _waitForRelease;
     private GameUnit _hackerUnit;
     private GameUnit _originalHero;
@@ -66,6 +67,7 @@ public class HackingService : IDisposable
 
         if (CanHack.Value)
         {
+            _crosshairService.SetVisible(false);
             _hackerUnit.DisableControl(dummy);
             target = await _hackableSelector.SelectTarget(new CancellationTokenSource().Token);
         }
@@ -73,6 +75,7 @@ public class HackingService : IDisposable
         if (target != null)
         {
             StartHacking(target, hacker);
+            
         }
         else
         {
@@ -249,7 +252,7 @@ public class HackingService : IDisposable
         }
 
         OnHackingFinished.OnNext(true);
-    
+        _crosshairService.SetVisible(true);
         IsHacking.Value = false;
         _currentTarget = null;
     }
