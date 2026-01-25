@@ -35,7 +35,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Attacker
     public void OnShootCast(GameUnit unit)
     {
       if(unit.HasWeapon) 
-        unit.Weapon.Shoot(_shootMousePosition);
+        unit.Weapon.Shoot(_shootMousePosition, unit);
     }
     
     public void AbilityUse(GameUnit unit)
