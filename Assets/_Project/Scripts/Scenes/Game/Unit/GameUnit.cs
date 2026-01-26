@@ -31,6 +31,11 @@ namespace _Project.Scripts.Scenes.Game.Unit
 
     public IInputControls InputControls { get; private set; }
 
+    private void Start()
+    {
+      Health.Die.Subscribe(_ => Destroy(gameObject)).AddTo(this);
+    }
+
     private void OnDestroy()
     {
       _lifetimeDisposable.Clear();

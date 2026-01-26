@@ -19,6 +19,12 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
     public void TakeDamage(int amount)
     {
       _currentHealth.Value = Mathf.Max(_currentHealth.Value - amount, 0);
+
+      if (_currentHealth.Value <= 0)
+      {
+        _die.OnNext(UniRx.Unit.Default);
+        _die.OnCompleted();
+      }
     }
   }
 }
