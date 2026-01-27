@@ -196,7 +196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineColor: {r: 1, g: 0.94832873, b: 0, a: 1}
-  outlineWidth: 5
+  outlineWidth: 3
 --- !u!1001 &7530047032852766723
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1710,6 +1710,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.025083175
       objectReference: {fileID: 0}
+    - target: {fileID: 5822821947120931875, guid: e9b209af53f86ce4da5c76d5ba9ba983,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5bae67cdda1cbf44c8fc8bcdd394e582, type: 2}
     - target: {fileID: 5866666021909216657, guid: e9b209af53f86ce4da5c76d5ba9ba983,
         type: 3}
       propertyPath: m_Controller
