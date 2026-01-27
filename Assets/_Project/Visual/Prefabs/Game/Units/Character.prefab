@@ -80,6 +80,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7716537891382239971, guid: fe0d8696859b47940851431c5478d46c,
         type: 3}
+      propertyPath: _moveSpeed
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7716537891382239971, guid: fe0d8696859b47940851431c5478d46c,
+        type: 3}
       propertyPath: _mover.underlyingValue
       value: 
       objectReference: {fileID: 8561999071951192837}
