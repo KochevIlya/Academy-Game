@@ -28,7 +28,8 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
         else if (spawner.UnitType == UnitType.Bot)
           await _gameFactory.SpawnBot(spawner.Position, WeaponType.Riffle);
       }
-      
+      foreach (TerminalSpawner  spawner in Object.FindObjectsOfType<TerminalSpawner>())
+        await _gameFactory.SpawnTerminal(spawner.Position, spawner.WarZoneTransform);
       gameStateMachine.Enter<InitializeGameServices>();
     }
   }

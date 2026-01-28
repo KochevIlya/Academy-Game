@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using _Project.Scripts.Scenes.Game.Hacking;
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
+using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -15,7 +17,7 @@ public class PlayerHacker : MonoBehaviour
     private HackingService _hackingService;
     private UserInputControls _input;
     private GameUnit _myUnit;
-
+    [Inject] HackableSelector _hackableSelector; 
     [Inject]
     public void Construct(HackingService hackingService, UserInputControls input)
     {
@@ -27,7 +29,6 @@ public class PlayerHacker : MonoBehaviour
     {
         _myUnit = GetComponent<GameUnit>();
     }
-
     private void Start()
     {
         _input.OnHacking
@@ -36,41 +37,32 @@ public class PlayerHacker : MonoBehaviour
             .AddTo(this);
     }
 
-    private void TryToHack()
+    private async void TryToHack()
     {
-        if (!(_myUnit.InputControls is UserInputControls)) 
-        {
-            return;
-        }
-        if (_hackingService.IsPossessing) 
-        {
-            Debug.Log("В этом теле нельзя использовать взлом (вы уже вселились)!");
-            return;
-        }
-        var allTargets = Object.FindObjectsByType<HackableComponent>(FindObjectsSortMode.None);
-
-        var bestTarget = allTargets
-            .Where(t => t.gameObject != this.gameObject)
-            .Select(t => new { Component = t, Distance = Vector3.Distance(transform.position, t.transform.position) })
-            .Where(t => t.Distance <= _interactionRadius)
-            .OrderBy(t => t.Distance)
-            .Select(t => t.Component)
-            .FirstOrDefault();
-        
-        if (bestTarget != null)
-        {
-            Debug.Log($"[TestHacking] Цель найдена: {bestTarget.name}. Дистанция: {Vector3.Distance(transform.position, bestTarget.transform.position)}");
-            _hackingService.StartHacking(bestTarget, _myUnit);
-        }
-        else
-        {
-            Debug.LogWarning("[TestHacking] Рядом нет подходящих целей для взлома!");
-        }
+        if (!(_myUnit.InputControls is UserInputControls)) return;
+        if (_hackingService.IsPossessing) return;
+        _hackingService.RequestHacking(_myUnit);
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, _interactionRadius);
+    }
+    private HackableComponent FindClosestTarget()
+    {
+        var allTargets = Object.FindObjectsByType<HackableComponent>(FindObjectsSortMode.None);
+
+        return allTargets
+            .Where(t => t.gameObject != this.gameObject)
+            .Select(t => new 
+            { 
+                Component = t, 
+                Distance = Vector3.Distance(transform.position, t.transform.position) 
+            })
+            .Where(t => t.Distance <= _interactionRadius)
+            .OrderBy(t => t.Distance)
+            .Select(t => t.Component)
+            .FirstOrDefault();
     }
 }

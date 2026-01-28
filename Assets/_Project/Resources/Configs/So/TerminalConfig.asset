@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d4f6b03ca3146708778491f39bc089f, type: 3}
-  m_Name: UnitsConfig
+  m_Script: {fileID: 11500000, guid: 2f00975ae71a84043b6fcf8a9e482f51, type: 3}
+  m_Name: TerminalConfig
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,18 +21,8 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  Character:
-    m_AssetGUID: 0d571c597da462243b8e5d89d8304f49
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 1
-  Bot:
-    m_AssetGUID: f61f6339d95855f4087a3dc62edb99bd
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 1
-  Crosshair:
-    m_AssetGUID: aeb1639dc7d8c7843b27f64495f10840
+  Prefab:
+    m_AssetGUID: f8288cac682d7b7408d0f7385d6df1d9
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 1

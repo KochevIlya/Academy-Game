@@ -22,6 +22,11 @@ namespace _Project.Scripts.Infrastructure.Gui.Camera
 
     }
 
+    public void SetPoint(Transform point)
+    {
+        _cameraZoomIn.Follow = point;
+        _target = point;
+    }
     public void SetTarget(GameUnit unit)
     {
       _cameraZoomIn.Follow = unit.transform;
