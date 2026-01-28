@@ -55,7 +55,6 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       var hacker = character.gameObject.AddComponent<PlayerHacker>();
       _diContainer.Inject(hacker);
       
-      character.UpdateWeapon(await SpawnWeapon(weapon, character));
       character.UpdateControls(_userInputControls);
       
       
