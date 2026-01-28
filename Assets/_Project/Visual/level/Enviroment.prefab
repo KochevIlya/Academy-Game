@@ -2195,6 +2195,7 @@ GameObject:
   - component: {fileID: 8198887758157642136}
   - component: {fileID: 3272452807404761730}
   - component: {fileID: 5335383257421881901}
+  - component: {fileID: 2267275985073259623}
   m_Layer: 0
   m_Name: building_Unfinished (7)
   m_TagString: Untagged
@@ -2435,6 +2436,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.59333, y: 5.8293166, z: 0.6059569}
   m_Center: {x: -1.8521918, y: 2.9059289, z: 1.8405004}
+--- !u!65 &2267275985073259623
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 737966051163111156}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.76549, y: 3.4211092, z: 4.2880707}
+  m_Center: {x: 0.11524463, y: 4.1100326, z: 0.017873764}
 --- !u!1 &762967921672956858
 GameObject:
   m_ObjectHideFlags: 0
@@ -2454,6 +2476,7 @@ GameObject:
   - component: {fileID: 7848308269037084076}
   - component: {fileID: 7564491211697919181}
   - component: {fileID: 132783605753109079}
+  - component: {fileID: 5737579070952513473}
   m_Layer: 0
   m_Name: building_Unfinished (8)
   m_TagString: Untagged
@@ -2694,6 +2717,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.59333, y: 5.8293166, z: 0.6059569}
   m_Center: {x: -1.8521918, y: 2.9059289, z: 1.8405004}
+--- !u!65 &5737579070952513473
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 762967921672956858}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.76549, y: 3.4211092, z: 4.2880707}
+  m_Center: {x: 0.11524463, y: 4.1100326, z: 0.017873764}
 --- !u!1 &798548662479825036
 GameObject:
   m_ObjectHideFlags: 0
@@ -3350,6 +3394,7 @@ GameObject:
   - component: {fileID: 5179962936010197392}
   - component: {fileID: 7851102911573684478}
   - component: {fileID: 1960984925847508185}
+  - component: {fileID: 8535715340745688056}
   m_Layer: 0
   m_Name: building_Unfinished (10)
   m_TagString: Untagged
@@ -3590,6 +3635,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.59333, y: 5.8293166, z: 0.6059569}
   m_Center: {x: -1.8521918, y: 2.9059289, z: 1.8405004}
+--- !u!65 &8535715340745688056
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288659020321910020}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.76549, y: 3.4211092, z: 4.2880707}
+  m_Center: {x: 0.11524463, y: 4.1100326, z: 0.017873764}
 --- !u!1 &1329416131257710203
 GameObject:
   m_ObjectHideFlags: 0
@@ -6727,6 +6793,7 @@ GameObject:
   - component: {fileID: 7067403021803802460}
   - component: {fileID: 3223810318573353641}
   - component: {fileID: 4374306058461530442}
+  - component: {fileID: 3873129976098493264}
   m_Layer: 0
   m_Name: building_Unfinished (4)
   m_TagString: Untagged
@@ -6967,6 +7034,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.59333, y: 5.8293166, z: 0.6059569}
   m_Center: {x: -1.8521918, y: 2.9059289, z: 1.8405004}
+--- !u!65 &3873129976098493264
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2735918864530789768}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.76549, y: 3.4211092, z: 4.2880707}
+  m_Center: {x: 0.11524463, y: 4.1100326, z: 0.017873764}
 --- !u!1 &2805089760805938504
 GameObject:
   m_ObjectHideFlags: 0
@@ -7369,6 +7457,7 @@ GameObject:
   - component: {fileID: 8993890737469805739}
   - component: {fileID: 5703219030519314648}
   - component: {fileID: 4562129472012410587}
+  - component: {fileID: 8764351951543068617}
   m_Layer: 0
   m_Name: building_Unfinished (8)
   m_TagString: Untagged
@@ -7609,6 +7698,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.59333, y: 5.8293166, z: 0.6059569}
   m_Center: {x: -1.8521918, y: 2.9059289, z: 1.8405004}
+--- !u!65 &8764351951543068617
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2961605541235079920}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.76549, y: 3.4211092, z: 4.2880707}
+  m_Center: {x: 0.11524463, y: 4.1100326, z: 0.017873764}
 --- !u!1 &2965877312016269145
 GameObject:
   m_ObjectHideFlags: 0
@@ -7840,6 +7950,7 @@ GameObject:
   - component: {fileID: 2556635001622505239}
   - component: {fileID: 3455642930037971189}
   - component: {fileID: 6296397787257305865}
+  - component: {fileID: 8446801751453581972}
   m_Layer: 0
   m_Name: building_Unfinished (06)
   m_TagString: Untagged
@@ -8080,6 +8191,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.59333, y: 5.8293166, z: 0.6059569}
   m_Center: {x: -1.8521918, y: 2.9059289, z: 1.8405004}
+--- !u!65 &8446801751453581972
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2998117022078835483}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.76549, y: 3.4211092, z: 4.2880707}
+  m_Center: {x: 0.11524463, y: 4.1100326, z: 0.017873764}
 --- !u!1 &3031987289765463184
 GameObject:
   m_ObjectHideFlags: 0
@@ -9907,6 +10039,7 @@ GameObject:
   - component: {fileID: 7959578691593831456}
   - component: {fileID: 8376284133085739535}
   - component: {fileID: 8983959780591566179}
+  - component: {fileID: 8348994501384904588}
   m_Layer: 0
   m_Name: building_Unfinished (11)
   m_TagString: Untagged
@@ -10147,6 +10280,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.59333, y: 5.8293166, z: 0.6059569}
   m_Center: {x: -1.8521918, y: 2.9059289, z: 1.8405004}
+--- !u!65 &8348994501384904588
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3634637447789129904}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.76549, y: 3.4211092, z: 4.2880707}
+  m_Center: {x: 0.11524463, y: 4.1100326, z: 0.017873764}
 --- !u!1 &3652196033097891283
 GameObject:
   m_ObjectHideFlags: 0
@@ -10166,6 +10320,7 @@ GameObject:
   - component: {fileID: 393118049421167103}
   - component: {fileID: 5630769572286458265}
   - component: {fileID: 7562934335684397221}
+  - component: {fileID: 2664563246716206195}
   m_Layer: 0
   m_Name: building_Unfinished
   m_TagString: Untagged
@@ -10406,6 +10561,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.45153034, y: 5.8293166, z: 0.44885457}
   m_Center: {x: -1.7511454, y: 2.9059289, z: 1.8363243}
+--- !u!65 &2664563246716206195
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3652196033097891283}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.76549, y: 3.4211092, z: 4.2880707}
+  m_Center: {x: 0.11524463, y: 4.1100326, z: 0.017873764}
 --- !u!1 &3689040846474865985
 GameObject:
   m_ObjectHideFlags: 0
@@ -11379,6 +11555,7 @@ GameObject:
   - component: {fileID: 2981325349940026146}
   - component: {fileID: 4359088809581385583}
   - component: {fileID: 1202099601381834187}
+  - component: {fileID: 8545189136885433151}
   m_Layer: 0
   m_Name: building_Unfinished (12)
   m_TagString: Untagged
@@ -11619,6 +11796,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.59333, y: 5.8293166, z: 0.6059569}
   m_Center: {x: -1.8521918, y: 2.9059289, z: 1.8405004}
+--- !u!65 &8545189136885433151
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3969095492862348322}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.76549, y: 3.4211092, z: 4.2880707}
+  m_Center: {x: 0.11524463, y: 4.1100326, z: 0.017873764}
 --- !u!1 &3995345013876387433
 GameObject:
   m_ObjectHideFlags: 0
@@ -13008,7 +13206,7 @@ GameObject:
   - component: {fileID: 4781035195024210970}
   - component: {fileID: 8500119578284782527}
   - component: {fileID: 5913942030095026037}
-  - component: {fileID: 1588140827972473935}
+  - component: {fileID: 4842994274455871283}
   m_Layer: 0
   m_Name: Streetlamp
   m_TagString: Untagged
@@ -13081,8 +13279,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1588140827972473935
-MeshCollider:
+--- !u!65 &4842994274455871283
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -13099,10 +13297,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 983573896591328992, guid: d07f5724721859b44af703fadf0262f2, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 0.494812, y: 4.488316, z: 0.5619726}
+  m_Center: {x: -0.07802963, y: 2.251847, z: 0.014873028}
 --- !u!1 &5325039159848768175
 GameObject:
   m_ObjectHideFlags: 0
@@ -13856,7 +14053,7 @@ GameObject:
   - component: {fileID: 5149657069489809593}
   - component: {fileID: 8131418758293743388}
   - component: {fileID: 6286019089921676246}
-  - component: {fileID: 1042101708294721046}
+  - component: {fileID: 7356122699006357928}
   m_Layer: 0
   m_Name: Streetlamp (2)
   m_TagString: Untagged
@@ -13929,8 +14126,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1042101708294721046
-MeshCollider:
+--- !u!65 &7356122699006357928
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -13947,10 +14144,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 983573896591328992, guid: d07f5724721859b44af703fadf0262f2, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 0.494812, y: 4.488316, z: 0.5619726}
+  m_Center: {x: -0.07802963, y: 2.251847, z: 0.014873028}
 --- !u!1 &5541782163734326675
 GameObject:
   m_ObjectHideFlags: 0
@@ -15031,6 +15227,7 @@ GameObject:
   - component: {fileID: 3364981804792743495}
   - component: {fileID: 7439157609748858988}
   - component: {fileID: 4412274180221616931}
+  - component: {fileID: 7770910397206230784}
   m_Layer: 0
   m_Name: building_Unfinished (11)
   m_TagString: Untagged
@@ -15292,6 +15489,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.59333, y: 5.8293166, z: 0.6059569}
   m_Center: {x: -1.8521918, y: 2.9059289, z: 1.8405004}
+--- !u!65 &7770910397206230784
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6339482560019095707}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.76549, y: 3.4211092, z: 4.2880707}
+  m_Center: {x: 0.11524463, y: 4.1100326, z: 0.017873764}
 --- !u!1 &6348776169168601757
 GameObject:
   m_ObjectHideFlags: 0
@@ -17116,6 +17334,7 @@ GameObject:
   - component: {fileID: 5654143608056524161}
   - component: {fileID: 1988008582395487568}
   - component: {fileID: 2771069199106428075}
+  - component: {fileID: 3626166182527464255}
   m_Layer: 0
   m_Name: building_Unfinished (9)
   m_TagString: Untagged
@@ -17356,6 +17575,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.59333, y: 5.8293166, z: 0.6059569}
   m_Center: {x: -1.8521918, y: 2.9059289, z: 1.8405004}
+--- !u!65 &3626166182527464255
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6876145024479553963}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.76549, y: 3.4211092, z: 4.2880707}
+  m_Center: {x: 0.11524463, y: 4.1100326, z: 0.017873764}
 --- !u!1 &6883854376965727711
 GameObject:
   m_ObjectHideFlags: 0
@@ -19285,6 +19525,7 @@ GameObject:
   - component: {fileID: 3729092233437093084}
   - component: {fileID: 8125586784038613236}
   - component: {fileID: 5649598567151983514}
+  - component: {fileID: 644438379742996432}
   m_Layer: 0
   m_Name: building_Unfinished (5)
   m_TagString: Untagged
@@ -19525,6 +19766,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.59333, y: 5.8293166, z: 0.6059569}
   m_Center: {x: -1.8521918, y: 2.9059289, z: 1.8405004}
+--- !u!65 &644438379742996432
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7473931928197946321}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.76549, y: 3.4211092, z: 4.2880707}
+  m_Center: {x: 0.11524463, y: 4.1100326, z: 0.017873764}
 --- !u!1 &7488715191673156238
 GameObject:
   m_ObjectHideFlags: 0
@@ -19854,7 +20116,7 @@ GameObject:
   - component: {fileID: 7122807721362205242}
   - component: {fileID: 6158268381875873183}
   - component: {fileID: 8255774586384929109}
-  - component: {fileID: 39289361322641951}
+  - component: {fileID: 5925977023014235797}
   m_Layer: 0
   m_Name: Streetlamp (1)
   m_TagString: Untagged
@@ -19927,8 +20189,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &39289361322641951
-MeshCollider:
+--- !u!65 &5925977023014235797
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -19945,10 +20207,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 983573896591328992, guid: d07f5724721859b44af703fadf0262f2, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 0.494812, y: 4.488316, z: 0.5619726}
+  m_Center: {x: -0.07802963, y: 2.251847, z: 0.014873028}
 --- !u!1 &7628011711391400031
 GameObject:
   m_ObjectHideFlags: 0
