@@ -24,19 +24,30 @@ namespace _Project.Scripts.Scenes.Game.Unit.Rotator
         {
             if (!TryGetWorldPosition(gameUnit, mouseScreenPos, out var worldPosition))
                 return;
-
-            var targetDirection = (worldPosition - gameUnit.transform.position).SetY(0f);
-
+            
+            Vector3 targetDirection;
+            if (gameUnit.HasWeapon)
+            {
+                targetDirection = (worldPosition - gameUnit.Weapon.SpawnPoint.position).SetY(0f);
+            }
+            else
+            {
+                targetDirection = (worldPosition - gameUnit.transform.position).SetY(0f);
+            }
             if (targetDirection.sqrMagnitude < Constants.Epsilon)
                 return;
 
-            RotateUnit(gameUnit, targetDirection, deltaTime);
-            AnimateRotation(gameUnit, targetDirection, deltaTime);
+            RotateUnit(gameUnit, targetDirection.normalized, deltaTime);
+            AnimateRotation(gameUnit, targetDirection.normalized, deltaTime);
         }
 
         private bool TryGetWorldPosition(GameUnit gameUnit, Vector2 mouseScreenPos, out Vector3 worldPosition)
         {
-            return _inputHelper.ScreenToGroundPosition(mouseScreenPos, gameUnit.transform.position.y, out worldPosition);
+            float targetHeight = (gameUnit.HasWeapon) 
+                ? gameUnit.Weapon.SpawnPoint.position.y 
+                : 1.2f; 
+
+            return _inputHelper.ScreenToGroundPosition(mouseScreenPos, targetHeight, out worldPosition);
         }
 
         private void RotateUnit(GameUnit gameUnit, Vector3 targetDirection, float deltaTime)

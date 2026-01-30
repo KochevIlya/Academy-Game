@@ -15,6 +15,7 @@ using UnityEngine.AddressableAssets;
 using Zenject;
 using _Project.Scripts.Libs.Pool;
 using _Project.Scripts.Scenes.Game.Hacking.Terminal;
+using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
 
 namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
 {
@@ -28,11 +29,14 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     private readonly IAssetProvider _assetProvider;
     private bool _isBulletPoolReady;
     private ObjectPool<Bullet> _bulletPool;
-    [Inject] private ICameraService _cameraService { get; set; }
-    [Inject] private ICursorService _cursorService;
+    private IInputHelper _inputHelper;
+    private ICameraService _cameraService { get; set; }
+    private ICursorService _cursorService;
     public GameFactory(IStaticDataService staticData, DiContainer diContainer, 
       UserInputControls userInputControls, DummyInputControls dummyInputControls, 
-      IAssetProvider assetProvider)
+      IAssetProvider assetProvider,
+      ICameraService cameraService,
+      ICursorService cursorService)
     {
       
       _staticData = staticData;
@@ -40,6 +44,8 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       _userInputControls = userInputControls;
       _dummyInputControls = dummyInputControls;
       _assetProvider = assetProvider;
+      _cameraService = cameraService;
+      _cursorService = cursorService;
     }
     
     public async UniTask<GameUnit> SpawnCharacter(Vector3 position, WeaponType weapon)
@@ -54,7 +60,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       character.HealthView.Initialize(character);
       var hacker = character.gameObject.AddComponent<PlayerHacker>();
       _diContainer.Inject(hacker);
-      
+      // character.UpdateWeapon(await SpawnWeapon(weapon, character));
       character.UpdateControls(_userInputControls);
       
       
@@ -100,7 +106,6 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     
     public async UniTask<Bullet> SpawnBullet(AssetReference prefabRefence, Transform spawnPoint)
     {
-      await UniTask.WaitUntil(() => _isBulletPoolReady);
       var bullet = _bulletPool.Spawn();
       bullet.transform.position = spawnPoint.position;
       bullet.transform.rotation = spawnPoint.rotation;

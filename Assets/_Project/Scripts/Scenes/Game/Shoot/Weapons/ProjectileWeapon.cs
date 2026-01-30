@@ -33,8 +33,9 @@ namespace _Project.Scripts.Scenes.Game.Shoot
     {
       if (_currentTime >= WeaponData.CoolDown)
       {
-        _inputHelper.ScreenToGroundPosition(shootMousePosition, Unit.transform.position.y, out var worldPosition); 
-        var direction = (worldPosition - Unit.transform.position).SetY(0f).normalized;
+        float fireHeight = SpawnPoint.position.y;
+        _inputHelper.ScreenToGroundPosition(shootMousePosition, fireHeight, out var worldPosition); 
+        var direction = (worldPosition - SpawnPoint.position).normalized;
         SpawnAndSetup(direction, WeaponData.Speed, WeaponData.BulletLifeTime, WeaponData.Damage, unit).Forget();
         _currentTime = 0f;
       }
