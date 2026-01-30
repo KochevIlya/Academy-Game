@@ -29,7 +29,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     private bool _isBulletPoolReady;
     private ObjectPool<Bullet> _bulletPool;
     [Inject] private ICameraService _cameraService { get; set; }
-    [Inject] private ICrosshairService _crosshairService;
+    [Inject] private ICursorService _cursorService;
     public GameFactory(IStaticDataService staticData, DiContainer diContainer, 
       UserInputControls userInputControls, DummyInputControls dummyInputControls, 
       IAssetProvider assetProvider)
@@ -131,9 +131,9 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       var prefab = await _assetProvider.LoadFromAddressable<GameObject>(prefabReference);
       GameObject crosshairInstance = _diContainer
         .InstantiatePrefab(prefab, Vector3.zero, Quaternion.identity, null);
-      if (crosshairInstance.TryGetComponent(out CrosshairController controller))
+      if (crosshairInstance.TryGetComponent(out CursorController controller))
       {
-        _crosshairService.Register(controller);
+        _cursorService.Register(controller);
         controller.Initialize(_userInputControls);
       }
       else

@@ -33,7 +33,7 @@ public class HackingService : IDisposable
     private List<Vector2> _currentSequence;
     private HackableComponent _currentTarget;
     [Inject] private ICameraService _cameraService;
-    [Inject] private ICrosshairService _crosshairService;
+    [Inject] private ICursorService _cursorService;
     private bool _waitForRelease;
     private GameUnit _hackerUnit;
     private GameUnit _originalHero;
@@ -67,7 +67,7 @@ public class HackingService : IDisposable
 
         if (CanHack.Value)
         {
-            _crosshairService.SetVisible(false);
+            _cursorService.SetDefaultCursor();
             _hackerUnit.DisableControl(dummy);
             target = await _hackableSelector.SelectTarget(new CancellationTokenSource().Token);
         }
@@ -75,7 +75,6 @@ public class HackingService : IDisposable
         if (target != null)
         {
             StartHacking(target, hacker);
-            
         }
         else
         {
@@ -121,9 +120,7 @@ public class HackingService : IDisposable
         _input.IsBlocked.Value = false;
         IsHacking.Value = false;
         
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        
+        _cursorService.SetDefaultCursor();
         OnHackingFinished.OnNext(false);
     }
 
@@ -233,9 +230,6 @@ public class HackingService : IDisposable
         if (victimUnit != null && _hackerUnit != null)
         {
             _input.IsBlocked.Value = false;
-        
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.None;
 
             var dummy = _container.Resolve<DummyInputControls>();
             _isPossessing = true;
@@ -250,9 +244,11 @@ public class HackingService : IDisposable
                                  ?? victimUnit.gameObject.AddComponent<PlayerHacker>();
             _container.Inject(newHackerLogic);
         }
-
+        
+        _cursorService.SetCrosshairCursor();
+        _cursorService.SetVisible(true);
+        _cursorService.SetLockState(false);
         OnHackingFinished.OnNext(true);
-        _crosshairService.SetVisible(true);
         IsHacking.Value = false;
         _currentTarget = null;
     }

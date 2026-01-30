@@ -31,7 +31,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
         .UnderTransform(_uiRoot)                      
         .AsSingle()                                   
         .NonLazy();
-      Container.Bind<ICrosshairService>().To<CrosshairService>().AsSingle();
+      Container.Bind<ICursorService>().To<CursorService>().AsSingle();
     }
   }
 }
