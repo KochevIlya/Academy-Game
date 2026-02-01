@@ -1,4 +1,5 @@
 ﻿using _Project.Scripts.Libs.Configs.Loader;
+using _Project.Scripts.Scenes.Game.Hacking.Terminal;
 using _Project.Scripts.Scenes.Game.Shoot.Config;
 
 namespace _Project.Scripts.Infrastructure.StaticData
@@ -9,6 +10,8 @@ namespace _Project.Scripts.Infrastructure.StaticData
 
     public UnitsConfig UnitsConfig { get; private set; }
     public WeaponsConfig WeaponsConfig { get; private set; }
+    public TerminalConfig TerminalConfig { get; private set; }
+    
 
     public StaticDataService(IConfigsLoader configsLoader)
     {
@@ -19,6 +22,8 @@ namespace _Project.Scripts.Infrastructure.StaticData
     {
       UnitsConfig = _configsLoader.LoadSoConfig<UnitsConfig>();
       WeaponsConfig = _configsLoader.LoadSoConfig<WeaponsConfig>();
+      TerminalConfig = _configsLoader.LoadSoConfig<TerminalConfig>();
+      
     }
   }
 }

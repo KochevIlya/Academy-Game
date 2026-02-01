@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using _Project.Scripts.Infrastructure.AssetProvider;
 using _Project.Scripts.Infrastructure.Gui.Camera;
 using _Project.Scripts.Infrastructure.StaticData;
@@ -13,6 +14,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Zenject;
 using _Project.Scripts.Libs.Pool;
+using _Project.Scripts.Scenes.Game.Hacking.Terminal;
 
 namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
 {
@@ -24,9 +26,10 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     private readonly UserInputControls _userInputControls;
     private readonly DummyInputControls _dummyInputControls;
     private readonly IAssetProvider _assetProvider;
-    
+    private bool _isBulletPoolReady;
     private ObjectPool<Bullet> _bulletPool;
     [Inject] private ICameraService _cameraService { get; set; }
+    [Inject] private ICrosshairService _crosshairService;
     public GameFactory(IStaticDataService staticData, DiContainer diContainer, 
       UserInputControls userInputControls, DummyInputControls dummyInputControls, 
       IAssetProvider assetProvider)
@@ -41,6 +44,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     
     public async UniTask<GameUnit> SpawnCharacter(Vector3 position, WeaponType weapon)
     {
+      CreateCrosshair().Forget();
       var prefab = await _assetProvider.LoadFromAddressable<GameObject>(_staticData.UnitsConfig.Character);
       GameUnit character = _diContainer
         .InstantiatePrefabForComponent<GameUnit>(prefab, 
@@ -48,11 +52,9 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       
       _cameraService.SetTarget(character);
       character.HealthView.Initialize(character);
-      CreateCrosshair().Forget();
       var hacker = character.gameObject.AddComponent<PlayerHacker>();
       _diContainer.Inject(hacker);
       
-      character.UpdateWeapon(await SpawnWeapon(weapon, character));
       character.UpdateControls(_userInputControls);
       
       
@@ -74,6 +76,15 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       return bot;
     }
     
+    public async UniTask<HackingTerminal> SpawnTerminal(Vector3 position, Transform warZoneTransform)
+    {
+      var prefab = await _assetProvider.LoadFromAddressable<GameObject>(_staticData.TerminalConfig.Prefab);
+      GameObject terminalObject =
+        _diContainer.InstantiatePrefab(prefab, position, Quaternion.identity, null);
+      HackingTerminal terminal = terminalObject.GetComponentInChildren<HackingTerminal>();
+      terminal.WarZoneTransform = warZoneTransform; 
+      return terminal;
+    }
     public async UniTask<WeaponBase> SpawnWeapon(WeaponType weaponType, GameUnit unit)
     {
       var weaponData = _staticData.WeaponsConfig.Weapons[weaponType];
@@ -89,6 +100,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     
     public async UniTask<Bullet> SpawnBullet(AssetReference prefabRefence, Transform spawnPoint)
     {
+      await UniTask.WaitUntil(() => _isBulletPoolReady);
       var bullet = _bulletPool.Spawn();
       bullet.transform.position = spawnPoint.position;
       bullet.transform.rotation = spawnPoint.rotation;
@@ -110,6 +122,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
         bullet.gameObject.SetActive(false);
         return bullet;
       }, 20);
+      _isBulletPoolReady = true;
     }
 
     public async UniTask CreateCrosshair()
@@ -120,13 +133,14 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
         .InstantiatePrefab(prefab, Vector3.zero, Quaternion.identity, null);
       if (crosshairInstance.TryGetComponent(out CrosshairController controller))
       {
+        _crosshairService.Register(controller);
         controller.Initialize(_userInputControls);
       }
       else
       {
         Debug.LogError("На префабе прицела нет скрипта CrosshairController!");
       }
-    }
+    } 
   }
   
 }

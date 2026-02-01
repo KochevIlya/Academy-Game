@@ -8,6 +8,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Camera
     UnityEngine.Camera Camera { get; }
     void Init();
     void SetTarget(GameUnit unit);
+    void SetPoint(Transform point);
     void Cleanup();
   }
 }

@@ -20,6 +20,7 @@ namespace _Project.Scripts.Tests.Editor
 
         public void SetTarget(GameUnit unit) { }
 
+        public void SetPoint(Transform point){ }
         public void Cleanup() { }
 
         public void Destroy()

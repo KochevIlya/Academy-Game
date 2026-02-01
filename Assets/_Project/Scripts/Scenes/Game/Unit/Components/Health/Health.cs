@@ -16,7 +16,13 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
 
     public bool IsAlive => CurrentHealth.Value > 0;
 
-    private ReactiveProperty<int> _currentHealth = new(1);
+
+    private ReactiveProperty<int> _currentHealth;
+    private void Awake()
+    {
+      _currentHealth = new ReactiveProperty<int>(MaxHealth);
+    }
+    
     private Subject<UniRx.Unit> _die = new();
 
     private void Awake()
@@ -27,6 +33,12 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
     public void TakeDamage(int amount)
     {
       _currentHealth.Value = Mathf.Max(_currentHealth.Value - amount, 0);
+
+      if (_currentHealth.Value <= 0)
+      {
+        _die.OnNext(UniRx.Unit.Default);
+        _die.OnCompleted();
+      }
     }
   }
 }

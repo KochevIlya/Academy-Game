@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using _Project.Scripts.Infrastructure.Gui.Camera;
+using _Project.Scripts.Scenes.Game.Hacking;
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
@@ -15,16 +18,22 @@ public class HackingService : IDisposable
     private readonly UserInputControls _input;
     private readonly CompositeDisposable _disposables = new CompositeDisposable();
     private readonly DiContainer _container;
+    
+    [Inject] HackableSelector _hackableSelector;
+    
+    private List<GameUnit> _availableTargets;
     public ReactiveProperty<bool> IsHacking { get; } = new ReactiveProperty<bool>(false);
     public ReactiveProperty<int> CurrentProgressIndex { get; } = new ReactiveProperty<int>(0);
     public Subject<List<Vector2>> OnHackingStarted { get; } = new Subject<List<Vector2>>();
     public Subject<int> OnError { get; } = new Subject<int>();
     public Subject<bool> OnHackingFinished { get; } = new Subject<bool>();
     public bool IsPossessing => _isPossessing;
-
+    public ReactiveProperty<bool> CanHack { get; } = new ReactiveProperty<bool>(false);
+    
     private List<Vector2> _currentSequence;
     private HackableComponent _currentTarget;
     [Inject] private ICameraService _cameraService;
+    [Inject] private ICrosshairService _crosshairService;
     private bool _waitForRelease;
     private GameUnit _hackerUnit;
     private GameUnit _originalHero;
@@ -32,35 +41,89 @@ public class HackingService : IDisposable
     private bool _isPossessing;
     private bool _isErrorState;
 
+    
     public HackingService(UserInputControls input, DiContainer container)
     {
         _input = input;
         _container = container;
         SubscribeToInput();
     }
+    public void SetHackingZoneStatus(bool isInZone)
+    {
+        CanHack.Value = isInZone;
+    }
+    public async void RequestHacking(GameUnit hacker)
+    {
+        if (!CanHack.Value) return;
+        if (IsHacking.Value) return;
 
+        _hackerUnit = hacker;
+        _originalHero ??= hacker;
+
+        _input.IsBlocked.Value = true;
+        var dummy = _container.Resolve<DummyInputControls>();
+    
+        HackableComponent target = null;
+
+        if (CanHack.Value)
+        {
+            _crosshairService.SetVisible(false);
+            _hackerUnit.DisableControl(dummy);
+            target = await _hackableSelector.SelectTarget(new CancellationTokenSource().Token);
+        }
+
+        if (target != null)
+        {
+            StartHacking(target, hacker);
+            
+        }
+        else
+        {
+            _input.IsBlocked.Value = false;
+            _hackerUnit.UpdateControls(_input);
+            _cameraService.SetTarget(_originalHero);
+        }
+    }
+    private HackableComponent FindClosestTargetInWorld(Vector3 position)
+    {
+        float radius = 10f;
+        var allTargets = UnityEngine.Object.FindObjectsByType<HackableComponent>(FindObjectsSortMode.None);
+        return allTargets
+            .Where(t => t.gameObject != _hackerUnit.gameObject)
+            .Select(t => new { Component = t, Distance = Vector3.Distance(position, t.transform.position) })
+            .Where(t => t.Distance <= radius)
+            .OrderBy(t => t.Distance)
+            .Select(t => t.Component)
+            .FirstOrDefault();
+    }
     public void StartHacking(HackableComponent target, GameUnit hacker)
     {
-        if (_originalHero == null) 
-        {
-            _originalHero = hacker;
-        }
-        _hackerUnit = hacker;
         _currentTarget = target;
         _currentSequence = GenerateSequence(target.Difficulty);
         _waitForRelease = false;
-        
+    
         CurrentProgressIndex.Value = 0;
         IsHacking.Value = true;
+    
         _input.IsBlocked.Value = true;
-        hacker.DisableControl(_container.Resolve<DummyInputControls>());
+        _cameraService.SetTarget(target.GetComponent<GameUnit>());
+    
         OnHackingStarted.OnNext(_currentSequence);
     }
 
     public void StopHacking()
     {
+        if (!_isPossessing && _originalHero != null)
+        {
+            _cameraService.SetTarget(_originalHero);
+        }
+
         _input.IsBlocked.Value = false;
         IsHacking.Value = false;
+        
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        
         OnHackingFinished.OnNext(false);
     }
 
@@ -166,34 +229,33 @@ public class HackingService : IDisposable
     {
         Debug.Log($"Взлом {_currentTarget.name} успешен!");
         GameUnit victimUnit = _currentTarget.GetComponent<GameUnit>();
-        
-        if (victimUnit != null)
-        {
-            _cameraService.SetTarget(victimUnit);
-        }
-        
+    
         if (victimUnit != null && _hackerUnit != null)
         {
+            _input.IsBlocked.Value = false;
+        
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.None;
+
             var dummy = _container.Resolve<DummyInputControls>();
             _isPossessing = true;
             _currentPossessedUnit = victimUnit;
-            
+        
             _hackerUnit.DisableControl(dummy);
             victimUnit.UpdateControls(_input);
+            victimUnit.IsUnderControl = true;
 
-            var newHackerLogic = victimUnit.gameObject.GetComponent<PlayerHacker>();
-            if (newHackerLogic == null)
-            {
-                newHackerLogic = victimUnit.gameObject.AddComponent<PlayerHacker>();
-                _container.Inject(newHackerLogic);
-            }
+            _cameraService.SetTarget(victimUnit);
+
+            var newHackerLogic = victimUnit.gameObject.GetComponent<PlayerHacker>() 
+                                 ?? victimUnit.gameObject.AddComponent<PlayerHacker>();
+            _container.Inject(newHackerLogic);
         }
 
         OnHackingFinished.OnNext(true);
-        
-        Observable.Timer(TimeSpan.FromSeconds(0.5f))
-            .Subscribe(_ => StopHacking());
-        _input.IsBlocked.Value = false;
+        _crosshairService.SetVisible(true);
+        IsHacking.Value = false;
+        _currentTarget = null;
     }
 
     private List<Vector2> GenerateSequence(int length)

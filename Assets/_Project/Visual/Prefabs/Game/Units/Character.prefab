@@ -86,6 +86,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7716537891382239971, guid: fe0d8696859b47940851431c5478d46c,
         type: 3}
+      propertyPath: _moveSpeed
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7716537891382239971, guid: fe0d8696859b47940851431c5478d46c,
+        type: 3}
       propertyPath: _mover.underlyingValue
       value: 
       objectReference: {fileID: 8561999071951192837}
@@ -133,6 +138,10 @@ PrefabInstance:
         type: 3}
       insertIndex: 4
       addedObject: {fileID: 8639626550087304000}
+    - targetCorrespondingSourceObject: {fileID: 1787969264439270792, guid: fe0d8696859b47940851431c5478d46c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 136575636990854284}
   m_SourcePrefab: {fileID: 100100000, guid: fe0d8696859b47940851431c5478d46c, type: 3}
 --- !u!4 &1330353761875379331 stripped
 Transform:
@@ -191,6 +200,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 163ee21545b54dab847f3605c713d12d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &136575636990854284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470226109407749570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b276c28c87854e54592318bd43c376ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineColor: {r: 1, g: 0.94832873, b: 0, a: 1}
+  outlineWidth: 3
 --- !u!1001 &7530047032852766723
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1704,6 +1727,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.025083175
       objectReference: {fileID: 0}
+    - target: {fileID: 5822821947120931875, guid: e9b209af53f86ce4da5c76d5ba9ba983,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5bae67cdda1cbf44c8fc8bcdd394e582, type: 2}
     - target: {fileID: 5866666021909216657, guid: e9b209af53f86ce4da5c76d5ba9ba983,
         type: 3}
       propertyPath: m_Controller

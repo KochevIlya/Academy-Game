@@ -10,6 +10,7 @@ using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using _Project.Scripts.Scenes.Game.Unit.Mover;
 using _Project.Scripts.Scenes.Game.Unit.Rotator;
 using _Project.Scripts.Scenes.Game.Unit.Components.Health;
+using System.Linq;
 
 namespace _Project.Scripts.Scenes.Game.Unit
 {
@@ -22,6 +23,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     [field: SerializeField] public Transform WeaponPoint { get; private set; }
     public WeaponBase Weapon { get; private set; }
     public bool HasWeapon { get; private set; }
+    public bool IsUnderControl = false;
 
     [SerializeField] private InterfaceReference<IUnitMover> _mover;
     [SerializeField] private InterfaceReference<IUnitRotator> _rotator;
@@ -32,6 +34,11 @@ namespace _Project.Scripts.Scenes.Game.Unit
     
 
     public IInputControls InputControls { get; private set; }
+
+    private void Start()
+    {
+      Health.Die.Subscribe(_ => Destroy(gameObject)).AddTo(this);
+    }
 
     private void OnDestroy()
     {
@@ -98,7 +105,35 @@ namespace _Project.Scripts.Scenes.Game.Unit
     public void DisableControl(IInputControls dummyInput)
     {
       UpdateControls(dummyInput);
+      IsUnderControl = false;
       Debug.Log($"[{name}] Управление переведено на Dummy.");
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+      if (InputControls is DummyInputControls)
+      {
+        if (other.CompareTag("Bullet"))
+        {
+          var bullet = other.GetComponent<Bullet>();
+          if (bullet != null)
+          {
+            var target = FindObjectsOfType<GameUnit>()
+              .FirstOrDefault(unit => unit.IsUnderControl);
+
+            if (target != null)
+            {
+              Observable.EveryUpdate()
+                .TakeUntil(target.Health.Die)
+                .Subscribe(_ =>
+                {
+                  _attacker.Value.Shoot(this, target.transform.position);
+                })
+                .AddTo(_lifetimeDisposable);
+            }
+          }
+        }
+      }
     }
   }
 }

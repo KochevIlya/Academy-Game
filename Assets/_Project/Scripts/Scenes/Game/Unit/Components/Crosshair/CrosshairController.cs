@@ -38,7 +38,10 @@ public class CrosshairController : MonoBehaviour
             _crosshairView.rotation = Quaternion.Euler(90f, 0f, 0f);
         }
     }
-
+    public void SetVisible(bool isVisible)
+    {
+        gameObject.SetActive(isVisible);
+    }
     private void OnDestroy()
     {
         _disposable.Clear();
