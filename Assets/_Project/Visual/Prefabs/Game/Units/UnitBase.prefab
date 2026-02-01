@@ -54,6 +54,7 @@ MonoBehaviour:
   Health: {fileID: 2791659882551571227}
   <HealthView>k__BackingField: {fileID: 0}
   <WeaponPoint>k__BackingField: {fileID: 0}
+  IsUnderControl: 0
   _mover:
     underlyingValue: {fileID: 0}
   _rotator:
@@ -155,7 +156,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.69
   m_Height: 3.31
   m_Direction: 1
   m_Center: {x: 0, y: 0.7337171, z: 0}
