@@ -9,6 +9,7 @@ using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using _Project.Scripts.Scenes.Game.Unit.Mover;
 using _Project.Scripts.Scenes.Game.Unit.Rotator;
+using _Project.Scripts.Scenes.Game.Unit._Data;
 using _Project.Scripts.Scenes.Game.Unit.Components.Health;
 using System.Linq;
 
@@ -29,6 +30,8 @@ namespace _Project.Scripts.Scenes.Game.Unit
     [SerializeField] private InterfaceReference<IUnitRotator> _rotator;
     [SerializeField] private InterfaceReference<IUnitAttacker> _attacker;
     //[SerializeField] private float _moveSpeed = 1.5f;
+    
+    private UnitStatsData _stats;
 
     private readonly CompositeDisposable _lifetimeDisposable = new CompositeDisposable();
     
@@ -67,6 +70,12 @@ namespace _Project.Scripts.Scenes.Game.Unit
       Weapon = weapon;
     }
 
+    public void UpdateStats(UnitStatsData unitStats)
+    {
+      _stats = unitStats;
+      Health.UpdateMaxHealth(_stats.maxHealth);
+    }
+
     private void SubscribeRotate()
     {
       Observable.EveryUpdate()
@@ -78,7 +87,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     private void SubscribeMovement()
     {
       InputControls.OnMovement
-        .Subscribe(delta => _mover.Value.Move(this, delta /* * _moveSpeed*/, Time.deltaTime))
+        .Subscribe(delta => _mover.Value.Move(this, delta * _stats.speed, Time.deltaTime))
         .AddTo(_lifetimeDisposable);
     }
 

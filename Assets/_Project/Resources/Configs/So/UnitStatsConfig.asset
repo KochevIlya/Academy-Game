@@ -12,4 +12,144 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03758eed399316e4bb5ef2b58513fd6f, type: 3}
   m_Name: UnitStatsConfig
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Units
+      Entry: 7
+      Data: "0|System.Collections.Generic.Dictionary`2[[_Project.Scripts.Scenes.Game.Unit._Data.Unit\u0421haracteristicsType,
+        Assembly-CSharp],[_Project.Scripts.Scenes.Game.Unit._Data.UnitStatsData,
+        Assembly-CSharp]], mscorlib"
+    - Name: comparer
+      Entry: 7
+      Data: "1|System.Collections.Generic.EnumEqualityComparer`1[[_Project.Scripts.Scenes.Game.Unit._Data.Unit\u0421haracteristicsType,
+        Assembly-CSharp]], mscorlib"
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 5
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 7
+      Data: 2|_Project.Scripts.Scenes.Game.Unit._Data.UnitStatsData, Assembly-CSharp
+    - Name: maxHealth
+      Entry: 3
+      Data: 1234
+    - Name: speed
+      Entry: 4
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 7
+      Data: 3|_Project.Scripts.Scenes.Game.Unit._Data.UnitStatsData, Assembly-CSharp
+    - Name: maxHealth
+      Entry: 3
+      Data: 100
+    - Name: speed
+      Entry: 4
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 7
+      Data: 4|_Project.Scripts.Scenes.Game.Unit._Data.UnitStatsData, Assembly-CSharp
+    - Name: maxHealth
+      Entry: 3
+      Data: 60
+    - Name: speed
+      Entry: 4
+      Data: 6
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 7
+      Data: 5|_Project.Scripts.Scenes.Game.Unit._Data.UnitStatsData, Assembly-CSharp
+    - Name: maxHealth
+      Entry: 3
+      Data: 250
+    - Name: speed
+      Entry: 4
+      Data: 1.8
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 7
+      Data: 6|_Project.Scripts.Scenes.Game.Unit._Data.UnitStatsData, Assembly-CSharp
+    - Name: maxHealth
+      Entry: 3
+      Data: 6000
+    - Name: speed
+      Entry: 4
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 

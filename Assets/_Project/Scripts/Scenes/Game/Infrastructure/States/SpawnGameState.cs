@@ -26,7 +26,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
         if(spawner.UnitType == UnitType.Character) 
           await _gameFactory.SpawnCharacter(spawner.Position, WeaponType.Riffle);
         else if (spawner.UnitType == UnitType.Bot)
-          await _gameFactory.SpawnBot(spawner.Position, WeaponType.Riffle);
+          await _gameFactory.SpawnBot(spawner.Position, WeaponType.Riffle, spawner.UnitСharacteristicsType);
       }
       foreach (TerminalSpawner  spawner in Object.FindObjectsOfType<TerminalSpawner>())
         await _gameFactory.SpawnTerminal(spawner.Position, spawner.WarZoneTransform);

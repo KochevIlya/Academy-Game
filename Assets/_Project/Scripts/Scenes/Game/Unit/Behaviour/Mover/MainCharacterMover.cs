@@ -1,15 +1,16 @@
 ﻿using _Project.Scripts.Infrastructure.Gui.Camera;
 using _Project.Scripts.Utils;
 using _Project.Scripts.Utils.Extensions;
-using _Project.Scripts.Scenes.Game.Unit._Configs;
+using _Project.Scripts.Scenes.Game.Unit._Data;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace _Project.Scripts.Scenes.Game.Unit.Mover
 {
   public class MainCharacterMover : MonoBehaviour, IUnitMover
   {
-    [SerializeField] private UnitStatsConfig _unitStatsConfig;
+    //[SerializeField] private UnitStatsData _unitStatsData;
     
     private ICameraService _cameraService;
     private CharacterController _controller;
@@ -45,9 +46,9 @@ namespace _Project.Scripts.Scenes.Game.Unit.Mover
     private Vector3 CalculateMovement(Vector2 movementDelta)
     {
       var cameraForward = _cameraService.Camera.transform.forward.SetY(0f).normalized; 
-      var cameraRight = _cameraService.Camera.transform.right.SetY(0f).normalized; 
-      
-      return (cameraForward * movementDelta.y + cameraRight * movementDelta.x) * _unitStatsConfig.speed;
+      var cameraRight = _cameraService.Camera.transform.right.SetY(0f).normalized;
+
+      return (cameraForward * movementDelta.y + cameraRight * movementDelta.x); //* _unitStatsData.speed;
     }
     
     private void ApplyGravity(float deltaTime) 

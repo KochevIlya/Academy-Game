@@ -5,6 +5,7 @@ using _Project.Scripts.Infrastructure.Gui.Camera;
 using _Project.Scripts.Infrastructure.StaticData;
 using _Project.Scripts.Scenes.Game.Shoot;
 using _Project.Scripts.Scenes.Game.Shoot.Data;
+using _Project.Scripts.Scenes.Game.Unit._Data;
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
@@ -56,14 +57,15 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       _diContainer.Inject(hacker);
       
       character.UpdateControls(_userInputControls);
-      
+      character.UpdateStats(_staticData.UnitStatsConfig.Units[UnitСharacteristicsType.MainCharacter]);
       
       return character;
     }
 
-    public async UniTask<GameUnit> SpawnBot(Vector3 position, WeaponType weapon)
+    public async UniTask<GameUnit> SpawnBot(Vector3 position, WeaponType weapon, UnitСharacteristicsType unitСharacteristicsType)
     {
       var prefab = await _assetProvider.LoadFromAddressable<GameObject>(_staticData.UnitsConfig.Bot);
+      var unitData = _staticData.UnitStatsConfig.Units[unitСharacteristicsType];
       
       GameUnit bot = _diContainer
         .InstantiatePrefabForComponent<GameUnit>(prefab, 
@@ -73,6 +75,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       bot.AddComponent<HackableComponent>();
       bot.UpdateWeapon(await SpawnWeapon(weapon, bot));
       bot.UpdateControls(_dummyInputControls);
+      bot.UpdateStats(unitData);
       return bot;
     }
     
