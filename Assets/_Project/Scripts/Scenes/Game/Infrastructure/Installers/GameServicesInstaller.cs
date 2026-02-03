@@ -14,6 +14,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
     [SerializeField] private CameraService _cameraService;
     [SerializeField] private GameObject _hackingPrefab;
     [SerializeField] private Transform _uiRoot;
+    [SerializeField] private GameMenuWindow _menuPrefab;
     public override void InstallBindings()
     {
       
@@ -21,9 +22,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
       Container.Bind<ICameraService>().To<CameraService>().FromInstance(_cameraService).AsSingle();
       Container.Bind<IInputHelper>().To<InputHelper>().AsSingle();
       Container.Bind<IGameFactory>().To<GameFactory>().AsSingle();
-
-      Container.BindInterfacesAndSelfTo<DummyInputControls>().AsSingle();
-      Container.BindInterfacesAndSelfTo<UserInputControls>().AsSingle();
+      
       Container.Bind<HackableSelector>().AsSingle();
       Container.BindInterfacesAndSelfTo<HackingService>().AsSingle();
       Container.Bind<HackingView>()
@@ -31,7 +30,21 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
         .UnderTransform(_uiRoot)                      
         .AsSingle()                                   
         .NonLazy();
+      
       Container.Bind<ICursorService>().To<CursorService>().AsSingle();
+
+      Container.BindInterfacesAndSelfTo<DummyInputControls>().AsSingle();
+      Container.BindInterfacesAndSelfTo<UserInputControls>().AsSingle();
+      
+      Container.BindInterfacesAndSelfTo<GameMenuController>().AsSingle().NonLazy();
+      Container.Bind<GameMenuWindow>()
+        .FromComponentInNewPrefab(_menuPrefab)
+        .UnderTransform(_uiRoot)
+        .AsSingle()
+        .NonLazy();
+      
+      Container.Bind<SceneLoaderService>().AsSingle();
+      
     }
   }
 }
