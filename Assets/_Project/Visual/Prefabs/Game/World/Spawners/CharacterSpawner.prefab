@@ -13,6 +13,11 @@ PrefabInstance:
       propertyPath: UnitType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4920176374128168193, guid: b1527f7d425286142a410d9eb76efe97,
+        type: 3}
+      propertyPath: "Unit\u0421haracteristicsType"
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5758716306527398342, guid: b1527f7d425286142a410d9eb76efe97,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -41,7 +41,7 @@ namespace _Project.Scripts.Scenes.Game.Shoot
 
     private void OnTriggerEnter(Collider other)
     {
-      if (other.gameObject.tag == "Player" && other.gameObject != _owner.gameObject)
+      if (other.gameObject.tag == "Bot" && other.gameObject != _owner.gameObject)
       {
         other.gameObject.GetComponent<Health>().TakeDamage(_damage);
         ResetAndRemove();

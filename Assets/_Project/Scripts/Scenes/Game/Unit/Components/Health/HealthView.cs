@@ -24,10 +24,14 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
             _mainCamera = Camera.main;
             _rectTransform = GetComponent<RectTransform>();
 
-            UpdateHealthBar(unit.Health.CurrentHealth.Value);
+            UpdateHealthBar();
 
             unit.Health.CurrentHealth
-                .Subscribe(currentHealth => UpdateHealthBar(currentHealth))
+                .Subscribe(currentHealth => UpdateHealthBar())
+                .AddTo(this);
+            
+            unit.Health.MaxHealth
+                .Subscribe(currentHealth => UpdateHealthBar())
                 .AddTo(this);
             
             unit.Health.Die
@@ -35,15 +39,17 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
                 .AddTo(this);
         }
 
-        private void UpdateHealthBar(int currentHealth)
+        private void UpdateHealthBar()
         {
-            if (_targetUnit.Health.MaxHealth <= 0) return;
+            int currentHealth = _targetUnit.Health.CurrentHealth.Value;
+            int maxHealth = _targetUnit.Health.MaxHealth.Value;
+            if (_targetUnit.Health.MaxHealth.Value <= 0) return;
             
-            float fillAmount = (float)currentHealth / _targetUnit.Health.MaxHealth;
+            float fillAmount = (float)currentHealth / maxHealth;
             _fillImage.fillAmount = fillAmount;
             
             if (_healthText != null)
-                _healthText.text = $"{currentHealth} / {_targetUnit.Health.MaxHealth}";
+                _healthText.text = $"{currentHealth} / {maxHealth}";
             
         }
 

@@ -9,7 +9,9 @@ using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using _Project.Scripts.Scenes.Game.Unit.Mover;
 using _Project.Scripts.Scenes.Game.Unit.Rotator;
+using _Project.Scripts.Scenes.Game.Unit._Data;
 using _Project.Scripts.Scenes.Game.Unit.Components.Health;
+using System.Linq;
 
 namespace _Project.Scripts.Scenes.Game.Unit
 {
@@ -22,11 +24,14 @@ namespace _Project.Scripts.Scenes.Game.Unit
     [field: SerializeField] public Transform WeaponPoint { get; private set; }
     public WeaponBase Weapon { get; private set; }
     public bool HasWeapon { get; private set; }
+    public bool IsUnderControl = false;
 
     [SerializeField] private InterfaceReference<IUnitMover> _mover;
     [SerializeField] private InterfaceReference<IUnitRotator> _rotator;
     [SerializeField] private InterfaceReference<IUnitAttacker> _attacker;
-    [SerializeField] private float _moveSpeed = 1.5f;
+    //[SerializeField] private float _moveSpeed = 1.5f;
+    
+    private UnitStatsData _stats;
 
     private readonly CompositeDisposable _lifetimeDisposable = new CompositeDisposable();
     
@@ -65,6 +70,12 @@ namespace _Project.Scripts.Scenes.Game.Unit
       Weapon = weapon;
     }
 
+    public void UpdateStats(UnitStatsData unitStats)
+    {
+      _stats = unitStats;
+      Health.UpdateMaxHealth(_stats.maxHealth);
+    }
+
     private void SubscribeRotate()
     {
       Observable.EveryUpdate()
@@ -76,7 +87,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     private void SubscribeMovement()
     {
       InputControls.OnMovement
-        .Subscribe(delta => _mover.Value.Move(this, delta * _moveSpeed, Time.deltaTime))
+        .Subscribe(delta => _mover.Value.Move(this, delta * _stats.speed, Time.deltaTime))
         .AddTo(_lifetimeDisposable);
     }
 
@@ -103,7 +114,35 @@ namespace _Project.Scripts.Scenes.Game.Unit
     public void DisableControl(IInputControls dummyInput)
     {
       UpdateControls(dummyInput);
+      IsUnderControl = false;
       Debug.Log($"[{name}] Управление переведено на Dummy.");
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+      if (InputControls is DummyInputControls)
+      {
+        if (other.CompareTag("Bullet"))
+        {
+          var bullet = other.GetComponent<Bullet>();
+          if (bullet != null)
+          {
+            var target = FindObjectsOfType<GameUnit>()
+              .FirstOrDefault(unit => unit.IsUnderControl);
+
+            if (target != null)
+            {
+              Observable.EveryUpdate()
+                .TakeUntil(target.Health.Die)
+                .Subscribe(_ =>
+                {
+                  _attacker.Value.Shoot(this, target.transform.position);
+                })
+                .AddTo(_lifetimeDisposable);
+            }
+          }
+        }
+      }
     }
   }
 }

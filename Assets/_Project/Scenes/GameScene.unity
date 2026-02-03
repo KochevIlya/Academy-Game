@@ -878,6 +878,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1651244831757522744, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: "Unit\u0421haracteristicsType"
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2086507628588939920, guid: 7e505665de86cd444ac8d1f555cd4f48,
         type: 3}
       propertyPath: Lens.NearClipPlane
@@ -888,10 +893,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: World
       objectReference: {fileID: 0}
+    - target: {fileID: 3545859123622421957, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: "Unit\u0421haracteristicsType"
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4515359617126045291, guid: 7e505665de86cd444ac8d1f555cd4f48,
         type: 3}
       propertyPath: near clip plane
       value: -15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5038740384030797929, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: "Unit\u0421haracteristicsType"
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5398439763311317129, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: "Unit\u0421haracteristicsType"
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6966104260368733964, guid: 7e505665de86cd444ac8d1f555cd4f48,
         type: 3}

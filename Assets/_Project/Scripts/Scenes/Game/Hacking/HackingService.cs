@@ -237,6 +237,7 @@ public class HackingService : IDisposable
         
             _hackerUnit.DisableControl(dummy);
             victimUnit.UpdateControls(_input);
+            victimUnit.IsUnderControl = true;
 
             _cameraService.SetTarget(victimUnit);
 

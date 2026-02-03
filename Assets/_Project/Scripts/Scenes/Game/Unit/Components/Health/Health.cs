@@ -1,25 +1,34 @@
 ﻿using System;
 using UniRx;
 using UnityEngine;
+using _Project.Scripts.Scenes.Game.Unit._Data;
+using UnityEngine.Serialization;
 
 namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
 {
   public class Health : MonoBehaviour
   {
+    //[SerializeField] private UnitStatsData _unitStatsData;
+    
     public IReadOnlyReactiveProperty<int> CurrentHealth => _currentHealth;
+    public IReadOnlyReactiveProperty<int> MaxHealth => _maxHealth;
     public IObservable<UniRx.Unit> Die => _die;
     
-    public int MaxHealth = 100;
 
     public bool IsAlive => CurrentHealth.Value > 0;
 
+
     private ReactiveProperty<int> _currentHealth;
+    private ReactiveProperty<int> _maxHealth;
     private void Awake()
     {
-      _currentHealth = new ReactiveProperty<int>(MaxHealth);
+      _maxHealth = new ReactiveProperty<int>(1);
+      _currentHealth = new ReactiveProperty<int>(1);
     }
-    private Subject<UniRx.Unit> _die = new();
     
+    private Subject<UniRx.Unit> _die = new();
+
+
     public void TakeDamage(int amount)
     {
       _currentHealth.Value = Mathf.Max(_currentHealth.Value - amount, 0);
@@ -29,6 +38,12 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
         _die.OnNext(UniRx.Unit.Default);
         _die.OnCompleted();
       }
+    }
+    
+    public void UpdateMaxHealth(int value, bool currentToMax = true)
+    {
+      _maxHealth.Value = value;
+      if (currentToMax) _currentHealth.Value = _maxHealth.Value;
     }
   }
 }
