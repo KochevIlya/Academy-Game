@@ -18,6 +18,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 1853493417475190769, guid: fe0d8696859b47940851431c5478d46c,
+        type: 3}
+      propertyPath: m_Radius
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2791659882551571227, guid: fe0d8696859b47940851431c5478d46c,
         type: 3}
       propertyPath: _unitStatsConfig
@@ -173,7 +178,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f06789c2fe49465d80e99880f9dfdb6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _unitStatsConfig: {fileID: 11400000, guid: 03b8bd25613314449b2e21878467a466, type: 2}
 --- !u!114 &4657058152061496354
 MonoBehaviour:
   m_ObjectHideFlags: 0

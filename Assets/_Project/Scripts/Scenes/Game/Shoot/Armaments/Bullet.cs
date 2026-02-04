@@ -41,9 +41,14 @@ namespace _Project.Scripts.Scenes.Game.Shoot
 
     private void OnTriggerEnter(Collider other)
     {
-      if (other.gameObject.tag == "Bot" && other.gameObject != _owner.gameObject)
+      if (!other.CompareTag("Bot")) return;
+      if (_owner != null && other.gameObject == _owner.gameObject)
       {
-        other.gameObject.GetComponent<Health>().TakeDamage(_damage);
+        return; 
+      }
+      if (other.TryGetComponent<Health>(out var health))
+      {
+        health.TakeDamage(_damage);
         ResetAndRemove();
       }
     }
