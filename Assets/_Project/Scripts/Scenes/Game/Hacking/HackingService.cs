@@ -125,26 +125,27 @@ public class HackingService : IDisposable
     }
     private void ReturnToOriginalBody()
     {
-        if (_originalHero == null || _currentPossessedUnit == null) 
+        if (_originalHero == null) 
         {
-            Debug.LogError("Ошибка возврата: не найден герой или текущее тело!");
+            Debug.LogError("Ошибка возврата: оригинальное тело хакера потеряно!");
             return;
         }
-        if (_originalHero != null)
-        {
-            _cameraService.SetTarget(_originalHero);
-        }
-        Debug.Log("Возврат в оригинальное тело...");
-        var dummy = _container.Resolve<DummyInputControls>();
 
-        _currentPossessedUnit.DisableControl(dummy);
+        _cameraService.SetTarget(_originalHero);
+    
+        if (_currentPossessedUnit != null)
+        {
+            var dummy = _container.Resolve<DummyInputControls>();
+            _currentPossessedUnit.DisableControl(dummy);
+        }
 
         _originalHero.UpdateControls(_input);
 
         _isPossessing = false;
         _currentPossessedUnit = null;
         _hackerUnit = _originalHero;
-        Debug.Log("Сознание вернулось в оригинальное тело.");
+    
+        Debug.Log("Сознание вернулось в хакера после смерти носителя.");
     }
     private void CheckInput(Vector2 input)
     {
@@ -238,18 +239,6 @@ public class HackingService : IDisposable
             _isPossessing = true;
             _currentPossessedUnit = victimUnit;
 
-            victimUnit.Health.Die
-                .Take(1)
-                .Delay(TimeSpan.FromSeconds(0.5f))
-                .Subscribe(_ => 
-                {
-                    if (_isPossessing && _currentPossessedUnit == victimUnit)
-                    {
-                        ReturnToOriginalBody();
-                    }
-                })
-                .AddTo(victimUnit);
-            
         }
 
         OnHackingFinished.OnNext(true);
