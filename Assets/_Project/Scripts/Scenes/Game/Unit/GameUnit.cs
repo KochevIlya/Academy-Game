@@ -117,32 +117,33 @@ namespace _Project.Scripts.Scenes.Game.Unit
       IsUnderControl = false;
       Debug.Log($"[{name}] Управление переведено на Dummy.");
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-      if (InputControls is DummyInputControls)
-      {
-        if (other.CompareTag("Bullet"))
-        {
-          var bullet = other.GetComponent<Bullet>();
-          if (bullet != null)
-          {
-            var target = FindObjectsOfType<GameUnit>()
-              .FirstOrDefault(unit => unit.IsUnderControl);
-
-            if (target != null)
-            {
-              Observable.EveryUpdate()
-                .TakeUntil(target.Health.Die)
-                .Subscribe(_ =>
-                {
-                  _attacker.Value.Shoot(this, target.transform.position);
-                })
-                .AddTo(_lifetimeDisposable);
-            }
-          }
-        }
-      }
-    }
+    
+    
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //   if (InputControls is DummyInputControls)
+    //   {
+    //     if (other.CompareTag("Bullet"))
+    //     {
+    //       var bullet = other.GetComponent<Bullet>();
+    //       if (bullet != null)
+    //       {
+    //         var target = FindObjectsOfType<GameUnit>()
+    //           .FirstOrDefault(unit => unit.IsUnderControl);
+    //
+    //         if (target != null)
+    //         {
+    //           Observable.EveryUpdate()
+    //             .TakeUntil(target.Health.Die)
+    //             .Subscribe(_ =>
+    //             {
+    //               _attacker.Value.Shoot(this, target.transform.position);
+    //             })
+    //             .AddTo(_lifetimeDisposable);
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
   }
 }
