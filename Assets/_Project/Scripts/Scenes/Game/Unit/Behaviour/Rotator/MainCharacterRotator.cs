@@ -2,6 +2,7 @@ using _Project.Scripts.Infrastructure.Gui.Camera;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
 using _Project.Scripts.Utils;
 using _Project.Scripts.Utils.Extensions;
+using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using UnityEngine;
 using Zenject;
 
@@ -20,10 +21,19 @@ namespace _Project.Scripts.Scenes.Game.Unit.Rotator
             _inputHelper = inputHelper;
         }
 
-        public void Rotate(GameUnit gameUnit, Vector2 mouseScreenPos, float deltaTime)
+        public void Rotate(GameUnit gameUnit, Vector2 lookInput, float deltaTime)
         {
-            if (!TryGetWorldPosition(gameUnit, mouseScreenPos, out var worldPosition))
-                return;
+            Vector3 worldPosition;
+
+            if (gameUnit.InputControls is UserInputControls)
+            {
+                if (!_inputHelper.ScreenToGroundPosition(lookInput, gameUnit.transform.position.y, out worldPosition))
+                    return;
+            }
+            else
+            {
+                worldPosition = new Vector3(lookInput.x, gameUnit.transform.position.y, lookInput.y);
+            }
 
             var targetDirection = (worldPosition - gameUnit.transform.position).SetY(0f);
 

@@ -5,6 +5,7 @@ using _Project.Scripts.Utils.Extensions;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
+using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 
 namespace _Project.Scripts.Scenes.Game.Shoot
 {
@@ -31,10 +32,25 @@ namespace _Project.Scripts.Scenes.Game.Shoot
     
     public override void Shoot(Vector2 shootMousePosition, GameUnit unit)
     {
-      if (_currentTime >= WeaponData.CoolDown)
+      if (_currentTime < WeaponData.CoolDown) return;
+
+      Vector3 targetWorldPosition;
+
+      if (unit.InputControls is UserInputControls)
       {
-        _inputHelper.ScreenToGroundPosition(shootMousePosition, Unit.transform.position.y, out var worldPosition); 
-        var direction = (worldPosition - Unit.transform.position).SetY(0f).normalized;
+        _inputHelper.ScreenToGroundPosition(shootMousePosition, unit.transform.position.y, out targetWorldPosition);
+      }
+      else
+      {
+        targetWorldPosition = new Vector3(shootMousePosition.x, unit.transform.position.y, shootMousePosition.y);
+      }
+      Vector3 spawnPos = SpawnPoint.position;
+      Vector3 direction = (targetWorldPosition - spawnPos);
+      direction.y = 0;
+      direction = direction.normalized;
+
+      if (direction.sqrMagnitude > 0.001f)
+      {
         SpawnAndSetup(direction, WeaponData.Speed, WeaponData.BulletLifeTime, WeaponData.Damage, unit).Forget();
         _currentTime = 0f;
       }

@@ -9,7 +9,11 @@ namespace _Project.Scripts.Scenes.Game.Unit.Controls.Variants
     public IObservable<Vector2> OnMovement { get; } = new Subject<Vector2>();
     public IObservable<UniRx.Unit> OnShoot { get; } = new Subject<UniRx.Unit>();
     public IObservable<UniRx.Unit> OnAbilityUse { get; } = new Subject<UniRx.Unit>();
-    public Vector2 MousePosition { get; } = new Vector2();
+    public Vector2 MousePosition { get; private set; } = new Vector2();
     public IObservable<Vector2> OnRawMovement { get; } = new Subject<Vector2>();
+    public void SetMousePosition(Vector2 position)
+    {
+      MousePosition = position;
+    }
   }
 }

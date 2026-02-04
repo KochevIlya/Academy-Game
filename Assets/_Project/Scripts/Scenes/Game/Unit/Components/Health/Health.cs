@@ -8,6 +8,8 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
   {
     public IReadOnlyReactiveProperty<int> CurrentHealth => _currentHealth;
     public IObservable<UniRx.Unit> Die => _die;
+    private Subject<int> _onTakeDamage = new();
+    public IObservable<int> OnTakeDamage => _onTakeDamage;
     
     public int MaxHealth = 100;
 
@@ -23,11 +25,13 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
     public void TakeDamage(int amount)
     {
       _currentHealth.Value = Mathf.Max(_currentHealth.Value - amount, 0);
+      _onTakeDamage.OnNext(amount);
 
       if (_currentHealth.Value <= 0)
       {
         _die.OnNext(UniRx.Unit.Default);
         _die.OnCompleted();
+        _onTakeDamage.OnCompleted();
       }
     }
   }

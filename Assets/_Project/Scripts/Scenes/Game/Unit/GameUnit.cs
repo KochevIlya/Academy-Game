@@ -10,6 +10,7 @@ using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using _Project.Scripts.Scenes.Game.Unit.Mover;
 using _Project.Scripts.Scenes.Game.Unit.Rotator;
 using _Project.Scripts.Scenes.Game.Unit.Components.Health;
+using System;
 using System.Linq;
 
 namespace _Project.Scripts.Scenes.Game.Unit
@@ -31,13 +32,16 @@ namespace _Project.Scripts.Scenes.Game.Unit
     [SerializeField] private float _moveSpeed = 1.5f;
 
     private readonly CompositeDisposable _lifetimeDisposable = new CompositeDisposable();
-    
+    private IDisposable _botBehavior;
 
     public IInputControls InputControls { get; private set; }
 
     private void Start()
     {
       Health.Die.Subscribe(_ => Destroy(gameObject)).AddTo(this);
+      Health.OnTakeDamage
+        .Subscribe(_ => OnDamaged())
+        .AddTo(this);
     }
 
     private void OnDestroy()
@@ -109,29 +113,25 @@ namespace _Project.Scripts.Scenes.Game.Unit
       Debug.Log($"[{name}] Управление переведено на Dummy.");
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnDamaged()
     {
-      if (InputControls is DummyInputControls)
+      if (InputControls is DummyInputControls dummy && _botBehavior == null)
       {
-        if (other.CompareTag("Bullet"))
-        {
-          var bullet = other.GetComponent<Bullet>();
-          if (bullet != null)
-          {
-            var target = FindObjectsOfType<GameUnit>()
-              .FirstOrDefault(unit => unit.IsUnderControl);
+        var target = FindObjectsOfType<GameUnit>()
+          .FirstOrDefault(unit => unit.IsUnderControl && unit != this);
 
-            if (target != null)
+        if (target != null)
+        {
+          _botBehavior = Observable.EveryUpdate()
+            .TakeUntil(target.Health.Die)
+            .TakeUntil(Health.Die)
+            .Subscribe(_ =>
             {
-              Observable.EveryUpdate()
-                .TakeUntil(target.Health.Die)
-                .Subscribe(_ =>
-                {
-                  _attacker.Value.Shoot(this, target.transform.position);
-                })
-                .AddTo(_lifetimeDisposable);
-            }
-          }
+              Vector2 targetPos2D = new Vector2(target.transform.position.x, target.transform.position.z);
+              dummy.SetMousePosition(targetPos2D); 
+              _attacker.Value.Shoot(this, targetPos2D);
+            })
+            .AddTo(_lifetimeDisposable);
         }
       }
     }
