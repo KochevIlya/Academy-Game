@@ -111,22 +111,6 @@ public class HackingService : IDisposable
         OnHackingStarted.OnNext(_currentSequence);
     }
 
-    public void StopHacking()
-    {
-        if (!_isPossessing && _originalHero != null)
-        {
-            _cameraService.SetTarget(_originalHero);
-        }
-
-        _input.IsBlocked.Value = false;
-        IsHacking.Value = false;
-        
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        
-        OnHackingFinished.OnNext(false);
-    }
-
     private void SubscribeToInput()
     {
         _input.OnRawMovement
@@ -250,6 +234,22 @@ public class HackingService : IDisposable
             var newHackerLogic = victimUnit.gameObject.GetComponent<PlayerHacker>() 
                                  ?? victimUnit.gameObject.AddComponent<PlayerHacker>();
             _container.Inject(newHackerLogic);
+            
+            _isPossessing = true;
+            _currentPossessedUnit = victimUnit;
+
+            victimUnit.Health.Die
+                .Take(1)
+                .Delay(TimeSpan.FromSeconds(0.5f))
+                .Subscribe(_ => 
+                {
+                    if (_isPossessing && _currentPossessedUnit == victimUnit)
+                    {
+                        ReturnToOriginalBody();
+                    }
+                })
+                .AddTo(victimUnit);
+            
         }
 
         OnHackingFinished.OnNext(true);

@@ -22,8 +22,16 @@ namespace _Project.Scripts.Scenes.Game.Unit.Rotator
 
         public void Rotate(GameUnit gameUnit, Vector2 mouseScreenPos, float deltaTime)
         {
-            if (!TryGetWorldPosition(gameUnit, mouseScreenPos, out var worldPosition))
-                return;
+            Vector3 worldPosition;
+            if (gameUnit.InputControls is AggroInputControls aggro)
+            {
+                worldPosition = aggro.TargetPosition; 
+            }
+            else
+            {
+                if (!TryGetWorldPosition(gameUnit, mouseScreenPos, out worldPosition))
+                    return;
+            }
 
             var targetDirection = (worldPosition - gameUnit.transform.position).SetY(0f);
 
