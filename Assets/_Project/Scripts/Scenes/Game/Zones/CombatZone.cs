@@ -33,7 +33,10 @@ public class CombatZone : MonoBehaviour
                 .AddTo(unit);
 
             unit.Health.Die
-                .Subscribe(_ => _activeUnits.Remove(unit))
+                .Subscribe(_ => {
+                    _activeUnits.Remove(unit); 
+                    CheckLastSurvivor();
+                })
                 .AddTo(unit);
         }
 
@@ -48,7 +51,19 @@ public class CombatZone : MonoBehaviour
                 ActivateAggro(player);
             }
         }
+        private void CheckLastSurvivor()
+        {
+            var remainingBots = _activeUnits.Where(u => u != null).ToList();
 
+            if (remainingBots.Count == 1)
+            {
+                var lastBot = remainingBots[0];
+        
+                Debug.Log($"<color=yellow>ZONE: {lastBot.name} остался один и сдается (погибает).</color>");
+        
+                lastBot.Health.TakeDamage(999999); 
+            }
+        }
         private void ActivateAggro(GameUnit target)
         {
             _isAlarmActive = true;
