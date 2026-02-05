@@ -33,15 +33,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Rotator
                     return;
             }
             
-            Vector3 targetDirection;
-            if (gameUnit.HasWeapon)
-            {
-                targetDirection = (worldPosition - gameUnit.Weapon.SpawnPoint.position).SetY(0f);
-            }
-            else
-            {
-                targetDirection = (worldPosition - gameUnit.transform.position).SetY(0f);
-            }
+            Vector3 targetDirection = (worldPosition - gameUnit.transform.position).SetY(0f);
             if (targetDirection.sqrMagnitude < Constants.Epsilon)
                 return;
 
