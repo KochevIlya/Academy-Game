@@ -25,7 +25,8 @@ namespace _Project.Scripts.Scenes.Game.Unit
     public WeaponBase Weapon { get; private set; }
     public bool HasWeapon { get; private set; }
     public bool IsUnderControl = false;
-
+    public readonly Subject<GameUnit> OnUnitHacked = new Subject<GameUnit>();
+    
     [SerializeField] private InterfaceReference<IUnitMover> _mover;
     [SerializeField] private InterfaceReference<IUnitRotator> _rotator;
     [SerializeField] private InterfaceReference<IUnitAttacker> _attacker;
@@ -117,7 +118,14 @@ namespace _Project.Scripts.Scenes.Game.Unit
       IsUnderControl = false;
       Debug.Log($"[{name}] Управление переведено на Dummy.");
     }
-    
+    public void SetControlled(bool isControlled)
+    {
+      IsUnderControl = isControlled;
+      if (isControlled)
+      {
+        OnUnitHacked.OnNext(this);
+      }
+    }
     
     // private void OnTriggerEnter(Collider other)
     // {

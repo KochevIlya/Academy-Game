@@ -2207,6 +2207,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: HealthView
       objectReference: {fileID: 0}
+    - target: {fileID: 1932902747146838297, guid: a0ba9a3eb11e21649acddf84a242829a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

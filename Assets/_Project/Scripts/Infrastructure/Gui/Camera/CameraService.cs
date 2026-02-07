@@ -29,6 +29,18 @@ namespace _Project.Scripts.Infrastructure.Gui.Camera
     }
     public void SetTarget(GameUnit unit)
     {
+        if (unit == null)
+        {
+            _cameraZoomIn.Follow = null;
+            _target = null;
+            return;
+        }
+        if (unit == null)
+        {
+            _cameraZoomIn.Follow = null;
+            _target = null;
+            return;
+        }
       _cameraZoomIn.Follow = unit.transform;
       _target = unit.transform;
     }

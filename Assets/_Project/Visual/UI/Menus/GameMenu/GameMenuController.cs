@@ -7,11 +7,11 @@ using Zenject;
 public class GameMenuController : IInitializable, IDisposable
 {
     private readonly GameMenuWindow _view;
+    private readonly ControlsWindow _controlsView;
     private readonly CompositeDisposable _disposables = new CompositeDisposable();
     private readonly ICursorService _cursorService;
     private readonly SceneLoaderService _sceneLoaderService;
     private bool _isPaused = false;
-    
     public GameMenuController(GameMenuWindow view, SceneLoaderService sceneLoaderService, ICursorService cursorService)
     {
         _view = view;
@@ -21,12 +21,26 @@ public class GameMenuController : IInitializable, IDisposable
     public void Initialize()
     {
         _view.Initialize();
-        SetPause(false);
+        _view.SetStartScreenVisible(true);
+        SetPause(true);
+        _view.SetControlsVisibility(true);
         _view.OnPauseClicked.Subscribe(_ => SetPause(true)).AddTo(_disposables);
         _view.OnResumeClicked.Subscribe(_ => SetPause(false)).AddTo(_disposables);
-        _view.OnRestartClicked.Subscribe(_ => RestartGame()).AddTo(_disposables);
+        _view.OnControlsClicked.Subscribe(_ => _view.SetControlsVisibility(true)).AddTo(_disposables);
         _view.OnExitClicked.Subscribe(_ => ExitGame()).AddTo(_disposables);
         
+        _view.OnCloseControlsClicked.Subscribe(_ => {
+            _view.SetControlsVisibility(false);
+            _view.SetStartScreenVisible(false);
+            SetPause(false);  
+        }).AddTo(_disposables);
+        
+    }
+    private void ShowControls(bool isStart)
+    {
+        if (isStart) SetPause(true);
+        
+        _controlsView.SetVisible(true);
     }
     private void TogglePause()
     {

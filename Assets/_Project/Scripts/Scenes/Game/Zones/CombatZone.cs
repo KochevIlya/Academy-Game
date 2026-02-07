@@ -5,6 +5,7 @@ using System.Linq;
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit.Components.Spawner;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
+using Zenject;
 
 public class CombatZone : MonoBehaviour
     {
@@ -12,7 +13,7 @@ public class CombatZone : MonoBehaviour
         private List<GameUnit> _activeUnits = new List<GameUnit>();
         private bool _isAlarmActive = false;
         private CompositeDisposable _disposables = new CompositeDisposable();
-
+        [Inject] HackingService  _hackingService;
         public void InitializeZone()
         {
             foreach (var spawner in _mySpawners)
@@ -38,8 +39,11 @@ public class CombatZone : MonoBehaviour
                     CheckLastSurvivor();
                 })
                 .AddTo(unit);
+            unit.OnUnitHacked
+                .Subscribe(_ => CheckLastSurvivor())
+                .AddTo(unit);
         }
-
+        
         private void CheckAlarm()
         {
             if (_isAlarmActive) return;
@@ -54,14 +58,18 @@ public class CombatZone : MonoBehaviour
         private void CheckLastSurvivor()
         {
             var remainingBots = _activeUnits.Where(u => u != null).ToList();
-
+            
             if (remainingBots.Count == 1)
             {
                 var lastBot = remainingBots[0];
         
-                Debug.Log($"<color=yellow>ZONE: {lastBot.name} остался один и сдается (погибает).</color>");
-        
-                lastBot.Health.TakeDamage(999999); 
+                if (lastBot.IsUnderControl)
+                {
+                    Debug.Log($"<color=yellow>ZONE: Игрок остался один в теле {lastBot.name}. Самоуничтожение носителя.</color>");
+            
+                    lastBot.Health.TakeDamage(999999); 
+                    Observable.TimerFrame(1).Subscribe(_ => _hackingService.ReturnToOriginalBody());
+                }
             }
         }
         private void ActivateAggro(GameUnit target)

@@ -122,16 +122,15 @@ public class HackingService : IDisposable
             .Subscribe(_ => ReturnToOriginalBody())
             .AddTo(_disposables);
     }
-    private void ReturnToOriginalBody()
+    public void ReturnToOriginalBody()
     {
         if (_originalHero == null) 
         {
             Debug.LogError("Ошибка возврата: оригинальное тело хакера потеряно!");
             return;
         }
-
         _cameraService.SetTarget(_originalHero);
-    
+
         if (_currentPossessedUnit != null)
         {
             var dummy = _container.Resolve<DummyInputControls>();
@@ -225,6 +224,7 @@ public class HackingService : IDisposable
             _hackerUnit.DisableControl(dummy);
             victimUnit.UpdateControls(_input);
             victimUnit.IsUnderControl = true;
+            victimUnit.OnUnitHacked.OnNext(victimUnit);
 
             _cameraService.SetTarget(victimUnit);
 
