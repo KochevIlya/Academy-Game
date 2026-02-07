@@ -7,7 +7,6 @@ using Zenject;
 public class GameMenuController : IInitializable, IDisposable
 {
     private readonly GameMenuWindow _view;
-    private readonly ControlsWindow _controlsView;
     private readonly CompositeDisposable _disposables = new CompositeDisposable();
     private readonly ICursorService _cursorService;
     private readonly SceneLoaderService _sceneLoaderService;
@@ -35,12 +34,6 @@ public class GameMenuController : IInitializable, IDisposable
             SetPause(false);  
         }).AddTo(_disposables);
         
-    }
-    private void ShowControls(bool isStart)
-    {
-        if (isStart) SetPause(true);
-        
-        _controlsView.SetVisible(true);
     }
     private void TogglePause()
     {
