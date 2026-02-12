@@ -67,8 +67,8 @@ namespace _Project.Scripts.Infrastructure.Gui.Camera
         {
             if (hit.transform == _target) continue;
 
-            Renderer rend = hit.collider.GetComponent<Renderer>();
-            if (rend != null)
+            Renderer[]  renderers = hit.transform.GetComponentsInChildren<Renderer>();
+            foreach (var rend in renderers)
             {
                 foreach (var mat in rend.materials)
                 {
