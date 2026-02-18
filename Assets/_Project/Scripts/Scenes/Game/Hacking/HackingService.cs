@@ -29,6 +29,7 @@ public class HackingService : IDisposable
     public Subject<bool> OnHackingFinished { get; } = new Subject<bool>();
     public bool IsPossessing => _isPossessing;
     public ReactiveProperty<bool> CanHack { get; } = new ReactiveProperty<bool>(false);
+    public Subject<HackableComponent> OnHackingProcessStarted { get; } = new Subject<HackableComponent>();
     
     private List<Vector2> _currentSequence;
     private HackableComponent _currentTarget;
@@ -107,6 +108,9 @@ public class HackingService : IDisposable
         _input.IsBlocked.Value = true;
         _cameraService.SetTarget(target.GetComponent<GameUnit>());
     
+        OnHackingStarted.OnNext(_currentSequence);
+        
+        OnHackingProcessStarted.OnNext(target);
         OnHackingStarted.OnNext(_currentSequence);
     }
 

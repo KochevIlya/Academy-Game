@@ -14,7 +14,6 @@ public class CombatZone : MonoBehaviour
         private bool _isAlarmActive = false;
         private CompositeDisposable _disposables = new CompositeDisposable();
         [Inject] HackingService  _hackingService;
-        private GameUnit _playerUnit;
         
         public void InitializeZone()
         {
@@ -25,8 +24,17 @@ public class CombatZone : MonoBehaviour
                     RegisterUnit(spawner.SpawnedUnit);
                 }
             }
-            _playerUnit = GameObject.FindWithTag("Player")?.GetComponent<GameUnit>();
-            Debug.Log(_playerUnit.name);
+            
+            _hackingService.OnHackingProcessStarted
+                .Subscribe(target => 
+                {
+                    var unit = target.GetComponent<GameUnit>();
+                    if (unit != null && _activeUnits.Contains(unit))
+                    {
+                        ActivateWalk();
+                    }
+                })
+                .AddTo(_disposables);
         }
 
         private void RegisterUnit(GameUnit unit)
@@ -82,7 +90,7 @@ public class CombatZone : MonoBehaviour
             
             target.Health.Die
                 .Take(1)
-                .Subscribe(_ => ActivateWalk(_playerUnit))
+                .Subscribe(_ => ActivateWalk())
                 .AddTo(_disposables);
             
             Debug.Log($"<color=red>ЗОНА {name}: ТРЕВОГА! Цель: {target.name}</color>");
@@ -96,16 +104,16 @@ public class CombatZone : MonoBehaviour
             }
         }
 
-        private void ActivateWalk(GameUnit target)
+        private void ActivateWalk()
         {
             _isAlarmActive = false;
-            Debug.Log($"<color=green>ЗОНА {name}: цель: {target.name} уничтожена</color>");
+            Debug.Log($"<color=green>ЗОНА {name}: цель: уничтожена</color>");
 
             foreach (var bot in _activeUnits)
             {
                 if (bot == null || bot.IsUnderControl) continue;
                 
-                var walk = new WalkerInputControls(bot, target);
+                var walk = new WalkerInputControls(bot);
                 bot.UpdateControls(walk);
             }
         }

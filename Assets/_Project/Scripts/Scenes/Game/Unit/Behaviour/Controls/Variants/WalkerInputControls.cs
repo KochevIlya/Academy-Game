@@ -7,17 +7,16 @@ using UnityEngine;
 public class WalkerInputControls : IInputControls
 {
     private readonly GameUnit _self;
-    private readonly GameUnit _target;
+    private readonly GameUnit _target = GameObject.FindWithTag("Player")?.GetComponent<GameUnit>();
     
     private const float StopDistance = 1f;
     private readonly Transform _camTransform;
     
     public Vector3 TargetPosition => _target.transform.position;
-    public WalkerInputControls(GameUnit self, GameUnit target)
+    public WalkerInputControls(GameUnit self)
     {
         Debug.Log("WalkerInputControls ctor");
         _self = self;
-        _target = target;
         _camTransform = Camera.main.transform;
     }
     public Vector2 MousePosition
