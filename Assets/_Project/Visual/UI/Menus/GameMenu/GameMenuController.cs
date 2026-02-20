@@ -20,9 +20,9 @@ public class GameMenuController : IInitializable, IDisposable
     public void Initialize()
     {
         _view.Initialize();
-        _view.SetStartScreenVisible(true);
-        SetPause(true);
-        _view.SetControlsVisibility(true);
+        // SetPause(true);
+        _view.SetStartScreenVisible(false);
+        _view.SetControlsVisibility(false);
         _view.OnPauseClicked.Subscribe(_ => SetPause(true)).AddTo(_disposables);
         _view.OnResumeClicked.Subscribe(_ => SetPause(false)).AddTo(_disposables);
         _view.OnControlsClicked.Subscribe(_ => _view.SetControlsVisibility(true)).AddTo(_disposables);

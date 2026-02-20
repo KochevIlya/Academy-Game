@@ -9,6 +9,7 @@ using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using UniRx;
+using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -209,8 +210,11 @@ public class HackingService : IDisposable
                 _isErrorState = false;
                 
                 OnError.OnNext(-2); 
+                StartHacking(_currentTarget, _hackerUnit);
             })
             .AddTo(_disposables);
+        
+        
     }
     private void CompleteHacking()
     {
