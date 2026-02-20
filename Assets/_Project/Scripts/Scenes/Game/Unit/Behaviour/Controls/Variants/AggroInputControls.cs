@@ -13,7 +13,7 @@ public class AggroInputControls : IInputControls
     
     private const float MinDistance = 5f; 
     private const float MaxDistance = 15f;
-    private const float AimThreshold = 0.2f;
+    private const float AimThreshold = 0.9f;
     
     private float _strafeTimer;
     private float _strafeChangeInterval = 1f;

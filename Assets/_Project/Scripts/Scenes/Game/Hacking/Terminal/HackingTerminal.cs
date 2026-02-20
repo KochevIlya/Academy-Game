@@ -12,21 +12,29 @@ namespace _Project.Scripts.Scenes.Game.Hacking.Terminal
         [Inject] private HackableSelector _hackableSelector;
         public Transform WarZoneTransform;
 
-        
+
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log($"Внутри зоны ");
+            if (other.tag == "Player")
+            {
+                Debug.Log($"Внутри зоны ");
+
             _hackingService.SetHackingZoneStatus(true);
             _hackableSelector.SetContext(WarZoneTransform);
             ShowInteractionUI();
+            }
         
-        }
+
+    }
         private void OnTriggerExit(Collider other)
         {
-            Debug.Log($"Ушли из зоны");
-            _hackingService.SetHackingZoneStatus(false);
-            _hackableSelector.ClearContext();
-            HideInteractionUI();
+            if (other.tag == "Player")
+            {
+                Debug.Log($"Ушли из зоны");
+                _hackingService.SetHackingZoneStatus(false);
+                _hackableSelector.ClearContext();
+                HideInteractionUI();
+            }
         }
     
         private void ShowInteractionUI() => Debug.Log("UI: [E] Взломать");
