@@ -14,7 +14,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
   public interface IGameFactory
   {
     UniTask<GameUnit> SpawnCharacter(Vector3 position, WeaponType weapon);
-    UniTask<GameUnit> SpawnBot(Vector3 position, WeaponType weapon, UnitСharacteristicsType unitСharacteristicsType);
+    UniTask<GameUnit> SpawnBot(Vector3 position, WeaponType weapon, UnitСharacteristicsType unitСharacteristicsType, PatrolPath patrolPath);
     UniTask<WeaponBase> SpawnWeapon(WeaponType weaponType, GameUnit unit);
     UniTask<Bullet> SpawnBullet(AssetReference prefabRefence, Transform spawnPoint);
     UniTask<HackingTerminal> SpawnTerminal(Vector3 position, Transform warZoneTransform);

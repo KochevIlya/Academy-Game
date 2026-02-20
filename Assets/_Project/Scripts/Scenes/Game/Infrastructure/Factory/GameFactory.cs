@@ -17,6 +17,7 @@ using Zenject;
 using _Project.Scripts.Libs.Pool;
 using _Project.Scripts.Scenes.Game.Hacking.Terminal;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
+using UnityEngine.Rendering;
 
 namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
 {
@@ -29,7 +30,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     private readonly DummyInputControls _dummyInputControls;
     private readonly IAssetProvider _assetProvider;
     private bool _isBulletPoolReady;
-    private ObjectPool<Bullet> _bulletPool;
+    private Libs.Pool.ObjectPool<Bullet> _bulletPool;
     private IInputHelper _inputHelper;
     private ICameraService _cameraService { get; set; }
     private ICursorService _cursorService;
@@ -68,7 +69,8 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       return character;
     }
 
-    public async UniTask<GameUnit> SpawnBot(Vector3 position, WeaponType weapon, UnitСharacteristicsType unitСharacteristicsType)
+    public async UniTask<GameUnit> SpawnBot(Vector3 position, WeaponType weapon, UnitСharacteristicsType unitСharacteristicsType,
+      PatrolPath path)
     {
       var prefab = await _assetProvider.LoadFromAddressable<GameObject>(_staticData.UnitsConfig.Bot);
       var unitData = _staticData.UnitStatsConfig.Units[unitСharacteristicsType];
@@ -80,8 +82,9 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       bot.HealthView.Initialize(bot);
       bot.AddComponent<HackableComponent>();
       bot.UpdateWeapon(await SpawnWeapon(weapon, bot));
-      bot.UpdateControls(_dummyInputControls);
       bot.UpdateStats(unitData);
+      bot.PatrolPath = path;
+      bot.UpdateControls(new PatrolInputControls(bot));
       return bot;
     }
     

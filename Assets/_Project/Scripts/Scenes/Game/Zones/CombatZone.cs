@@ -100,7 +100,7 @@ public class CombatZone : MonoBehaviour
             {
                 if (bot == null || bot.IsUnderControl) continue;
         
-                bot.DisableControl(new DummyInputControls()); 
+                bot.DisableControl(new PatrolInputControls(bot)); 
             }
         }
     }

@@ -19,6 +19,8 @@ namespace _Project.Scripts.Scenes.Game.Unit
   {
     public UnitAnimator Animator;
     public Health Health;
+
+    public PatrolPath PatrolPath { get; set; } = null;
     
     [field: SerializeField] public HealthView HealthView { get; set; }
     [field: SerializeField] public Transform WeaponPoint { get; private set; }

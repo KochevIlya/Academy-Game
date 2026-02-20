@@ -29,7 +29,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
         if(spawner.UnitType == UnitType.Character) 
           unit = await _gameFactory.SpawnCharacter(spawner.Position, WeaponType.Riffle);
         else if (spawner.UnitType == UnitType.Bot)
-          unit = await _gameFactory.SpawnBot(spawner.Position, WeaponType.Riffle, spawner.UnitСharacteristicsType);
+          unit = await _gameFactory.SpawnBot(spawner.Position, WeaponType.Riffle, spawner.UnitСharacteristicsType, spawner.Path);
         if (unit != null)
         {
           spawner.SetSpawnedUnit(unit);
