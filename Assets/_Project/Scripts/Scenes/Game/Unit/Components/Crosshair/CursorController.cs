@@ -40,7 +40,7 @@ public class CursorController : MonoBehaviour
     {
         SetDefaultCursor();
     }
-
+    
     public void SetVisible(bool isVisible)
     {
         Cursor.visible = isVisible;

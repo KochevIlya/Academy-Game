@@ -32,4 +32,6 @@ public class CursorService : ICursorService
     {
         Cursor.lockState = isLocked ? CursorLockMode.Locked : CursorLockMode.None;
     }
+
+    
 }

@@ -9,6 +9,6 @@ public interface ICursorService
     void SetCrosshairCursor();
     void SetDefaultCursor();
     void SetLockState(bool isLocked);
-
-
+    
+ 
 }

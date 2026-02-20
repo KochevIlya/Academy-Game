@@ -10,6 +10,8 @@ namespace _Project.Scripts.Scenes.Game.Unit.Controls.Variants
   {
     private PlayerControls _input;
     private Vector2 _moveDirection;
+    private Vector2 _gamepadAimInput;
+    private readonly float _gamepadSensitivity = 1000f;
 
     private readonly Subject<Vector2> _movement = new Subject<Vector2>();
     private readonly Subject<UniRx.Unit> _shoot = new Subject<UniRx.Unit>();
@@ -42,8 +44,12 @@ namespace _Project.Scripts.Scenes.Game.Unit.Controls.Variants
       _input.Enable();
 
       Observable.EveryUpdate()
-        .Subscribe(_ => _movement.OnNext(_moveDirection))
-        .AddTo(_disposable);
+        .Subscribe(_ =>
+        {
+          _movement.OnNext(_moveDirection);
+          HandleGamepadAiming();
+        })
+    .AddTo(_disposable);
     }
 
     void PlayerControls.IPlayerActions.OnMove(InputAction.CallbackContext ctx) =>
@@ -76,6 +82,24 @@ namespace _Project.Scripts.Scenes.Game.Unit.Controls.Variants
         Debug.Log("Кнопка ESC нажата в UserInputControls!");
         _cancelUse.OnNext(UniRx.Unit.Default);
       }
+    }
+    
+    private void HandleGamepadAiming()
+    {
+      if (_gamepadAimInput != Vector2.zero)
+      {
+        Vector2 delta = _gamepadAimInput * _gamepadSensitivity * Time.deltaTime;
+                
+        Vector2 newPos = MousePosition + delta;
+        newPos.x = Mathf.Clamp(newPos.x, 0, Screen.width);
+        newPos.y = Mathf.Clamp(newPos.y, 0, Screen.height);
+
+        MousePosition = newPos;
+      }
+    }
+    public void OnAim(InputAction.CallbackContext context)
+    {
+      _gamepadAimInput = context.ReadValue<Vector2>();
     }
 
     public void Dispose()
