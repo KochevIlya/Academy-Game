@@ -27,6 +27,10 @@ namespace _Project.Scripts.Scenes.Game.Unit.Rotator
             {
                 worldPosition = aggro.TargetPosition; 
             }
+            else if (gameUnit.InputControls is WalkerInputControls walker)
+            {
+                worldPosition = walker.TargetPosition;
+            }
             else
             {
                 if (!TryGetWorldPosition(gameUnit, mouseScreenPos, out worldPosition))

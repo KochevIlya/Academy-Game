@@ -14,6 +14,7 @@ public class CombatZone : MonoBehaviour
         private bool _isAlarmActive = false;
         private CompositeDisposable _disposables = new CompositeDisposable();
         [Inject] HackingService  _hackingService;
+        
         public void InitializeZone()
         {
             foreach (var spawner in _mySpawners)
@@ -23,6 +24,17 @@ public class CombatZone : MonoBehaviour
                     RegisterUnit(spawner.SpawnedUnit);
                 }
             }
+            
+            _hackingService.OnHackingProcessStarted
+                .Subscribe(target => 
+                {
+                    var unit = target.GetComponent<GameUnit>();
+                    if (unit != null && _activeUnits.Contains(unit))
+                    {
+                        ActivateWalk();
+                    }
+                })
+                .AddTo(_disposables);
         }
 
         private void RegisterUnit(GameUnit unit)
@@ -78,7 +90,7 @@ public class CombatZone : MonoBehaviour
             
             target.Health.Die
                 .Take(1)
-                .Subscribe(_ => DeactivateZoneAlert())
+                .Subscribe(_ => ActivateWalk())
                 .AddTo(_disposables);
             
             Debug.Log($"<color=red>ЗОНА {name}: ТРЕВОГА! Цель: {target.name}</color>");
@@ -91,6 +103,21 @@ public class CombatZone : MonoBehaviour
                 bot.UpdateControls(aggro);
             }
         }
+
+        private void ActivateWalk()
+        {
+            _isAlarmActive = false;
+            Debug.Log($"<color=green>ЗОНА {name}: цель: уничтожена</color>");
+
+            foreach (var bot in _activeUnits)
+            {
+                if (bot == null || bot.IsUnderControl) continue;
+                
+                var walk = new WalkerInputControls(bot);
+                bot.UpdateControls(walk);
+            }
+        }
+        
         private void DeactivateZoneAlert()
         {
             _isAlarmActive = false;
