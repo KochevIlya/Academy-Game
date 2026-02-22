@@ -97,7 +97,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     private void SubscribeShoot()
     {
       InputControls.OnShoot
-        .Subscribe(_ => _attacker.Value.Shoot(this, InputControls.MousePosition))
+        .Subscribe(_ => _attacker.Value.Attack(this, InputControls.MousePosition))
         .AddTo(_lifetimeDisposable);
 
       Animator.OnShootCast

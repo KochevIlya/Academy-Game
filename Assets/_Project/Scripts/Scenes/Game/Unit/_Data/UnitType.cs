@@ -6,5 +6,6 @@
     
     Character = 1,
     Bot = 2,
+    MeleeBot = 3,
   }
 }

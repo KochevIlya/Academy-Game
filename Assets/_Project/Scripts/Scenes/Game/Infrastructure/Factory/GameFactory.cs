@@ -88,6 +88,25 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       return bot;
     }
     
+    public async UniTask<GameUnit> SpawnMeleeBot(Vector3 position, WeaponType weapon, UnitСharacteristicsType unitСharacteristicsType,
+      PatrolPath path)
+    {
+      var prefab = await _assetProvider.LoadFromAddressable<GameObject>(_staticData.UnitsConfig.MeleeBot);
+      var unitData = _staticData.UnitStatsConfig.Units[unitСharacteristicsType];
+      
+      GameUnit bot = _diContainer
+        .InstantiatePrefabForComponent<GameUnit>(prefab, 
+          position, Quaternion.identity, null);
+      
+      bot.HealthView.Initialize(bot);
+      bot.AddComponent<HackableComponent>();
+      bot.UpdateWeapon(await SpawnWeapon(weapon, bot));
+      bot.UpdateStats(unitData);
+      bot.PatrolPath = path;
+      bot.UpdateControls(new PatrolInputControls(bot));
+      return bot;
+    }
+    
     public async UniTask<HackingTerminal> SpawnTerminal(Vector3 position, Transform warZoneTransform)
     {
       var prefab = await _assetProvider.LoadFromAddressable<GameObject>(_staticData.TerminalConfig.Prefab);

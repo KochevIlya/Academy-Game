@@ -31,6 +31,11 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 1
+  MeleeBot:
+    m_AssetGUID: e5e9828cc2ed9a443b9822e1fd871237
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1
   Crosshair:
     m_AssetGUID: aeb1639dc7d8c7843b27f64495f10840
     m_SubObjectName: 

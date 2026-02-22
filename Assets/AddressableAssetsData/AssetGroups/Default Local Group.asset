@@ -52,6 +52,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e5e9828cc2ed9a443b9822e1fd871237
+    m_Address: Assets/_Project/Visual/Prefabs/Game/Units/MeleeBot.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f61f6339d95855f4087a3dc62edb99bd
     m_Address: Assets/_Project/Visual/Prefabs/Game/Units/Bot.prefab
     m_ReadOnly: 0

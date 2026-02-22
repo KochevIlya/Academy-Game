@@ -23,7 +23,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Attacker
       _cameraService = cameraService;
     }
 
-    public void Shoot(GameUnit unit, Vector2 shootPosition)
+    public void Attack(GameUnit unit, Vector2 shootPosition)
     {
       if (unit.HasWeapon)
       {

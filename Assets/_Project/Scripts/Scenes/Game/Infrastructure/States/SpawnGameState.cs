@@ -30,6 +30,8 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
           unit = await _gameFactory.SpawnCharacter(spawner.Position, WeaponType.Riffle);
         else if (spawner.UnitType == UnitType.Bot)
           unit = await _gameFactory.SpawnBot(spawner.Position, WeaponType.Riffle, spawner.UnitСharacteristicsType, spawner.Path);
+        else if (spawner.UnitType == UnitType.MeleeBot)
+          unit = await _gameFactory.SpawnMeleeBot(spawner.Position, WeaponType.Riffle, spawner.UnitСharacteristicsType, spawner.Path);
         if (unit != null)
         {
           spawner.SetSpawnedUnit(unit);

@@ -92,7 +92,7 @@ namespace _Project.Scripts.Tests.Editor
             _gameUnit.UpdateWeapon(_testWeapon);
 
             // Act
-            _attacker.Shoot(_gameUnit, shootPosition);
+            _attacker.Attack(_gameUnit, shootPosition);
 
             // Assert
             Assert.Pass("Shoot завершён без ошибок"); // change on fake animator calls shoot
@@ -106,7 +106,7 @@ namespace _Project.Scripts.Tests.Editor
             _gameUnit.UpdateWeapon(null);
 
             // Act Assert
-            Action shootAction = () => _attacker.Shoot(_gameUnit, shootPosition);
+            Action shootAction = () => _attacker.Attack(_gameUnit, shootPosition);
             shootAction.Should().NotThrow();
         }
         
@@ -118,7 +118,7 @@ namespace _Project.Scripts.Tests.Editor
             var shootPosition = DefaultShootPosition;
             _gameUnit.UpdateWeapon(_testWeapon);
             
-            _attacker.Shoot(_gameUnit, shootPosition);
+            _attacker.Attack(_gameUnit, shootPosition);
 
             // Act
             _attacker.OnShootCast(_gameUnit);
