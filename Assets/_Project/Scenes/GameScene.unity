@@ -14974,6 +14974,16 @@ PrefabInstance:
       propertyPath: "Unit\u0421haracteristicsType"
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 1525434547677759926, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -17.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1525434547677759926, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.2
+      objectReference: {fileID: 0}
     - target: {fileID: 1565360775324888687, guid: 7e505665de86cd444ac8d1f555cd4f48,
         type: 3}
       propertyPath: LinkedEnemies.Array.size

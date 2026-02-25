@@ -120,14 +120,6 @@ namespace _Project.Scripts.Scenes.Game.Unit
       IsUnderControl = false;
       Debug.Log($"[{name}] Управление переведено на Dummy.");
     }
-    public void SetControlled(bool isControlled)
-    {
-      IsUnderControl = isControlled;
-      if (isControlled)
-      {
-        OnUnitHacked.OnNext(this);
-      }
-    }
     
     // private void OnTriggerEnter(Collider other)
     // {
@@ -147,7 +139,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     //             .TakeUntil(target.Health.Die)
     //             .Subscribe(_ =>
     //             {
-    //               _attacker.Value.Shoot(this, target.transform.position);
+    //               _attacker.Value.Attack(this, target.transform.position);
     //             })
     //             .AddTo(_lifetimeDisposable);
     //         }

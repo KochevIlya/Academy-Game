@@ -13,6 +13,7 @@ public class CombatZone : MonoBehaviour
         private List<GameUnit> _activeUnits = new List<GameUnit>();
         private bool _isAlarmActive = false;
         private CompositeDisposable _disposables = new CompositeDisposable();
+        private int _botsCount = 0;
         [Inject] HackingService  _hackingService;
         
         public void InitializeZone()
@@ -22,6 +23,7 @@ public class CombatZone : MonoBehaviour
                 if (spawner.SpawnedUnit != null)
                 {
                     RegisterUnit(spawner.SpawnedUnit);
+                    _botsCount++;
                 }
             }
             
@@ -49,13 +51,22 @@ public class CombatZone : MonoBehaviour
                 .Subscribe(_ => {
                     _activeUnits.Remove(unit); 
                     CheckLastSurvivor();
+                    _botsCount--;
+                    CheckUnitReturn(unit);
                 })
                 .AddTo(unit);
             unit.OnUnitHacked
                 .Subscribe(_ => CheckLastSurvivor())
                 .AddTo(unit);
+            
         }
-        
+
+        private void CheckUnitReturn(GameUnit unit)
+        {
+            if (unit.IsUnderControl)
+                _hackingService.ReturnToOriginalBody();
+            
+        }
         private void CheckAlarm()
         {
             if (_isAlarmActive) return;
