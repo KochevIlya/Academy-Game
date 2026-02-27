@@ -11,10 +11,12 @@ namespace _Project.Scripts.Scenes.Game.Hacking.Terminal
         [Inject] private HackingService _hackingService;
         [Inject] private HackableSelector _hackableSelector;
         public Transform WarZoneTransform;
+        public bool _isActive = false;
 
 
         private void OnTriggerEnter(Collider other)
         {
+            _isActive = true;
             if (other.tag == "Player")
             {
                 Debug.Log($"Внутри зоны ");
@@ -23,11 +25,11 @@ namespace _Project.Scripts.Scenes.Game.Hacking.Terminal
             _hackableSelector.SetContext(WarZoneTransform);
             ShowInteractionUI();
             }
+        }
         
-
-    }
         private void OnTriggerExit(Collider other)
         {
+            _isActive = false;
             if (other.tag == "Player")
             {
                 Debug.Log($"Ушли из зоны");

@@ -5,12 +5,15 @@ using System.Linq;
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit.Components.Spawner;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
+using _Project.Scripts.Scenes.Game.Hacking.Terminal;
 using Zenject;
 
 public class CombatZone : MonoBehaviour
     {
         [SerializeField] private List<UnitSpawner> _mySpawners;
         private List<GameUnit> _activeUnits = new List<GameUnit>();
+        [SerializeField] private List<TerminalSpawner> _myTerminalSpawners;
+        private List<HackingTerminal> _activeTerminals = new List<HackingTerminal>();
         private bool _isAlarmActive = false;
         private CompositeDisposable _disposables = new CompositeDisposable();
         [Inject] HackingService  _hackingService;
@@ -25,13 +28,26 @@ public class CombatZone : MonoBehaviour
                 }
             }
             
-            _hackingService.OnHackingProcessStarted
-                .Subscribe(target => 
+            foreach (var tSpawner in _myTerminalSpawners)
+            {
+                if (tSpawner.SpawnedTerminalObject != null)
                 {
-                    var unit = target.GetComponent<GameUnit>();
-                    if (unit != null && _activeUnits.Contains(unit))
+                    var terminal = tSpawner.SpawnedTerminalObject.GetComponentInChildren<HackingTerminal>();
+
+                    if (terminal != null)
                     {
-                        ActivateWalk();
+                        _activeTerminals.Add(terminal);
+                        Debug.Log($"<color=green>[CombatZone {name}]</color> Терминал <b>{terminal.name}</b> успешно подключен к зоне.");
+                    }
+                }
+            }
+            
+            _hackingService.OnHackingProcessStarted
+                .Subscribe(_ => 
+                {
+                    foreach (var terminal in _activeTerminals)
+                    {
+                        if (terminal._isActive == true) ActivateWalk();
                     }
                 })
                 .AddTo(_disposables);

@@ -36,13 +36,21 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
         }
       }
       
+      foreach (TerminalSpawner spawner in Object.FindObjectsOfType<TerminalSpawner>())
+      {
+        var terminal = await _gameFactory.SpawnTerminal(spawner.Position, spawner.WarZoneTransform);
+    
+        if (terminal != null)
+        {
+          spawner.SpawnedTerminalObject = terminal.gameObject;
+        }
+      }
+      
       foreach (var zone in Object.FindObjectsOfType<CombatZone>())
       {
         zone.InitializeZone();
       }
       
-      foreach (TerminalSpawner  spawner in Object.FindObjectsOfType<TerminalSpawner>())
-        await _gameFactory.SpawnTerminal(spawner.Position, spawner.WarZoneTransform);
       gameStateMachine.Enter<InitializeGameServices>();
     }
   }

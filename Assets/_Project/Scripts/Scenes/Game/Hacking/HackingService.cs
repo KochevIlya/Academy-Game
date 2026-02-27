@@ -66,6 +66,8 @@ public class HackingService : IDisposable
         var dummy = _container.Resolve<DummyInputControls>();
     
         HackableComponent target = null;
+        
+        OnHackingProcessStarted.OnNext(null);
 
         if (CanHack.Value)
         {
@@ -109,9 +111,6 @@ public class HackingService : IDisposable
         _input.IsBlocked.Value = true;
         _cameraService.SetTarget(target.GetComponent<GameUnit>());
     
-        OnHackingStarted.OnNext(_currentSequence);
-        
-        OnHackingProcessStarted.OnNext(target);
         OnHackingStarted.OnNext(_currentSequence);
     }
 
