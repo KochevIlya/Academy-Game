@@ -52,6 +52,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 964122cf89449604b972a61a1b1dcfe2
+    m_Address: Assets/_Project/Visual/Prefabs/UI/GuiServiceRoot.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: aeb1639dc7d8c7843b27f64495f10840
     m_Address: Crosshair
     m_ReadOnly: 0

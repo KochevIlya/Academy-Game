@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using _Project.Scripts.Infrastructure.Gui.Service;
 using _Project.Scripts.Infrastructure.StateMachine;
 using _Project.Scripts.Scenes.Game.Infrastructure.States;
 using _Project.Scripts.Scenes.Game.Unit;
 using UnityEngine;
+using Zenject;
 
 public class UnitVision : MonoBehaviour
 {
@@ -22,6 +24,8 @@ public class UnitVision : MonoBehaviour
     private GameUnit _owner;
     private GameStateMachine _gameStateMachine;
     
+    [Inject] 
+    private IGuiService _guiService;
     private void Awake()
     {
         _viewMesh = new Mesh { name = "View Mesh" };
@@ -65,6 +69,7 @@ public class UnitVision : MonoBehaviour
                 if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, _obstacleMask))
                 {
                     Debug.Log("<color=red>ИГРОК ОБНАРУЖЕН!</color>");
+                    _guiService.ShowGameOver();
                 }
             }
         }

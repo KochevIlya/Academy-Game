@@ -56,5 +56,10 @@ namespace _Project.Scripts.Infrastructure.Gui.StaticCanvas
 
       _screens.Clear();
     }
+
+    public void ShowGameOver()
+    {
+      throw new System.NotImplementedException();
+    }
   }
 }

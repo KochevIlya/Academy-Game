@@ -1,4 +1,5 @@
 using _Project.Scripts.Infrastructure.Gui.Camera;
+using _Project.Scripts.Infrastructure.Gui.Service;
 using _Project.Scripts.Scenes.Game.Hacking;
 using _Project.Scripts.Scenes.Game.Infrastructure.Factory;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
@@ -15,6 +16,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
     [SerializeField] private GameObject _hackingPrefab;
     [SerializeField] private Transform _uiRoot;
     [SerializeField] private GameMenuWindow _menuPrefab;
+    [SerializeField] private GuiService _guiServicePrefab;
     public override void InstallBindings()
     {
       
@@ -35,7 +37,12 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
 
       Container.BindInterfacesAndSelfTo<DummyInputControls>().AsSingle();
       Container.BindInterfacesAndSelfTo<UserInputControls>().AsSingle();
-      
+      Container
+        .BindInterfacesTo<GuiService>()
+        .FromComponentInNewPrefab(_guiServicePrefab)
+        .UnderTransform(_uiRoot)
+        .AsSingle()
+        .NonLazy();
       Container.BindInterfacesAndSelfTo<GameMenuController>().AsSingle().NonLazy();
       Container.Bind<GameMenuWindow>()
         .FromComponentInNewPrefab(_menuPrefab)

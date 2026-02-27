@@ -8,5 +8,6 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     void Push(BaseScreen screen);
     void Pop();
     void Cleanup();
+    void ShowGameOver();
   }
 }

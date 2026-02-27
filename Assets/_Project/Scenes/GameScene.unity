@@ -3085,6 +3085,8 @@ MonoBehaviour:
   _uiRoot: {fileID: 1336312563}
   _menuPrefab: {fileID: 4983973142571282257, guid: 07ba82bc415e3894094a4bc44af05768,
     type: 3}
+  _guiServicePrefab: {fileID: 4960440675262118062, guid: 964122cf89449604b972a61a1b1dcfe2,
+    type: 3}
 --- !u!4 &435178326 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8459108149141030670, guid: 84030e5e989c2d84d9f4ad2c8866c864,
