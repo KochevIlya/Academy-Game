@@ -14,7 +14,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
       Container.BindState<GameLoopState>();
       Container.Bind<IGameStateMachine>().To<GameStateMachine>().AsSingle();
       
-      Container.BindEntryPoint<GameEntryPoint>();
+      Container.BindInterfacesAndSelfTo<GameEntryPoint>().AsSingle().NonLazy();
     }
   }
 }

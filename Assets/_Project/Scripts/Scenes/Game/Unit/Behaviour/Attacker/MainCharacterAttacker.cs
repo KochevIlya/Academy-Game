@@ -40,18 +40,19 @@ namespace _Project.Scripts.Scenes.Game.Unit.Attacker
     
     public void AbilityUse(GameUnit unit)
     {
-      foreach (var sceneUnit in FindObjectsOfType<GameUnit>())
-      {
-        if (sceneUnit != unit)
-        {
-          unit.UpdateControls(_dummyInputControls);
-          sceneUnit.UpdateControls(_userInputControls);
-          
-          _cameraService.SetTarget(sceneUnit);
-
-          break;
-        }
-      }
+      // foreach (var sceneUnit in FindObjectsOfType<GameUnit>())
+      // {
+      //   if (sceneUnit != unit)
+      //   {
+      //     unit.UpdateControls(_dummyInputControls);
+      //     sceneUnit.UpdateControls(_userInputControls);
+      //     
+      //     _cameraService.SetTarget(sceneUnit);
+      //
+      //     break;
+      //   }
+      // }
+      Debug.Log($"[{unit.name}] Bot Ability Use");
     }
   }
 }

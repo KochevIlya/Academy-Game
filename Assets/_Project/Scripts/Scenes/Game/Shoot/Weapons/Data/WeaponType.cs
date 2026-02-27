@@ -5,5 +5,6 @@
     Unknown = 0,
     
     Riffle = 1,
+    Katana = 2,
   }
 }

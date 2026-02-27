@@ -22,6 +22,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
     
     public async UniTask Enter(IGameStateMachine gameStateMachine)
     {
+      await UniTask.Yield();
       foreach (UnitSpawner spawner in Object.FindObjectsOfType<UnitSpawner>())
       {
         GameUnit unit = null;
@@ -31,7 +32,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
         else if (spawner.UnitType == UnitType.Bot)
           unit = await _gameFactory.SpawnBot(spawner.Position, WeaponType.Riffle, spawner.UnitСharacteristicsType, spawner.Path);
         else if (spawner.UnitType == UnitType.MeleeBot)
-          unit = await _gameFactory.SpawnMeleeBot(spawner.Position, WeaponType.Riffle, spawner.UnitСharacteristicsType, spawner.Path);
+          unit = await _gameFactory.SpawnMeleeBot(spawner.Position, WeaponType.Katana, spawner.UnitСharacteristicsType, spawner.Path);
         if (unit != null)
         {
           spawner.SetSpawnedUnit(unit);
