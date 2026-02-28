@@ -41,7 +41,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 5
     - Name: 
       Entry: 7
       Data: 
@@ -159,6 +159,195 @@ MonoBehaviour:
     - Name: m_EditorAssetChanged
       Entry: 5
       Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 7
+      Data: 8|_Project.Scripts.Scenes.Game.Shoot.Data.WeaponData, Assembly-CSharp
+    - Name: Damage
+      Entry: 3
+      Data: 5
+    - Name: CoolDown
+      Entry: 4
+      Data: 0.6
+    - Name: BulletLifeTime
+      Entry: 4
+      Data: 3
+    - Name: Speed
+      Entry: 4
+      Data: 15
+    - Name: Bullet
+      Entry: 7
+      Data: 9|UnityEngine.AddressableAssets.AssetReference, Unity.Addressables
+    - Name: m_AssetGUID
+      Entry: 1
+      Data: 8ec09520357109d4785720dfabc7e219
+    - Name: m_SubObjectName
+      Entry: 6
+      Data: 
+    - Name: m_SubObjectType
+      Entry: 6
+      Data: 
+    - Name: m_EditorAssetChanged
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prefab
+      Entry: 7
+      Data: 10|UnityEngine.AddressableAssets.AssetReference, Unity.Addressables
+    - Name: m_AssetGUID
+      Entry: 1
+      Data: 55116db7b6189b74fb5e26bfd8d5aaee
+    - Name: m_SubObjectName
+      Entry: 6
+      Data: 
+    - Name: m_SubObjectType
+      Entry: 6
+      Data: 
+    - Name: m_EditorAssetChanged
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 7
+      Data: 11|_Project.Scripts.Scenes.Game.Shoot.Data.WeaponData, Assembly-CSharp
+    - Name: Damage
+      Entry: 3
+      Data: 5
+    - Name: CoolDown
+      Entry: 4
+      Data: 0.6
+    - Name: BulletLifeTime
+      Entry: 4
+      Data: 3
+    - Name: Speed
+      Entry: 4
+      Data: 15
+    - Name: Bullet
+      Entry: 7
+      Data: 12|UnityEngine.AddressableAssets.AssetReference, Unity.Addressables
+    - Name: m_AssetGUID
+      Entry: 1
+      Data: 8ec09520357109d4785720dfabc7e219
+    - Name: m_SubObjectName
+      Entry: 6
+      Data: 
+    - Name: m_SubObjectType
+      Entry: 6
+      Data: 
+    - Name: m_EditorAssetChanged
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prefab
+      Entry: 7
+      Data: 13|UnityEngine.AddressableAssets.AssetReference, Unity.Addressables
+    - Name: m_AssetGUID
+      Entry: 1
+      Data: 48e615cf3164d424a996fa2373ffa8d2
+    - Name: m_SubObjectName
+      Entry: 6
+      Data: 
+    - Name: m_SubObjectType
+      Entry: 6
+      Data: 
+    - Name: m_EditorAssetChanged
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 7
+      Data: 14|_Project.Scripts.Scenes.Game.Shoot.Data.WeaponData, Assembly-CSharp
+    - Name: Damage
+      Entry: 3
+      Data: 0
+    - Name: CoolDown
+      Entry: 4
+      Data: 0
+    - Name: BulletLifeTime
+      Entry: 4
+      Data: 0
+    - Name: Speed
+      Entry: 4
+      Data: 0
+    - Name: Bullet
+      Entry: 7
+      Data: 15|UnityEngine.AddressableAssets.AssetReference, Unity.Addressables
+    - Name: m_AssetGUID
+      Entry: 6
+      Data: 
+    - Name: m_SubObjectName
+      Entry: 6
+      Data: 
+    - Name: m_SubObjectType
+      Entry: 6
+      Data: 
+    - Name: m_EditorAssetChanged
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prefab
+      Entry: 7
+      Data: 16|UnityEngine.AddressableAssets.AssetReference, Unity.Addressables
+    - Name: m_AssetGUID
+      Entry: 6
+      Data: 
+    - Name: m_SubObjectName
+      Entry: 6
+      Data: 
+    - Name: m_SubObjectType
+      Entry: 6
+      Data: 
+    - Name: m_EditorAssetChanged
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 8
       Data: 

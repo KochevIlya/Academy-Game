@@ -27,12 +27,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
       {
         GameUnit unit = null;
         
-        if(spawner.UnitType == UnitType.Character) 
-          unit = await _gameFactory.SpawnCharacter(spawner.Position, WeaponType.Riffle);
-        else if (spawner.UnitType == UnitType.Bot)
-          unit = await _gameFactory.SpawnBot(spawner.Position, WeaponType.Riffle, spawner.UnitСharacteristicsType, spawner.Path);
-        else if (spawner.UnitType == UnitType.MeleeBot)
-          unit = await _gameFactory.SpawnMeleeBot(spawner.Position, WeaponType.Katana, spawner.UnitСharacteristicsType, spawner.Path);
+        unit = await _gameFactory.SpawnGameUnit(spawner.Position, spawner.UnitСharacteristicsType, spawner.Path);
         if (unit != null)
         {
           spawner.SetSpawnedUnit(unit);

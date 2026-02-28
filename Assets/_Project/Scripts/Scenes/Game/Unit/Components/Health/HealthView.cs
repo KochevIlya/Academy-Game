@@ -20,6 +20,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
 
         public void Initialize(GameUnit unit)
         {
+            if (this == null) return;
             _targetUnit = unit;
             _mainCamera = Camera.main;
             _rectTransform = GetComponent<RectTransform>();

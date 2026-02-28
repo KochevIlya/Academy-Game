@@ -32,8 +32,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 48e615cf3164d424a996fa2373ffa8d2
+    m_Address: Assets/_Project/Visual/Prefabs/Game/Weapons/Queuegun.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4e504881acc5255499c795fa6c37192c
     m_Address: Assets/_Project/Visual/Prefabs/Game/Weapons/Katana.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 55116db7b6189b74fb5e26bfd8d5aaee
+    m_Address: Assets/_Project/Visual/Prefabs/Game/Weapons/Shotgun.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

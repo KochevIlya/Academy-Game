@@ -49,63 +49,41 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       _cameraService = cameraService;
       _cursorService = cursorService;
     }
-    
-    public async UniTask<GameUnit> SpawnCharacter(Vector3 position, WeaponType weapon)
-    {
-      CreateCrosshair().Forget();
-      var prefab = await _assetProvider.LoadFromAddressable<GameObject>(_staticData.UnitsConfig.Character);
-      GameUnit character = _diContainer
-        .InstantiatePrefabForComponent<GameUnit>(prefab, 
-          position, Quaternion.identity, null);
-      
-      _cameraService.SetTarget(character);
-      character.HealthView.Initialize(character);
-      var hacker = character.gameObject.AddComponent<PlayerHacker>();
-      _diContainer.Inject(hacker);
-      // character.UpdateWeapon(await SpawnWeapon(weapon, character));
-      character.UpdateControls(_userInputControls);
-      character.UpdateStats(_staticData.UnitStatsConfig.Units[UnitСharacteristicsType.MainCharacter]);
-      
-      return character;
-    }
-
-    public async UniTask<GameUnit> SpawnBot(Vector3 position, WeaponType weapon, UnitСharacteristicsType unitСharacteristicsType,
+    public async UniTask<GameUnit> SpawnGameUnit(Vector3 position, UnitСharacteristicsType unitСharacteristicsType,
       PatrolPath path)
     {
-      var prefab = await _assetProvider.LoadFromAddressable<GameObject>(_staticData.UnitsConfig.Bot);
       var unitData = _staticData.UnitStatsConfig.Units[unitСharacteristicsType];
+      
+      var prefabReference = _staticData.UnitsConfig.GetPrefabForBehaviour(unitData.behaviourType);
+      var prefab = await _assetProvider.LoadFromAddressable<GameObject>(prefabReference);
+      
       
       GameUnit bot = _diContainer
         .InstantiatePrefabForComponent<GameUnit>(prefab, 
           position, Quaternion.identity, null);
       
-      bot.HealthView.Initialize(bot);
-      bot.AddComponent<HackableComponent>();
-      bot.UpdateWeapon(await SpawnWeapon(weapon, bot));
       bot.UpdateStats(unitData);
-      bot.PatrolPath = path;
-      bot.UpdateControls(new PatrolInputControls(bot));
+      
+      if (unitData.behaviourType != UnitBehaviourType.Character)
+      {
+        bot.UpdateWeapon(await SpawnWeapon(unitData.weaponType, bot));
+        bot.HealthView.Initialize(bot);
+        bot.AddComponent<HackableComponent>();
+        bot.PatrolPath = path;
+        bot.UpdateControls(new PatrolInputControls(bot));
+      }
+      else
+      {
+        CreateCrosshair().Forget();
+        _cameraService.SetTarget(bot);
+        var hacker = bot.gameObject.AddComponent<PlayerHacker>();
+        _diContainer.Inject(hacker);
+        bot.UpdateControls(_userInputControls);
+      }
+      
       return bot;
     }
     
-    public async UniTask<GameUnit> SpawnMeleeBot(Vector3 position, WeaponType weapon, UnitСharacteristicsType unitСharacteristicsType,
-      PatrolPath path)
-    {
-      var prefab = await _assetProvider.LoadFromAddressable<GameObject>(_staticData.UnitsConfig.MeleeBot);
-      var unitData = _staticData.UnitStatsConfig.Units[unitСharacteristicsType];
-      
-      GameUnit bot = _diContainer
-        .InstantiatePrefabForComponent<GameUnit>(prefab, 
-          position, Quaternion.identity, null);
-      
-      bot.HealthView.Initialize(bot);
-      bot.AddComponent<HackableComponent>();
-      bot.UpdateWeapon(await SpawnWeapon(weapon, bot));
-      bot.UpdateStats(unitData);
-      bot.PatrolPath = path;
-      bot.UpdateControls(new PatrolInputControls(bot));
-      return bot;
-    }
     
     public async UniTask<HackingTerminal> SpawnTerminal(Vector3 position, Transform warZoneTransform)
     {
@@ -116,6 +94,10 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       terminal.WarZoneTransform = warZoneTransform; 
       return terminal;
     }
+    
+    
+    
+    
     public async UniTask<WeaponBase> SpawnWeapon(WeaponType weaponType, GameUnit unit)
     {
       var weaponData = _staticData.WeaponsConfig.Weapons[weaponType];

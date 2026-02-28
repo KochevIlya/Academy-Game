@@ -8,11 +8,11 @@ using Zenject;
 
 namespace _Project.Scripts.Scenes.Game.Shoot
 {
-  public class ProjectileWeapon : WeaponBase
+  public class RiffleWeapon : WeaponBase
   {
-    private IGameFactory _gameFactory;
-    private IInputHelper _inputHelper;
-    private float _currentTime;
+    protected IGameFactory _gameFactory;
+    protected IInputHelper _inputHelper;
+    protected float _currentTime; 
 
     [Inject]
     public void Construct(IGameFactory gameFactory, IInputHelper inputHelper)
@@ -21,7 +21,7 @@ namespace _Project.Scripts.Scenes.Game.Shoot
       _gameFactory = gameFactory;
     }
 
-    private void Update()
+    protected void Update()
     {
       if (_currentTime < WeaponData.CoolDown)
       {
@@ -41,7 +41,7 @@ namespace _Project.Scripts.Scenes.Game.Shoot
       }
     }
     
-    private async UniTaskVoid SpawnAndSetup(Vector3 direction, float speed, float lifetime, int damage, GameUnit unit)
+    protected async UniTaskVoid SpawnAndSetup(Vector3 direction, float speed, float lifetime, int damage, GameUnit unit)
     {
       Bullet bullet = await _gameFactory.SpawnBullet(WeaponData.Bullet, SpawnPoint);
       bullet.SetDirection(direction);

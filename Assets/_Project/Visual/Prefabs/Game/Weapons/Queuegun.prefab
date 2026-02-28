@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 7980441989849787559}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.062, z: -0.173}
+  m_LocalPosition: {x: 0, y: 0.062, z: -0.142}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -180,7 +180,7 @@ PrefabInstance:
     - target: {fileID: 7650059453461007244, guid: d3776292704409d498fe1f0e867490be,
         type: 3}
       propertyPath: m_Name
-      value: Riffle
+      value: Queuegun
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -193,7 +193,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7650059453461007244, guid: d3776292704409d498fe1f0e867490be,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1301913266117421267}
+      addedObject: {fileID: -45332647492776422}
   m_SourcePrefab: {fileID: 100100000, guid: d3776292704409d498fe1f0e867490be, type: 3}
 --- !u!1 &2120944909550149790 stripped
 GameObject:
@@ -201,7 +201,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8594386115077696274}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1301913266117421267
+--- !u!114 &-45332647492776422
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -210,10 +210,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2120944909550149790}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 036ca2e732594b7a899099216893e68b, type: 3}
+  m_Script: {fileID: 11500000, guid: 3789fb0e0c341e344880d721b273b3c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnPoint: {fileID: 7685892925020640612}
+  bulletCount: 3
+  timeBetweenBullets: 0.1
 --- !u!4 &8889394366843145102 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 871479199104901276, guid: d3776292704409d498fe1f0e867490be,

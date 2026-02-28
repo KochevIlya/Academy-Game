@@ -57,6 +57,12 @@ MonoBehaviour:
     - Name: speed
       Entry: 4
       Data: 12
+    - Name: behaviourType
+      Entry: 3
+      Data: 0
+    - Name: weaponType
+      Entry: 3
+      Data: 5
     - Name: 
       Entry: 8
       Data: 
@@ -78,6 +84,12 @@ MonoBehaviour:
     - Name: speed
       Entry: 4
       Data: 2
+    - Name: behaviourType
+      Entry: 3
+      Data: 2
+    - Name: weaponType
+      Entry: 3
+      Data: 4
     - Name: 
       Entry: 8
       Data: 
@@ -99,6 +111,12 @@ MonoBehaviour:
     - Name: speed
       Entry: 4
       Data: 4
+    - Name: behaviourType
+      Entry: 3
+      Data: 1
+    - Name: weaponType
+      Entry: 3
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -120,6 +138,12 @@ MonoBehaviour:
     - Name: speed
       Entry: 4
       Data: 1.8
+    - Name: behaviourType
+      Entry: 3
+      Data: 2
+    - Name: weaponType
+      Entry: 3
+      Data: 3
     - Name: 
       Entry: 8
       Data: 
@@ -141,6 +165,12 @@ MonoBehaviour:
     - Name: speed
       Entry: 4
       Data: 3
+    - Name: behaviourType
+      Entry: 3
+      Data: 2
+    - Name: weaponType
+      Entry: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 

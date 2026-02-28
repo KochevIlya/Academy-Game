@@ -7,6 +7,7 @@ namespace _Project.Scripts.Scenes.Game.Unit._Data
         Default = 2,
         Fast = 3,
         Tank = 4,
-        Boss = 5
+        Boss = 5,
+        
     }
 }
