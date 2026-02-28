@@ -15,7 +15,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 543e53aa087558e498ff692f428f3d63, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -62,7 +63,13 @@ MonoBehaviour:
       Data: 0
     - Name: weaponType
       Entry: 3
-      Data: 5
+      Data: 0
+    - Name: abilityType
+      Entry: 3
+      Data: 0
+    - Name: ability
+      Entry: 10
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -90,6 +97,12 @@ MonoBehaviour:
     - Name: weaponType
       Entry: 3
       Data: 4
+    - Name: abilityType
+      Entry: 3
+      Data: 1
+    - Name: ability
+      Entry: 10
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -117,6 +130,12 @@ MonoBehaviour:
     - Name: weaponType
       Entry: 3
       Data: 2
+    - Name: abilityType
+      Entry: 3
+      Data: 0
+    - Name: ability
+      Entry: 10
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -144,6 +163,12 @@ MonoBehaviour:
     - Name: weaponType
       Entry: 3
       Data: 3
+    - Name: abilityType
+      Entry: 3
+      Data: 0
+    - Name: ability
+      Entry: 10
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -170,6 +195,12 @@ MonoBehaviour:
       Data: 2
     - Name: weaponType
       Entry: 3
+      Data: 1
+    - Name: abilityType
+      Entry: 3
+      Data: 0
+    - Name: ability
+      Entry: 10
       Data: 0
     - Name: 
       Entry: 8

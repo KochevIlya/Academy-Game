@@ -10,7 +10,7 @@ using UnityEngine.AddressableAssets;
 public class UnitsConfig : SoConfig<UnitsConfig>
 {
   public AssetReference Crosshair;
-  
+  public AssetReference Grenade;
   [Serializable]
   public struct BehaviourPrefabMap
   {

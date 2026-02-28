@@ -52,6 +52,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5ea3aae1244dea2428f9193fbb8a08fb
+    m_Address: Assets/_Project/Visual/Prefabs/Game/Weapons/Grenade.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 70a823f538a26ea468a1fd8f6fcaed69
     m_Address: Assets/_Project/Visual/Materials/BotMaterial.mat
     m_ReadOnly: 0

@@ -41,7 +41,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 5
+      Data: 4
     - Name: 
       Entry: 7
       Data: 
@@ -285,69 +285,6 @@ MonoBehaviour:
     - Name: m_EditorAssetChanged
       Entry: 5
       Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 5
-    - Name: $v
-      Entry: 7
-      Data: 14|_Project.Scripts.Scenes.Game.Shoot.Data.WeaponData, Assembly-CSharp
-    - Name: Damage
-      Entry: 3
-      Data: 0
-    - Name: CoolDown
-      Entry: 4
-      Data: 0
-    - Name: BulletLifeTime
-      Entry: 4
-      Data: 0
-    - Name: Speed
-      Entry: 4
-      Data: 0
-    - Name: Bullet
-      Entry: 7
-      Data: 15|UnityEngine.AddressableAssets.AssetReference, Unity.Addressables
-    - Name: m_AssetGUID
-      Entry: 6
-      Data: 
-    - Name: m_SubObjectName
-      Entry: 6
-      Data: 
-    - Name: m_SubObjectType
-      Entry: 6
-      Data: 
-    - Name: m_EditorAssetChanged
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: Prefab
-      Entry: 7
-      Data: 16|UnityEngine.AddressableAssets.AssetReference, Unity.Addressables
-    - Name: m_AssetGUID
-      Entry: 6
-      Data: 
-    - Name: m_SubObjectName
-      Entry: 6
-      Data: 
-    - Name: m_SubObjectType
-      Entry: 6
-      Data: 
-    - Name: m_EditorAssetChanged
-      Entry: 5
-      Data: false
     - Name: 
       Entry: 8
       Data: 

@@ -36,16 +36,21 @@ namespace _Project.Scripts.Scenes.Game.Unit
     
     private UnitStatsData _stats;
 
+    public IAbility Ability { get; private set; }
+    
     private readonly CompositeDisposable _lifetimeDisposable = new CompositeDisposable();
     
-
+  
     public IInputControls InputControls { get; private set; }
 
     private void Start()
     {
       Health.Die.Subscribe(_ => Destroy(gameObject)).AddTo(this);
     }
-
+    public void SetAbility(IAbility ability) 
+    {
+      Ability = ability;
+    }
     private void OnDestroy()
     {
       _lifetimeDisposable.Clear();

@@ -1,4 +1,5 @@
 ﻿using _Project.Scripts.Infrastructure.Gui.Camera;
+using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using UnityEngine;
@@ -8,19 +9,17 @@ namespace _Project.Scripts.Scenes.Game.Unit.Attacker
 {
   public class MainCharacterAttacker : MonoBehaviour, IUnitAttacker
   {
-    private ICameraService _cameraService;
     
     private Vector3 _shootMousePosition;
+    private IInputHelper _inputHelper;
     private UserInputControls _userInputControls;
-    private DummyInputControls _dummyInputControls;
-
+    private const float DefaultFireHeight = 1.2f;
+    
     [Inject]
-    public void Construct(ICameraService cameraService, 
-      UserInputControls userInputControls, DummyInputControls dummyInputControls)
+    public void Construct(UserInputControls userInputControls,IInputHelper inputHelper)
     {
-      _dummyInputControls = dummyInputControls;
       _userInputControls = userInputControls;
-      _cameraService = cameraService;
+      _inputHelper = inputHelper;
     }
 
     public void Attack(GameUnit unit, Vector2 shootPosition)
@@ -52,6 +51,12 @@ namespace _Project.Scripts.Scenes.Game.Unit.Attacker
       //     break;
       //   }
       // }
+      if (unit.Ability != null && unit.Ability.CanUse())
+      {
+        Vector2 screenMousePos = _userInputControls.MousePosition;
+        _inputHelper.ScreenToGroundPosition(screenMousePos, DefaultFireHeight, out var worldPosition);
+        unit.Ability.Use(worldPosition);
+      }
       Debug.Log($"[{unit.name}] Bot Ability Use");
     }
   }

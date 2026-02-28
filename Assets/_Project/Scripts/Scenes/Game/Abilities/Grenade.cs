@@ -5,21 +5,23 @@ using UnityEngine;
 
 public class Grenade : MonoBehaviour
 {
-    [SerializeField] private float speed = 5f;
-    [SerializeField] private float explosionRadius = 3f;
-    [SerializeField] private int damage = 20;
-    [SerializeField] private float fuseTime = 2f;
-    [SerializeField] private LayerMask enemyLayer;
+    private float speed = 5f;
+    private float explosionRadius = 3f;
+    private int damage = 20;
+    private float fuseTime = 2f;
+    private LayerMask enemyLayer;
 
     private Vector3 _targetPosition;
     private bool _exploded = false;
-
-    public void Setup(Vector3 targetPosition, int damage, float radius, float fuseTime)
+    [SerializeField] private GrenadeExplosionEffect _explosionPrefab;
+    [SerializeField] private float _visualDuration = 0.5f;
+    public void Setup(Vector3 targetPosition, int damage, float radius, float fuseTime, float speed)
     {
         _targetPosition = targetPosition;
         this.damage = damage;
         this.explosionRadius = radius;
         this.fuseTime = fuseTime;
+        this.speed = speed;
     }
 
     private void Start()
@@ -45,19 +47,23 @@ public class Grenade : MonoBehaviour
         if (_exploded) return;
         _exploded = true;
 
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, explosionRadius);
+        if (_explosionPrefab != null)
+        {
+            var effect = Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            effect.Initialize(explosionRadius, _visualDuration);
+        }
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius);
         foreach (var hitCollider in hitColliders)
         {
-            
-            var health = hitCollider.GetComponent<Health>();
+            if (!hitCollider.CompareTag("HitBox")) continue;
+            var health = hitCollider.GetComponentInParent<Health>();
             if (health != null)
             {
                 health.TakeDamage(damage);
             }
         }
         
-        Debug.Log("BOOM!");
-
+        Debug.Log($"BOOM! Radiused: {explosionRadius}, Found colliders: {hitColliders.Length}");
         Destroy(gameObject);
     }
 }

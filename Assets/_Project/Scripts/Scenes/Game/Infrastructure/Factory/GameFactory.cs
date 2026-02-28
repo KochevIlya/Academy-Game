@@ -16,6 +16,7 @@ using UnityEngine.AddressableAssets;
 using Zenject;
 using _Project.Scripts.Libs.Pool;
 using _Project.Scripts.Scenes.Game.Hacking.Terminal;
+using _Project.Scripts.Scenes.Game.Unit._Configs;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
 using UnityEngine.Rendering;
 
@@ -64,8 +65,19 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       
       bot.UpdateStats(unitData);
       
+      
+      
       if (unitData.behaviourType != UnitBehaviourType.Character)
       {
+        
+        if (unitData.abilityType == BotAbilityType.ThrowGrenade)
+        {
+          var abilityComponent = bot.gameObject.AddComponent<GrenadeAbility>();
+          _diContainer.Inject(abilityComponent);
+          abilityComponent.Initialize(bot, unitData.ability);
+          bot.SetAbility(abilityComponent);
+        }
+        
         bot.UpdateWeapon(await SpawnWeapon(unitData.weaponType, bot));
         bot.HealthView.Initialize(bot);
         bot.AddComponent<HackableComponent>();
@@ -74,6 +86,10 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       }
       else
       {
+        var abilityComponent = bot.gameObject.AddComponent<GrenadeAbility>();
+        _diContainer.Inject(abilityComponent);
+        abilityComponent.Initialize(bot, unitData.ability);
+        bot.SetAbility(abilityComponent);
         CreateCrosshair().Forget();
         _cameraService.SetTarget(bot);
         var hacker = bot.gameObject.AddComponent<PlayerHacker>();
@@ -83,8 +99,16 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       
       return bot;
     }
+
+    public async UniTask<Grenade> SpawnGrenade(Vector3 position)
+    {
+      var prefabReference = _staticData.UnitsConfig.Grenade;
+      var prefab = await _assetProvider.LoadFromAddressable<GameObject>(prefabReference);
     
-    
+      return _diContainer.InstantiatePrefabForComponent<Grenade>(prefab, position, Quaternion.identity, null);
+    }
+
+
     public async UniTask<HackingTerminal> SpawnTerminal(Vector3 position, Transform warZoneTransform)
     {
       var prefab = await _assetProvider.LoadFromAddressable<GameObject>(_staticData.TerminalConfig.Prefab);
