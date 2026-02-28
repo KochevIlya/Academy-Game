@@ -11,7 +11,7 @@ public class AggroMeleeInputControls : IInputControls
     private readonly GameUnit _self;
     private readonly GameUnit _target;
     
-    private const float StopDistance = 1.0f;
+    private const float StopDistance = 1f;
     private const float CallDown = 0.5f; 
     private  ICameraService _cameraService;
     public AggroMeleeInputControls(GameUnit self, GameUnit target, ICameraService cameraService)

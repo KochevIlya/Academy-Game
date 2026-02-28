@@ -31,6 +31,10 @@ namespace _Project.Scripts.Scenes.Game.Unit.Rotator
             {
                 worldPosition = walker.TargetPosition;
             }
+            else if (gameUnit.InputControls is AggroMeleeInputControls melee)
+            {
+                worldPosition = melee.TargetPosition;
+            }
             else
             {
                 if (!TryGetWorldPosition(gameUnit, mouseScreenPos, out worldPosition))
