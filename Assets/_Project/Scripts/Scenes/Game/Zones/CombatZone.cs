@@ -3,6 +3,7 @@ using UnityEngine;
 using UniRx;
 using System.Linq;
 using _Project.Scripts.Scenes.Game.Unit;
+using _Project.Scripts.Scenes.Game.Unit._Data;
 using _Project.Scripts.Scenes.Game.Unit.Components.Spawner;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
@@ -45,7 +46,24 @@ public class CombatZone : MonoBehaviour
             _activeUnits.Add(unit);
 
             unit.Health.OnDamageTaken
-                .Subscribe(_ => CheckAlarm())
+                .Subscribe(_ => 
+                    {
+                        
+                        if (unit.Data.behaviourType == UnitBehaviourType.Melee && _isAlarmActive)
+                        {
+                            var target = _activeUnits.FirstOrDefault(u => u != null && u.IsUnderControl);
+                            if (target != null)
+                            {
+                                unit.UpdateControls(_inputControllsFactory.ChangeALlAggressiveControls(unit, target));
+                            }
+
+                            CheckAlarm();
+                        }
+                        else
+                        {
+                            CheckAlarm();
+                        }
+                    })
                 .AddTo(unit);
 
             unit.Health.Die
@@ -99,7 +117,7 @@ public class CombatZone : MonoBehaviour
         private void ActivateAggro(GameUnit target)
         {
             _isAlarmActive = true;
-            
+    
             target.Health.Die
                 .Take(1)
                 .Subscribe(_ => ActivateWalk())
@@ -109,7 +127,7 @@ public class CombatZone : MonoBehaviour
 
             foreach (var bot in _activeUnits)
             {
-                if (bot == null || bot.IsUnderControl) continue;
+                if (bot == null || bot.IsUnderControl || bot.Data.behaviourType == UnitBehaviourType.Melee) continue;
                 
                 var aggro = _inputControllsFactory.ChangeAggressiveControls(bot, target);
                 bot.UpdateControls(aggro);

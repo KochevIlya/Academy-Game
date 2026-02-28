@@ -34,7 +34,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     private Libs.Pool.ObjectPool<Bullet> _bulletPool;
     private IInputHelper _inputHelper;
     private ICameraService _cameraService { get; set; }
-    private ICursorService _cursorService;
+    private readonly ICursorService _cursorService;
     public GameFactory(IStaticDataService staticData, DiContainer diContainer, 
       UserInputControls userInputControls, DummyInputControls dummyInputControls, 
       IAssetProvider assetProvider,
@@ -79,7 +79,6 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
         }
         
         bot.UpdateWeapon(await SpawnWeapon(unitData.weaponType, bot));
-        bot.HealthView.Initialize(bot);
         bot.AddComponent<HackableComponent>();
         bot.PatrolPath = path;
         bot.UpdateControls(new PatrolInputControls(bot));

@@ -13,11 +13,12 @@ public class AggroMeleeInputControls : IInputControls
     
     private const float StopDistance = 1.0f;
     private const float CallDown = 0.5f; 
-    [Inject] private  ICameraService _cameraService;
-    public AggroMeleeInputControls(GameUnit self, GameUnit target)
+    private  ICameraService _cameraService;
+    public AggroMeleeInputControls(GameUnit self, GameUnit target, ICameraService cameraService)
     {
         _self = self;
         _target = target;
+        _cameraService = cameraService;
     }
 
     public Vector3 TargetPosition => _target != null ? _target.transform.position : Vector3.zero;
@@ -46,8 +47,11 @@ public class AggroMeleeInputControls : IInputControls
 
     private Vector2 CalculateMeleeMovement()
     {
-        if (_target == null || _self == null) return Vector2.zero;
-
+        if (_target == null || _self == null) 
+        {
+            Debug.LogWarning("Target or Self is null!");
+            return Vector2.zero;
+        }
         Vector3 toTarget = _target.transform.position - _self.transform.position;
         float distance = toTarget.magnitude;
 
@@ -65,12 +69,10 @@ public class AggroMeleeInputControls : IInputControls
         Vector3 camRight = _cameraService.Camera.transform.right;
         camRight.y = 0;
         camRight.Normalize();
-
     
         float moveY = Vector3.Dot(worldDirection, camForward);
         float moveX = Vector3.Dot(worldDirection, camRight);
 
-        
         return new Vector2(moveX, moveY);
     }
 }

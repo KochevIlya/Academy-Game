@@ -40,11 +40,18 @@ namespace _Project.Scripts.Scenes.Game.Unit
     
     private readonly CompositeDisposable _lifetimeDisposable = new CompositeDisposable();
     
-  
     public IInputControls InputControls { get; private set; }
 
     private void Start()
-    {
+    { 
+      if (HealthView != null)
+      {
+        HealthView.Initialize(this);
+      }
+      else
+      {
+        Debug.LogWarning($"HealthView not assigned on {gameObject.name}");
+      }
       Health.Die.Subscribe(_ => Destroy(gameObject)).AddTo(this);
     }
     public void SetAbility(IAbility ability) 

@@ -56,7 +56,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
 
         private void LateUpdate()
         {
-            if (_targetUnit == null)
+            if (_targetUnit == null || _targetUnit.gameObject == null)
             {
                 Destroy(gameObject);
                 return;
