@@ -11,6 +11,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
     {
       Container.BindState<InitializeGameServices>();
       Container.BindState<SpawnGameState>();
+      Container.BindState<GameOverState>();
       Container.BindState<GameLoopState>();
       Container.Bind<IGameStateMachine>().To<GameStateMachine>().AsSingle();
       

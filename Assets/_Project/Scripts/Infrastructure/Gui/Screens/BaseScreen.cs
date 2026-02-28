@@ -39,7 +39,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Screens
       .DOFade(to, 0.15f)
       .From(from)
       .SetEase(Ease.Linear)
-      .SetLink(gameObject);
+      .SetLink(gameObject).SetUpdate(true);
 
     private void SetCanvasEnable(bool isEnable)
     {

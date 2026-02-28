@@ -32,8 +32,8 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
         
       screenInstance.transform.SetParent(_staticCanvas.Canvas.transform, false);
 
-      screenInstance.SetActive(true);
-      
+      screenInstance.Show().Forget();
+
     }
     void IGuiService.Pop()
     {

@@ -22,10 +22,9 @@ public class UnitVision : MonoBehaviour
 
     private Mesh _viewMesh;
     private GameUnit _owner;
-    private GameStateMachine _gameStateMachine;
+    [Inject]
+    private IGameStateMachine _gameStateMachine;
     
-    [Inject] 
-    private IGuiService _guiService;
     private void Awake()
     {
         _viewMesh = new Mesh { name = "View Mesh" };
@@ -69,7 +68,7 @@ public class UnitVision : MonoBehaviour
                 if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, _obstacleMask))
                 {
                     Debug.Log("<color=red>ИГРОК ОБНАРУЖЕН!</color>");
-                    _guiService.ShowGameOver();
+                    _gameStateMachine.Enter<GameOverState>();
                 }
             }
         }
