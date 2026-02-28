@@ -58,6 +58,6 @@ namespace _Project.Scripts.Scenes.Game.Shoot
     {
       _currentLifeTime = 0f;
       Remove();
-    }
+    } 
   }
 }

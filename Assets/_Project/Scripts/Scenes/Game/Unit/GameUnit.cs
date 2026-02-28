@@ -35,7 +35,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     //[SerializeField] private float _moveSpeed = 1.5f;
     
     private UnitStatsData _stats;
-
+    public UnitStatsData Data => _stats;
     public IAbility Ability { get; private set; }
     
     private readonly CompositeDisposable _lifetimeDisposable = new CompositeDisposable();

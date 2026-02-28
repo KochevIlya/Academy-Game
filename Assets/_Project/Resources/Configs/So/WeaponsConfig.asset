@@ -185,7 +185,7 @@ MonoBehaviour:
       Data: 0.6
     - Name: BulletLifeTime
       Entry: 4
-      Data: 3
+      Data: 0.4
     - Name: Speed
       Entry: 4
       Data: 15
@@ -194,7 +194,7 @@ MonoBehaviour:
       Data: 9|UnityEngine.AddressableAssets.AssetReference, Unity.Addressables
     - Name: m_AssetGUID
       Entry: 1
-      Data: 8ec09520357109d4785720dfabc7e219
+      Data: b5af671575059ca438c56168eb0aa12f
     - Name: m_SubObjectName
       Entry: 6
       Data: 
@@ -257,7 +257,7 @@ MonoBehaviour:
       Data: 12|UnityEngine.AddressableAssets.AssetReference, Unity.Addressables
     - Name: m_AssetGUID
       Entry: 1
-      Data: 8ec09520357109d4785720dfabc7e219
+      Data: b117cecafa74306479b120787c89d0d5
     - Name: m_SubObjectName
       Entry: 6
       Data: 

@@ -24,7 +24,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
       Container.Bind<ICameraService>().To<CameraService>().FromInstance(_cameraService).AsSingle();
       Container.Bind<IInputHelper>().To<InputHelper>().AsSingle();
       Container.Bind<IGameFactory>().To<GameFactory>().AsSingle();
-      
+      Container.Bind<InputControllsFactory>().AsSingle();
       Container.Bind<HackableSelector>().AsSingle();
       Container.BindInterfacesAndSelfTo<HackingService>().AsSingle();
       Container.Bind<HackingView>()

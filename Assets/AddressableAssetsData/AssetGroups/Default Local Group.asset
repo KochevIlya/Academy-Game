@@ -77,6 +77,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b117cecafa74306479b120787c89d0d5
+    m_Address: Assets/_Project/Visual/Prefabs/Game/Armaments/QueueBullet.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b5af671575059ca438c56168eb0aa12f
+    m_Address: Assets/_Project/Visual/Prefabs/Game/Armaments/ShotgunBullet.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e5e9828cc2ed9a443b9822e1fd871237
     m_Address: Assets/_Project/Visual/Prefabs/Game/Units/MeleeBot.prefab
     m_ReadOnly: 0

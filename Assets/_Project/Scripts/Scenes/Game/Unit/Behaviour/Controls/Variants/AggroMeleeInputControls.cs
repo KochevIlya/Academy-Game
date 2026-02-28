@@ -1,0 +1,76 @@
+using System;
+using _Project.Scripts.Infrastructure.Gui.Camera;
+using _Project.Scripts.Scenes.Game.Unit;
+using _Project.Scripts.Scenes.Game.Unit.Controls;
+using UniRx;
+using UnityEngine;
+using Zenject;
+
+public class AggroMeleeInputControls : IInputControls
+{
+    private readonly GameUnit _self;
+    private readonly GameUnit _target;
+    
+    private const float StopDistance = 1.0f;
+    private const float CallDown = 0.5f; 
+    [Inject] private  ICameraService _cameraService;
+    public AggroMeleeInputControls(GameUnit self, GameUnit target)
+    {
+        _self = self;
+        _target = target;
+    }
+
+    public Vector3 TargetPosition => _target != null ? _target.transform.position : Vector3.zero;
+
+    public Vector2 MousePosition
+    {
+        get
+        {
+            if (_target == null) return Vector2.zero;
+            
+            Vector3 screenPoint = Camera.main.WorldToScreenPoint(_target.transform.position);
+            return new Vector2(screenPoint.x, screenPoint.y);
+        }
+    }
+
+    public IObservable<Vector2> OnMovement => Observable.EveryUpdate()
+        .Select(_ => CalculateMeleeMovement());
+
+    public IObservable<Vector2> OnRawMovement => Observable.Never<Vector2>();
+
+    public IObservable<UniRx.Unit> OnShoot => Observable
+        .Interval(TimeSpan.FromSeconds(CallDown))
+        .Select(_ => UniRx.Unit.Default);
+        
+    public IObservable<Unit> OnAbilityUse => Observable.Never<Unit>();
+
+    private Vector2 CalculateMeleeMovement()
+    {
+        if (_target == null || _self == null) return Vector2.zero;
+
+        Vector3 toTarget = _target.transform.position - _self.transform.position;
+        float distance = toTarget.magnitude;
+
+        if (distance <= StopDistance)
+        {
+            return Vector2.zero;
+        }
+
+        Vector3 worldDirection = toTarget.normalized;
+    
+        Vector3 camForward = _cameraService.Camera.transform.forward;
+        camForward.y = 0;
+        camForward.Normalize();
+    
+        Vector3 camRight = _cameraService.Camera.transform.right;
+        camRight.y = 0;
+        camRight.Normalize();
+
+    
+        float moveY = Vector3.Dot(worldDirection, camForward);
+        float moveX = Vector3.Dot(worldDirection, camRight);
+
+        
+        return new Vector2(moveX, moveY);
+    }
+}

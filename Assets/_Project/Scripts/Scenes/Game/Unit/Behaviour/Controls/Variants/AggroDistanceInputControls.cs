@@ -5,7 +5,7 @@ using UniRx;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class AggroInputControls : IInputControls
+public class AggroDistanceInputControls : IInputControls
 {
     private readonly GameUnit _self;
     private readonly GameUnit _target;
@@ -19,9 +19,9 @@ public class AggroInputControls : IInputControls
     private float _strafeChangeInterval = 1f;
     private float _currentStrafeDir = 0f;
 
-    private const float callDown = 0.7f;
+    private const float CoolDown = 0.7f;
     public Vector3 TargetPosition => _target != null ? _target.transform.position : Vector3.zero;
-    public AggroInputControls(GameUnit self, GameUnit target)
+    public AggroDistanceInputControls(GameUnit self, GameUnit target)
     {
         _self = self;
         _target = target;
@@ -47,7 +47,7 @@ public class AggroInputControls : IInputControls
     public IObservable<Vector2> OnRawMovement => Observable.Return(Vector2.zero);
 
     public IObservable<UniRx.Unit> OnShoot => Observable
-        .Interval(TimeSpan.FromSeconds(callDown))
+        .Interval(TimeSpan.FromSeconds(CoolDown))
         .Select(_ => UniRx.Unit.Default);
     public IObservable<Unit> OnAbilityUse => Observable.Never<Unit>();
     

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AbilitiesConfig
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
+    SerializedFormat: 0
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -33,7 +33,7 @@ MonoBehaviour:
         asm: Assembly-CSharp}
       data:
         cooldown: 2
-        damage: 20
-        radius: 10
+        damage: 40
+        radius: 3
         fuseTime: 1
         speed: 5

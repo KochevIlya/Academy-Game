@@ -4,6 +4,7 @@ using UniRx;
 using System.Linq;
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit.Components.Spawner;
+using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using Zenject;
 
@@ -15,7 +16,7 @@ public class CombatZone : MonoBehaviour
         private CompositeDisposable _disposables = new CompositeDisposable();
         private int _botsCount = 0;
         [Inject] HackingService  _hackingService;
-        
+        [Inject] InputControllsFactory _inputControllsFactory;
         public void InitializeZone()
         {
             foreach (var spawner in _mySpawners)
@@ -110,7 +111,7 @@ public class CombatZone : MonoBehaviour
             {
                 if (bot == null || bot.IsUnderControl) continue;
                 
-                var aggro = new AggroInputControls(bot, target);
+                var aggro = _inputControllsFactory.ChangeAggressiveControls(bot, target);
                 bot.UpdateControls(aggro);
             }
         }
