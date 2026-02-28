@@ -14974,8 +14974,63 @@ PrefabInstance:
     - target: {fileID: 964276304112673759, guid: 7e505665de86cd444ac8d1f555cd4f48,
         type: 3}
       propertyPath: "Unit\u0421haracteristicsType"
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1074644784420249646, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1074644784420249646, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[0].WaitTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1074644784420249646, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[1].WaitTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1074644784420249646, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[2].WaitTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1074644784420249646, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[3].WaitTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1074644784420249646, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[4].WaitTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1074644784420249646, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[0].PointTransform
+      value: 
+      objectReference: {fileID: 1917199272}
+    - target: {fileID: 1074644784420249646, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[1].PointTransform
+      value: 
+      objectReference: {fileID: 1172940712}
+    - target: {fileID: 1074644784420249646, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[2].PointTransform
+      value: 
+      objectReference: {fileID: 1460893439}
+    - target: {fileID: 1074644784420249646, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[3].PointTransform
+      value: 
+      objectReference: {fileID: 1922281305}
+    - target: {fileID: 1074644784420249646, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[4].PointTransform
+      value: 
+      objectReference: {fileID: 1968337736}
     - target: {fileID: 1525434547677759926, guid: 7e505665de86cd444ac8d1f555cd4f48,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15211,6 +15266,61 @@ PrefabInstance:
       propertyPath: needToShowPath
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5288131756127277944, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5288131756127277944, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[0].WaitTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5288131756127277944, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[1].WaitTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5288131756127277944, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[2].WaitTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5288131756127277944, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[3].WaitTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5288131756127277944, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[4].WaitTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5288131756127277944, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[0].PointTransform
+      value: 
+      objectReference: {fileID: 2146356934}
+    - target: {fileID: 5288131756127277944, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[1].PointTransform
+      value: 
+      objectReference: {fileID: 1774932349}
+    - target: {fileID: 5288131756127277944, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[2].PointTransform
+      value: 
+      objectReference: {fileID: 1497333517}
+    - target: {fileID: 5288131756127277944, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[3].PointTransform
+      value: 
+      objectReference: {fileID: 1044432284}
+    - target: {fileID: 5288131756127277944, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[4].PointTransform
+      value: 
+      objectReference: {fileID: 800590921}
     - target: {fileID: 5365357029022469882, guid: 7e505665de86cd444ac8d1f555cd4f48,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15220,6 +15330,56 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 41.83
+      objectReference: {fileID: 0}
+    - target: {fileID: 5389730407837324727, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5389730407837324727, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[0].WaitTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5389730407837324727, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[1].WaitTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5389730407837324727, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[2].WaitTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5389730407837324727, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[3].WaitTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5389730407837324727, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[0].PointTransform
+      value: 
+      objectReference: {fileID: 1329779204}
+    - target: {fileID: 5389730407837324727, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[1].PointTransform
+      value: 
+      objectReference: {fileID: 1294888181}
+    - target: {fileID: 5389730407837324727, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[2].PointTransform
+      value: 
+      objectReference: {fileID: 170544539}
+    - target: {fileID: 5389730407837324727, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[3].PointTransform
+      value: 
+      objectReference: {fileID: 911311122}
+    - target: {fileID: 5398439763311317129, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: UnitType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5454129221613492820, guid: 7e505665de86cd444ac8d1f555cd4f48,
         type: 3}
