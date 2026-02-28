@@ -33,6 +33,10 @@ public class QueuegunWeapon : RiffleWeapon
 
         for (int i = 0; i < bulletCount; i++)
         {
+            if (SpawnPoint == null) 
+            {
+                break;
+            }
             SpawnAndSetup(direction, WeaponData.Speed, WeaponData.BulletLifeTime, WeaponData.Damage, unit).Forget();
 
             await UniTask.Delay(System.TimeSpan.FromSeconds(timeBetweenBullets));
