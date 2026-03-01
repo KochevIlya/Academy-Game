@@ -16,9 +16,10 @@ namespace _Project.Scripts.Scenes.Game.Unit.Mover
     private CharacterController _controller;
     
     private Vector3 _verticalVelocity;
-    private const float Gravity = -9.81f; 
-    private const float GroundedGravity = -2f;
 
+    private const float Gravity = -9.81f;
+    private const float GroundedGravity = -2f;
+    
     [Inject]
     public void Construct(ICameraService cameraService)
     {

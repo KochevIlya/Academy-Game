@@ -8,6 +8,7 @@ TagManager:
   - Bullet
   - VisionHitbox
   - HitBox
+  - Debug
   layers:
   - Default
   - TransparentFX

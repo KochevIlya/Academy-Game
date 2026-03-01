@@ -5,7 +5,8 @@ using UniRx;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class AggroDistanceInputControls : IInputControls
+public class 
+    AggroDistanceInputControls : IInputControls
 {
     private readonly GameUnit _self;
     private readonly GameUnit _target;

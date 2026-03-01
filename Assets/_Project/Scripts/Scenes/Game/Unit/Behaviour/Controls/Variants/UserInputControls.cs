@@ -52,8 +52,10 @@ namespace _Project.Scripts.Scenes.Game.Unit.Controls.Variants
     .AddTo(_disposable);
     }
 
-    void PlayerControls.IPlayerActions.OnMove(InputAction.CallbackContext ctx) =>
+    void PlayerControls.IPlayerActions.OnMove(InputAction.CallbackContext ctx)
+    {
       _moveDirection = ctx.ReadValue<Vector2>();
+    }
 
     void PlayerControls.IPlayerActions.OnShoot(InputAction.CallbackContext ctx)
     {

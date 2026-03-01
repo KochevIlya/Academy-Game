@@ -52,6 +52,7 @@ public class AggroMeleeInputControls : IInputControls
             Debug.LogWarning("Target or Self is null!");
             return Vector2.zero;
         }
+        
         Vector3 toTarget = _target.transform.position - _self.transform.position;
         float distance = toTarget.magnitude;
 
@@ -72,7 +73,7 @@ public class AggroMeleeInputControls : IInputControls
     
         float moveY = Vector3.Dot(worldDirection, camForward);
         float moveX = Vector3.Dot(worldDirection, camRight);
-
+        Debug.Log($"In AggroMeleeInputContrls: directionX: {moveX}, directionY: {moveY}");
         return new Vector2(moveX, moveY);
     }
 }

@@ -30,6 +30,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     public readonly Subject<GameUnit> OnUnitHacked = new Subject<GameUnit>();
     
     [SerializeField] private InterfaceReference<IUnitMover> _mover;
+    [SerializeField] private InterfaceReference<IUnitMover> _botMover;
     [SerializeField] private InterfaceReference<IUnitRotator> _rotator;
     [SerializeField] private InterfaceReference<IUnitAttacker> _attacker;
     //[SerializeField] private float _moveSpeed = 1.5f;
