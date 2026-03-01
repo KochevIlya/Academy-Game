@@ -42,9 +42,7 @@ public class BroneBullet : Bullet
         Quaternion randomRotation = Quaternion.Euler(0f, randomAngleY, 0f);
 
         Vector3 newDir = randomRotation * currentDir;
-    
-        newDir.y = 0f;
-
+        
         SetDirection(newDir.normalized);
     }
 }
