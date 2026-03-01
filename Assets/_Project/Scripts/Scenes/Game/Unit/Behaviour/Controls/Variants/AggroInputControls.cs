@@ -52,20 +52,40 @@ public class AggroInputControls : IInputControls
     public IObservable<Unit> OnAbilityUse => Observable.Never<Unit>();
     
     private Vector2 CalculateCombatMovement()
+{
+    if (_target == null || _self == null) return Vector2.zero;
+
+    // 1. Получаем чистый вектор направления от бота к игроку
+    Vector3 selfPos = _self.transform.position;
+    Vector3 targetPos = _target.transform.position;
+    
+    // Игнорируем разницу в высоте, чтобы бота не тянуло в землю или в небо
+    selfPos.y = 0;
+    targetPos.y = 0;
+
+    Vector3 directionToTarget = targetPos - selfPos;
+    float distance = directionToTarget.magnitude;
+    
+    // Нормализуем, чтобы получить чистое направление (длина вектора = 1)
+    Vector3 normalizedDirection = directionToTarget.normalized;
+
+    float vertical = 0f;
+    // Определяем, нужно ли нам сближаться или отдаляться
+    if (distance < MinDistance) vertical = -1f; // Идем ОТ игрока
+    else if (distance > MaxDistance) vertical = 1f;  // Идем К игроку
+
+    // 2. Рассчитываем итоговый вектор движения
+    // Если vertical = 1, бот пойдет ровно по вектору directionToTarget
+    // Если vertical = -1, бот пойдет ровно в противоположную сторону
+    Vector3 finalMoveWorld = normalizedDirection * vertical;
+
+    // 3. Логика уклонения (стрейф)
+    // Добавляем её только если бот в "зоне комфорта" (между Min и Max)
+    if (distance >= MinDistance && distance <= MaxDistance)
     {
-        if (_target == null || _self == null) return Vector2.zero;
-
-        Vector3 toTarget = _target.transform.position - _self.transform.position;
-        float distance = toTarget.magnitude;
-
-        float vertical = 0f;
-        if (distance < MinDistance) vertical = -1f;
-        else if (distance > MaxDistance) vertical = 1f;
-
-        float horizontal = 0f;
         Vector3 playerForward = _target.transform.forward;
-        Vector3 playerToBotDir = (_self.transform.position - _target.transform.position).normalized;
-        float dotProduct = Vector3.Dot(playerForward, playerToBotDir);
+        Vector3 dirToBot = (_self.transform.position - _target.transform.position).normalized;
+        float dotProduct = Vector3.Dot(playerForward, dirToBot);
 
         if (dotProduct > AimThreshold)
         {
@@ -75,17 +95,16 @@ public class AggroInputControls : IInputControls
                 _currentStrafeDir = Random.value > 0.5f ? 1f : -1f;
                 _strafeTimer = _strafeChangeInterval;
             }
-            horizontal = _currentStrafeDir;
+            
+            // Создаем перпендикуляр для стрейфа
+            Vector3 sideStep = new Vector3(-normalizedDirection.z, 0, normalizedDirection.x);
+            finalMoveWorld += sideStep * _currentStrafeDir;
         }
-
-    
-        Vector3 botForward = _self.transform.forward;
-        Vector3 botRight = _self.transform.right;
-
-        Vector3 moveDirection = (botForward * vertical) + (botRight * horizontal);
-
-        return new Vector2(moveDirection.x, moveDirection.z);
     }
+
+    // Возвращаем результат в Mover
+    return new Vector2(finalMoveWorld.x, finalMoveWorld.z);
+}
     private void PickNewStrafeDirection()
     {
         _currentStrafeDir = Random.value > 0.5f ? 1f : -1f;
