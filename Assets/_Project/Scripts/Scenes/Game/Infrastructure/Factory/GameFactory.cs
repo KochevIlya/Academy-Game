@@ -30,8 +30,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     private readonly UserInputControls _userInputControls;
     private readonly DummyInputControls _dummyInputControls;
     private readonly IAssetProvider _assetProvider;
-    private bool _isBulletPoolReady;
-    private Libs.Pool.ObjectPool<Bullet> _bulletPool;
+    private readonly Dictionary<string, Libs.Pool.ObjectPool<Bullet>> _bulletPools = new();
     private IInputHelper _inputHelper;
     private ICameraService _cameraService { get; set; }
     private readonly ICursorService _cursorService;
@@ -134,30 +133,52 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       return weapon;
     }
     
-    public async UniTask<Bullet> SpawnBullet(AssetReference prefabRefence, Transform spawnPoint)
+    public async UniTask<Bullet> SpawnBullet(AssetReference prefabReference, Transform spawnPoint)
     {
-      var bullet = _bulletPool.Spawn();
-      bullet.transform.position = spawnPoint.position;
-      bullet.transform.rotation = spawnPoint.rotation;
-      bullet.gameObject.SetActive(true);
+      string key = prefabReference.AssetGUID;
+      if (!_bulletPools.ContainsKey(key))
+      {
+        await Initialize(prefabReference);
+      }
+      var bullet = _bulletPools[key].Spawn();
+      if (spawnPoint != null)
+      {
+        bullet.transform.position = spawnPoint.position;
+        bullet.transform.rotation = spawnPoint.rotation;
+      }
     
+      bullet.gameObject.SetActive(true);
       return bullet;
     }
 
     public async UniTask Initialize(AssetReference prefabReference)
     {
+      if (prefabReference == null || !prefabReference.RuntimeKeyIsValid())
+        return;
+
+      string key = prefabReference.AssetGUID;
+
+      if (_bulletPools.ContainsKey(key)) return;
+
       var bulletPrefab = await _assetProvider.LoadFromAddressable<GameObject>(prefabReference);
 
-      _bulletPool = new ObjectPoolSpawnable<Bullet>(() =>
+      if (_bulletPools.ContainsKey(key)) return;
+
+      ObjectPoolSpawnable<Bullet> pool = null;
+
+      pool = new ObjectPoolSpawnable<Bullet>(() =>
       {
         var bullet = _diContainer
           .InstantiatePrefabForComponent<Bullet>(bulletPrefab,
             Vector3.zero, Quaternion.identity, null);
-        bullet.OnCreated(_bulletPool);
+        
+        bullet.OnCreated(pool); 
         bullet.gameObject.SetActive(false);
         return bullet;
       }, 20);
-      _isBulletPoolReady = true;
+
+      _bulletPools.TryAdd(key, pool);
+
     }
 
     public async UniTask CreateCrosshair()

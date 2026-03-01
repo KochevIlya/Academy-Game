@@ -43,6 +43,7 @@ namespace _Project.Scripts.Scenes.Game.Shoot
     
     protected async UniTaskVoid SpawnAndSetup(Vector3 direction, float speed, float lifetime, int damage, GameUnit unit)
     {
+      Debug.Log($"Current bullet: {WeaponData.Bullet}");
       Bullet bullet = await _gameFactory.SpawnBullet(WeaponData.Bullet, SpawnPoint);
       bullet.SetDirection(direction);
       bullet.SetSpeed(speed);

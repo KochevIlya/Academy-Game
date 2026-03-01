@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using _Project.Scripts.Scenes.Game.Infrastructure.Factory;
 using _Project.Scripts.Scenes.Game.Shoot.Data;
 using _Project.Scripts.Infrastructure.StateMachine.States.Interfaces;
@@ -23,8 +24,19 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
 
         public async UniTask Enter(IGameStateMachine gameStateMachine)
         {
-            await _gameFactory.Initialize(_staticData.WeaponsConfig.Weapons[WeaponType.Riffle].Bullet);
-            
+            var weaponConfigs = _staticData.WeaponsConfig.Weapons;
+    
+            List<UniTask> initTasks = new List<UniTask>();
+
+            foreach (var config in weaponConfigs.Values)
+            {
+                if (config.Bullet != null && config.Bullet.RuntimeKeyIsValid()) 
+                {
+                    initTasks.Add(_gameFactory.Initialize(config.Bullet));
+                }
+            }
+            await UniTask.WhenAll(initTasks);
+    
             gameStateMachine.Enter<GameLoopState>().Forget();
         }
     }

@@ -130,7 +130,7 @@ MonoBehaviour:
       Entry: 7
       Data: 6|UnityEngine.AddressableAssets.AssetReference, Unity.Addressables
     - Name: m_AssetGUID
-      Entry: 6
+      Entry: 1
       Data: 
     - Name: m_SubObjectName
       Entry: 6

@@ -15990,6 +15990,11 @@ PrefabInstance:
       propertyPath: LinkedEnemies.Array.data[0]
       value: 
       objectReference: {fileID: 1140721352}
+    - target: {fileID: 9166852986017914357, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: _mySpawners.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 127437161790541444, guid: 7e505665de86cd444ac8d1f555cd4f48, type: 3}
