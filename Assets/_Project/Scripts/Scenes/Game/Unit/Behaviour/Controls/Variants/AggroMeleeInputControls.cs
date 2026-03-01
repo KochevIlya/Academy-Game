@@ -52,7 +52,7 @@ public class AggroMeleeInputControls : IInputControls
             Debug.LogWarning("Target or Self is null!");
             return Vector2.zero;
         }
-        
+    
         Vector3 toTarget = _target.transform.position - _self.transform.position;
         float distance = toTarget.magnitude;
 
@@ -63,17 +63,8 @@ public class AggroMeleeInputControls : IInputControls
 
         Vector3 worldDirection = toTarget.normalized;
     
-        Vector3 camForward = _cameraService.Camera.transform.forward;
-        camForward.y = 0;
-        camForward.Normalize();
+        Vector3 localDirection = _self.transform.InverseTransformDirection(worldDirection);
     
-        Vector3 camRight = _cameraService.Camera.transform.right;
-        camRight.y = 0;
-        camRight.Normalize();
-    
-        float moveY = Vector3.Dot(worldDirection, camForward);
-        float moveX = Vector3.Dot(worldDirection, camRight);
-        Debug.Log($"In AggroMeleeInputContrls: directionX: {moveX}, directionY: {moveY}");
-        return new Vector2(moveX, moveY);
+        return new Vector2(localDirection.x, localDirection.z);
     }
 }

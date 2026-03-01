@@ -176,6 +176,11 @@ PrefabInstance:
       objectReference: {fileID: 8639626550087304000}
     - target: {fileID: 7716537891382239971, guid: fe0d8696859b47940851431c5478d46c,
         type: 3}
+      propertyPath: _botMover.underlyingValue
+      value: 
+      objectReference: {fileID: 1497146776356188255}
+    - target: {fileID: 7716537891382239971, guid: fe0d8696859b47940851431c5478d46c,
+        type: 3}
       propertyPath: <HealthView>k__BackingField
       value: 
       objectReference: {fileID: 3930283333865938777}
@@ -216,6 +221,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 136575636990854284}
+    - targetCorrespondingSourceObject: {fileID: 1787969264439270792, guid: fe0d8696859b47940851431c5478d46c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1497146776356188255}
   m_SourcePrefab: {fileID: 100100000, guid: fe0d8696859b47940851431c5478d46c, type: 3}
 --- !u!4 &1330353761875379331 stripped
 Transform:
@@ -287,6 +296,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineColor: {r: 1, g: 0.94832873, b: 0, a: 1}
   outlineWidth: 3
+--- !u!114 &1497146776356188255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470226109407749570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e76e99bc35f211246b2ef631a1d45a45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7530047032852766723
 PrefabInstance:
   m_ObjectHideFlags: 0

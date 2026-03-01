@@ -34,7 +34,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     [SerializeField] private InterfaceReference<IUnitRotator> _rotator;
     [SerializeField] private InterfaceReference<IUnitAttacker> _attacker;
     //[SerializeField] private float _moveSpeed = 1.5f;
-    
+    private IUnitMover _currentMover;
     private UnitStatsData _stats;
     public UnitStatsData Data => _stats;
     public IAbility Ability { get; private set; }
@@ -66,10 +66,20 @@ namespace _Project.Scripts.Scenes.Game.Unit
 
     public void UpdateControls(IInputControls inputControls)
     {
-      ResetMovement();
+      if (_currentMover != null) _currentMover.ResetMovement(this);
       _lifetimeDisposable.Clear();
 
       InputControls = inputControls;
+
+      if (inputControls is UserInputControls)
+      {
+        _currentMover = _mover.Value;
+        
+      }
+      else
+      {
+        _currentMover = _botMover.Value;
+      }
 
       SubscribeMovement();
       SubscribeShoot();
@@ -103,7 +113,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     private void SubscribeMovement()
     {
       InputControls.OnMovement
-        .Subscribe(delta => _mover.Value.Move(this, delta * _stats.speed, Time.deltaTime))
+        .Subscribe(delta => _currentMover.Move(this, delta * _stats.speed, Time.deltaTime))
         .AddTo(_lifetimeDisposable);
     }
 
@@ -125,7 +135,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
         .AddTo(_lifetimeDisposable);
     }
     
-    private void ResetMovement() => _mover.Value.ResetMovement(this);
+    private void ResetMovement() => _currentMover.ResetMovement(this);
     
     public void DisableControl(IInputControls dummyInput)
     {

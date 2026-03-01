@@ -11,6 +11,10 @@ public class BotMover : MonoBehaviour, IUnitMover
     private Vector3 _verticalVelocity;
     private CharacterController _controller;
     
+    private void Awake()
+    {
+        _controller = GetComponent<CharacterController>();
+    }
     public void Move(GameUnit gameUnit, Vector2 movementDelta, float deltaTime)
     {
         Vector3 horizontalDirection = CalculateMovementDirection(movementDelta);
@@ -27,9 +31,7 @@ public class BotMover : MonoBehaviour, IUnitMover
     private Vector3 CalculateMovementDirection(Vector2 movementDelta)
     {
         Vector3 direction = (transform.forward * movementDelta.y + transform.right * movementDelta.x);
-    
-        if (direction.sqrMagnitude > 1f)
-            direction.Normalize();
+        
         
         return direction;
     }

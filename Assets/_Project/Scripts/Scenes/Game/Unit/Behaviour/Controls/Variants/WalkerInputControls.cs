@@ -36,10 +36,10 @@ public class WalkerInputControls : IInputControls
     public IObservable<Vector2> OnMovement => Observable.EveryUpdate().Select(_ =>
     {
         if(_target == null) return Vector2.zero;
-        
+    
         Vector3 targetPos = _target.transform.position;
         Vector3 selfPos = _self.transform.position;
-        
+    
         Vector3 targetFlat = new Vector3(targetPos.x, 0, targetPos.z);
         Vector3 selfFlat = new Vector3(selfPos.x, 0, selfPos.z);
 
@@ -47,16 +47,12 @@ public class WalkerInputControls : IInputControls
         {
             return Vector2.zero;
         }
-        
+    
         Vector3 worldDirection = (targetFlat - selfFlat).normalized;
-        
-        Vector3 camForward = Vector3.ProjectOnPlane(_camTransform.forward, Vector3.up).normalized;
-        Vector3 camRight = Vector3.ProjectOnPlane(_camTransform.right, Vector3.up).normalized;
-        
-        float moveY = Vector3.Dot(worldDirection, camForward);
-        float moveX = Vector3.Dot(worldDirection, camRight);
-        
-        return new Vector2(moveX, moveY);
+    
+        Vector3 localDirection = _self.transform.InverseTransformDirection(worldDirection);
+    
+        return new Vector2(localDirection.x, localDirection.z);
     });
     public IObservable<Vector2> OnRawMovement { get; } = Observable.Never<Vector2>();
     public IObservable<UniRx.Unit> OnShoot => Observable.Never<Unit>();
