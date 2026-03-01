@@ -21,18 +21,32 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  Character:
-    m_AssetGUID: 0d571c597da462243b8e5d89d8304f49
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 1
-  Bot:
-    m_AssetGUID: f61f6339d95855f4087a3dc62edb99bd
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 1
   Crosshair:
     m_AssetGUID: aeb1639dc7d8c7843b27f64495f10840
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 1
+  Grenade:
+    m_AssetGUID: 5ea3aae1244dea2428f9193fbb8a08fb
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1
+  BehaviourMaps:
+  - Behaviour: 0
+    Prefab:
+      m_AssetGUID: 0d571c597da462243b8e5d89d8304f49
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+  - Behaviour: 1
+    Prefab:
+      m_AssetGUID: e5e9828cc2ed9a443b9822e1fd871237
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+  - Behaviour: 2
+    Prefab:
+      m_AssetGUID: f61f6339d95855f4087a3dc62edb99bd
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1

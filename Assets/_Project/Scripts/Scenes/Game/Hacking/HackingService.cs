@@ -85,18 +85,6 @@ public class HackingService : IDisposable
             _cameraService.SetTarget(_originalHero);
         }
     }
-    private HackableComponent FindClosestTargetInWorld(Vector3 position)
-    {
-        float radius = 10f;
-        var allTargets = UnityEngine.Object.FindObjectsByType<HackableComponent>(FindObjectsSortMode.None);
-        return allTargets
-            .Where(t => t.gameObject != _hackerUnit.gameObject)
-            .Select(t => new { Component = t, Distance = Vector3.Distance(position, t.transform.position) })
-            .Where(t => t.Distance <= radius)
-            .OrderBy(t => t.Distance)
-            .Select(t => t.Component)
-            .FirstOrDefault();
-    }
     public void StartHacking(HackableComponent target, GameUnit hacker)
     {
         _currentTarget = target;
@@ -213,7 +201,6 @@ public class HackingService : IDisposable
                 StartHacking(_currentTarget, _hackerUnit);
             })
             .AddTo(_disposables);
-        
         
     }
     private void CompleteHacking()

@@ -22,14 +22,12 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
     
     public async UniTask Enter(IGameStateMachine gameStateMachine)
     {
+      await UniTask.Yield();
       foreach (UnitSpawner spawner in Object.FindObjectsOfType<UnitSpawner>())
       {
         GameUnit unit = null;
         
-        if(spawner.UnitType == UnitType.Character) 
-          unit = await _gameFactory.SpawnCharacter(spawner.Position, WeaponType.Riffle);
-        else if (spawner.UnitType == UnitType.Bot)
-          unit = await _gameFactory.SpawnBot(spawner.Position, WeaponType.Riffle, spawner.UnitСharacteristicsType, spawner.Path);
+        unit = await _gameFactory.SpawnGameUnit(spawner.Position, spawner.UnitСharacteristicsType, spawner.Path);
         if (unit != null)
         {
           spawner.SetSpawnedUnit(unit);

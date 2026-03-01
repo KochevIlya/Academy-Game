@@ -8,7 +8,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
   public sealed class GuiService : MonoBehaviour, IGuiService
   {
     [SerializeField] private Canvas.StaticCanvas _staticCanvas;
-
+    [SerializeField] private GameOverScreen _gameOverScreenPrefab;
     private readonly Stack<BaseScreen> _screens = new Stack<BaseScreen>();
 
     Canvas.StaticCanvas IGuiService.StaticCanvas => _staticCanvas;
@@ -23,6 +23,18 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
       _screens.Push(screen);
     }
 
+    public void ShowGameOver()
+    {
+      
+      var screenInstance = Instantiate(_gameOverScreenPrefab);
+        
+      ((IGuiService)this).Push(screenInstance);
+        
+      screenInstance.transform.SetParent(_staticCanvas.Canvas.transform, false);
+
+      screenInstance.Show().Forget();
+
+    }
     void IGuiService.Pop()
     {
       if (_screens.TryPop(out var oldScreen))

@@ -3,7 +3,9 @@ using UnityEngine;
 using UniRx;
 using System.Linq;
 using _Project.Scripts.Scenes.Game.Unit;
+using _Project.Scripts.Scenes.Game.Unit._Data;
 using _Project.Scripts.Scenes.Game.Unit.Components.Spawner;
+using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using Zenject;
 
@@ -13,8 +15,9 @@ public class CombatZone : MonoBehaviour
         private List<GameUnit> _activeUnits = new List<GameUnit>();
         private bool _isAlarmActive = false;
         private CompositeDisposable _disposables = new CompositeDisposable();
+        private int _botsCount = 0;
         [Inject] HackingService  _hackingService;
-        
+        [Inject] InputControllsFactory _inputControllsFactory;
         public void InitializeZone()
         {
             foreach (var spawner in _mySpawners)
@@ -22,6 +25,7 @@ public class CombatZone : MonoBehaviour
                 if (spawner.SpawnedUnit != null)
                 {
                     RegisterUnit(spawner.SpawnedUnit);
+                    _botsCount++;
                 }
             }
             
@@ -42,20 +46,46 @@ public class CombatZone : MonoBehaviour
             _activeUnits.Add(unit);
 
             unit.Health.OnDamageTaken
-                .Subscribe(_ => CheckAlarm())
+                .Subscribe(_ => 
+                    {
+                        
+                        if (unit.Data.behaviourType == UnitBehaviourType.Melee && _isAlarmActive && !unit.IsUnderControl)
+                        {
+                            var target = _activeUnits.FirstOrDefault(u => u != null && u.IsUnderControl);
+                            if (target != null)
+                            {
+                                unit.UpdateControls(_inputControllsFactory.ChangeALlAggressiveControls(unit, target));
+                            }
+
+                            CheckAlarm();
+                        }
+                        else
+                        {
+                            CheckAlarm();
+                        }
+                    })
                 .AddTo(unit);
 
             unit.Health.Die
                 .Subscribe(_ => {
                     _activeUnits.Remove(unit); 
                     CheckLastSurvivor();
+                    _botsCount--;
+                    CheckUnitReturn(unit);
                 })
                 .AddTo(unit);
             unit.OnUnitHacked
                 .Subscribe(_ => CheckLastSurvivor())
                 .AddTo(unit);
+            
         }
-        
+
+        private void CheckUnitReturn(GameUnit unit)
+        {
+            if (unit.IsUnderControl)
+                _hackingService.ReturnToOriginalBody();
+            
+        }
         private void CheckAlarm()
         {
             if (_isAlarmActive) return;
@@ -87,7 +117,7 @@ public class CombatZone : MonoBehaviour
         private void ActivateAggro(GameUnit target)
         {
             _isAlarmActive = true;
-            
+    
             target.Health.Die
                 .Take(1)
                 .Subscribe(_ => ActivateWalk())
@@ -97,9 +127,9 @@ public class CombatZone : MonoBehaviour
 
             foreach (var bot in _activeUnits)
             {
-                if (bot == null || bot.IsUnderControl) continue;
+                if (bot == null || bot.IsUnderControl || bot.Data.behaviourType == UnitBehaviourType.Melee) continue;
                 
-                var aggro = new AggroInputControls(bot, target);
+                var aggro = _inputControllsFactory.ChangeAggressiveControls(bot, target);
                 bot.UpdateControls(aggro);
             }
         }

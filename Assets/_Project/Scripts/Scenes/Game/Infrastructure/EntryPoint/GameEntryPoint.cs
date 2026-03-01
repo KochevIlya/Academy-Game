@@ -16,6 +16,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
     
     public void Initialize()
     {
+      Debug.Log("!!! GameEntryPoint Initialized !!!");
       _gameStateMachine.Enter<SpawnGameState>();
     }
   }

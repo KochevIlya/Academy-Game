@@ -31,6 +31,12 @@ namespace _Project.Scripts.Infrastructure.StateMachine
 
     public async UniTask Enter<TState>() where TState : IState
     {
+      IState newState = GetState<TState>();
+      if (_currentState == newState)
+      {
+        return;
+      }
+      
       await TryExitStateAndSetCurrent(GetState<TState>());
 
       if (_currentState is IEnterState enterState)

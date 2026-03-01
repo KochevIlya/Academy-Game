@@ -16,6 +16,7 @@ using UnityEngine.AddressableAssets;
 using Zenject;
 using _Project.Scripts.Libs.Pool;
 using _Project.Scripts.Scenes.Game.Hacking.Terminal;
+using _Project.Scripts.Scenes.Game.Unit._Configs;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
 using UnityEngine.Rendering;
 
@@ -29,11 +30,10 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     private readonly UserInputControls _userInputControls;
     private readonly DummyInputControls _dummyInputControls;
     private readonly IAssetProvider _assetProvider;
-    private bool _isBulletPoolReady;
-    private Libs.Pool.ObjectPool<Bullet> _bulletPool;
+    private readonly Dictionary<string, Libs.Pool.ObjectPool<Bullet>> _bulletPools = new();
     private IInputHelper _inputHelper;
     private ICameraService _cameraService { get; set; }
-    private ICursorService _cursorService;
+    private readonly ICursorService _cursorService;
     public GameFactory(IStaticDataService staticData, DiContainer diContainer, 
       UserInputControls userInputControls, DummyInputControls dummyInputControls, 
       IAssetProvider assetProvider,
@@ -49,45 +49,64 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       _cameraService = cameraService;
       _cursorService = cursorService;
     }
-    
-    public async UniTask<GameUnit> SpawnCharacter(Vector3 position, WeaponType weapon)
-    {
-      CreateCrosshair().Forget();
-      var prefab = await _assetProvider.LoadFromAddressable<GameObject>(_staticData.UnitsConfig.Character);
-      GameUnit character = _diContainer
-        .InstantiatePrefabForComponent<GameUnit>(prefab, 
-          position, Quaternion.identity, null);
-      
-      _cameraService.SetTarget(character);
-      character.HealthView.Initialize(character);
-      var hacker = character.gameObject.AddComponent<PlayerHacker>();
-      _diContainer.Inject(hacker);
-      // character.UpdateWeapon(await SpawnWeapon(weapon, character));
-      character.UpdateControls(_userInputControls);
-      character.UpdateStats(_staticData.UnitStatsConfig.Units[UnitСharacteristicsType.MainCharacter]);
-      
-      return character;
-    }
-
-    public async UniTask<GameUnit> SpawnBot(Vector3 position, WeaponType weapon, UnitСharacteristicsType unitСharacteristicsType,
+    public async UniTask<GameUnit> SpawnGameUnit(Vector3 position, UnitСharacteristicsType unitСharacteristicsType,
       PatrolPath path)
     {
-      var prefab = await _assetProvider.LoadFromAddressable<GameObject>(_staticData.UnitsConfig.Bot);
       var unitData = _staticData.UnitStatsConfig.Units[unitСharacteristicsType];
+      
+      var prefabReference = _staticData.UnitsConfig.GetPrefabForBehaviour(unitData.behaviourType);
+      var prefab = await _assetProvider.LoadFromAddressable<GameObject>(prefabReference);
+      
       
       GameUnit bot = _diContainer
         .InstantiatePrefabForComponent<GameUnit>(prefab, 
           position, Quaternion.identity, null);
       
-      bot.HealthView.Initialize(bot);
-      bot.AddComponent<HackableComponent>();
-      bot.UpdateWeapon(await SpawnWeapon(weapon, bot));
       bot.UpdateStats(unitData);
-      bot.PatrolPath = path;
-      bot.UpdateControls(new PatrolInputControls(bot));
+      
+      
+      
+      if (unitData.behaviourType != UnitBehaviourType.Character)
+      {
+        
+        if (unitData.abilityType == BotAbilityType.ThrowGrenade)
+        {
+          var abilityComponent = bot.gameObject.AddComponent<GrenadeAbility>();
+          _diContainer.Inject(abilityComponent);
+          abilityComponent.Initialize(bot, unitData.ability);
+          bot.SetAbility(abilityComponent);
+        }
+        
+        bot.UpdateWeapon(await SpawnWeapon(unitData.weaponType, bot));
+        bot.AddComponent<HackableComponent>();
+        bot.PatrolPath = path;
+        bot.UpdateControls(new PatrolInputControls(bot));
+      }
+      else
+      {
+        var abilityComponent = bot.gameObject.AddComponent<GrenadeAbility>();
+        _diContainer.Inject(abilityComponent);
+        abilityComponent.Initialize(bot, unitData.ability);
+        bot.SetAbility(abilityComponent);
+        CreateCrosshair().Forget();
+        _cameraService.SetTarget(bot);
+        var hacker = bot.gameObject.AddComponent<PlayerHacker>();
+        _diContainer.Inject(hacker);
+        bot.UpdateControls(_userInputControls);
+      }
+      
       return bot;
     }
+
+    public async UniTask<Grenade> SpawnGrenade(Vector3 position)
+    {
+      var prefabReference = _staticData.UnitsConfig.Grenade;
+      var prefab = await _assetProvider.LoadFromAddressable<GameObject>(prefabReference);
     
+      return _diContainer.InstantiatePrefabForComponent<Grenade>(prefab, position, Quaternion.identity, null);
+    }
+
+
     public async UniTask<HackingTerminal> SpawnTerminal(Vector3 position, Transform warZoneTransform)
     {
       var prefab = await _assetProvider.LoadFromAddressable<GameObject>(_staticData.TerminalConfig.Prefab);
@@ -97,6 +116,10 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       terminal.WarZoneTransform = warZoneTransform; 
       return terminal;
     }
+    
+    
+    
+    
     public async UniTask<WeaponBase> SpawnWeapon(WeaponType weaponType, GameUnit unit)
     {
       var weaponData = _staticData.WeaponsConfig.Weapons[weaponType];
@@ -110,30 +133,52 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       return weapon;
     }
     
-    public async UniTask<Bullet> SpawnBullet(AssetReference prefabRefence, Transform spawnPoint)
+    public async UniTask<Bullet> SpawnBullet(AssetReference prefabReference, Transform spawnPoint)
     {
-      var bullet = _bulletPool.Spawn();
-      bullet.transform.position = spawnPoint.position;
-      bullet.transform.rotation = spawnPoint.rotation;
-      bullet.gameObject.SetActive(true);
+      string key = prefabReference.AssetGUID;
+      if (!_bulletPools.ContainsKey(key))
+      {
+        await Initialize(prefabReference);
+      }
+      var bullet = _bulletPools[key].Spawn();
+      if (spawnPoint != null)
+      {
+        bullet.transform.position = spawnPoint.position;
+        bullet.transform.rotation = spawnPoint.rotation;
+      }
     
+      bullet.gameObject.SetActive(true);
       return bullet;
     }
 
     public async UniTask Initialize(AssetReference prefabReference)
     {
+      if (prefabReference == null || !prefabReference.RuntimeKeyIsValid())
+        return;
+
+      string key = prefabReference.AssetGUID;
+
+      if (_bulletPools.ContainsKey(key)) return;
+
       var bulletPrefab = await _assetProvider.LoadFromAddressable<GameObject>(prefabReference);
 
-      _bulletPool = new ObjectPoolSpawnable<Bullet>(() =>
+      if (_bulletPools.ContainsKey(key)) return;
+
+      ObjectPoolSpawnable<Bullet> pool = null;
+
+      pool = new ObjectPoolSpawnable<Bullet>(() =>
       {
         var bullet = _diContainer
           .InstantiatePrefabForComponent<Bullet>(bulletPrefab,
             Vector3.zero, Quaternion.identity, null);
-        bullet.OnCreated(_bulletPool);
+        
+        bullet.OnCreated(pool); 
         bullet.gameObject.SetActive(false);
         return bullet;
       }, 20);
-      _isBulletPoolReady = true;
+
+      _bulletPools.TryAdd(key, pool);
+
     }
 
     public async UniTask CreateCrosshair()

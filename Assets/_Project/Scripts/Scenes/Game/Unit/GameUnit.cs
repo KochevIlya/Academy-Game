@@ -35,17 +35,29 @@ namespace _Project.Scripts.Scenes.Game.Unit
     //[SerializeField] private float _moveSpeed = 1.5f;
     
     private UnitStatsData _stats;
-
+    public UnitStatsData Data => _stats;
+    public IAbility Ability { get; private set; }
+    
     private readonly CompositeDisposable _lifetimeDisposable = new CompositeDisposable();
     
-
     public IInputControls InputControls { get; private set; }
 
     private void Start()
-    {
+    { 
+      if (HealthView != null)
+      {
+        HealthView.Initialize(this);
+      }
+      else
+      {
+        Debug.LogWarning($"HealthView not assigned on {gameObject.name}");
+      }
       Health.Die.Subscribe(_ => Destroy(gameObject)).AddTo(this);
     }
-
+    public void SetAbility(IAbility ability) 
+    {
+      Ability = ability;
+    }
     private void OnDestroy()
     {
       _lifetimeDisposable.Clear();
@@ -97,7 +109,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     private void SubscribeShoot()
     {
       InputControls.OnShoot
-        .Subscribe(_ => _attacker.Value.Shoot(this, InputControls.MousePosition))
+        .Subscribe(_ => _attacker.Value.Attack(this, InputControls.MousePosition))
         .AddTo(_lifetimeDisposable);
 
       Animator.OnShootCast
@@ -120,14 +132,6 @@ namespace _Project.Scripts.Scenes.Game.Unit
       IsUnderControl = false;
       Debug.Log($"[{name}] Управление переведено на Dummy.");
     }
-    public void SetControlled(bool isControlled)
-    {
-      IsUnderControl = isControlled;
-      if (isControlled)
-      {
-        OnUnitHacked.OnNext(this);
-      }
-    }
     
     // private void OnTriggerEnter(Collider other)
     // {
@@ -147,7 +151,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     //             .TakeUntil(target.Health.Die)
     //             .Subscribe(_ =>
     //             {
-    //               _attacker.Value.Shoot(this, target.transform.position);
+    //               _attacker.Value.Attack(this, target.transform.position);
     //             })
     //             .AddTo(_lifetimeDisposable);
     //         }

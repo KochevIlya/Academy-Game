@@ -27,13 +27,38 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 171b42d094b1f1d47a66c5a7acb0a573
+    m_Address: Assets/_Project/Visual/Prefabs/Game/Armaments/BroneBullet.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3e2eb8dfecb87a840be941ab2295a45e
     m_Address: Riffle
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 48e615cf3164d424a996fa2373ffa8d2
+    m_Address: Assets/_Project/Visual/Prefabs/Game/Weapons/Queuegun.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4e504881acc5255499c795fa6c37192c
+    m_Address: Assets/_Project/Visual/Prefabs/Game/Weapons/Katana.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 55116db7b6189b74fb5e26bfd8d5aaee
+    m_Address: Assets/_Project/Visual/Prefabs/Game/Weapons/Shotgun.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5bae67cdda1cbf44c8fc8bcdd394e582
     m_Address: Assets/_Project/Visual/Materials/MainCharacterMaterial.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5ea3aae1244dea2428f9193fbb8a08fb
+    m_Address: Assets/_Project/Visual/Prefabs/Game/Weapons/Grenade.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -47,8 +72,38 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 964122cf89449604b972a61a1b1dcfe2
+    m_Address: Assets/_Project/Visual/Prefabs/UI/GuiServiceRoot.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a0ba9a3eb11e21649acddf84a242829a
+    m_Address: Assets/_Project/Visual/Prefabs/UI/HealthView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: aeb1639dc7d8c7843b27f64495f10840
     m_Address: Crosshair
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b117cecafa74306479b120787c89d0d5
+    m_Address: Assets/_Project/Visual/Prefabs/Game/Armaments/QueueBullet.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b5af671575059ca438c56168eb0aa12f
+    m_Address: Assets/_Project/Visual/Prefabs/Game/Armaments/ShotgunBullet.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c9213c49431d7ec49b500a24b4f70108
+    m_Address: Assets/_Project/Visual/Prefabs/Game/Armaments/SpawnableBullet.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e5e9828cc2ed9a443b9822e1fd871237
+    m_Address: Assets/_Project/Visual/Prefabs/Game/Units/MeleeBot.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

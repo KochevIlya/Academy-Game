@@ -68,6 +68,7 @@ namespace _Project.Scripts.Libs.Pool
 
     protected virtual void OnDespawnItem(T item)
     {
+      
     }
 
     public virtual void Clear()

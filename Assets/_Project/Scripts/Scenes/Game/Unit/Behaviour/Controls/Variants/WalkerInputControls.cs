@@ -45,7 +45,6 @@ public class WalkerInputControls : IInputControls
 
         if (Vector3.Distance(selfFlat, targetFlat) <= StopDistance)
         {
-            Debug.Log("Цель достицнута");
             return Vector2.zero;
         }
         

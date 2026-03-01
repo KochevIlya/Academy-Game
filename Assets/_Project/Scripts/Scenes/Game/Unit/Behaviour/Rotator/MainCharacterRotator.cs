@@ -23,13 +23,17 @@ namespace _Project.Scripts.Scenes.Game.Unit.Rotator
         public void Rotate(GameUnit gameUnit, Vector2 mouseScreenPos, float deltaTime)
         {
             Vector3 worldPosition;
-            if (gameUnit.InputControls is AggroInputControls aggro)
+            if (gameUnit.InputControls is AggroDistanceInputControls aggro)
             {
                 worldPosition = aggro.TargetPosition; 
             }
             else if (gameUnit.InputControls is WalkerInputControls walker)
             {
                 worldPosition = walker.TargetPosition;
+            }
+            else if (gameUnit.InputControls is AggroMeleeInputControls melee)
+            {
+                worldPosition = melee.TargetPosition;
             }
             else
             {

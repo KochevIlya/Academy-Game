@@ -5,5 +5,9 @@
     Unknown = 0,
     
     Riffle = 1,
+    Katana = 2,
+    Shotgun = 3,
+    Queuegun = 4, 
+    None
   }
 }
