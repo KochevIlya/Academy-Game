@@ -68,7 +68,7 @@ MonoBehaviour:
       Data: 3|UnityEngine.AddressableAssets.AssetReference, Unity.Addressables
     - Name: m_AssetGUID
       Entry: 1
-      Data: 8ec09520357109d4785720dfabc7e219
+      Data: c9213c49431d7ec49b500a24b4f70108
     - Name: m_SubObjectName
       Entry: 6
       Data: 
@@ -257,7 +257,7 @@ MonoBehaviour:
       Data: 12|UnityEngine.AddressableAssets.AssetReference, Unity.Addressables
     - Name: m_AssetGUID
       Entry: 1
-      Data: b117cecafa74306479b120787c89d0d5
+      Data: c9213c49431d7ec49b500a24b4f70108
     - Name: m_SubObjectName
       Entry: 6
       Data: 

@@ -96,7 +96,7 @@ MonoBehaviour:
       Data: 2
     - Name: weaponType
       Entry: 3
-      Data: 4
+      Data: 1
     - Name: abilityType
       Entry: 3
       Data: 1
