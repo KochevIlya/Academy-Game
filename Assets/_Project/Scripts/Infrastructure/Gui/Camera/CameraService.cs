@@ -14,8 +14,8 @@ namespace _Project.Scripts.Infrastructure.Gui.Camera
     
     private Transform _target;
     private CinemachineFollow _followComponent;
-    public float _defaultDistance;
-    public float _targetDistance;
+    private float _defaultDistance;
+    private float _targetDistance;
     [SerializeField] private float _zoomOutCoef = 1.5f;
     [SerializeField] private float _zoomSpeed = 10f;
     

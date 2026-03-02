@@ -27,7 +27,6 @@ public class HackingService : IDisposable
     public ReactiveProperty<int> CurrentProgressIndex { get; } = new ReactiveProperty<int>(0);
     public Subject<List<Vector2>> OnHackingStarted { get; } = new Subject<List<Vector2>>();
     public Subject<int> OnError { get; } = new Subject<int>();
-    public Subject<bool> OnHackingFinished { get; } = new Subject<bool>();
     public bool IsPossessing => _isPossessing;
     public ReactiveProperty<bool> CanHack { get; } = new ReactiveProperty<bool>(false);
     public Subject<HackableComponent> OnHackingProcessStarted { get; } = new Subject<HackableComponent>();
@@ -227,6 +226,13 @@ public class HackingService : IDisposable
     private void CompleteHacking()
     {
         _cameraService.ResetZoom();
+        if (_currentTarget == null)
+        {
+            
+            ReturnToOriginalBody();
+            IsHacking.Value = false;
+            return;
+        }
         Debug.Log($"Взлом {_currentTarget.name} успешен!");
         GameUnit victimUnit = _currentTarget.GetComponent<GameUnit>();
     
@@ -255,7 +261,7 @@ public class HackingService : IDisposable
         _cursorService.SetCrosshairCursor();
         _cursorService.SetVisible(true);
         _cursorService.SetLockState(false);
-        OnHackingFinished.OnNext(true);
+        
         IsHacking.Value = false;
         _currentTarget = null;
     }

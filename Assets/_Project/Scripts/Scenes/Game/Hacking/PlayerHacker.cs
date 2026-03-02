@@ -20,7 +20,7 @@ public class PlayerHacker : MonoBehaviour
     [Inject] HackableSelector _hackableSelector; 
     [Inject]
     public void Construct(HackingService hackingService, UserInputControls input)
-    {
+    { 
         _hackingService = hackingService;
         _input = input;
     }
