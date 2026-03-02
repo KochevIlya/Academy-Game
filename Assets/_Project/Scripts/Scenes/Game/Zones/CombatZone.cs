@@ -21,6 +21,8 @@ public class CombatZone : MonoBehaviour
         private int _botsCount = 0;
         [Inject] HackingService  _hackingService;
         [Inject] InputControllsFactory _inputControllsFactory;
+        private int _hackingAttempts = 0;
+        
         public void InitializeZone()
         {
             foreach (var spawner in _mySpawners)
@@ -49,11 +51,14 @@ public class CombatZone : MonoBehaviour
             _hackingService.OnHackingProcessStarted
                 .Subscribe(_ =>
                 {
+                    
                     foreach (var terminal in _activeTerminals)
                     {
                         
                         if (terminal._isActive == true)
                         {
+                            _hackingService.SetCurrentZoneContext(this);
+                            _hackingAttempts++;
                             if(_botsCount == 0)
                                 _hackingService.RequestCancel();
                             else
@@ -173,17 +178,8 @@ public class CombatZone : MonoBehaviour
                 bot.UpdateControls(walk);
             }
         }
-        
-        private void DeactivateZoneAlert()
+        public int GetNextSequenceLength(int _base)
         {
-            _isAlarmActive = false;
-            Debug.Log("<color=green>ZONE: Цель уничтожена, возвращаемся в патруль.</color>");
-
-            foreach (var bot in _activeUnits)
-            {
-                if (bot == null || bot.IsUnderControl) continue;
-        
-                bot.DisableControl(new PatrolInputControls(bot)); 
-            }
+            return _base + 2 * (_hackingAttempts - 1);
         }
     }

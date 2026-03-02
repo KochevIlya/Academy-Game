@@ -42,13 +42,17 @@ public class HackingService : IDisposable
     private bool _isPossessing;
     private bool _isErrorState;
     private CancellationTokenSource _hackingCts;
-    
+    private CombatZone _currentZoneContext;
     public HackingService(UserInputControls input, DiContainer container)
     {
         _input = input;
         _container = container;
         SubscribeToInput();
         
+    }
+    public void SetCurrentZoneContext(CombatZone zone)
+    {
+        _currentZoneContext = zone;
     }
     public void SetHackingZoneStatus(bool isInZone)
     {
@@ -105,7 +109,12 @@ public class HackingService : IDisposable
     public void StartHacking(HackableComponent target, GameUnit hacker)
     {
         _currentTarget = target;
-        _currentSequence = GenerateSequence(target.Difficulty);
+        int length = target.Difficulty;
+        if (_currentZoneContext != null)
+        {
+            length = _currentZoneContext.GetNextSequenceLength(length);
+        }
+        _currentSequence = GenerateSequence(length);
         _waitForRelease = false;
     
         CurrentProgressIndex.Value = 0;
@@ -155,7 +164,7 @@ public class HackingService : IDisposable
         _cursorService.SetCrosshairCursor();
         _cursorService.SetVisible(true);
         _cursorService.SetLockState(false);
-    
+        _currentZoneContext = null;
         Debug.Log("Сознание вернулось в хакера после смерти носителя.");
     }
     private void CheckInput(Vector2 input)
