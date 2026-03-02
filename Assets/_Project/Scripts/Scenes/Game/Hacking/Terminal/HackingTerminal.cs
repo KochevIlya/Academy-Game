@@ -16,9 +16,9 @@ namespace _Project.Scripts.Scenes.Game.Hacking.Terminal
 
         private void OnTriggerEnter(Collider other)
         {
-            _isActive = true;
             if (other.tag == "Player")
             {
+                _isActive = true;
                 Debug.Log($"Внутри зоны ");
 
             _hackingService.SetHackingZoneStatus(true);
@@ -29,9 +29,9 @@ namespace _Project.Scripts.Scenes.Game.Hacking.Terminal
         
         private void OnTriggerExit(Collider other)
         {
-            _isActive = false;
             if (other.tag == "Player")
             {
+                _isActive = false;
                 Debug.Log($"Ушли из зоны");
                 _hackingService.SetHackingZoneStatus(false);
                 _hackableSelector.ClearContext();

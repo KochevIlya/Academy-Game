@@ -32,7 +32,10 @@ public class AIBotMover : MonoBehaviour, IUnitMover
 
     public void ResetMovement(GameUnit gameUnit)
     {
-        _agent.ResetPath();
+        if (_agent.isActiveAndEnabled && _agent.isOnNavMesh)
+        {
+            _agent.ResetPath();
+        }
         gameUnit.Animator.Idle();
     }
 
