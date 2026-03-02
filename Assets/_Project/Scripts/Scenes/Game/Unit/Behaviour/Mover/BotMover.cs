@@ -15,8 +15,10 @@ public class BotMover : MonoBehaviour, IUnitMover
     {
         _controller = GetComponent<CharacterController>();
     }
-    public void Move(GameUnit gameUnit, Vector2 movementDelta, float deltaTime)
+    public void Move(GameUnit gameUnit, Vector3 movementDirection, float deltaTime, float speed)
     {
+        movementDirection *= speed;
+        Vector2 movementDelta = new Vector2(movementDirection.x, movementDirection.z);
         Vector3 horizontalDirection = CalculateMovementDirection(movementDelta);
     
         ApplyGravity(deltaTime);

@@ -42,7 +42,7 @@ public class AggroDistanceInputControls : IInputControls
         }
     }
 
-    public IObservable<Vector2> OnMovement => Observable.EveryUpdate()
+    public IObservable<Vector3> OnMovement => Observable.EveryUpdate()
         .Select(_ => CalculateCombatMovement());
     public IObservable<Vector2> OnRawMovement => Observable.Return(Vector2.zero);
 
@@ -51,50 +51,49 @@ public class AggroDistanceInputControls : IInputControls
         .Select(_ => UniRx.Unit.Default);
     public IObservable<Unit> OnAbilityUse => Observable.Never<Unit>();
     
-    private Vector2 CalculateCombatMovement()
+    private Vector3 CalculateCombatMovement()
     {
-        if (_target == null || _self == null) return Vector2.zero;
+        if (_target == null) return _self.transform.position;
 
         Vector3 selfPos = _self.transform.position;
         Vector3 targetPos = _target.transform.position;
-    
-        selfPos.y = 0;
-        targetPos.y = 0;
+        Vector3 dirToTarget = (targetPos - selfPos).normalized;
+        float distance = Vector3.Distance(new Vector3(selfPos.x, 0, selfPos.z), new Vector3(targetPos.x, 0, targetPos.z));
 
-        Vector3 directionToTarget = targetPos - selfPos;
-        float distance = directionToTarget.magnitude;
-    
-        Vector3 normalizedDirection = directionToTarget.normalized;
+        Vector3 desiredPosition = selfPos;
 
-        float vertical = 0f;
-        if (distance < MinDistance) vertical = -1f;
-        else if (distance > MaxDistance) vertical = 1f;
-
-        Vector3 finalMoveWorld = normalizedDirection * vertical;
-
-        if (distance >= MinDistance && distance <= MaxDistance)
+        if (distance < MinDistance)
+        {
+            desiredPosition = targetPos - dirToTarget * MinDistance;
+        }
+        else if (distance > MaxDistance)
+        {
+            desiredPosition = targetPos - dirToTarget * MaxDistance;
+        }
+        else
         {
             Vector3 playerForward = _target.transform.forward;
-            Vector3 dirToBot = (_self.transform.position - _target.transform.position).normalized;
-            float dotProduct = Vector3.Dot(playerForward, dirToBot);
-
-            if (dotProduct > AimThreshold)
+            Vector3 dirToBot = (selfPos - targetPos).normalized;
+        
+            if (Vector3.Dot(playerForward, dirToBot) > AimThreshold)
             {
                 _strafeTimer -= Time.deltaTime;
                 if (_strafeTimer <= 0)
                 {
-                    _currentStrafeDir = Random.value > 0.5f ? 1f : -1f;
+                    _currentStrafeDir = UnityEngine.Random.value > 0.5f ? 1f : -1f;
                     _strafeTimer = _strafeChangeInterval;
                 }
-            
-                Vector3 sideStep = new Vector3(-normalizedDirection.z, 0, normalizedDirection.x);
-                finalMoveWorld += sideStep * _currentStrafeDir;
+
+                Vector3 sideDir = new Vector3(-dirToTarget.z, 0, dirToTarget.x);
+                desiredPosition = selfPos + sideDir * _currentStrafeDir * 2f;
+            }
+            else
+            {
+                return selfPos;
             }
         }
 
-        Vector3 localMovement = _self.transform.InverseTransformDirection(finalMoveWorld);
-    
-        return new Vector2(localMovement.x, localMovement.z);
+        return desiredPosition;
     }
     private void PickNewStrafeDirection()
     {

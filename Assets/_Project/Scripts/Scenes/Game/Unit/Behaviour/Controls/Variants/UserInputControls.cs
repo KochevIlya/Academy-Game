@@ -22,10 +22,10 @@ namespace _Project.Scripts.Scenes.Game.Unit.Controls.Variants
     public BoolReactiveProperty IsBlocked { get; } = new BoolReactiveProperty(false);
     public Vector2 MousePosition { get; private set; }
     public IObservable<Vector2> OnRawMovement => _movement;
-    public IObservable<Vector2> OnMovement => IsBlocked
+    public IObservable<Vector3> OnMovement => IsBlocked
       .Select(blocked => blocked 
-        ? Observable.Return(Vector2.zero)
-        : _movement)
+        ? Observable.Return(Vector3.zero)
+        : _movement.Select(vec2 => new Vector3(vec2.x, 0, vec2.y)))
       .Switch();
     public IObservable<UniRx.Unit> OnShoot => _shoot.Where(_ => !IsBlocked.Value);
     public IObservable<UniRx.Unit> OnAbilityUse => _abilityUse;

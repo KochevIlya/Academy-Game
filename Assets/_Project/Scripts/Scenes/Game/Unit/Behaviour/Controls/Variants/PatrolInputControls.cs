@@ -48,28 +48,26 @@ public class PatrolInputControls : IInputControls
         return _waypoints[_currentIndex].PointTransform.position;
     }
     
-    public IObservable<Vector2> OnMovement => Observable.EveryUpdate().Select(_ =>
+    public IObservable<Vector3> OnMovement => Observable.EveryUpdate().Select(_ =>
     {
         
-        if (_waypoints == null || _waypoints.Count == 0 || _isWaiting) return Vector2.zero;
+        if (_waypoints == null || _waypoints.Count == 0 || _isWaiting) return _self.transform.position;
     
         Vector3 targetPos = _waypoints[_currentIndex].PointTransform.position;
         Vector3 myPos = _self.transform.position;
     
-        Vector3 targetFlat = new Vector3(targetPos.x, 0, targetPos.z);
-        Vector3 myFlat = new Vector3(myPos.x, 0, myPos.z);
-    
-        if (Vector3.Distance(myFlat, targetFlat) <= StopDistance)
+        float distance = Vector2.Distance(
+            new Vector2(targetPos.x, targetPos.z), 
+            new Vector2(myPos.x, myPos.z)
+        );
+        
+        if (distance <= StopDistance)
         {
-            WaitAtPoint().Forget();
-            return Vector2.zero;
+            if (!_isWaiting) WaitAtPoint().Forget();
+            return myPos; 
         }
-    
-        Vector3 worldDirection = (targetFlat - myFlat).normalized;
-    
-        Vector3 localDirection = _self.transform.InverseTransformDirection(worldDirection);
-    
-        return new Vector2(localDirection.x, localDirection.z);
+        
+        return targetPos;
     });
     
     private async UniTaskVoid WaitAtPoint()

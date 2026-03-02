@@ -31,8 +31,11 @@ namespace _Project.Scripts.Scenes.Game.Unit.Mover
       _controller = GetComponent<CharacterController>();
     }
 
-    public void Move(GameUnit gameUnit, Vector2 movementDelta, float deltaTime)
+    public void Move(GameUnit gameUnit, Vector3 movementDirection, float deltaTime, float speed)
     {
+      movementDirection *= speed;
+      Vector2 movementDelta = new Vector2(movementDirection.x, movementDirection.z);
+      
       var movement = CalculateMovement(movementDelta); 
       ApplyGravity(deltaTime); 
       ApplyMovement(movement, deltaTime); 

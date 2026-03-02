@@ -49,7 +49,7 @@ public class CombatZone : MonoBehaviour
                 .Subscribe(_ => 
                     {
                         
-                        if (unit.Data.behaviourType == UnitBehaviourType.Melee && _isAlarmActive && !unit.IsUnderControl)
+                        if (unit.Data.behaviourType == UnitBehaviourType.Melee && !unit.IsUnderControl)
                         {
                             var target = _activeUnits.FirstOrDefault(u => u != null && u.IsUnderControl);
                             if (target != null)

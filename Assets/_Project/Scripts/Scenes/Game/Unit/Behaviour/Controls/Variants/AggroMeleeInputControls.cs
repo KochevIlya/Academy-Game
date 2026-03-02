@@ -34,7 +34,7 @@ public class AggroMeleeInputControls : IInputControls
         }
     }
 
-    public IObservable<Vector2> OnMovement => Observable.EveryUpdate()
+    public IObservable<Vector3> OnMovement => Observable.EveryUpdate()
         .Select(_ => CalculateMeleeMovement());
 
     public IObservable<Vector2> OnRawMovement => Observable.Never<Vector2>();
@@ -45,26 +45,24 @@ public class AggroMeleeInputControls : IInputControls
         
     public IObservable<Unit> OnAbilityUse => Observable.Never<Unit>();
 
-    private Vector2 CalculateMeleeMovement()
+    private Vector3 CalculateMeleeMovement()
     {
-        if (_target == null || _self == null) 
+        if (_target == null) 
         {
             Debug.LogWarning("Target or Self is null!");
-            return Vector2.zero;
+            return _self.transform.position;
         }
-    
-        Vector3 toTarget = _target.transform.position - _self.transform.position;
-        float distance = toTarget.magnitude;
+        
+        Vector3 targetPos = _target.transform.position;
+        Vector3 myPos = _self.transform.position;
+        
+        float distance = Vector2.Distance(new Vector2(targetPos.x, targetPos.z), new Vector2(myPos.x, myPos.z));
 
         if (distance <= StopDistance)
         {
-            return Vector2.zero;
+            return myPos;
         }
-
-        Vector3 worldDirection = toTarget.normalized;
     
-        Vector3 localDirection = _self.transform.InverseTransformDirection(worldDirection);
-    
-        return new Vector2(localDirection.x, localDirection.z);
+        return targetPos;
     }
 }

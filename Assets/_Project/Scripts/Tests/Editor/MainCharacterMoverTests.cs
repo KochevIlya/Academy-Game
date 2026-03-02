@@ -62,7 +62,7 @@ namespace _Project.Scripts.Tests.Editor
         }
         
         [Test]
-        public void Move_WithForwardInput_MovesForward()
+        public void Move_WithForwardInput_MovesForward(float speed)
         {
             // Arrange
             var movementDelta = MovementForwardDelta;
@@ -70,14 +70,14 @@ namespace _Project.Scripts.Tests.Editor
             var initialPosition = _gameUnit.transform.position;
 
             // Act
-            _mover.Move(_gameUnit, movementDelta, deltaTime);
+            _mover.Move(_gameUnit, movementDelta, deltaTime, speed);
 
             // Assert
             initialPosition.Should().NotBe(_gameUnit.transform.position);
         }
 
         [Test]
-        public void Move_WithZeroInput_DoesNotMove()
+        public void Move_WithZeroInput_DoesNotMove(float speed)
         {
             // Arrange
             var movementDelta = MovementZeroDelta;
@@ -85,7 +85,7 @@ namespace _Project.Scripts.Tests.Editor
             var initialPosition = _gameUnit.transform.position;
 
             // Act
-            _mover.Move(_gameUnit, movementDelta, deltaTime);
+            _mover.Move(_gameUnit, movementDelta, deltaTime, speed);
 
             // Assert
             initialPosition.Should().Be(_gameUnit.transform.position);
@@ -93,7 +93,7 @@ namespace _Project.Scripts.Tests.Editor
 
 
         [Test]
-        public void Move_WithDiagonalInput_MovesDiagonally()
+        public void Move_WithDiagonalInput_MovesDiagonally(float speed)
         {
             // Arrange
             var movementDelta = MovementDiagonallyDelta;
@@ -101,7 +101,7 @@ namespace _Project.Scripts.Tests.Editor
             var initialPosition = _gameUnit.transform.position;
 
             // Act
-            _mover.Move(_gameUnit, movementDelta, deltaTime);
+            _mover.Move(_gameUnit, movementDelta, deltaTime, speed);
 
             // Assert
             var deltaPosition = _gameUnit.transform.position - initialPosition;
@@ -128,11 +128,11 @@ namespace _Project.Scripts.Tests.Editor
         [TestCase(0.033f)]
         [TestCase(1f)]
         [TestCase(10f)]
-        public void Move_WithDifferentDeltaTimes_DoesNotThrow(float deltaTime)
+        public void Move_WithDifferentDeltaTimes_DoesNotThrow(float deltaTime, float speed)
         {
             var initialPosition = _gameUnit.transform.position;
 
-            Action act = () => _mover.Move(_gameUnit, MovementDiagonallyDelta, deltaTime);
+            Action act = () => _mover.Move(_gameUnit, MovementDiagonallyDelta, deltaTime, speed);
 
             act.Should().NotThrow();
 
@@ -143,12 +143,12 @@ namespace _Project.Scripts.Tests.Editor
         [TestCase(1e6f, 0f)]
         [TestCase(0f, 1e6f)]
         [TestCase(-1e6f, -1e6f)]
-        public void Move_WithExtremeInputValues_DoesNotThrow(float x, float y)
+        public void Move_WithExtremeInputValues_DoesNotThrow(float x, float y, float speed)
         {
             var deltaTime = DefaultDeltaTime;
             var movementDelta = new Vector2(x, y);
 
-            Action act = () => _mover.Move(_gameUnit, movementDelta, deltaTime);
+            Action act = () => _mover.Move(_gameUnit, movementDelta, deltaTime, speed);
 
             act.Should().NotThrow();
         }

@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using _Project.Scripts.Libs.SerializeInterface;
 using _Project.Scripts.Scenes.Game.Shoot;
 using _Project.Scripts.Scenes.Game.Unit.Animator;
@@ -113,8 +114,11 @@ namespace _Project.Scripts.Scenes.Game.Unit
     private void SubscribeMovement()
     {
       InputControls.OnMovement
-        .Subscribe(delta => _currentMover.Move(this, delta * _stats.speed, Time.deltaTime))
-        .AddTo(_lifetimeDisposable);
+        .Subscribe(delta =>
+          {
+            _currentMover.Move(this, delta, Time.deltaTime,  _stats.speed);
+          })
+          .AddTo(_lifetimeDisposable);
     }
 
     private void SubscribeShoot()
