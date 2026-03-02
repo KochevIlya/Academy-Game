@@ -42,38 +42,55 @@ public class HackingService : IDisposable
     private GameUnit _currentPossessedUnit;
     private bool _isPossessing;
     private bool _isErrorState;
-
+    private CancellationTokenSource _hackingCts;
     
     public HackingService(UserInputControls input, DiContainer container)
     {
         _input = input;
         _container = container;
         SubscribeToInput();
+        
     }
     public void SetHackingZoneStatus(bool isInZone)
     {
         CanHack.Value = isInZone;
     }
+    public void RequestCancel()
+    {
+        _hackingCts?.Cancel();
+    
+        ReturnToOriginalBody();
+    }
     public async void RequestHacking(GameUnit hacker)
     {
         if (!CanHack.Value) return;
         if (IsHacking.Value) return;
-
+        
+        _hackingCts?.Cancel();
+        _hackingCts = new CancellationTokenSource();
+        
+        
         _hackerUnit = hacker;
         _originalHero ??= hacker;
 
         _input.IsBlocked.Value = true;
-        var dummy = _container.Resolve<DummyInputControls>();
     
         HackableComponent target = null;
         
         OnHackingProcessStarted.OnNext(null);
 
-        if (CanHack.Value)
+        try 
         {
             _cursorService.SetDefaultCursor();
+            var dummy = _container.Resolve<DummyInputControls>();
             _hackerUnit.DisableControl(dummy);
-            target = await _hackableSelector.SelectTarget(new CancellationTokenSource().Token);
+
+            target = await _hackableSelector.SelectTarget(_hackingCts.Token);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Непредвиденная ошибка при выборе цели: {e}");
+            return;
         }
 
         if (target != null)
@@ -82,9 +99,7 @@ public class HackingService : IDisposable
         }
         else
         {
-            _input.IsBlocked.Value = false;
-            _hackerUnit.UpdateControls(_input);
-            _cameraService.SetTarget(_originalHero);
+            ReturnToOriginalBody();
         }
     }
     public void StartHacking(HackableComponent target, GameUnit hacker)
@@ -130,10 +145,15 @@ public class HackingService : IDisposable
         }
 
         _originalHero.UpdateControls(_input);
-
+    
         _isPossessing = false;
         _currentPossessedUnit = null;
+        _input.IsBlocked.Value = false;
         _hackerUnit = _originalHero;
+        
+        _cursorService.SetCrosshairCursor();
+        _cursorService.SetVisible(true);
+        _cursorService.SetLockState(false);
     
         Debug.Log("Сознание вернулось в хакера после смерти носителя.");
     }

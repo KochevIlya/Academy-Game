@@ -37,7 +37,7 @@ public class CombatZone : MonoBehaviour
                 if (tSpawner.SpawnedTerminalObject != null)
                 {
                     var terminal = tSpawner.SpawnedTerminalObject.GetComponentInChildren<HackingTerminal>();
-
+                    
                     if (terminal != null)
                     {
                         _activeTerminals.Add(terminal);
@@ -47,14 +47,24 @@ public class CombatZone : MonoBehaviour
             }
             
             _hackingService.OnHackingProcessStarted
-                .Subscribe(_ => 
+                .Subscribe(_ =>
                 {
                     foreach (var terminal in _activeTerminals)
                     {
-                        if (terminal._isActive == true) ActivateWalk();
+                        
+                        if (terminal._isActive == true)
+                        {
+                            if(_botsCount == 0)
+                                _hackingService.RequestCancel();
+                            else
+                            {
+                                ActivateWalk();
+                            }
+                        }
                     }
                 })
                 .AddTo(_disposables);
+            
         }
 
         private void RegisterUnit(GameUnit unit)
