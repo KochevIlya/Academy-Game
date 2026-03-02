@@ -16,6 +16,9 @@ public class PatrolInputControls : IInputControls
     
     private bool _isWaiting = false;
     
+    private const float RotationSpeed = 0.5f;
+    private const float RotationRadius = 0.8f; 
+    
     public PatrolInputControls(GameUnit self)
     {
         _self = self;
@@ -44,7 +47,16 @@ public class PatrolInputControls : IInputControls
     {
         if (_waypoints == null || _waypoints.Count == 0)
             return _self.transform.position + _self.transform.forward;
+        Vector3 baseTarget = _waypoints[_currentIndex].PointTransform.position;
 
+        if (_isWaiting)
+        {
+            float offsetX = Mathf.Sin(Time.time * RotationSpeed) * RotationRadius;
+            float offsetZ = Mathf.Cos(Time.time * RotationSpeed) * RotationRadius;
+            
+            return baseTarget + new Vector3(offsetX, 0, offsetZ);
+        }
+        
         return _waypoints[_currentIndex].PointTransform.position;
     }
     
