@@ -11,12 +11,23 @@ namespace _Project.Scripts.Infrastructure.Gui.Camera
     [SerializeField] private CinemachineCamera _cameraZoomIn;
     [SerializeField] private float alphaSpeed = 1f;
     [SerializeField] private float minAlpha = 0f;
-
-    private Transform _target;
     
-
+    private Transform _target;
+    private CinemachineFollow _followComponent;
+    public float _defaultDistance;
+    public float _targetDistance;
+    [SerializeField] private float _zoomOutCoef = 1.5f;
+    [SerializeField] private float _zoomSpeed = 10f;
+    
     UnityEngine.Camera ICameraService.Camera => _camera;
 
+    void Awake()
+    {
+        _followComponent = _cameraZoomIn.GetComponent<CinemachineFollow>();
+        _defaultDistance = _cameraZoomIn.Lens.OrthographicSize;
+        _targetDistance = _defaultDistance;
+    }
+    
     void ICameraService.Init()
     {
 
@@ -35,12 +46,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Camera
             _target = null;
             return;
         }
-        if (unit == null)
-        {
-            _cameraZoomIn.Follow = null;
-            _target = null;
-            return;
-        }
+        
       _cameraZoomIn.Follow = unit.transform;
       _target = unit.transform;
     }
@@ -51,8 +57,19 @@ namespace _Project.Scripts.Infrastructure.Gui.Camera
       _target = null;
     }
 
+    public void ZoomOut()
+    {
+        _targetDistance = _defaultDistance * _zoomOutCoef;
+    } 
+    public void ResetZoom()
+    {
+        _targetDistance = _defaultDistance;
+    }
     void Update()
     {
+        
+        HandleZoom();
+        
         if (_target == null) return;
 
         Vector3 origin = _camera.transform.position;
@@ -98,6 +115,23 @@ namespace _Project.Scripts.Infrastructure.Gui.Camera
         }
 
         Debug.DrawLine(origin, _target.position, Color.green);
+    }
+    
+    private void HandleZoom()
+    {
+        if (_cameraZoomIn == null) return;
+
+        if (_cameraZoomIn.Lens.Orthographic)
+        {
+            var lens = _cameraZoomIn.Lens;
+        
+            float currentSize = lens.OrthographicSize;
+            float nextSize = Mathf.Lerp(currentSize, _targetDistance, Time.deltaTime * _zoomSpeed);
+        
+            lens.OrthographicSize = nextSize;
+        
+            _cameraZoomIn.Lens = lens;
+        }
     }
   }
 }

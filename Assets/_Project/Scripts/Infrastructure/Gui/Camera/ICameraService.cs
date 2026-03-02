@@ -10,5 +10,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Camera
     void SetTarget(GameUnit unit);
     void SetPoint(Transform point);
     void Cleanup();
+    void ZoomOut();
+    void ResetZoom();
   }
 }

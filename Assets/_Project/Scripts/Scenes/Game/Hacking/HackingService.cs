@@ -78,6 +78,7 @@ public class HackingService : IDisposable
         HackableComponent target = null;
         
         OnHackingProcessStarted.OnNext(null);
+        _cameraService.ZoomOut();
 
         try 
         {
@@ -136,8 +137,9 @@ public class HackingService : IDisposable
             Debug.LogError("Ошибка возврата: оригинальное тело хакера потеряно!");
             return;
         }
+        
         _cameraService.SetTarget(_originalHero);
-
+        _cameraService.ResetZoom();
         if (_currentPossessedUnit != null)
         {
             var dummy = _container.Resolve<DummyInputControls>();
@@ -224,6 +226,7 @@ public class HackingService : IDisposable
     }
     private void CompleteHacking()
     {
+        _cameraService.ResetZoom();
         Debug.Log($"Взлом {_currentTarget.name} успешен!");
         GameUnit victimUnit = _currentTarget.GetComponent<GameUnit>();
     

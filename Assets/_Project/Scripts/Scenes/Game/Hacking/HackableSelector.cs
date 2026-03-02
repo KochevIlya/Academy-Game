@@ -30,6 +30,7 @@ namespace _Project.Scripts.Scenes.Game.Hacking
         
         public async UniTask<HackableComponent> SelectTarget(CancellationToken token)
         {
+           
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             _cameraService.SetPoint(_currentViewPoint);

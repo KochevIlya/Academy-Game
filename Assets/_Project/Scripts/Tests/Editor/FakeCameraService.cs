@@ -22,6 +22,15 @@ namespace _Project.Scripts.Tests.Editor
 
         public void SetPoint(Transform point){ }
         public void Cleanup() { }
+        public void ZoomOut()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void ResetZoom()
+        {
+            throw new System.NotImplementedException();
+        }
 
         public void Destroy()
         {
