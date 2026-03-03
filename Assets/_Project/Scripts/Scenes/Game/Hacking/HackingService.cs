@@ -93,6 +93,7 @@ public class HackingService : IDisposable
         }
         catch (System.Exception e)
         {
+            _hackingCts?.Cancel();
             Debug.LogError($"Непредвиденная ошибка при выборе цели: {e}");
             return;
         }

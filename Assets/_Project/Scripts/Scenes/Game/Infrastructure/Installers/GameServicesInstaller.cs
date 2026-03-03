@@ -51,7 +51,6 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
         .NonLazy();
       
       Container.Bind<SceneLoaderService>().AsSingle();
-      
     }
   }
 }

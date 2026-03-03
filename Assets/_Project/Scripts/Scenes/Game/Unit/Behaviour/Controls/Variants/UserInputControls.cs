@@ -44,6 +44,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Controls.Variants
       _input.Enable();
 
       Observable.EveryUpdate()
+        
         .Subscribe(_ =>
         {
           _movement.OnNext(_moveDirection);
@@ -109,10 +110,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Controls.Variants
       _disposable?.Dispose();
 
       _input?.Dispose();
-      _movement?.Dispose();
-      _shoot?.Dispose();
-      _abilityUse?.Dispose();
-      _hackingUse?.Dispose();
+      
     }
   }
 }

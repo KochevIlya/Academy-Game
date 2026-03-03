@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using _Project.Scripts.Infrastructure.Gui.Screens;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using Zenject;
 
 namespace _Project.Scripts.Infrastructure.Gui.Service
 {
@@ -10,9 +12,14 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     [SerializeField] private Canvas.StaticCanvas _staticCanvas;
     [SerializeField] private GameOverScreen _gameOverScreenPrefab;
     private readonly Stack<BaseScreen> _screens = new Stack<BaseScreen>();
-
+    private DiContainer _container;
     Canvas.StaticCanvas IGuiService.StaticCanvas => _staticCanvas;
-
+    
+    [Inject]
+    public void Construct(DiContainer container)
+    {
+      _container = container;
+    }
     void IGuiService.Push(BaseScreen screen)
     {
       if (_screens.TryPeek(out var oldScreen))
@@ -23,16 +30,24 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
       _screens.Push(screen);
     }
 
-    public void ShowGameOver()
+    public async void ShowGameOver()
     {
       
       var screenInstance = Instantiate(_gameOverScreenPrefab);
         
+      _container.InjectGameObject(screenInstance.gameObject);
       ((IGuiService)this).Push(screenInstance);
         
       screenInstance.transform.SetParent(_staticCanvas.Canvas.transform, false);
 
-      screenInstance.Show().Forget();
+      try
+      {
+        await screenInstance.Show(screenInstance.GetCancellationTokenOnDestroy());
+      }
+      catch (OperationCanceledException)
+      {
+        Debug.Log("Показ экрана отменён из-за уничтожения объекта");
+      }
 
     }
     void IGuiService.Pop()

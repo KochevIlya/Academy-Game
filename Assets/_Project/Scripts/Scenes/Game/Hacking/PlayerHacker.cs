@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 using Zenject;
+using Object = UnityEngine.Object;
 
 public class PlayerHacker : MonoBehaviour
 {
@@ -31,10 +33,17 @@ public class PlayerHacker : MonoBehaviour
     }
     private void Start()
     {
-        _input.OnHacking
-            .Where(_ => !_hackingService.IsHacking.Value)
-            .Subscribe(_ => TryToHack())
-            .AddTo(this);
+        try
+        {
+            _input.OnHacking
+                .Where(_ => !_hackingService.IsHacking.Value)
+                .TakeUntilDestroy(this)
+                .Subscribe(_ => TryToHack())
+                .AddTo(this);
+        }
+        catch (ObjectDisposedException)
+        {
+        }
     }
 
     private async void TryToHack()

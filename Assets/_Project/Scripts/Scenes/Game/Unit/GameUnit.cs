@@ -107,6 +107,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     {
       Observable.EveryUpdate()
         .Select(_ => InputControls.MousePosition)
+        .TakeUntilDestroy(this)
         .Subscribe(mousePos => _rotator.Value.Rotate(this, mousePos, Time.deltaTime))
         .AddTo(_lifetimeDisposable);
     }

@@ -77,6 +77,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 96a11d7778b89b74480ed4d549c9baa9
+    m_Address: Assets/_Project/Visual/Prefabs/UI/GameOverWindow.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a0ba9a3eb11e21649acddf84a242829a
     m_Address: Assets/_Project/Visual/Prefabs/UI/HealthView.prefab
     m_ReadOnly: 0

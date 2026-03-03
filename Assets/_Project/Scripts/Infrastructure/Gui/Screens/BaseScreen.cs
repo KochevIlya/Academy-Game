@@ -43,6 +43,8 @@ namespace _Project.Scripts.Infrastructure.Gui.Screens
 
     private void SetCanvasEnable(bool isEnable)
     {
+      if (_canvasGroup == null) return; 
+      if (this == null) return;
       _canvasGroup.interactable = isEnable;
       _canvasGroup.blocksRaycasts = isEnable;
     }
