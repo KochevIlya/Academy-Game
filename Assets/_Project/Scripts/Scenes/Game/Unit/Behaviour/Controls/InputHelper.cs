@@ -16,8 +16,8 @@ namespace _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls
     public bool ScreenToGroundPosition(Vector2 screenPosition, float groundHeight, out Vector3 worldPosition)
     {
       worldPosition = Vector3.zero;
-
-      var plane = new Plane(Vector3.up, Vector3.zero.SetY(groundHeight));
+      if (_cameraService.Camera == null) return false; 
+      var plane = new Plane(Vector3.up, Vector3.zero.SetY(groundHeight)); 
       var ray = _cameraService.Camera.ScreenPointToRay(screenPosition);
       
       if (plane.Raycast(ray, out var distance))

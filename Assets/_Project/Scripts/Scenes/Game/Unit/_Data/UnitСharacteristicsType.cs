@@ -8,6 +8,8 @@ namespace _Project.Scripts.Scenes.Game.Unit._Data
         Fast = 3,
         Tank = 4,
         Boss = 5,
+        DefaultWithQueue = 6,
+        DefaultWithSpawnableRiffle = 7
         
     }
 }

@@ -84,10 +84,8 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       }
       else
       {
-        var abilityComponent = bot.gameObject.AddComponent<GrenadeAbility>();
-        _diContainer.Inject(abilityComponent);
-        abilityComponent.Initialize(bot, unitData.ability);
-        bot.SetAbility(abilityComponent);
+        
+        
         CreateCrosshair().Forget();
         _cameraService.SetTarget(bot);
         var hacker = bot.gameObject.AddComponent<PlayerHacker>();

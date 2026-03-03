@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using _Project.Scripts.Infrastructure.Gui.Screens;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,6 +23,14 @@ public class GameOverScreen : BaseScreen
         Debug.Log("Restart clicked");
     }
 
+    public async UniTask Show(CancellationToken token = default)
+    {
+        token.ThrowIfCancellationRequested();
+    
+        await UniTask.Delay(1000, cancellationToken: token);
+        base.Show().Forget();
+    }
+    
     private void OnExitClicked()
     {
         Time.timeScale = 0f;
