@@ -5,6 +5,7 @@ using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit._Data;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
+using _Project.Scripts.Scenes.Game.Hacking.Terminal;
 using UnityEngine;
 using Zenject;
 
@@ -13,9 +14,9 @@ public class InputControllsFactory
     [Inject] private ICameraService _cameraService;
     public IInputControls CreateControls(GameUnit unit)
     {
-        return ChangeAggressiveControls(unit, null);
+        return ChangeAggressiveControls(unit, null, null);
     }
-    public IInputControls ChangeAggressiveControls(GameUnit unit, GameUnit target)
+    public IInputControls ChangeAggressiveControls(GameUnit unit, GameUnit target, HackingTerminal terminal)
     {
         var behaviourType = unit.Data.behaviourType;
 
@@ -23,7 +24,7 @@ public class InputControllsFactory
         {
                 
             case UnitBehaviourType.Melee:
-                return new WalkerInputControls(target);
+                return new WalkerInputControls(target, terminal);
                 
             case UnitBehaviourType.Distance:
                 return new AggroDistanceInputControls(unit, target);
