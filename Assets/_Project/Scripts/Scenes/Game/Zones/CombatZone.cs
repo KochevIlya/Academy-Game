@@ -22,6 +22,7 @@ public class CombatZone : MonoBehaviour
         [Inject] HackingService  _hackingService;
         [Inject] InputControllsFactory _inputControllsFactory;
         private int _hackingAttempts = 0;
+        private HackingTerminal _terminal;
         
         public void InitializeZone()
         {
@@ -63,7 +64,8 @@ public class CombatZone : MonoBehaviour
                                 _hackingService.RequestCancel();
                             else
                             {
-                                ActivateWalk();
+                                ActivateWalk(terminal);
+                                _terminal =  terminal;
                             }
                         }
                     }
@@ -151,7 +153,7 @@ public class CombatZone : MonoBehaviour
     
             target.Health.Die
                 .Take(1)
-                .Subscribe(_ => ActivateWalk())
+                .Subscribe(_ => ActivateWalk(_terminal))
                 .AddTo(_disposables);
             
             Debug.Log($"<color=red>ЗОНА {name}: ТРЕВОГА! Цель: {target.name}</color>");
@@ -160,12 +162,12 @@ public class CombatZone : MonoBehaviour
             {
                 if (bot == null || bot.IsUnderControl || bot.Data.behaviourType == UnitBehaviourType.Melee) continue;
                 
-                var aggro = _inputControllsFactory.ChangeAggressiveControls(bot, target);
+                var aggro = _inputControllsFactory.ChangeAggressiveControls(bot, target, _terminal);
                 bot.UpdateControls(aggro);
             }
         }
 
-        private void ActivateWalk()
+        private void ActivateWalk(HackingTerminal terminal)
         {
             _isAlarmActive = false;
             Debug.Log($"<color=green>ЗОНА {name}: цель: уничтожена</color>");
@@ -174,7 +176,7 @@ public class CombatZone : MonoBehaviour
             {
                 if (bot == null || bot.IsUnderControl) continue;
                 
-                var walk = new WalkerInputControls(bot);
+                var walk = new WalkerInputControls(bot, terminal);
                 bot.UpdateControls(walk);
             }
         }
