@@ -42,7 +42,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 5
+      Data: 7
     - Name: 
       Entry: 7
       Data: 
@@ -199,6 +199,72 @@ MonoBehaviour:
     - Name: abilityType
       Entry: 3
       Data: 0
+    - Name: ability
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 6
+    - Name: $v
+      Entry: 7
+      Data: 7|_Project.Scripts.Scenes.Game.Unit._Data.UnitStatsData, Assembly-CSharp
+    - Name: maxHealth
+      Entry: 3
+      Data: 80
+    - Name: speed
+      Entry: 4
+      Data: 2
+    - Name: behaviourType
+      Entry: 3
+      Data: 2
+    - Name: weaponType
+      Entry: 3
+      Data: 4
+    - Name: abilityType
+      Entry: 3
+      Data: 1
+    - Name: ability
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 7
+    - Name: $v
+      Entry: 7
+      Data: 8|_Project.Scripts.Scenes.Game.Unit._Data.UnitStatsData, Assembly-CSharp
+    - Name: maxHealth
+      Entry: 3
+      Data: 90
+    - Name: speed
+      Entry: 4
+      Data: 3
+    - Name: behaviourType
+      Entry: 3
+      Data: 2
+    - Name: weaponType
+      Entry: 3
+      Data: 5
+    - Name: abilityType
+      Entry: 3
+      Data: 1
     - Name: ability
       Entry: 10
       Data: 0

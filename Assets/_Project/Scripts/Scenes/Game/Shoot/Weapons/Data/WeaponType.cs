@@ -8,6 +8,7 @@
     Katana = 2,
     Shotgun = 3,
     Queuegun = 4, 
+    RiffleWithSpawnable = 5,
     None
   }
 }
