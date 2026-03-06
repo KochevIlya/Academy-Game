@@ -12,13 +12,9 @@ namespace _Project.Scripts.Scenes.Game.Hacking
     public class HackableSelector
     {
         [Inject] private ICameraService _cameraService;
-        private readonly Camera _mainCamera;
         private Transform _currentViewPoint;
         
-        public HackableSelector()
-        {
-            _mainCamera = Camera.main;
-        }
+        
         public void ClearContext()
         {
             _currentViewPoint = null;
@@ -41,7 +37,14 @@ namespace _Project.Scripts.Scenes.Game.Hacking
             {
                 while (!token.IsCancellationRequested)
                 {
-                    HackableComponent currentHovered = ScanForTarget();
+                    Camera activeCamera = Camera.main;
+                    if (activeCamera == null) 
+                    {
+                        await UniTask.Yield(PlayerLoopTiming.Update, token);
+                        continue;
+                    }
+                    
+                    HackableComponent currentHovered = ScanForTarget(activeCamera);
 
                     if (currentHovered != lastHovered)
                     {
@@ -62,15 +65,18 @@ namespace _Project.Scripts.Scenes.Game.Hacking
             finally
             {
                 if (lastHovered != null) SetOutlineState(lastHovered, false);
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
+                if (Application.isPlaying)
+                {
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
+                }
             }
 
             return null;
         }
-        private HackableComponent ScanForTarget()
+        private HackableComponent ScanForTarget(Camera camera)
         {
-            Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out RaycastHit hit, 100f))
             {
@@ -87,7 +93,7 @@ namespace _Project.Scripts.Scenes.Game.Hacking
         }
         private void SetOutlineState(HackableComponent target, bool state)
         {
-            if (target == null) return;
+            if (target == null || target.Equals(null)) return;
     
             if (target.TryGetComponent<SimpleOutline>(out var outline))
             {

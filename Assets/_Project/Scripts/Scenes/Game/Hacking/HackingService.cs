@@ -146,9 +146,13 @@ public class HackingService : IDisposable
             Debug.LogError("Ошибка возврата: оригинальное тело хакера потеряно!");
             return;
         }
-        
-        _cameraService.SetTarget(_originalHero);
-        _cameraService.ResetZoom();
+
+        if (_cameraService != null)
+        {
+            _cameraService.SetTarget(_originalHero);
+            _cameraService.ResetZoom();
+        }
+
         if (_currentPossessedUnit != null)
         {
             var dummy = _container.Resolve<DummyInputControls>();
