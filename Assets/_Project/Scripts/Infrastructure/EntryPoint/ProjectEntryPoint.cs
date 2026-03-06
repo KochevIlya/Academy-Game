@@ -16,6 +16,7 @@ namespace _Project.Scripts.Infrastructure.EntryPoint
     public void Initialize()
     {
       _gameStateMachine.Enter<LoadProjectState>();
+      
     }
   }
 }

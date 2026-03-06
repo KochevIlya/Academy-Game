@@ -7,24 +7,16 @@ using Zenject;
 
 public class ButtonScript : MonoBehaviour
 {
-    private IGameStateMachine _stateMachine;
-
+    private SignalBus _signalBus;
+    
     [Inject]
-    public void Construct(IGameStateMachine stateMachine)
+    public void Construct(SignalBus signalBus)
     {
-        _stateMachine = stateMachine;
+        _signalBus = signalBus;
     }
 
     public void OnRestartClick()
     {
-        if (_stateMachine == null)
-        {
-            Debug.LogError("Ошибка: _stateMachine не инициализирована! Проверьте Zenject Binding.");
-            return;
-        }
-        else
-        {
-            _stateMachine.Enter<ReloadCurrentSceneState>();
-        }
+        _signalBus.Fire<RestartLevelSignal>();
     }
 }

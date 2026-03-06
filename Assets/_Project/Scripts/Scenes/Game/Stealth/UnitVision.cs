@@ -67,7 +67,6 @@ public class UnitVision : MonoBehaviour
 
                 if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, _obstacleMask))
                 {
-                    Debug.Log("<color=red>ИГРОК ОБНАРУЖЕН!</color>");
                     _gameStateMachine.Enter<GameOverState>();
                 }
             }

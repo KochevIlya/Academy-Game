@@ -9,6 +9,9 @@ namespace _Project.Scripts.Infrastructure.StateMachine.States
   {
     public UniTask Enter(IGameStateMachine gameStateMachine)
     {
+      Time.timeScale = 1f;
+      
+      Debug.Log("In InitializeCurrentSceneState");
       Object.FindAnyObjectByType<SceneContext>().Run();
       return UniTask.CompletedTask;
     }
