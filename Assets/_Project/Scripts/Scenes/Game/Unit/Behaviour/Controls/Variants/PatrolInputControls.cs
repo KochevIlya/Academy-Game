@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using _Project.Scripts.Scenes.Game.Unit;
+using _Project.Scripts.Scenes.Game.Unit._Data;
+using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
 using Cysharp.Threading.Tasks;
 using UniRx;
@@ -18,7 +20,7 @@ public class PatrolInputControls : IInputControls
     
     private const float RotationSpeed = 0.5f;
     private const float RotationRadius = 0.8f; 
-    
+    public MoverType RequiredMoverType => MoverType.Bot;
     public PatrolInputControls(GameUnit self)
     {
         _self = self;
@@ -94,7 +96,11 @@ public class PatrolInputControls : IInputControls
         _isWaiting = false;
     }
     public IObservable<Vector2> OnRawMovement => OnRawMovement;
-    
+    public float GetMovementSpeed(UnitStatsData stats)
+    {
+        return stats.patrolSpeed;
+    }
+
     public IObservable<Unit> OnShoot => Observable.Never<Unit>();
     public IObservable<Unit> OnAbilityUse => Observable.Never<Unit>();
     

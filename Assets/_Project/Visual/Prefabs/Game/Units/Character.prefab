@@ -186,9 +186,19 @@ PrefabInstance:
       objectReference: {fileID: 3930283333865938777}
     - target: {fileID: 7716537891382239971, guid: fe0d8696859b47940851431c5478d46c,
         type: 3}
+      propertyPath: _availableMovers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7716537891382239971, guid: fe0d8696859b47940851431c5478d46c,
+        type: 3}
       propertyPath: <WeaponPoint>k__BackingField
       value: 
       objectReference: {fileID: 7199521672799666218}
+    - target: {fileID: 7716537891382239971, guid: fe0d8696859b47940851431c5478d46c,
+        type: 3}
+      propertyPath: _availableMovers.Array.data[0].Mover.underlyingValue
+      value: 
+      objectReference: {fileID: 8561999071951192837}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

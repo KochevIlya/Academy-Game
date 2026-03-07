@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using _Project.Scripts.Infrastructure.AssetProvider;
 using _Project.Scripts.Infrastructure.Gui.Camera;
 using _Project.Scripts.Infrastructure.StaticData;
@@ -7,7 +6,6 @@ using _Project.Scripts.Scenes.Game.Shoot;
 using _Project.Scripts.Scenes.Game.Shoot.Data;
 using _Project.Scripts.Scenes.Game.Unit._Data;
 using _Project.Scripts.Scenes.Game.Unit;
-using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
@@ -18,7 +16,6 @@ using _Project.Scripts.Libs.Pool;
 using _Project.Scripts.Scenes.Game.Hacking.Terminal;
 using _Project.Scripts.Scenes.Game.Unit._Configs;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
-using UnityEngine.Rendering;
 
 namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
 {

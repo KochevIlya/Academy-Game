@@ -2,6 +2,8 @@ using System;
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Hacking.Terminal;
+using _Project.Scripts.Scenes.Game.Unit._Data;
+using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
 using UniRx;
 using UnityEngine;
 
@@ -34,7 +36,7 @@ public class WalkerInputControls : IInputControls
             return new Vector2(screenPoint.x, screenPoint.y);
         }
     }
-
+    public MoverType RequiredMoverType => MoverType.Bot;
     public IObservable<Vector3> OnMovement => Observable.EveryUpdate().Select(_ =>
     {
         if (_terminal == null) return _self.transform.position;
@@ -55,6 +57,11 @@ public class WalkerInputControls : IInputControls
         return targetPos;
     });
     public IObservable<Vector2> OnRawMovement { get; } = Observable.Never<Vector2>();
+    public float GetMovementSpeed(UnitStatsData stats)
+    {
+        return stats.patrolSpeed;
+    }
+
     public IObservable<UniRx.Unit> OnShoot => Observable.Never<Unit>();
     public IObservable<UniRx.Unit> OnAbilityUse => Observable.Never<Unit>();
 }

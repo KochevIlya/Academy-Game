@@ -13,6 +13,7 @@ using _Project.Scripts.Scenes.Game.Unit.Rotator;
 using _Project.Scripts.Scenes.Game.Unit._Data;
 using _Project.Scripts.Scenes.Game.Unit.Components.Health;
 using System.Linq;
+using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
 
 namespace _Project.Scripts.Scenes.Game.Unit
 {
@@ -75,14 +76,13 @@ namespace _Project.Scripts.Scenes.Game.Unit
       if (inputControls is UserInputControls)
       {
         _currentMover = _mover.Value;
-        
       }
       else
       {
         _currentMover = _botMover.Value;
       }
-
-      SubscribeMovement();
+      
+      SubscribeMovement(inputControls.GetMovementSpeed(_stats));
       SubscribeShoot();
       SubscribeAbility();
       SubscribeRotate();
@@ -112,12 +112,12 @@ namespace _Project.Scripts.Scenes.Game.Unit
         .AddTo(_lifetimeDisposable);
     }
     
-    private void SubscribeMovement()
+    private void SubscribeMovement(float speed)
     {
       InputControls.OnMovement
         .Subscribe(delta =>
           {
-            _currentMover.Move(this, delta, Time.deltaTime,  _stats.speed);
+            _currentMover.Move(this, delta, Time.deltaTime,  speed);
           })
           .AddTo(_lifetimeDisposable);
     }

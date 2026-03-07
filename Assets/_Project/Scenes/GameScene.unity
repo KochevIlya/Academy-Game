@@ -321,6 +321,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1074644784420249646, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[1].WaitTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1074644784420249646, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[2].WaitTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1074644784420249646, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[3].WaitTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1662229418550174960, guid: 7e505665de86cd444ac8d1f555cd4f48,
         type: 3}
       propertyPath: "Unit\u0421haracteristicsType"

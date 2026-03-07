@@ -18,6 +18,7 @@ namespace _Project.Scripts.Scenes.Game.Unit._Data
     {
         public int maxHealth = 100;
         public float speed = 3f;
+        public float patrolSpeed = 1f;
         public UnitBehaviourType behaviourType;
         public WeaponType weaponType;
         

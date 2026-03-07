@@ -1,4 +1,6 @@
 ﻿using System;
+using _Project.Scripts.Scenes.Game.Unit._Data;
+using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
 using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -22,6 +24,12 @@ namespace _Project.Scripts.Scenes.Game.Unit.Controls.Variants
     public BoolReactiveProperty IsBlocked { get; } = new BoolReactiveProperty(false);
     public Vector2 MousePosition { get; private set; }
     public IObservable<Vector2> OnRawMovement => _movement;
+    public MoverType RequiredMoverType => MoverType.Player;
+    public float GetMovementSpeed(UnitStatsData stats)
+    {
+      return stats.speed;
+    }
+
     public IObservable<Vector3> OnMovement => IsBlocked
       .Select(blocked => blocked 
         ? Observable.Return(Vector3.zero)
