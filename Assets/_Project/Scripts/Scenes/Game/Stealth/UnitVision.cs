@@ -15,10 +15,11 @@ public class UnitVision : MonoBehaviour
     [SerializeField] private float _viewAngle = 70f;
     [SerializeField] private LayerMask _targetMask;
     [SerializeField] private LayerMask _obstacleMask;
+    [SerializeField] private float _eyeHeight = 1.5f;
 
     [Header("Визуализация")]
     [SerializeField] private MeshFilter _viewMeshFilter;
-    [SerializeField] private int _segments = 20;
+    [SerializeField] private int _segments = 50;
 
     private Mesh _viewMesh;
     private GameUnit _owner;
@@ -34,7 +35,6 @@ public class UnitVision : MonoBehaviour
 
     private void LateUpdate()
     {
-        
         if (_owner == null) return;
         bool isPatrolling = _owner.InputControls is PatrolInputControls || _owner.InputControls is WalkerInputControls;
 
@@ -50,22 +50,18 @@ public class UnitVision : MonoBehaviour
     private void FindVisibleTargets()
     {
         Collider[] targetsInRadius = Physics.OverlapSphere(transform.position, _viewRadius, _targetMask);
+        Vector3 eyePosition = transform.position + Vector3.up * _eyeHeight;
 
         foreach (var target in targetsInRadius)
         {
-            GameObject targetGameObject = target.gameObject;
-            if (!targetGameObject.CompareTag("VisionHitbox")) continue;
-            
-            GameUnit unit = targetGameObject.GetComponentInParent<GameUnit>();
-            if (unit == null) continue;
+            Vector3 targetAtEyeLevel = new Vector3(target.transform.position.x, eyePosition.y, target.transform.position.z);
 
-            Vector3 dirToTarget = (target.transform.position - transform.position).normalized;
+            Vector3 dirToTarget = (targetAtEyeLevel - eyePosition).normalized;
+            float dstToTarget = Vector3.Distance(eyePosition, targetAtEyeLevel);
 
             if (Vector3.Angle(transform.forward, dirToTarget) < _viewAngle / 2)
             {
-                float dstToTarget = Vector3.Distance(transform.position, target.transform.position);
-
-                if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, _obstacleMask))
+                if (!Physics.Raycast(eyePosition, dirToTarget, dstToTarget, _obstacleMask) && target.CompareTag("VisionHitbox"))
                 {
                     _gameStateMachine.Enter<GameOverState>();
                 }
@@ -86,17 +82,21 @@ public class UnitVision : MonoBehaviour
         float angleStep = _viewAngle / _segments;
         float currentAngle = -_viewAngle / 2;
 
+        Vector3 eyePosition = transform.position + Vector3.up * _eyeHeight;
+
         for (int i = 0; i <= _segments; i++)
         {
-            Vector3 dir = Quaternion.Euler(0, currentAngle, 0) * Vector3.forward;
-            
+            Vector3 localDir = Quaternion.Euler(0, currentAngle, 0) * Vector3.forward;
+            Vector3 worldDir = transform.TransformDirection(localDir);
+        
             float dist = _viewRadius;
-            if (Physics.Raycast(transform.position, transform.TransformDirection(dir), out RaycastHit hit, _viewRadius, _obstacleMask))
+
+            if (Physics.Raycast(eyePosition, worldDir, out RaycastHit hit, _viewRadius, _obstacleMask))
             {
                 dist = hit.distance;
             }
-
-            vertices[i + 1] = dir * dist;
+            
+            vertices[i + 1] = localDir * dist;
 
             if (i < _segments)
             {
