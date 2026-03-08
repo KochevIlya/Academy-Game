@@ -223,6 +223,13 @@ public class HackingService : IDisposable
     
         if (victimUnit != null && _hackerUnit != null)
         {
+            int targetLayer = LayerMask.NameToLayer("Default"); 
+        
+            if (targetLayer != -1)
+            {
+                SetLayerRecursively(victimUnit.gameObject, targetLayer);
+            }
+            
             _input.IsBlocked.Value = false;
 
             var dummy = _container.Resolve<DummyInputControls>();
@@ -249,6 +256,15 @@ public class HackingService : IDisposable
         OnHackingFinished.OnNext(true);
         IsHacking.Value = false;
         _currentTarget = null;
+    }
+    
+    private void SetLayerRecursively(GameObject obj, int newLayer)
+    {
+        obj.layer = newLayer;
+        foreach (Transform child in obj.transform)
+        {
+            SetLayerRecursively(child.gameObject, newLayer);
+        }
     }
 
     private List<Vector2> GenerateSequence(int length)
