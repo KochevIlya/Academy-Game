@@ -191,9 +191,9 @@ namespace _Project.Scripts.Scenes.Game.Unit
         CharacteristicsType = _characteristicsType,
         Position = transform.position,
         CurrentHealth = Health.CurrentHealth.Value,
-        PatrolPathId = PatrolPath != null && PatrolPath.TryGetComponent<EntityIdentifier>(out var idHolder) 
-          ? idHolder.ID 
-          : string.Empty
+        // PatrolPathId = PatrolPath != null && PatrolPath.TryGetComponent<EntityIdentifier>(out var idHolder) 
+        //   ? idHolder.ID 
+        //   : string.Empty
       };
     }
 

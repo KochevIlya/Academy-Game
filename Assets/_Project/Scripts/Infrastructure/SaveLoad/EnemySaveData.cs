@@ -13,5 +13,5 @@ public class EnemySaveData
     
     public Vector3 Position;
     public int CurrentHealth;
-    public string PatrolPathId;
+    // public string PatrolPathId;
 }

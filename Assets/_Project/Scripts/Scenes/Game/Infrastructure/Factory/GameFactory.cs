@@ -67,7 +67,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
         .InstantiatePrefabForComponent<GameUnit>(prefab, 
           position, Quaternion.identity, null);
       
-      bot.UpdateStats(unitData);
+      bot.UpdateStats(unitData, unitСharacteristicsType);
       
       if (unitData.behaviourType != UnitBehaviourType.Character)
       {
@@ -94,7 +94,6 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
         _diContainer.Inject(hacker);
         bot.UpdateControls(_userInputControls);
       }
-      bot.UpdateStats(unitData, unitСharacteristicsType);
       return bot;
     }
 
@@ -111,10 +110,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
 
     public async UniTask<GameUnit> RestoreGameUnit(EnemySaveData data)
     {
-      PatrolPath path = string.IsNullOrEmpty(data.PatrolPathId) 
-        ? null 
-        : PathRegistry.Get(data.PatrolPathId);
-
+      PatrolPath path = null;
       GameUnit unit = await SpawnGameUnit(data.Position, data.CharacteristicsType, path);
 
       unit.LoadFromData(data);
