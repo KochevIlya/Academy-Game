@@ -31,11 +31,15 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     private IInputHelper _inputHelper;
     private ICameraService _cameraService { get; set; }
     private readonly ICursorService _cursorService;
-    public GameFactory(IStaticDataService staticData, DiContainer diContainer, 
-      UserInputControls userInputControls, DummyInputControls dummyInputControls, 
+    public GameFactory(
+      IStaticDataService staticData,
+      DiContainer diContainer, 
+      UserInputControls userInputControls,
+      DummyInputControls dummyInputControls, 
       IAssetProvider assetProvider,
       ICameraService cameraService,
-      ICursorService cursorService)
+      ICursorService cursorService
+      )
     {
       
       _staticData = staticData;
@@ -46,13 +50,17 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       _cameraService = cameraService;
       _cursorService = cursorService;
     }
-    public async UniTask<GameUnit> SpawnGameUnit(Vector3 position, UnitСharacteristicsType unitСharacteristicsType,
+    public async UniTask<GameUnit> SpawnGameUnit(Vector3 position,
+      UnitСharacteristicsType unitСharacteristicsType,
       PatrolPath path)
     {
       var unitData = _staticData.UnitStatsConfig.Units[unitСharacteristicsType];
       
-      var prefabReference = _staticData.UnitsConfig.GetPrefabForBehaviour(unitData.behaviourType);
-      var prefab = await _assetProvider.LoadFromAddressable<GameObject>(prefabReference);
+      var prefabReference = _staticData.UnitsConfig.
+        GetPrefabForBehaviour(unitData.behaviourType);
+      
+      var prefab = await _assetProvider.
+        LoadFromAddressable<GameObject>(prefabReference);
       
       
       GameUnit bot = _diContainer
@@ -80,23 +88,25 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       else
       {
         
-        
         CreateCrosshair().Forget();
         _cameraService.SetTarget(bot);
         var hacker = bot.gameObject.AddComponent<PlayerHacker>();
         _diContainer.Inject(hacker);
         bot.UpdateControls(_userInputControls);
       }
-      
+      bot.UpdateStats(unitData, unitСharacteristicsType);
       return bot;
     }
 
     public async UniTask<Grenade> SpawnGrenade(Vector3 position)
     {
       var prefabReference = _staticData.UnitsConfig.Grenade;
-      var prefab = await _assetProvider.LoadFromAddressable<GameObject>(prefabReference);
+      
+      var prefab = await _assetProvider.
+        LoadFromAddressable<GameObject>(prefabReference);
     
-      return _diContainer.InstantiatePrefabForComponent<Grenade>(prefab, position, Quaternion.identity, null);
+      return _diContainer.InstantiatePrefabForComponent<Grenade>
+        (prefab, position, Quaternion.identity, null);
     }
 
     public async UniTask<GameUnit> RestoreGameUnit(EnemySaveData data)
@@ -105,10 +115,10 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
         ? null 
         : PathRegistry.Get(data.PatrolPathId);
 
-      GameUnit bot = await SpawnGameUnit(data.Position, data.CharacteristicsType, path);
+      GameUnit unit = await SpawnGameUnit(data.Position, data.CharacteristicsType, path);
 
-      bot.Health.SetHealth(data.CurrentHealth);
-      return bot;
+      unit.LoadFromData(data);
+      return unit;
     }
 
 

@@ -63,5 +63,17 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
         
             Debug.Log("[SaveLoadService] Загрузка завершена.");
         }
+
+        public void Register(ISaveable saveable)
+        {
+            if (!_saveables.Contains(saveable))
+                _saveables.Add(saveable);
+        }
+
+        public void Unregister(ISaveable saveable)
+        {
+            if (_saveables.Contains(saveable))
+                _saveables.Remove(saveable);
+        }
     }
 }
