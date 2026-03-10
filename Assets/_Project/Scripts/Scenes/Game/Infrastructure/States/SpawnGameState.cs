@@ -8,6 +8,7 @@ using _Project.Scripts.Scenes.Game.Unit._Data;
 using _Project.Scripts.Scenes.Game.Unit.Components.Spawner;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using Zenject;
 using Object = UnityEngine.Object;
 
 namespace _Project.Scripts.Scenes.Game.Infrastructure.States
@@ -15,8 +16,10 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
   public class SpawnGameState : IEnterState
   {
     private readonly IGameFactory _gameFactory;
-    public SpawnGameState(IGameFactory gameFactory)
+    private readonly DiContainer _container;
+    public SpawnGameState(IGameFactory gameFactory, DiContainer container)
     {
+      _container = container;
       _gameFactory = gameFactory;
     }
     
@@ -46,7 +49,9 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
       
       foreach (var zone in Object.FindObjectsOfType<CombatZone>())
       {
+        _container.Inject(zone);
         zone.InitializeZone();
+        
       }
       
       gameStateMachine.Enter<InitializeGameServices>();

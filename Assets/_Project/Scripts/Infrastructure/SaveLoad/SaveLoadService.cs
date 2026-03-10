@@ -25,6 +25,7 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
         private readonly IGameFactory _gameFactory;
         private readonly List<IUnitSaveable> _unitSaveables = new List<IUnitSaveable>();
         private readonly List<ITerminalSaveable> _terminalSaveables = new List<ITerminalSaveable>();
+        private readonly List<IZoneSaveable> _zoneSaveables = new List<IZoneSaveable>();
         private readonly HackingService _hackingService;
         private readonly IGuiService _guiService;
         private readonly string _path = Path.Combine(Application.persistentDataPath, "save.json");
@@ -57,15 +58,11 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
                 var data = terminal.GetSaveData();
                 levelData.triggers.Add(data);
             }
-            var allZones = Object.FindObjectsOfType<CombatZone>();
-            foreach (var zone in allZones)
+            
+            foreach (var zone in _zoneSaveables)
             {
-                var zoneData = new CombatZoneSaveData
-                {
-                    ZoneId = zone.GetComponent<EntityIdentifier>().ID,
-                    
-                    ActiveUnitIds = zone.GetActiveUnits().Select(u => u.Id).ToList()
-                };
+                var zoneData = zone.GetSaveData();
+                
                 levelData.zones.Add(zoneData);
             }
             string json = JsonUtility.ToJson(levelData, true); 
@@ -109,7 +106,8 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
 
                 RegisterUnit(unit);
             }
-
+            
+            
             foreach (var zoneSaveData in levelData.zones)
             {
                 if (sceneRegistry.TryGetValue(zoneSaveData.ZoneId, out var zoneObj))
@@ -123,6 +121,7 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
                             zone.RegisterUnit(unit);
                         }
                     }
+                    zone.LoadFromData(zoneSaveData);
                 }
             }
 
@@ -167,7 +166,17 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
             if (_terminalSaveables.Contains(saveable))
                 _terminalSaveables.Remove(saveable);
         }
-        
-        
+
+        public void RegisterZone(IZoneSaveable saveable)
+        {
+            if(!_zoneSaveables.Contains(saveable))
+                _zoneSaveables.Add(saveable);
+        }
+
+        public void UnregisterZone(IZoneSaveable saveable)
+        {
+            if(_zoneSaveables.Contains(saveable))
+                _zoneSaveables.Remove(saveable);
+        }
     }
 }

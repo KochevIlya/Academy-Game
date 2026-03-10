@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using System.Linq;
+using _Project.Scripts.Infrastructure.SaveLoad;
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit._Data;
 using _Project.Scripts.Scenes.Game.Unit.Components.Spawner;
@@ -11,7 +12,7 @@ using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using _Project.Scripts.Scenes.Game.Hacking.Terminal;
 using Zenject;
 
-public class CombatZone : MonoBehaviour
+public class CombatZone : MonoBehaviour, IZoneSaveable
     {
         [SerializeField] private List<UnitSpawner> _mySpawners;
         public List<GameUnit> _activeUnits = new List<GameUnit>();
@@ -22,9 +23,15 @@ public class CombatZone : MonoBehaviour
         private int _botsCount = 0;
         [Inject] HackingService  _hackingService;
         [Inject] InputControllsFactory _inputControllsFactory;
+        [Inject] private ISaveLoadService _saveLoadService;
         private int _hackingAttempts = 0;
         private HackingTerminal _terminal;
-
+        [Inject]
+        public void Construct(ISaveLoadService saveLoadService)
+        {
+            _saveLoadService = saveLoadService;
+        }
+        
 
         public List<GameUnit> GetActiveUnits()
         {
@@ -33,6 +40,7 @@ public class CombatZone : MonoBehaviour
         
         public void InitializeZone()
         {
+            _saveLoadService.RegisterZone(this);
             foreach (var spawner in _mySpawners)
             {
                 if (spawner.SpawnedUnit != null)
@@ -196,6 +204,26 @@ public class CombatZone : MonoBehaviour
         {
             _activeUnits.Clear();
         }
-        
-        
+
+
+        public CombatZoneSaveData GetSaveData()
+        {
+            return new CombatZoneSaveData
+            {
+                ZoneId = GetComponent<EntityIdentifier>().ID,
+                Attempts = _hackingAttempts,
+                ActiveUnitIds = GetActiveUnits().Select(u => u.Id).ToList()
+            };
+        }
+
+        public void LoadFromData(CombatZoneSaveData data)
+        {
+            _hackingAttempts = data.Attempts;
+            
+        }
+
+        public void OnDestroy()
+        {
+            _saveLoadService.UnregisterZone(this);
+        }
     }

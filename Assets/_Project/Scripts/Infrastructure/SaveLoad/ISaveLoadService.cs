@@ -12,5 +12,7 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
     void UnregisterUnit(IUnitSaveable saveable);
     void RegisterTerminal(ITerminalSaveable saveable);
     void UnregisterTerminal(ITerminalSaveable saveable);
+    void RegisterZone(IZoneSaveable saveable);
+    void UnregisterZone(IZoneSaveable saveable);
   }
 }

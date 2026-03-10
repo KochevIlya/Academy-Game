@@ -8,4 +8,5 @@ public class CombatZoneSaveData
 {
     public string ZoneId; 
     public List<string> ActiveUnitIds = new List<string>();
+    public int Attempts;
 }
