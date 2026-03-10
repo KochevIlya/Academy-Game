@@ -13,16 +13,20 @@ using _Project.Scripts.Scenes.Game.Unit.Rotator;
 using _Project.Scripts.Scenes.Game.Unit._Data;
 using _Project.Scripts.Scenes.Game.Unit.Components.Health;
 using System.Linq;
+using _Project.Scripts.Infrastructure.SaveLoad;
+using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
+using Zenject;
 
 namespace _Project.Scripts.Scenes.Game.Unit
 {
-  public class GameUnit : MonoBehaviour
+  public class GameUnit : MonoBehaviour, ISaveable
   {
     public UnitAnimator Animator;
     public Health Health;
 
     public PatrolPath PatrolPath { get; set; } = null;
-    
+    private UnitСharacteristicsType _characteristicsType;
+    [Inject] private ISaveLoadService _saveLoadService;
     [field: SerializeField] public HealthView HealthView { get; set; }
     [field: SerializeField] public Transform WeaponPoint { get; private set; }
     public WeaponBase Weapon { get; private set; }
@@ -46,14 +50,11 @@ namespace _Project.Scripts.Scenes.Game.Unit
 
     private void Start()
     { 
+      _saveLoadService.Register(this);
+      
       if (HealthView != null)
-      {
         HealthView.Initialize(this);
-      }
-      else
-      {
-        Debug.LogWarning($"HealthView not assigned on {gameObject.name}");
-      }
+      
       Health.Die.Subscribe(_ => Destroy(gameObject)).AddTo(this);
     }
     public void SetAbility(IAbility ability) 
@@ -62,6 +63,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     }
     private void OnDestroy()
     {
+      _saveLoadService.Unregister(this);
       _lifetimeDisposable.Clear();
     }
 
@@ -75,14 +77,13 @@ namespace _Project.Scripts.Scenes.Game.Unit
       if (inputControls is UserInputControls)
       {
         _currentMover = _mover.Value;
-        
       }
       else
       {
         _currentMover = _botMover.Value;
       }
-
-      SubscribeMovement();
+      
+      SubscribeMovement(inputControls.GetMovementSpeed(_stats));
       SubscribeShoot();
       SubscribeAbility();
       SubscribeRotate();
@@ -112,12 +113,12 @@ namespace _Project.Scripts.Scenes.Game.Unit
         .AddTo(_lifetimeDisposable);
     }
     
-    private void SubscribeMovement()
+    private void SubscribeMovement(float speed)
     {
       InputControls.OnMovement
         .Subscribe(delta =>
           {
-            _currentMover.Move(this, delta, Time.deltaTime,  _stats.speed);
+            _currentMover.Move(this, delta, Time.deltaTime,  speed);
           })
           .AddTo(_lifetimeDisposable);
     }
@@ -175,5 +176,37 @@ namespace _Project.Scripts.Scenes.Game.Unit
     //     }
     //   }
     // }
+
+    public void UpdateStats(UnitStatsData unitStats, UnitСharacteristicsType type)
+    {
+      _stats = unitStats;
+      _characteristicsType = type;
+      Health.UpdateMaxHealth(_stats.maxHealth);
+    }
+    
+    public EnemySaveData GetSaveData()
+    {
+      return new EnemySaveData
+      {
+        CharacteristicsType = _characteristicsType,
+        Position = transform.position,
+        CurrentHealth = Health.CurrentHealth.Value,
+        // PatrolPathId = PatrolPath != null && PatrolPath.TryGetComponent<EntityIdentifier>(out var idHolder) 
+        //   ? idHolder.ID 
+        //   : string.Empty
+      };
+    }
+
+    public void LoadFromData(EnemySaveData data)
+    {
+      transform.position = data.Position;
+    
+      Health.SetHealth(data.CurrentHealth);
+    }
+
+    public void DestroyEntity()
+    {
+      Destroy(gameObject);
+    }
   }
 }

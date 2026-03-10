@@ -1,6 +1,8 @@
 using System;
 using _Project.Scripts.Infrastructure.Gui.Camera;
 using _Project.Scripts.Scenes.Game.Unit;
+using _Project.Scripts.Scenes.Game.Unit._Data;
+using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
 using UniRx;
 using UnityEngine;
@@ -14,6 +16,7 @@ public class AggroMeleeInputControls : IInputControls
     private const float StopDistance = 1f;
     private const float CallDown = 0.5f; 
     private  ICameraService _cameraService;
+    public MoverType RequiredMoverType => MoverType.Bot;
     public AggroMeleeInputControls(GameUnit self, GameUnit target, ICameraService cameraService)
     {
         _self = self;
@@ -38,6 +41,10 @@ public class AggroMeleeInputControls : IInputControls
         .Select(_ => CalculateMeleeMovement());
 
     public IObservable<Vector2> OnRawMovement => Observable.Never<Vector2>();
+    public float GetMovementSpeed(UnitStatsData stats)
+    {
+        return stats.speed;
+    }
 
     public IObservable<UniRx.Unit> OnShoot => Observable
         .Interval(TimeSpan.FromSeconds(CallDown))

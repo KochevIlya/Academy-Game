@@ -9,5 +9,6 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     void Pop();
     void Cleanup();
     void ShowGameOver();
+    void ShowInGameWindow();
   }
 }

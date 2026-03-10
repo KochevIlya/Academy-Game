@@ -47,5 +47,10 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
       _maxHealth.Value = value;
       if (currentToMax) _currentHealth.Value = _maxHealth.Value;
     }
+
+    public void SetHealth(int value)
+    {
+      _currentHealth.Value = value;
+    }
   }
 }

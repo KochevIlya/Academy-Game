@@ -1,5 +1,7 @@
 using System;
 using _Project.Scripts.Scenes.Game.Unit;
+using _Project.Scripts.Scenes.Game.Unit._Data;
+using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
 using UniRx;
 using UnityEngine;
@@ -45,6 +47,12 @@ public class AggroDistanceInputControls : IInputControls
     public IObservable<Vector3> OnMovement => Observable.EveryUpdate()
         .Select(_ => CalculateCombatMovement());
     public IObservable<Vector2> OnRawMovement => Observable.Return(Vector2.zero);
+    public MoverType RequiredMoverType => MoverType.Bot;
+
+    public float GetMovementSpeed(UnitStatsData stats)
+    {
+        return stats.speed;
+    }
 
     public IObservable<UniRx.Unit> OnShoot => Observable
         .Interval(TimeSpan.FromSeconds(CoolDown))

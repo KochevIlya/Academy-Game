@@ -1,4 +1,6 @@
 ﻿using System;
+using _Project.Scripts.Scenes.Game.Unit._Data;
+using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
 using UniRx;
 using UnityEngine;
 
@@ -12,5 +14,10 @@ namespace _Project.Scripts.Scenes.Game.Unit.Controls.Variants
     public Vector2 MousePosition { get; } = new Vector2();
     
     public IObservable<Vector2> OnRawMovement { get; } = new Subject<Vector2>();
+    public float GetMovementSpeed(UnitStatsData stats)
+    {
+      return stats.speed;
+    }
+    public MoverType RequiredMoverType => MoverType.Player;
   }
 }

@@ -8,5 +8,7 @@ namespace _Project.Scripts.Infrastructure.StateMachine
   {
     UniTask Enter<TState>() where TState : IState;
     UniTask Enter<TState, TOverload>(TOverload overload) where TState : IOverloadedEnterState<TOverload>;
+    public void OnRestartRequested();
+
   }
 }
