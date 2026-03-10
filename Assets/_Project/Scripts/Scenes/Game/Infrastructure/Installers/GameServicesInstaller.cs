@@ -21,6 +21,8 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
     public override void InstallBindings()
     {
       
+      Container.DeclareSignal<SaveRequestedSignal>();
+      
       
       Container.Bind<ICameraService>().To<CameraService>().FromInstance(_cameraService).AsSingle();
       Container.Bind<IInputHelper>().To<InputHelper>().AsSingle();
@@ -46,8 +48,13 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
       
       Container.Bind<SceneLoaderService>().AsSingle();
       Container.Bind<ISaveLoadService>().To<SaveLoadService>().AsSingle();
-      Container.Bind<IMenuActionsService>().To<MenuActionsService>().AsSingle();
       
+      Container.BindSignal<SaveRequestedSignal>()
+        .ToMethod<ISaveLoadService>(x => x.Save)
+        .FromResolve();
+      
+      
+      Container.Bind<IMenuActionsService>().To<MenuActionsService>().AsSingle();
       
     }
   }
