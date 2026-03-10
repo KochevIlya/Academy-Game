@@ -19,7 +19,7 @@ using Zenject;
 
 namespace _Project.Scripts.Scenes.Game.Unit
 {
-  public class GameUnit : MonoBehaviour, ISaveable
+  public class GameUnit : MonoBehaviour, IUnitSaveable
   {
     public UnitAnimator Animator;
     public Health Health;
@@ -56,7 +56,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     private void Start()
     { 
       
-      _saveLoadService.Register(this);
+      _saveLoadService.RegisterUnit(this);
       
       if (HealthView != null)
         HealthView.Initialize(this);
@@ -69,7 +69,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     }
     private void OnDestroy()
     {
-      _saveLoadService.Unregister(this);
+      _saveLoadService.UnregisterUnit(this);
       _lifetimeDisposable.Clear();
       if (PatrolPath != null)
       {

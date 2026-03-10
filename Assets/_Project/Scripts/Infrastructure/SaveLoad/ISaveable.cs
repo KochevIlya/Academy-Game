@@ -4,7 +4,5 @@ using UnityEngine;
 
 public interface ISaveable
 {
-    EnemySaveData GetSaveData();
-    void LoadFromData(EnemySaveData data);
-    void DestroyEntity();
+    
 }

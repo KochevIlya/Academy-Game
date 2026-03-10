@@ -2,14 +2,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using _Project.Scripts.Infrastructure.Gui.Service;
 using _Project.Scripts.Infrastructure.PersistentProgress;
 using _Project.Scripts.Infrastructure.PersistentProgress.Data;
+using _Project.Scripts.Infrastructure.StateMachine;
+using _Project.Scripts.Scenes.Game.Hacking.Terminal;
 using _Project.Scripts.Scenes.Game.Infrastructure.Factory;
+using _Project.Scripts.Scenes.Game.Infrastructure.States;
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit._Data;
 using _Project.Scripts.Utils.Extensions;
 using Cysharp.Threading.Tasks;
 using UniRx;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -18,15 +23,22 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
     public class SaveLoadService : ISaveLoadService
     {
         private readonly IGameFactory _gameFactory;
-        private readonly List<ISaveable> _saveables = new List<ISaveable>();
+        private readonly List<IUnitSaveable> _unitSaveables = new List<IUnitSaveable>();
+        private readonly List<ITerminalSaveable> _terminalSaveables = new List<ITerminalSaveable>();
         private readonly HackingService _hackingService;
-    
+        private readonly IGuiService _guiService;
         private readonly string _path = Path.Combine(Application.persistentDataPath, "save.json");
-
-        public SaveLoadService(IGameFactory gameFactory, HackingService hackingService)
+        private readonly IGameStateMachine _stateMachine;
+        public SaveLoadService(IGameFactory gameFactory,
+            HackingService hackingService,
+            IGuiService guiService,
+            IGameStateMachine stateMachine
+            )
         {
+            _guiService = guiService;
             _gameFactory = gameFactory;
-            _hackingService = hackingService;
+            _hackingService = hackingService;   
+            _stateMachine = stateMachine;
         }
 
         public void Save()
@@ -34,10 +46,16 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
             Debug.Log("In SaveLoadService Save()");
             var levelData = new LevelData();
 
-            foreach (var unit in _saveables)
+            foreach (var unit in _unitSaveables)
             {
                 var data = unit.GetSaveData();
                 levelData.enemies.Add(data);
+            }
+
+            foreach (var terminal in _terminalSaveables)
+            {
+                var data = terminal.GetSaveData();
+                levelData.triggers.Add(data);
             }
             var allZones = Object.FindObjectsOfType<CombatZone>();
             foreach (var zone in allZones)
@@ -57,7 +75,7 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
 
         public async UniTask LoadAsync()
         {
-            
+
             _hackingService.ClearState();
             Debug.Log("In SaveLoadService LoadAsync()");
             if (!File.Exists(_path))
@@ -65,32 +83,33 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
                 Debug.LogWarning("Файл сохранения не найден!");
                 return;
             }
-            
+
             string json = File.ReadAllText(_path);
             LevelData levelData = JsonUtility.FromJson<LevelData>(json);
 
-            var toDestroy = _saveables.ToList();
+            var toDestroy = _unitSaveables.ToList();
             foreach (var unit in toDestroy)
             {
                 if (unit is GameUnit gameUnit) Object.Destroy(gameUnit.gameObject);
             }
-            _saveables.Clear();
+
+            _unitSaveables.Clear();
 
             var sceneRegistry = Object.FindObjectsOfType<EntityIdentifier>()
                 .ToDictionary(x => x.ID, x => x.gameObject);
             Dictionary<string, GameUnit> spawnedUnits = new Dictionary<string, GameUnit>();
-            
-            
-            
+
+
+
             foreach (var enemyData in levelData.enemies)
             {
                 GameUnit unit = await _gameFactory.RestoreGameUnit(enemyData);
-        
+
                 spawnedUnits.Add(unit.Id, unit);
-        
-                Register(unit);
+
+                RegisterUnit(unit);
             }
-            
+
             foreach (var zoneSaveData in levelData.zones)
             {
                 if (sceneRegistry.TryGetValue(zoneSaveData.ZoneId, out var zoneObj))
@@ -101,25 +120,54 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
                     {
                         if (spawnedUnits.TryGetValue(unitId, out var unit))
                         {
-                            zone.RegisterUnit(unit); 
+                            zone.RegisterUnit(unit);
                         }
                     }
                 }
             }
-        
+
+            foreach (var triggerData in levelData.triggers)
+            {
+                var terminal = _terminalSaveables.FirstOrDefault(t => t.GetSaveData().Id == triggerData.Id);
+
+                if (terminal != null)
+                {
+                    terminal.LoadFromData(triggerData);
+                }
+                else
+                {
+                    Debug.LogWarning($"[SaveLoad] Терминал с ID {triggerData.Id} не найден среди зарегистрированных!");
+                }
+
+            }
             Debug.Log("[SaveLoadService] Загрузка и стыковка завершены.");
+            _stateMachine.Enter<GameLoopState>();
         }
 
-        public void Register(ISaveable saveable)
+        public void RegisterUnit(IUnitSaveable saveable)
         {
-            if (!_saveables.Contains(saveable))
-                _saveables.Add(saveable);
+            if (!_unitSaveables.Contains(saveable))
+                _unitSaveables.Add(saveable);
         }
 
-        public void Unregister(ISaveable saveable)
+        public void UnregisterUnit(IUnitSaveable saveable)
         {
-            if (_saveables.Contains(saveable))
-                _saveables.Remove(saveable);
+            if (_unitSaveables.Contains(saveable))
+                _unitSaveables.Remove(saveable);
         }
+
+        public void RegisterTerminal(ITerminalSaveable saveable)
+        {
+            if(!_terminalSaveables.Contains(saveable))
+                _terminalSaveables.Add(saveable);
+        }
+
+        public void UnregisterTerminal(ITerminalSaveable saveable)
+        {
+            if (_terminalSaveables.Contains(saveable))
+                _terminalSaveables.Remove(saveable);
+        }
+        
+        
     }
 }

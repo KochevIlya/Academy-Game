@@ -54,6 +54,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
 
     public async void ShowInGameWindow()
     {
+      
       var screenInstance = Instantiate(_gameMenuWindowPrefab);
       _container.InjectGameObject(screenInstance.gameObject);
       ((IGuiService)this).Push(screenInstance);

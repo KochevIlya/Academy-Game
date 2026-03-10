@@ -8,7 +8,9 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
   {
     public void Save();
     public UniTask LoadAsync();
-    void Register(ISaveable saveable);
-    void Unregister(ISaveable saveable);
+    void RegisterUnit(IUnitSaveable saveable);
+    void UnregisterUnit(IUnitSaveable saveable);
+    void RegisterTerminal(ITerminalSaveable saveable);
+    void UnregisterTerminal(ITerminalSaveable saveable);
   }
 }

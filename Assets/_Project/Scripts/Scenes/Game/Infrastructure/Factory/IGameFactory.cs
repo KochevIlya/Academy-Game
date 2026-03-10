@@ -15,7 +15,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
   {
     UniTask<WeaponBase> SpawnWeapon(WeaponType weaponType, GameUnit unit);
     UniTask<Bullet> SpawnBullet(AssetReference prefabRefence, Transform spawnPoint);
-    UniTask<HackingTerminal> SpawnTerminal(Vector3 position, Transform warZoneTransform);
+    UniTask<HackingTerminal> SpawnTerminal(Vector3 position, Transform warZoneTransform, string id);
     UniTask Initialize(AssetReference prefabReference);
     UniTask<GameUnit> SpawnGameUnit(Vector3 position,  UnitСharacteristicsType unitСharacteristicsType, PatrolPath patrolPath);
     

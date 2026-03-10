@@ -36,7 +36,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
       
       foreach (TerminalSpawner spawner in Object.FindObjectsOfType<TerminalSpawner>())
       {
-        var terminal = await _gameFactory.SpawnTerminal(spawner.Position, spawner.WarZoneTransform);
+        var terminal = await _gameFactory.SpawnTerminal(spawner.Position, spawner.WarZoneTransform, spawner.SpawnerId);
     
         if (terminal != null)
         {

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using _Project.Scripts.Infrastructure.SaveLoad;
 using _Project.Scripts.Scenes.Game.Unit;
 using UnityEngine;
 using Zenject;
@@ -7,13 +8,14 @@ namespace _Project.Scripts.Scenes.Game.Hacking.Terminal
 {
     public class HackingTerminal : MonoBehaviour
     {
-        
         [Inject] private HackingService _hackingService;
         [Inject] private HackableSelector _hackableSelector;
         public Transform WarZoneTransform;
+        
         public bool _isActive = false;
-
-
+        public string _id;
+        
+        
         private void OnTriggerEnter(Collider other)
         {
             if (other.tag == "Player")
@@ -41,5 +43,6 @@ namespace _Project.Scripts.Scenes.Game.Hacking.Terminal
     
         private void ShowInteractionUI() => Debug.Log("UI: [E] Взломать");
         private void HideInteractionUI() => Debug.Log("UI: Скрыто");
+        
     }
 }

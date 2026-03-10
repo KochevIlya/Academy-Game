@@ -14,4 +14,12 @@ public class EntityIdentifier : MonoBehaviour
         UnityEditor.EditorUtility.SetDirty(this);
 #endif
     }
+    
+    private void OnValidate()
+    {
+        if (string.IsNullOrEmpty(_id))
+        {
+            GenerateID();
+        }
+    }
 }

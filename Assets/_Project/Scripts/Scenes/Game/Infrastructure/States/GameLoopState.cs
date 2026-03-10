@@ -19,6 +19,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
     public UniTask Enter(IGameStateMachine gameStateMachine)
     {
       Time.timeScale = 1f;
+      _guiService.Cleanup();
       _guiService.ShowInGameWindow();
       return UniTask.CompletedTask;
     }
