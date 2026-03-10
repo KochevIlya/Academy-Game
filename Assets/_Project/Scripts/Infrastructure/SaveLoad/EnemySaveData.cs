@@ -9,9 +9,11 @@ using UnityEngine;
 [Serializable]
 public class EnemySaveData
 {
-    public UnitСharacteristicsType CharacteristicsType; 
-    
+    public string Id;
+    public UnitСharacteristicsType CharacteristicsType;
     public Vector3 Position;
     public int CurrentHealth;
+    public bool IsMainCharacter;
+    public List<WaypointData> customPath;
     // public string PatrolPathId;
 }

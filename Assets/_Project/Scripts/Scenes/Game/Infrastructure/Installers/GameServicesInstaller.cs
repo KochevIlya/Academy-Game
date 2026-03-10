@@ -36,7 +36,6 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
       
       Container.Bind<ICursorService>().To<CursorService>().AsSingle();
 
-      Container.BindInterfacesAndSelfTo<DummyInputControls>().AsSingle();
       Container.BindInterfacesAndSelfTo<UserInputControls>().AsSingle();
        Container
         .BindInterfacesTo<GuiService>()

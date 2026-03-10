@@ -16,9 +16,9 @@ using Random = UnityEngine.Random;
 
 public class HackingService : IDisposable
 {
-    private readonly UserInputControls _input;
+    private  UserInputControls _input;
     private readonly CompositeDisposable _disposables = new CompositeDisposable();
-    private readonly DiContainer _container;
+    private  DiContainer _container;
     
     [Inject] HackableSelector _hackableSelector;
     
@@ -40,6 +40,7 @@ public class HackingService : IDisposable
     private GameUnit _originalHero;
     private GameUnit _currentPossessedUnit;
     private bool _isPossessing;
+    
     private bool _isErrorState;
     private CancellationTokenSource _hackingCts;
     private CombatZone _currentZoneContext;
@@ -86,8 +87,7 @@ public class HackingService : IDisposable
         try 
         {
             _cursorService.SetDefaultCursor();
-            var dummy = _container.Resolve<DummyInputControls>();
-            _hackerUnit.DisableControl(dummy);
+            _hackerUnit.DisableControl();
 
             target = await _hackableSelector.SelectTarget(_hackingCts.Token);
         }
@@ -155,8 +155,7 @@ public class HackingService : IDisposable
 
         if (_currentPossessedUnit != null)
         {
-            var dummy = _container.Resolve<DummyInputControls>();
-            _currentPossessedUnit.DisableControl(dummy);
+            _currentPossessedUnit.DisableControl();
         }
 
         _originalHero.UpdateControls(_input);
@@ -254,11 +253,10 @@ public class HackingService : IDisposable
         {
             _input.IsBlocked.Value = false;
 
-            var dummy = _container.Resolve<DummyInputControls>();
             _isPossessing = true;
             _currentPossessedUnit = victimUnit;
         
-            _hackerUnit.DisableControl(dummy);
+            _hackerUnit.DisableControl();
             victimUnit.UpdateControls(_input);
             victimUnit.IsUnderControl = true;
             victimUnit.OnUnitHacked.OnNext(victimUnit);
@@ -297,6 +295,30 @@ public class HackingService : IDisposable
             seq.Add(dir);
         }
         return seq;
+    }
+
+    public void ClearState()
+    {
+        _hackingCts?.Cancel();
+        _hackingCts = new CancellationTokenSource();
+
+        _isPossessing = false;
+        IsHacking.Value = false;
+        _isErrorState = false;
+        _waitForRelease = false;
+    
+        CurrentProgressIndex.Value = 0;
+        CanHack.Value = false;
+
+        _currentTarget = null;
+        _hackerUnit = null;
+        _originalHero = null;
+        _currentPossessedUnit = null;
+        _currentZoneContext = null;
+
+        _currentSequence?.Clear();
+
+        Debug.Log("[HackingService] Состояние полностью очищено для новой загрузки.");
     }
     public void Dispose()
     {

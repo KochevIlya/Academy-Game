@@ -14,9 +14,9 @@ using Zenject;
 public class CombatZone : MonoBehaviour
     {
         [SerializeField] private List<UnitSpawner> _mySpawners;
-        private List<GameUnit> _activeUnits = new List<GameUnit>();
+        public List<GameUnit> _activeUnits = new List<GameUnit>();
         [SerializeField] private List<TerminalSpawner> _myTerminalSpawners;
-        private List<HackingTerminal> _activeTerminals = new List<HackingTerminal>();
+        public List<HackingTerminal> _activeTerminals = new List<HackingTerminal>();
         private bool _isAlarmActive = false;
         private CompositeDisposable _disposables = new CompositeDisposable();
         private int _botsCount = 0;
@@ -24,6 +24,12 @@ public class CombatZone : MonoBehaviour
         [Inject] InputControllsFactory _inputControllsFactory;
         private int _hackingAttempts = 0;
         private HackingTerminal _terminal;
+
+
+        public List<GameUnit> GetActiveUnits()
+        {
+            return _activeUnits;
+        }
         
         public void InitializeZone()
         {
@@ -75,7 +81,7 @@ public class CombatZone : MonoBehaviour
             
         }
 
-        private void RegisterUnit(GameUnit unit)
+        public void RegisterUnit(GameUnit unit)
         {
             _activeUnits.Add(unit);
 
@@ -185,4 +191,11 @@ public class CombatZone : MonoBehaviour
         {
             return _base + 2 * (_hackingAttempts - 1) > 12 ? 12 : _base + 2 * (_hackingAttempts - 1);
         }
+
+        public void ClearState()
+        {
+            _activeUnits.Clear();
+        }
+        
+        
     }

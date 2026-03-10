@@ -47,9 +47,15 @@ namespace _Project.Scripts.Scenes.Game.Unit
     private readonly CompositeDisposable _lifetimeDisposable = new CompositeDisposable();
     
     public IInputControls InputControls { get; private set; }
-
+    public string Id { get; private set; }
+    public void SetId(string id)
+    {
+      Id = id;
+    }
+    public UnitStatsData GetStats() => _stats;
     private void Start()
     { 
+      
       _saveLoadService.Register(this);
       
       if (HealthView != null)
@@ -65,6 +71,10 @@ namespace _Project.Scripts.Scenes.Game.Unit
     {
       _saveLoadService.Unregister(this);
       _lifetimeDisposable.Clear();
+      if (PatrolPath != null)
+      {
+        Destroy(PatrolPath.gameObject);
+      }
     }
 
     public void UpdateControls(IInputControls inputControls)
@@ -143,9 +153,9 @@ namespace _Project.Scripts.Scenes.Game.Unit
     
     private void ResetMovement() => _currentMover.ResetMovement(this);
     
-    public void DisableControl(IInputControls dummyInput)
+    public void DisableControl()
     {
-      UpdateControls(dummyInput);
+      UpdateControls(new DummyInputControls());
       IsUnderControl = false;
       Debug.Log($"[{name}] Управление переведено на Dummy.");
     }
@@ -188,12 +198,12 @@ namespace _Project.Scripts.Scenes.Game.Unit
     {
       return new EnemySaveData
       {
+        Id = this.Id,
         CharacteristicsType = _characteristicsType,
         Position = transform.position,
         CurrentHealth = Health.CurrentHealth.Value,
-        // PatrolPathId = PatrolPath != null && PatrolPath.TryGetComponent<EntityIdentifier>(out var idHolder) 
-        //   ? idHolder.ID 
-        //   : string.Empty
+        customPath = PatrolPathSaveHelper.GetSaveData(PatrolPath)
+        
       };
     }
 

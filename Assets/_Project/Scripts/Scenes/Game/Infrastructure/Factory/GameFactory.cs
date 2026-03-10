@@ -25,7 +25,6 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     private readonly IStaticDataService _staticData;
     private readonly DiContainer _diContainer;
     private readonly UserInputControls _userInputControls;
-    private readonly DummyInputControls _dummyInputControls;
     private readonly IAssetProvider _assetProvider;
     private readonly Dictionary<string, Libs.Pool.ObjectPool<Bullet>> _bulletPools = new();
     private IInputHelper _inputHelper;
@@ -35,7 +34,6 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       IStaticDataService staticData,
       DiContainer diContainer, 
       UserInputControls userInputControls,
-      DummyInputControls dummyInputControls, 
       IAssetProvider assetProvider,
       ICameraService cameraService,
       ICursorService cursorService
@@ -45,7 +43,6 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       _staticData = staticData;
       _diContainer = diContainer;
       _userInputControls = userInputControls;
-      _dummyInputControls = dummyInputControls;
       _assetProvider = assetProvider;
       _cameraService = cameraService;
       _cursorService = cursorService;
@@ -66,6 +63,8 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       GameUnit bot = _diContainer
         .InstantiatePrefabForComponent<GameUnit>(prefab, 
           position, Quaternion.identity, null);
+      
+      bot.SetId(System.Guid.NewGuid().ToString());
       
       bot.UpdateStats(unitData, unitСharacteristicsType);
       
@@ -110,10 +109,11 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
 
     public async UniTask<GameUnit> RestoreGameUnit(EnemySaveData data)
     {
-      PatrolPath path = null;
+      PatrolPath path = PatrolPathSaveHelper.RestorePath(data.customPath, data.Id);
       GameUnit unit = await SpawnGameUnit(data.Position, data.CharacteristicsType, path);
-
+      unit.SetId(data.Id);
       unit.LoadFromData(data);
+      
       return unit;
     }
 

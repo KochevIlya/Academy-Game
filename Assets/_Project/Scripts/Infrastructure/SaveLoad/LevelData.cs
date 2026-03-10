@@ -7,4 +7,5 @@ using UnityEngine;
 public class LevelData
 {
     public List<EnemySaveData> enemies = new List<EnemySaveData>();
+    public List<CombatZoneSaveData> zones = new List<CombatZoneSaveData>();
 }
