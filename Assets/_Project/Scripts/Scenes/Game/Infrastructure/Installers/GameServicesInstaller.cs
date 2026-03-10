@@ -1,5 +1,6 @@
 using _Project.Scripts.Infrastructure.Gui.Camera;
 using _Project.Scripts.Infrastructure.Gui.Service;
+using _Project.Scripts.Infrastructure.SaveLoad;
 using _Project.Scripts.Scenes.Game.Hacking;
 using _Project.Scripts.Scenes.Game.Infrastructure.Factory;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
@@ -43,14 +44,12 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
         .UnderTransform(_uiRoot)
         .AsSingle()
         .NonLazy();
-      Container.BindInterfacesAndSelfTo<GameMenuController>().AsSingle().NonLazy();
-      Container.Bind<GameMenuWindow>()
-        .FromComponentInNewPrefab(_menuPrefab)
-        .UnderTransform(_uiRoot)
-        .AsSingle()
-        .NonLazy();
       
       Container.Bind<SceneLoaderService>().AsSingle();
+      Container.Bind<ISaveLoadService>().To<SaveLoadService>().AsSingle();
+      Container.Bind<IMenuActionsService>().To<MenuActionsService>().AsSingle();
+      
+      
     }
   }
 }

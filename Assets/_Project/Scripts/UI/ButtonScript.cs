@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using _Project.Scripts.Infrastructure.SaveLoad;
 using _Project.Scripts.Infrastructure.StateMachine;
 using _Project.Scripts.Infrastructure.StateMachine.States;
 using UnityEngine;
@@ -7,16 +8,11 @@ using Zenject;
 
 public class ButtonScript : MonoBehaviour
 {
-    private SignalBus _signalBus;
+    [Inject] private IMenuActionsService _actions;
     
-    [Inject]
-    public void Construct(SignalBus signalBus)
-    {
-        _signalBus = signalBus;
-    }
-
-    public void OnRestartClick()
-    {
-        _signalBus.Fire<RestartLevelSignal>();
-    }
+    public void OnRestart() => _actions.RestartLevel();
+    public void OnSave() => _actions.SaveGame();
+    public void OnLoad() => _actions.LoadGame();
+    
+    
 }

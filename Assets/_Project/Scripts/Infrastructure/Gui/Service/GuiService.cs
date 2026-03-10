@@ -11,6 +11,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
   {
     [SerializeField] private Canvas.StaticCanvas _staticCanvas;
     [SerializeField] private GameOverScreen _gameOverScreenPrefab;
+    [SerializeField] private GameMenuWindow _gameMenuWindowPrefab;
     private readonly Stack<BaseScreen> _screens = new Stack<BaseScreen>();
     private DiContainer _container;
     Canvas.StaticCanvas IGuiService.StaticCanvas => _staticCanvas;
@@ -50,6 +51,26 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
       }
 
     }
+
+    public async void ShowInGameWindow()
+    {
+      var screenInstance = Instantiate(_gameMenuWindowPrefab);
+      _container.InjectGameObject(screenInstance.gameObject);
+      ((IGuiService)this).Push(screenInstance);
+        
+      screenInstance.transform.SetParent(_staticCanvas.Canvas.transform, false);
+
+      try
+      {
+        await screenInstance.Show();
+      }
+      catch (OperationCanceledException)
+      {
+        Debug.Log("Показ экрана отменён из-за уничтожения объекта");
+      }
+      
+    }
+    
     void IGuiService.Pop()
     {
       if (_screens.TryPop(out var oldScreen))
