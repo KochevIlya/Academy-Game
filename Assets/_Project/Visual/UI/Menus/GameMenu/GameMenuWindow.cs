@@ -10,7 +10,8 @@ public class GameMenuWindow : BaseScreen
 {
     [SerializeField] private GameObject _menuPanel;
     [SerializeField] private GameObject _controlsPanel;
-    
+
+    [SerializeField] private Button _restartButton;
     [SerializeField] private Button _pauseButton;
     [SerializeField] private Button _resumeButton;
     [SerializeField] private Button _loadButton;
@@ -43,6 +44,7 @@ public class GameMenuWindow : BaseScreen
         _exitButton.onClick.AddListener(_menuActionsService.ExitGame);
         _saveButton.onClick.AddListener(_menuActionsService.SaveGame);
         _loadButton.onClick.AddListener(_menuActionsService.LoadGame);
+        _restartButton.onClick.AddListener(_menuActionsService.RestartLevel);
     }
 
     

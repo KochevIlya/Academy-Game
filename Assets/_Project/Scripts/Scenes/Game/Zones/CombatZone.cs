@@ -46,7 +46,7 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
                 if (spawner.SpawnedUnit != null)
                 {
                     RegisterUnit(spawner.SpawnedUnit);
-                    _botsCount++;
+                    
                 }
             }
             
@@ -125,7 +125,7 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
             unit.OnUnitHacked
                 .Subscribe(_ => CheckLastSurvivor())
                 .AddTo(unit);
-            
+            _botsCount++;
         }
 
         private void CheckUnitReturn(GameUnit unit)
@@ -203,6 +203,7 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
         public void ClearState()
         {
             _activeUnits.Clear();
+            _botsCount = 0;
         }
 
 

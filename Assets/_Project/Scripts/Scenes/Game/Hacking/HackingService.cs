@@ -8,6 +8,7 @@ using _Project.Scripts.Scenes.Game.Hacking;
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
+using Cysharp.Threading.Tasks;
 using UniRx;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -30,7 +31,7 @@ public class HackingService : IDisposable
     public bool IsPossessing => _isPossessing;
     public ReactiveProperty<bool> CanHack { get; } = new ReactiveProperty<bool>(false);
     public Subject<HackableComponent> OnHackingProcessStarted { get; } = new Subject<HackableComponent>();
-    
+    private UniTaskCompletionSource _hackingCompletionSource;
     private List<Vector2> _currentSequence;
     private HackableComponent _currentTarget;
     [Inject] private ICameraService _cameraService;
@@ -59,17 +60,27 @@ public class HackingService : IDisposable
     {
         CanHack.Value = isInZone;
     }
-    public void RequestCancel()
+    public void RequestCancel(bool silent = false)
     {
         _hackingCts?.Cancel();
     
-        ReturnToOriginalBody();
+        if (!silent)
+        {
+            ReturnToOriginalBody();
+        }
+        else
+        {
+            IsHacking.Value = false;
+            _input.IsBlocked.Value = false;
+        }
     }
-    public async void RequestHacking(GameUnit hacker)
+    public async UniTask RequestHacking(GameUnit hacker)
     {
+        
         if (!CanHack.Value) return;
         if (IsHacking.Value) return;
         
+        _hackingCompletionSource = new UniTaskCompletionSource();
         _hackingCts?.Cancel();
         _hackingCts = new CancellationTokenSource();
         
@@ -84,18 +95,28 @@ public class HackingService : IDisposable
         OnHackingProcessStarted.OnNext(null);
         _cameraService.ZoomOut();
 
-        try 
+        try
         {
             _cursorService.SetDefaultCursor();
             _hackerUnit.DisableControl();
 
             target = await _hackableSelector.SelectTarget(_hackingCts.Token);
         }
+        catch (OperationCanceledException)
+        {
+            Debug.Log("[HackingService] Выбор цели отменен.");
+            return;
+        }
         catch (System.Exception e)
         {
             _hackingCts?.Cancel();
             Debug.LogError($"Непредвиденная ошибка при выборе цели: {e}");
             return;
+        }
+        finally
+        {
+            _hackingCompletionSource?.TrySetResult(); 
+            _hackingCompletionSource = null;
         }
 
         if (target != null)
@@ -107,6 +128,7 @@ public class HackingService : IDisposable
             ReturnToOriginalBody();
         }
     }
+    public UniTask WaitUntilFinished() => _hackingCompletionSource?.Task ?? UniTask.CompletedTask;
     public void StartHacking(HackableComponent target, GameUnit hacker)
     {
         _currentTarget = target;
