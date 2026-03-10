@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnPoint: {fileID: 7685892925020640612}
-  bulletCount: 5
+  bulletCount: 3
   timeBetweenBullets: 0.05
 --- !u!4 &8889394366843145102 stripped
 Transform:
