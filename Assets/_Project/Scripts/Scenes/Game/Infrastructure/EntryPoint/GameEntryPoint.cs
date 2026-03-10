@@ -17,6 +17,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
     public void Initialize()
     {
       _gameStateMachine.Enter<SpawnGameState>();
+      
     }
   }
 }

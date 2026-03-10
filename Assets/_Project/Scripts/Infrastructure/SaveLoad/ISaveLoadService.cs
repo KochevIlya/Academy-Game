@@ -14,5 +14,6 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
     void UnregisterTerminal(ITerminalSaveable saveable);
     void RegisterZone(IZoneSaveable saveable);
     void UnregisterZone(IZoneSaveable saveable);
+    bool HasSaveFile();
   }
 }

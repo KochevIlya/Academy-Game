@@ -27,19 +27,14 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
         private readonly List<ITerminalSaveable> _terminalSaveables = new List<ITerminalSaveable>();
         private readonly List<IZoneSaveable> _zoneSaveables = new List<IZoneSaveable>();
         private readonly HackingService _hackingService;
-        private readonly IGuiService _guiService;
         private readonly string _path = Path.Combine(Application.persistentDataPath, "save.json");
-        private readonly IGameStateMachine _stateMachine;
-        public SaveLoadService(IGameFactory gameFactory,
-            HackingService hackingService,
-            IGuiService guiService,
-            IGameStateMachine stateMachine
+        public SaveLoadService(
+            IGameFactory gameFactory,
+            HackingService hackingService
             )
         {
-            _guiService = guiService;
             _gameFactory = gameFactory;
-            _hackingService = hackingService;   
-            _stateMachine = stateMachine;
+            _hackingService = hackingService;
         }
 
         public void Save()
@@ -72,7 +67,6 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
 
         public async UniTask LoadAsync()
         {
-
             _hackingService.ClearState();
             Debug.Log("In SaveLoadService LoadAsync()");
             if (!File.Exists(_path))
@@ -140,7 +134,6 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
 
             }
             Debug.Log("[SaveLoadService] Загрузка и стыковка завершены.");
-            _stateMachine.Enter<GameLoopState>();
         }
 
         public void RegisterUnit(IUnitSaveable saveable)
@@ -178,5 +171,7 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
             if(_zoneSaveables.Contains(saveable))
                 _zoneSaveables.Remove(saveable);
         }
+
+        public bool HasSaveFile() => File.Exists(_path);
     }
 }
