@@ -57,7 +57,7 @@ MonoBehaviour:
       Data: 100
     - Name: speed
       Entry: 4
-      Data: 5
+      Data: 7
     - Name: patrolSpeed
       Entry: 4
       Data: 0
@@ -90,19 +90,19 @@ MonoBehaviour:
       Data: 3|_Project.Scripts.Scenes.Game.Unit._Data.UnitStatsData, Assembly-CSharp
     - Name: maxHealth
       Entry: 3
-      Data: 100
+      Data: 110
     - Name: speed
       Entry: 4
-      Data: 2
+      Data: 6
     - Name: patrolSpeed
       Entry: 4
-      Data: 1
+      Data: 1.2
     - Name: behaviourType
       Entry: 3
       Data: 2
     - Name: weaponType
       Entry: 3
-      Data: 1
+      Data: 4
     - Name: abilityType
       Entry: 3
       Data: 1
@@ -126,13 +126,13 @@ MonoBehaviour:
       Data: 4|_Project.Scripts.Scenes.Game.Unit._Data.UnitStatsData, Assembly-CSharp
     - Name: maxHealth
       Entry: 3
-      Data: 60
+      Data: 80
     - Name: speed
       Entry: 4
-      Data: 4
+      Data: 8
     - Name: patrolSpeed
       Entry: 4
-      Data: 1
+      Data: 2
     - Name: behaviourType
       Entry: 3
       Data: 1
@@ -162,13 +162,13 @@ MonoBehaviour:
       Data: 5|_Project.Scripts.Scenes.Game.Unit._Data.UnitStatsData, Assembly-CSharp
     - Name: maxHealth
       Entry: 3
-      Data: 250
+      Data: 180
     - Name: speed
       Entry: 4
-      Data: 1.8
+      Data: 3
     - Name: patrolSpeed
       Entry: 4
-      Data: 1
+      Data: 0.6
     - Name: behaviourType
       Entry: 3
       Data: 2
@@ -201,7 +201,7 @@ MonoBehaviour:
       Data: 6000
     - Name: speed
       Entry: 4
-      Data: 3
+      Data: 5
     - Name: patrolSpeed
       Entry: 4
       Data: 1
