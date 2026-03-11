@@ -156,10 +156,17 @@ public class HackingService : IDisposable
             .Subscribe(CheckInput)
             .AddTo(_disposables);
         
-        _input.OnCancel
+        _input.OnAction
             .Where(_ => _isPossessing && !IsHacking.Value)
-            .Subscribe(_ => ReturnToOriginalBody())
+            .Subscribe(_ => SelfDestroy())
             .AddTo(_disposables);
+    }
+
+    private void SelfDestroy()
+    {
+        var currentUnit = _currentPossessedUnit.GetComponentInChildren<GameUnit>();
+        currentUnit.Health.TakeDamage(Int32.MaxValue);
+        ReturnToOriginalBody();
     }
     public void ReturnToOriginalBody()
     {

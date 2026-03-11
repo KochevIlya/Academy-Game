@@ -36,7 +36,7 @@ public class PlayerHacker : MonoBehaviour
         Debug.Log("PlayerHacker: Start");
         try
         {
-            _input.OnHacking
+            _input.OnAction
                 .Where(_ => !_hackingService.IsHacking.Value)
                 .TakeUntilDestroy(this)
                 .Subscribe(_ => TryToHack())
