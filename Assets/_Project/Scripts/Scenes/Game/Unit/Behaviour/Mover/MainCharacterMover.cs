@@ -14,7 +14,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Mover
     
     private ICameraService _cameraService;
     private CharacterController _controller;
-    
+
     private Vector3 _verticalVelocity;
 
     private const float Gravity = -9.81f;

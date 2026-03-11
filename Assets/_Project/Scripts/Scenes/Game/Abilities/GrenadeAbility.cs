@@ -16,7 +16,7 @@ public class GrenadeAbility : MonoBehaviour, IAbility
     
     private float _timer;
 
-    [Inject]
+    [Inject]    
     public void Construct(IGameFactory gameFactory)
     {
         _gameFactory = gameFactory;

@@ -2,10 +2,25 @@ using UnityEngine;
 using Zenject;
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit.Attacker;
+using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
+using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 
 
 public class MeleeAttacker : MonoBehaviour, IUnitAttacker
 {
+    private Vector3 _shootMousePosition;
+    private IInputHelper _inputHelper;
+    private UserInputControls _userInputControls;
+    private const float DefaultFireHeight = 1.2f;
+    
+    [Inject]
+    public void Construct(UserInputControls userInputControls,IInputHelper inputHelper)
+    {
+        _userInputControls = userInputControls;
+        _inputHelper = inputHelper;
+    }
+
+    
     public void Attack(GameUnit unit, Vector2 shootPosition) 
     {
         if (unit.HasWeapon)
@@ -24,7 +39,11 @@ public class MeleeAttacker : MonoBehaviour, IUnitAttacker
 
     public void AbilityUse(GameUnit unit)
     {
-        Debug.Log($"[{unit.name}] Melee Ability Use");
+        if (unit.Ability != null && unit.Ability.CanUse())
+        {
+            unit.Ability.Use(new Vector3());
+        }
+        
     }
     
     

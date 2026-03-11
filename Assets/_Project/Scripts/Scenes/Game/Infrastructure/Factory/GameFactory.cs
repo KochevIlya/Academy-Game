@@ -13,6 +13,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Zenject;
 using _Project.Scripts.Libs.Pool;
+using _Project.Scripts.Scenes.Game.Abilities;
 using _Project.Scripts.Scenes.Game.Hacking.Terminal;
 using _Project.Scripts.Scenes.Game.Unit._Configs;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
@@ -74,6 +75,14 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
         if (unitData.abilityType == BotAbilityType.ThrowGrenade)
         {
           var abilityComponent = bot.gameObject.AddComponent<GrenadeAbility>();
+          _diContainer.Inject(abilityComponent);
+          abilityComponent.Initialize(bot, unitData.ability);
+          bot.SetAbility(abilityComponent);
+        }
+
+        if (unitData.abilityType == BotAbilityType.Dash)
+        {
+          var abilityComponent = bot.gameObject.AddComponent<DashAbility>();
           _diContainer.Inject(abilityComponent);
           abilityComponent.Initialize(bot, unitData.ability);
           bot.SetAbility(abilityComponent);

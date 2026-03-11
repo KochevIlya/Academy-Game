@@ -14,21 +14,29 @@ namespace _Project.Scripts.Scenes.Game.Unit._Configs
     public enum BotAbilityType
     {
         None,
-        ThrowGrenade
+        ThrowGrenade,
+        Dash
     }
 
     [Serializable]
     public abstract class AbilitySettings
     {
+        public float cooldown = 3f;
     }
     [Serializable]
     public class GrenadeSettings : AbilitySettings
     {
-        public float cooldown = 3f;
         public int damage = 20;
         public float radius = 3f;
         public float fuseTime = 2f;
         public float speed = 5f;
+    }
+
+    [Serializable]
+    public class DashSettings : AbilitySettings
+    {
+        public float distance = 3f;
+        public float speed = 20f;
     }
     
     
