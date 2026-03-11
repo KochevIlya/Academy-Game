@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AbilitiesConfig
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 0
+    SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -25,6 +25,9 @@ MonoBehaviour:
   - abilityType: 1
     settings:
       rid: 686165173161426946
+  - abilityType: 2
+    settings:
+      rid: 4397388172374835201
   references:
     version: 2
     RefIds:
@@ -37,3 +40,10 @@ MonoBehaviour:
         radius: 3
         fuseTime: 1
         speed: 5
+    - rid: 4397388172374835201
+      type: {class: DashSettings, ns: _Project.Scripts.Scenes.Game.Unit._Configs,
+        asm: Assembly-CSharp}
+      data:
+        cooldown: 1
+        distance: 5
+        speed: 50
