@@ -141,7 +141,7 @@ MonoBehaviour:
       Data: 2
     - Name: abilityType
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: ability
       Entry: 10
       Data: 0
