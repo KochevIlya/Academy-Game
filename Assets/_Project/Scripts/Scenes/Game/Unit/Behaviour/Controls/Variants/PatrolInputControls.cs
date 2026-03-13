@@ -1,107 +1,122 @@
 using System;
 using System.Collections.Generic;
-using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit._Data;
-using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
-using _Project.Scripts.Scenes.Game.Unit.Controls;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 
-public class PatrolInputControls : IInputControls
+namespace _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls.Variants
 {
-    private readonly GameUnit _self;
-    private readonly List<PatrolPath.PatrolPoint> _waypoints;
-    
-    private int _currentIndex = 0;
-    private const float StopDistance = 0.5f;
-    
-    private bool _isWaiting = false;
-    
-    private const float RotationSpeed = 0.5f;
-    private const float RotationRadius = 0.8f; 
-    public MoverType RequiredMoverType => MoverType.Bot;
-    public PatrolInputControls(GameUnit self)
+    public class PatrolInputControls : IInputControls
     {
-        _self = self;
-        if (self.PatrolPath == null)
+        private readonly GameUnit _self;
+        private readonly List<PatrolPath.PatrolPoint> _waypoints;
+    
+        private int _currentIndex = 0;
+        private const float StopDistance = 0.8f;
+    
+        private bool _isWaiting = false;
+    
+        private const float RotationSpeed = 0.1f; 
+        private const float MaxViewAngle = 45f;
+    
+        private float _randomSeedX;
+        private float _randomSeedZ;
+        private float _waitStartTime;
+        private Vector3 _waitForwardDirection;
+    
+        public MoverType RequiredMoverType => MoverType.Bot;
+
+        public PatrolInputControls(GameUnit self)
         {
-            Debug.Log("watafe");
-            _waypoints = new List<PatrolPath.PatrolPoint>();
-            return;
+            _self = self;
+            _randomSeedX = UnityEngine.Random.Range(0f, 100f);
+            _randomSeedZ = UnityEngine.Random.Range(0f, 100f);
+
+            if (self.PatrolPath == null)
+            {
+                _waypoints = new List<PatrolPath.PatrolPoint>();
+                return;
+            }
+            _waypoints = self.PatrolPath.GetPatrolPoints();
         }
-        _waypoints = self.PatrolPath.GetPatrolPoints();
-    }
 
-    public Vector2 MousePosition
-    {
-        get
+        public Vector2 MousePosition
         {
-            Vector3 targetCenter = GetLookTarget() + Vector3.up * 1.0f;
+            get
+            {
+                Vector3 targetPos = GetLookTarget();
+                Vector3 targetCenter = targetPos + Vector3.up * 1.5f;
 
-            Vector3 screenPoint = Camera.main.WorldToScreenPoint(targetCenter);
+                Vector3 screenPoint = Camera.main.WorldToScreenPoint(targetCenter);
+                return new Vector2(screenPoint.x, screenPoint.y);
+            }
+        }
+    
+        public Vector3 GetLookTarget()
+        {
+            if (_waypoints == null || _waypoints.Count == 0)
+                return _self.transform.position + _self.transform.forward * 5f;
+
+            if (_isWaiting)
+            {
+                float yaw = (Mathf.PerlinNoise(Time.time * RotationSpeed, _randomSeedX) * 2f - 1f) * MaxViewAngle;
+                float pitch = (Mathf.PerlinNoise(_randomSeedZ, Time.time * RotationSpeed) * 2f - 1f) * 10f;
             
-            return new Vector2(screenPoint.x, screenPoint.y);
-        }
-    }
-    
-    public Vector3 GetLookTarget()
-    {
-        if (_waypoints == null || _waypoints.Count == 0)
-            return _self.transform.position + _self.transform.forward;
-        Vector3 baseTarget = _waypoints[_currentIndex].PointTransform.position;
-
-        if (_isWaiting)
-        {
-            float offsetX = Mathf.Sin(Time.time * RotationSpeed) * RotationRadius;
-            float offsetZ = Mathf.Cos(Time.time * RotationSpeed) * RotationRadius;
+                float blendWeight = Mathf.Clamp01((Time.time - _waitStartTime) / 1.0f);
             
-            return baseTarget + new Vector3(offsetX, 0, offsetZ);
+                Quaternion baseRotation = Quaternion.LookRotation(_waitForwardDirection);
+                Quaternion offset = Quaternion.Euler(pitch * blendWeight, yaw * blendWeight, 0);
+                Vector3 lookDir = baseRotation * offset * Vector3.forward;
+            
+                return _self.transform.position + lookDir * 5f; 
+            }
+        
+            return _waypoints[_currentIndex].PointTransform.position;
         }
-        
-        return _waypoints[_currentIndex].PointTransform.position;
-    }
     
-    public IObservable<Vector3> OnMovement => Observable.EveryUpdate().Select(_ =>
-    {
-        
-        if (_waypoints == null || _waypoints.Count == 0 || _isWaiting) return _self.transform.position;
-    
-        Vector3 targetPos = _waypoints[_currentIndex].PointTransform.position;
-        Vector3 myPos = _self.transform.position;
-    
-        float distance = Vector2.Distance(
-            new Vector2(targetPos.x, targetPos.z), 
-            new Vector2(myPos.x, myPos.z)
-        );
-        
-        if (distance <= StopDistance)
+        public IObservable<Vector3> OnMovement => Observable.EveryUpdate().Select(_ =>
         {
-            if (!_isWaiting) WaitAtPoint().Forget();
-            return myPos; 
+            if (_waypoints == null || _waypoints.Count == 0 || _isWaiting) 
+                return _self.transform.position;
+    
+            Vector3 targetPos = _waypoints[_currentIndex].PointTransform.position;
+            Vector3 myPos = _self.transform.position;
+    
+            float distance = Vector2.Distance(
+                new Vector2(targetPos.x, targetPos.z), 
+                new Vector2(myPos.x, myPos.z)
+            );
+        
+            if (distance <= StopDistance)
+            {
+                if (!_isWaiting) WaitAtPoint().Forget();
+                return myPos; 
+            }
+        
+            return targetPos;
+        });
+    
+        private async UniTaskVoid WaitAtPoint()
+        {
+            _isWaiting = true;
+            _waitStartTime = Time.time;
+        
+            _waitForwardDirection = _self.transform.forward;
+            if (_waitForwardDirection == Vector3.zero) _waitForwardDirection = Vector3.forward;
+        
+            float waitTime = _waypoints[_currentIndex].WaitTime;
+        
+            await UniTask.Delay(TimeSpan.FromSeconds(waitTime), cancellationToken: _self.GetCancellationTokenOnDestroy());
+        
+            _currentIndex = (_currentIndex + 1) % _waypoints.Count;
+            _isWaiting = false;
         }
-        
-        return targetPos;
-    });
-    
-    private async UniTaskVoid WaitAtPoint()
-    {
-        _isWaiting = true;
-        
-        float waitTime = _waypoints[_currentIndex].WaitTime;
-        
-        await UniTask.Delay(TimeSpan.FromSeconds(waitTime));
-        
-        _currentIndex = (_currentIndex + 1) % _waypoints.Count;
-        _isWaiting = false;
-    }
-    public IObservable<Vector2> OnRawMovement => OnRawMovement;
-    public float GetMovementSpeed(UnitStatsData stats)
-    {
-        return stats.patrolSpeed;
-    }
 
-    public IObservable<Unit> OnShoot => Observable.Never<Unit>();
-    public IObservable<Unit> OnAbilityUse => Observable.Never<Unit>();
-    
+        public IObservable<Vector2> OnRawMovement => Observable.Never<Vector2>();
+
+        public float GetMovementSpeed(UnitStatsData stats) => stats.patrolSpeed;
+        public IObservable<UniRx.Unit> OnShoot => Observable.Never<UniRx.Unit>();
+        public IObservable<UniRx.Unit> OnAbilityUse => Observable.Never<UniRx.Unit>();
+    }
 }

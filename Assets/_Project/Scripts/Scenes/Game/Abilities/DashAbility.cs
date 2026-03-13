@@ -76,7 +76,7 @@ namespace _Project.Scripts.Scenes.Game.Abilities
                     await UniTask.Yield(PlayerLoopTiming.Update);
                 }
                 
-                await UniTask.Delay(TimeSpan.FromSeconds(_settings.timeout));
+                await UniTask.Delay(TimeSpan.FromSeconds(_settings.timeout), cancellationToken: this.GetCancellationTokenOnDestroy());
             }
 
             _input.IsBlocked.Value = false;

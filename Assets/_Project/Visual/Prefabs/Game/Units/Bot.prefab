@@ -342,7 +342,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _eyeAnchor: {fileID: 7762540231625283312}
   _viewMeshFilter: {fileID: 2116732295429898156}
-  _visionSpotLight: {fileID: 0}
   _viewRadius: 5
   _viewAngle: 120
   _targetMask:

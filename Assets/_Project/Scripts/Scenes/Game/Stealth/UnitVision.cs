@@ -3,6 +3,7 @@ using Zenject;
 using _Project.Scripts.Infrastructure.StateMachine;
 using _Project.Scripts.Scenes.Game.Infrastructure.States;
 using _Project.Scripts.Scenes.Game.Unit;
+using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls.Variants;
 
 public class UnitVision : MonoBehaviour
 {

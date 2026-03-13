@@ -17,6 +17,7 @@ using _Project.Scripts.Scenes.Game.Abilities;
 using _Project.Scripts.Scenes.Game.Hacking.Terminal;
 using _Project.Scripts.Scenes.Game.Unit._Configs;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
+using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls.Variants;
 
 namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
 {
