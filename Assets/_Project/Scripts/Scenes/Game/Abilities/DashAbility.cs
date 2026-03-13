@@ -1,3 +1,4 @@
+using System;
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit._Configs;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
@@ -31,41 +32,55 @@ namespace _Project.Scripts.Scenes.Game.Abilities
 
         private async UniTaskVoid UseAbility()
         {
-            if (_settings == null || _characterController == null) return;
-            
-            _timer = _settings.cooldown;
-            
-            Vector2 mouseScreenPos = _input.MousePosition;
-            if (!_inputHelper.ScreenToGroundPosition(mouseScreenPos, _unit.transform.position.y, out Vector3 targetWorldPos))
+            if (_settings == null || _characterController == null)
             {
+                _input.IsBlocked.Value = false;
                 return;
             }
-
-            Vector3 direction = targetWorldPos - _unit.transform.position;
-            direction.y = 0f;
-            direction.Normalize();
-
-            _input.IsBlocked.Value = true;
-
-            float distanceDashed = 0f;
-
-            while (distanceDashed < _settings.distance)
+            
+            for (var i = 0; i < _settings.jumpNumber; i++)
             {
-                float step = _settings.speed * Time.deltaTime;
-                
-                CollisionFlags flags = _characterController.Move(direction * step);
-                
-                distanceDashed += step;
-
-               if ((flags & CollisionFlags.Sides) != 0)
+                if (_settings == null || _characterController == null)
                 {
-                    break;
+                    _input.IsBlocked.Value = false;
+                    return;
+                }
+                Vector2 mouseScreenPos = _input.MousePosition;
+                if (!_inputHelper.ScreenToGroundPosition(mouseScreenPos, _unit.transform.position.y,
+                        out Vector3 targetWorldPos))
+                {
+                    return;
                 }
 
-                await UniTask.Yield(PlayerLoopTiming.Update);
+                Vector3 direction = targetWorldPos - _unit.transform.position;
+                direction.y = 0f;
+                direction.Normalize();
+
+                _input.IsBlocked.Value = true;
+
+                float distanceDashed = 0f;
+
+                while (distanceDashed < _settings.distance)
+                {
+                    float step = _settings.speed * Time.deltaTime;
+
+                    CollisionFlags flags = _characterController.Move(direction * step);
+
+                    distanceDashed += step;
+
+                    if ((flags & CollisionFlags.Sides) != 0)
+                    {
+                        break;
+                    }
+
+                    await UniTask.Yield(PlayerLoopTiming.Update);
+                }
+                
+                await UniTask.Delay(TimeSpan.FromSeconds(_settings.timeout));
             }
 
             _input.IsBlocked.Value = false;
+            _timer = _settings.cooldown;
         }
 
         public void Initialize(GameUnit unit, AbilityConfig config)

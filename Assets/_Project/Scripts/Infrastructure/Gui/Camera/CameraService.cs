@@ -47,8 +47,8 @@ namespace _Project.Scripts.Infrastructure.Gui.Camera
             return;
         }
         
-      _cameraZoomIn.Follow = unit.transform;
-      _target = unit.transform;
+        _cameraZoomIn.Follow = unit.transform;
+        _target = unit.transform;
     }
 
     void ICameraService.Cleanup()

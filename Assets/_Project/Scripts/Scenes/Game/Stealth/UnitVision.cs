@@ -1,41 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
-using _Project.Scripts.Infrastructure.Gui.Service;
+using UnityEngine;
+using Zenject;
 using _Project.Scripts.Infrastructure.StateMachine;
 using _Project.Scripts.Scenes.Game.Infrastructure.States;
 using _Project.Scripts.Scenes.Game.Unit;
-using UnityEngine;
-using Zenject;
 
 public class UnitVision : MonoBehaviour
 {
+    [Header("Ссылки")]
+    [SerializeField] private Transform _eyeAnchor;
+    [SerializeField] private MeshFilter _viewMeshFilter;
+
     [Header("Настройки обзора")]
     [SerializeField] private float _viewRadius = 5f;
     [Range(0, 360)]
     [SerializeField] private float _viewAngle = 70f;
     [SerializeField] private LayerMask _targetMask;
     [SerializeField] private LayerMask _obstacleMask;
-    [SerializeField] private float _eyeHeight = 1.5f;
 
     [Header("Визуализация")]
-    [SerializeField] private MeshFilter _viewMeshFilter;
     [SerializeField] private int _segments = 50;
 
     private Mesh _viewMesh;
     private GameUnit _owner;
+    private float _eyeHeight;
     [Inject]
     private IGameStateMachine _gameStateMachine;
-    
+
     private void Awake()
     {
         _viewMesh = new Mesh { name = "View Mesh" };
         _viewMeshFilter.mesh = _viewMesh;
         _owner = GetComponentInParent<GameUnit>();
+        _eyeHeight = _eyeAnchor.position.y;
+        
     }
 
     private void LateUpdate()
     {
-        if (_owner == null) return;
+        if (_owner == null || _eyeAnchor == null) return;
+
         bool isPatrolling = _owner.InputControls is PatrolInputControls || _owner.InputControls is WalkerInputControls;
 
         if (!isPatrolling)
@@ -49,19 +52,20 @@ public class UnitVision : MonoBehaviour
 
     private void FindVisibleTargets()
     {
-        Collider[] targetsInRadius = Physics.OverlapSphere(transform.position, _viewRadius, _targetMask);
-        Vector3 eyePosition = transform.position + Vector3.up * _eyeHeight;
+        Vector3 origin = _eyeAnchor.position;
+        Collider[] targetsInRadius = Physics.OverlapSphere(origin, _viewRadius, _targetMask);
 
         foreach (var target in targetsInRadius)
         {
-            Vector3 targetAtEyeLevel = new Vector3(target.transform.position.x, eyePosition.y, target.transform.position.z);
+            if (!target.CompareTag("VisionHitbox")) continue;
 
-            Vector3 dirToTarget = (targetAtEyeLevel - eyePosition).normalized;
-            float dstToTarget = Vector3.Distance(eyePosition, targetAtEyeLevel);
+            Vector3 targetPosition = target.bounds.center;
+            Vector3 dirToTarget = (targetPosition - origin).normalized;
+            float dstToTarget = Vector3.Distance(origin, targetPosition);
 
-            if (Vector3.Angle(transform.forward, dirToTarget) < _viewAngle / 2)
+            if (Vector3.Angle(_eyeAnchor.forward, dirToTarget) < _viewAngle / 2f)
             {
-                if (!Physics.Raycast(eyePosition, dirToTarget, dstToTarget, _obstacleMask) && target.CompareTag("VisionHitbox"))
+                if (!Physics.Raycast(origin, dirToTarget, dstToTarget, _obstacleMask))
                 {
                     _gameStateMachine.Enter<GameOverState>();
                 }

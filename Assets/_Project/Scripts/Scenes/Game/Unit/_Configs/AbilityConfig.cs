@@ -7,6 +7,7 @@ using UnityEngine;
 
 using UnityEngine;
 using _Project.Scripts.Scenes.Game.Unit._Data;
+using UnityEngine.Serialization;
 
 namespace _Project.Scripts.Scenes.Game.Unit._Configs
 {
@@ -36,6 +37,8 @@ namespace _Project.Scripts.Scenes.Game.Unit._Configs
     public class DashSettings : AbilitySettings
     {
         public float distance = 3f;
+        public float timeout = 0.2f;
+        public int jumpNumber = 3;
         public float speed = 20f;
     }
     
