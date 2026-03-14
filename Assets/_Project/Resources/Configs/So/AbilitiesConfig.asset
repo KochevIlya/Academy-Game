@@ -28,6 +28,9 @@ MonoBehaviour:
   - abilityType: 2
     settings:
       rid: 4397388172374835201
+  - abilityType: 3
+    settings:
+      rid: 4397388231571668992
   references:
     version: 2
     RefIds:
@@ -46,4 +49,14 @@ MonoBehaviour:
       data:
         cooldown: 1
         distance: 5
+        timeout: 0.2
+        jumpNumber: 3
         speed: 50
+    - rid: 4397388231571668992
+      type: {class: ShieldSettings, ns: _Project.Scripts.Scenes.Game.Unit._Configs,
+        asm: Assembly-CSharp}
+      data:
+        cooldown: 3
+        duration: 8
+        speedBufPercent: 10
+        damageBufPercent: 80

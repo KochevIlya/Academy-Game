@@ -31,6 +31,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     [field: SerializeField] public HealthView HealthView { get; set; }
     [field: SerializeField] public Transform WeaponPoint { get; private set; }
     public WeaponBase Weapon { get; private set; }
+    public float SpeedMultiplier { get; set; } = 1f;
     public bool HasWeapon { get; private set; }
     public bool IsUnderControl = false;
     public readonly Subject<GameUnit> OnUnitHacked = new Subject<GameUnit>();
@@ -124,12 +125,13 @@ namespace _Project.Scripts.Scenes.Game.Unit
         .AddTo(_lifetimeDisposable);
     }
     
-    private void SubscribeMovement(float speed)
+    private void SubscribeMovement(float baseSpeed)
     {
       InputControls.OnMovement
         .Subscribe(delta =>
           {
-            _currentMover.Move(this, delta, Time.deltaTime,  speed);
+            float currentSpeed = baseSpeed * SpeedMultiplier;
+            _currentMover.Move(this, delta, Time.deltaTime,  currentSpeed);
           })
           .AddTo(_lifetimeDisposable);
     }

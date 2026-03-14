@@ -16,7 +16,8 @@ namespace _Project.Scripts.Scenes.Game.Unit._Configs
     {
         None,
         ThrowGrenade,
-        Dash
+        Dash,
+        Shield
     }
 
     [Serializable]
@@ -41,7 +42,13 @@ namespace _Project.Scripts.Scenes.Game.Unit._Configs
         public int jumpNumber = 3;
         public float speed = 20f;
     }
-    
+    [Serializable]
+    public class ShieldSettings : AbilitySettings
+    {
+        public float duration = 8f;
+        public float speedBufPercent = 10f;
+        public float damageBufPercent = 80f;
+    }
     
     [CreateAssetMenu(menuName = "Configs/" + nameof(AbilityConfig), fileName = "NewAbilityConfig")]
     public class AbilityConfig : SoConfig<AbilityConfig>

@@ -75,7 +75,7 @@ namespace _Project.Scripts.Scenes.Game.Abilities
             _timer = _settings.cooldown;
         }
 
-        public void Initialize(GameUnit unit, AbilityConfig config)
+        public override void Initialize(GameUnit unit, AbilityConfig config)
         {
             base.Initialize(unit, config);
             
@@ -86,7 +86,6 @@ namespace _Project.Scripts.Scenes.Game.Abilities
             {
                 _settings = settings;
                 _timer = 0f;
-                _isReady.Value = true;
             }
             else
             {

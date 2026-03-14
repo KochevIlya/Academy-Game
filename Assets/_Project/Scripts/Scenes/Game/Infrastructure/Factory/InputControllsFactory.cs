@@ -31,6 +31,9 @@ public class InputControllsFactory
             case UnitBehaviourType.Distance:
                 return new AggroDistanceInputControls(unit, target);
             
+            case UnitBehaviourType.Tank:
+                return new AggroDistanceInputControls(unit, target);
+            
             default:
                 return new DummyInputControls();
         }

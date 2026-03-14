@@ -74,20 +74,13 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       {
         
         if (unitData.abilityType == BotAbilityType.ThrowGrenade)
-        {
-          var abilityComponent = bot.gameObject.AddComponent<GrenadeAbility>();
-          _diContainer.Inject(abilityComponent);
-          abilityComponent.Initialize(bot, unitData.ability);
-          bot.SetAbility(abilityComponent);
-        }
-
-        if (unitData.abilityType == BotAbilityType.Dash)
-        {
-          var abilityComponent = bot.gameObject.AddComponent<DashAbility>();
-          _diContainer.Inject(abilityComponent);
-          abilityComponent.Initialize(bot, unitData.ability);
-          bot.SetAbility(abilityComponent);
-        }
+          AddAbility<GrenadeAbility>(bot, unitData.ability);
+        
+        else if (unitData.abilityType == BotAbilityType.Dash)
+          AddAbility<DashAbility>(bot, unitData.ability);
+        
+        else if(unitData.abilityType == BotAbilityType.Shield)
+          AddAbility<ShieldAbility>(bot, unitData.ability);
         
         bot.UpdateWeapon(await SpawnWeapon(unitData.weaponType, bot));
         bot.AddComponent<HackableComponent>();
@@ -111,7 +104,15 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       }
       return bot;
     }
-
+    
+    private void AddAbility<T>(GameUnit bot, AbilityConfig config) where T : MonoBehaviour, IAbility
+    {
+      var abilityComponent = bot.gameObject.AddComponent<T>();
+      _diContainer.Inject(abilityComponent);
+      abilityComponent.Initialize(bot, config);
+      bot.SetAbility(abilityComponent);
+    }
+    
     public async UniTask<Grenade> SpawnGrenade(Vector3 position)
     {
       var prefabReference = _staticData.UnitsConfig.Grenade;

@@ -15,7 +15,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
     public IObservable<UniRx.Unit> Die => _die;
     public IObservable<float> OnDamageTaken => _onDamageTaken;
     
-
+    public float IncomingDamageMultiplier { get; set; } = 1f;
     public bool IsAlive => CurrentHealth.Value > 0;
 
 
@@ -33,7 +33,8 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
 
     public void TakeDamage(int amount)
     {
-      _currentHealth.Value = Mathf.Max(_currentHealth.Value - amount, 0);
+      int actualAmount = (int)IncomingDamageMultiplier * amount;
+      _currentHealth.Value = Mathf.Max(_currentHealth.Value - actualAmount, 0);
       _onDamageTaken.OnNext(amount);
       if (_currentHealth.Value <= 0)
       {

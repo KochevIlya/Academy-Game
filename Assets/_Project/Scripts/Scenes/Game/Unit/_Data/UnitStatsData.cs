@@ -11,7 +11,8 @@ namespace _Project.Scripts.Scenes.Game.Unit._Data
     {
         Character,
         Melee,  
-        Distance 
+        Distance, 
+        Tank
     }
     [Serializable]
     public class UnitStatsData
