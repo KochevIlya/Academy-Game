@@ -131,8 +131,11 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
         private void CheckUnitReturn(GameUnit unit)
         {
             if (unit.IsUnderControl)
+            {
                 _hackingService.ReturnToOriginalBody();
-            
+                _hackingService.StopBattle();
+            }
+
         }
         private void CheckAlarm()
         {

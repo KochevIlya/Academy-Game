@@ -3,6 +3,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Screens
   public enum ScreenType
   {
     GameOver,
-    InGameWindow
+    InGameWindow,
+    Battle
   }
 }

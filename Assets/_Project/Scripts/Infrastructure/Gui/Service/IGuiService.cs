@@ -10,5 +10,6 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     void Cleanup();
     void ShowGameOver();
     void ShowInGameWindow();
+    void ShowBattleScreen();
   }
 }

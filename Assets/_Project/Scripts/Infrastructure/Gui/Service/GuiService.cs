@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using _Project.Scripts.Infrastructure.Gui.Screens;
+using _Project.Visual.UI.Menus.BattleMenu;
+using _Project.Visual.UI.Menus.GameMenu;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
@@ -12,6 +14,8 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     [SerializeField] private Canvas.StaticCanvas _staticCanvas;
     [SerializeField] private GameOverScreen _gameOverScreenPrefab;
     [SerializeField] private GameMenuWindow _gameMenuWindowPrefab;
+    [SerializeField] private BattleScreen _battleScreenPrefab;
+    
     private readonly Stack<BaseScreen> _screens = new Stack<BaseScreen>();
     private DiContainer _container;
     Canvas.StaticCanvas IGuiService.StaticCanvas => _staticCanvas;
@@ -25,40 +29,29 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     {
       if (_screens.TryPeek(out var oldScreen))
       {
-        oldScreen.SetActive(false);
+        if (!screen.IsOverlay)
+        {
+          oldScreen.SetActive(false);
+        }
       }
 
       _screens.Push(screen);
     }
 
-    public async void ShowGameOver()
+    public void ShowGameOver() => ShowScreen(_gameOverScreenPrefab).Forget();
+
+    public void ShowInGameWindow() => ShowScreen(_gameMenuWindowPrefab).Forget();
+
+    public void ShowBattleScreen() => ShowScreen(_battleScreenPrefab).Forget();
+    
+    private async UniTask<T> ShowScreen<T>(T prefab) where T : BaseScreen
     {
-      
-      var screenInstance = Instantiate(_gameOverScreenPrefab);
-        
+      var screenInstance = Instantiate(prefab);
+    
       _container.InjectGameObject(screenInstance.gameObject);
+    
       ((IGuiService)this).Push(screenInstance);
-        
-      screenInstance.transform.SetParent(_staticCanvas.Canvas.transform, false);
-
-      try
-      {
-        await screenInstance.Show(screenInstance.GetCancellationTokenOnDestroy());
-      }
-      catch (OperationCanceledException)
-      {
-        Debug.Log("Показ экрана отменён из-за уничтожения объекта");
-      }
-
-    }
-
-    public async void ShowInGameWindow()
-    {
-      
-      var screenInstance = Instantiate(_gameMenuWindowPrefab);
-      _container.InjectGameObject(screenInstance.gameObject);
-      ((IGuiService)this).Push(screenInstance);
-        
+    
       screenInstance.transform.SetParent(_staticCanvas.Canvas.transform, false);
 
       try
@@ -67,10 +60,12 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
       }
       catch (OperationCanceledException)
       {
-        Debug.Log("Показ экрана отменён из-за уничтожения объекта");
+        Debug.Log($"Показ экрана {typeof(T).Name} отменён");
       }
-      
+
+      return screenInstance;
     }
+    
     
     void IGuiService.Pop()
     {

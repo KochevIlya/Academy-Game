@@ -1442,8 +1442,10 @@ MonoBehaviour:
   - {fileID: 4619600309258616467}
   - {fileID: 4995429428353605370}
   - {fileID: 3902117396859109648}
+  _activeUnits: []
   _myTerminalSpawners:
   - {fileID: 4036660560614424859}
+  _activeTerminals: []
 --- !u!1 &3028900278569091081
 GameObject:
   m_ObjectHideFlags: 0
@@ -2225,8 +2227,10 @@ MonoBehaviour:
   _mySpawners:
   - {fileID: 964276304112673759}
   - {fileID: 5398439763311317129}
+  _activeUnits: []
   _myTerminalSpawners:
   - {fileID: 5156679248612417074}
+  _activeTerminals: []
 --- !u!1 &4987794284945756598
 GameObject:
   m_ObjectHideFlags: 0
@@ -2592,9 +2596,11 @@ MonoBehaviour:
   - {fileID: 4744956082579499581}
   - {fileID: 6936899647272083271}
   - {fileID: 7508600122313521353}
+  _activeUnits: []
   _myTerminalSpawners:
   - {fileID: 2246004202971302237}
   - {fileID: 9044665322255383372}
+  _activeTerminals: []
 --- !u!1 &6035087423099538136
 GameObject:
   m_ObjectHideFlags: 0
@@ -3301,7 +3307,7 @@ MonoBehaviour:
   m_LayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_UseGeometry: 0
+  m_UseGeometry: 1
   m_DefaultArea: 0
   m_GenerateLinks: 0
   m_IgnoreNavMeshAgent: 1
@@ -3311,7 +3317,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: ed9f74ba9e8bc1444b09a0b4b8e14cb7, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 679b72b7daf22eb49ac2d6691d5276af, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &7611061222818463069
 GameObject:
@@ -3610,8 +3616,10 @@ MonoBehaviour:
   - {fileID: 7606080678088438299}
   - {fileID: 6865826294843550479}
   - {fileID: 1917442186309213976}
+  _activeUnits: []
   _myTerminalSpawners:
   - {fileID: 3869850800588830930}
+  _activeTerminals: []
 --- !u!1 &7871141652671109766
 GameObject:
   m_ObjectHideFlags: 0
@@ -3764,9 +3772,11 @@ MonoBehaviour:
   - {fileID: 3131507236585275431}
   - {fileID: 7507373286418648559}
   - {fileID: 7450847344091535428}
+  _activeUnits: []
   _myTerminalSpawners:
   - {fileID: 1565360775324888687}
   - {fileID: 1607799928906106020}
+  _activeTerminals: []
 --- !u!1 &8202651751416226078
 GameObject:
   m_ObjectHideFlags: 0

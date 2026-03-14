@@ -4,41 +4,28 @@ using _Project.Scripts.Scenes.Game.Unit._Configs;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using Cysharp.Threading.Tasks;
+using UniRx;
 using UnityEngine;
 using Zenject;
 
 namespace _Project.Scripts.Scenes.Game.Abilities
 {
-    public class DashAbility : MonoBehaviour, IAbility
+    public class DashAbility : BaseAbility<DashSettings>
     {
-        [Inject] private readonly UserInputControls _input;
-        [Inject] private readonly IInputHelper _inputHelper;
         
-        private GameUnit _unit;
-        private AbilityConfig _abilityConfig;
-        private DashSettings _settings;
         private CharacterController _characterController;
         
-        private float _timer;
-        
-        public void Use(Vector3 targetPosition)
+        protected override async UniTask UseAbility()
         {
-            if (!CanUse()) return;
+            Debug.Log($"Grenade In Use Grenade");
             
-            UseAbility().Forget();
-        }
-
-        public bool CanUse() => _settings != null && _timer <= 0;
-
-        private async UniTaskVoid UseAbility()
-        {
             if (_settings == null || _characterController == null)
             {
                 _input.IsBlocked.Value = false;
                 return;
             }
-            
-            for (var i = 0; i < _settings.jumpNumber; i++)
+            _isReady.Value = false;
+            for (var i = 0; i < Settings.jumpNumber; i++)
             {
                 if (_settings == null || _characterController == null)
                 {
@@ -49,6 +36,7 @@ namespace _Project.Scripts.Scenes.Game.Abilities
                 if (!_inputHelper.ScreenToGroundPosition(mouseScreenPos, _unit.transform.position.y,
                         out Vector3 targetWorldPos))
                 {
+                    _input.IsBlocked.Value = false;
                     return;
                 }
 
@@ -60,10 +48,14 @@ namespace _Project.Scripts.Scenes.Game.Abilities
 
                 float distanceDashed = 0f;
 
-                while (distanceDashed < _settings.distance)
+                while (distanceDashed < Settings.distance)
                 {
-                    float step = _settings.speed * Time.deltaTime;
-
+                    float step = Settings.speed * Time.deltaTime;
+                    if (_settings == null || _characterController == null)
+                    {
+                        _input.IsBlocked.Value = false;
+                        return;
+                    }
                     CollisionFlags flags = _characterController.Move(direction * step);
 
                     distanceDashed += step;
@@ -74,9 +66,9 @@ namespace _Project.Scripts.Scenes.Game.Abilities
                     }
 
                     await UniTask.Yield(PlayerLoopTiming.Update);
-                }
+                }   
                 
-                await UniTask.Delay(TimeSpan.FromSeconds(_settings.timeout), cancellationToken: this.GetCancellationTokenOnDestroy());
+                await UniTask.Delay(TimeSpan.FromSeconds(Settings.timeout));
             }
 
             _input.IsBlocked.Value = false;
@@ -85,8 +77,8 @@ namespace _Project.Scripts.Scenes.Game.Abilities
 
         public void Initialize(GameUnit unit, AbilityConfig config)
         {
-            _unit = unit;
-            _abilityConfig = config;
+            base.Initialize(unit, config);
+            
             _characterController = unit.GetComponent<CharacterController>();
             var settings = _abilityConfig.GetSettings(BotAbilityType.Dash) as DashSettings;
             
@@ -94,21 +86,19 @@ namespace _Project.Scripts.Scenes.Game.Abilities
             {
                 _settings = settings;
                 _timer = 0f;
+                _isReady.Value = true;
             }
             else
             {
                 Debug.LogError($"Dash settings not found in {_abilityConfig.name}");
                 enabled = false;
             }
+            
         }
-        
-        private void Update()
+
+        public override BotAbilityType GetAbilityType()
         {
-            if (_settings != null && _timer > 0)
-            {
-                _timer -= Time.deltaTime;
-            }
+            return BotAbilityType.Dash;
         }
-        
     }
 }

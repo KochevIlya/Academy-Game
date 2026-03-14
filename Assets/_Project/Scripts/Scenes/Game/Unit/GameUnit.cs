@@ -14,6 +14,7 @@ using _Project.Scripts.Scenes.Game.Unit._Data;
 using _Project.Scripts.Scenes.Game.Unit.Components.Health;
 using System.Linq;
 using _Project.Scripts.Infrastructure.SaveLoad;
+using _Project.Scripts.Scenes.Game.Unit._Configs;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
 using Zenject;
 
@@ -214,9 +215,11 @@ namespace _Project.Scripts.Scenes.Game.Unit
       Health.SetHealth(data.CurrentHealth);
     }
 
+    
     public void DestroyEntity()
     {
       Destroy(gameObject);
     }
+    
   }
 }

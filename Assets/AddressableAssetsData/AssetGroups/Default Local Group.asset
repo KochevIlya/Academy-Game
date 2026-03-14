@@ -17,6 +17,11 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: fd12c4cf47c2163489ab67db6704689d
   m_SerializeEntries:
+  - m_GUID: 02e3c9e0e58ccff478f6e0d26fd0b303
+    m_Address: Assets/_Project/Visual/Prefabs/UI/BattleWindow.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 07ba82bc415e3894094a4bc44af05768
     m_Address: Assets/_Project/Visual/Prefabs/UI/GameMenuWindow.prefab
     m_ReadOnly: 0

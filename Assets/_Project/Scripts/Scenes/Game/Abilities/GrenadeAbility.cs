@@ -6,15 +6,11 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
-public class GrenadeAbility : MonoBehaviour, IAbility
+public class GrenadeAbility : BaseAbility<GrenadeSettings>
 {
     private IGameFactory _gameFactory;
-    private GameUnit _unit;
-    private AbilityConfig _abilityConfig;
     
-    private GrenadeSettings _settings; 
     
-    private float _timer;
 
     [Inject]    
     public void Construct(IGameFactory gameFactory)
@@ -24,8 +20,7 @@ public class GrenadeAbility : MonoBehaviour, IAbility
     
     public void Initialize(GameUnit unit, AbilityConfig config)
     {
-        _unit = unit;
-        _abilityConfig = config;
+        base.Initialize(unit, config);
         
         var settings = _abilityConfig.GetSettings(BotAbilityType.ThrowGrenade) as GrenadeSettings;
     
@@ -40,38 +35,39 @@ public class GrenadeAbility : MonoBehaviour, IAbility
             enabled = false;
         }
     }
+    
 
-    private void Update()
+    public override void Use(Vector3 targetPosition)
     {
-        if (_settings != null && _timer > 0)
-        {
-            _timer -= Time.deltaTime;
-        }
-    }
-
-    public bool CanUse() => _settings != null && _timer <= 0;
-
-    public void Use(Vector3 targetPosition)
-    {
+        Debug.Log($"Grenade In Use Grenade");
         if (!CanUse()) return;
-        
+        _isReady.Value = false;
         ThrowGrenade(targetPosition).Forget();
         
         _timer = _settings.cooldown;
     }
 
+    protected override UniTask UseAbility()
+    {
+        throw new System.NotImplementedException();
+    }
+
     private async UniTaskVoid ThrowGrenade(Vector3 targetPosition)
     {
         if (_settings == null) return;
-
+        
         var grenade = await _gameFactory.SpawnGrenade(targetPosition);
         
         grenade.Setup(
             targetPosition, 
-            _settings.damage, 
-            _settings.radius, 
-            _settings.fuseTime,
-            _settings.speed
+            Settings.damage, 
+            Settings.radius, 
+            Settings.fuseTime,
+            Settings.speed
         );
+    }
+    public override BotAbilityType GetAbilityType()
+    {
+        return BotAbilityType.ThrowGrenade;
     }
 }

@@ -49,11 +49,16 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
             float fillAmount = (float)currentHealth / maxHealth;
             _fillImage.fillAmount = fillAmount;
             
-            if (_healthText != null)
-                _healthText.text = $"{currentHealth} / {maxHealth}";
+            // if (_healthText != null)
+            //     _healthText.text = $"{currentHealth} / {maxHealth}";
             
         }
 
+        public void SetVisible(bool isVisible)
+        {
+            _fillImage.gameObject.SetActive(isVisible);
+            return;
+        }
         private void LateUpdate()
         {
             if (_targetUnit == null || _targetUnit.gameObject == null)

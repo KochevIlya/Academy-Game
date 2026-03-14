@@ -8,6 +8,7 @@ public interface IMenuActionsService
     void LoadGame();
     void RestartLevel();
     void ExitGame();
+    
 }
 
 
