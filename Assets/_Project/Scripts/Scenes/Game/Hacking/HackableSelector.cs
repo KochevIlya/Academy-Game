@@ -70,20 +70,30 @@ namespace _Project.Scripts.Scenes.Game.Hacking
         private HackableComponent ScanForTarget()
         {
             Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray, out RaycastHit hit, 100f))
+    
+            RaycastHit[] hits = Physics.RaycastAll(ray, 100f);
+    
+            System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+    
+            HackableComponent closestHackable = null;
+            float closestDistance = float.MaxValue;
+    
+            foreach (var hit in hits)
             {
                 var hackable = hit.collider.GetComponentInParent<HackableComponent>();
-
+        
                 if (hackable != null)
                 {
-                    return hackable;
+                    if (hit.distance < closestDistance)
+                    {
+                        closestDistance = hit.distance;
+                        closestHackable = hackable;
+                    }
                 }
-
             }
-            return null;
-
+            return closestHackable;
         }
+        
         private void SetOutlineState(HackableComponent target, bool state)
         {
             if (target == null) return;
