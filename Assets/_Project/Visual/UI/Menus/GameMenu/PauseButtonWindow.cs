@@ -28,10 +28,12 @@ public class PauseButtonWindow : BaseScreen{
     
     public override async UniTask Show()
     {
-        base.Show();
+        await base.Show();
+        LifeTimeDisposable.Clear(); 
+    
         _inputControls.OnCancel
             .Subscribe(_ => _guiService.ShowInGameWindow())
-            .AddTo(this);
+            .AddTo(LifeTimeDisposable);
     }
 
     private void OpenMenu()

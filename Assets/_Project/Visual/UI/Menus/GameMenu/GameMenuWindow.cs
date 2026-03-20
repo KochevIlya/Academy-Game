@@ -24,7 +24,6 @@ namespace _Project.Visual.UI.Menus.GameMenu
         private ICursorService _cursorService;
         public override bool IsOverlay => true;
         
-        
         [Inject]
         public void Construct(
             IGuiService guiService,
@@ -47,12 +46,11 @@ namespace _Project.Visual.UI.Menus.GameMenu
         
         public override async UniTask Show()
         {
-            base.Show();
+            await base.Show();
             SetPause(true);
-            
             _inputControls.OnCancel
                 .Subscribe(_ => Resume())
-                .AddTo(this);
+                .AddTo(LifeTimeDisposable);
         }
 
         private void Resume()
