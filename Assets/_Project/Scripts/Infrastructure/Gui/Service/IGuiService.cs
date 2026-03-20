@@ -11,5 +11,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     void ShowGameOver();
     void ShowInGameWindow();
     void ShowBattleScreen();
+    void ShowPauseButton();
+    void ShowControlsWindow();
   }
 }

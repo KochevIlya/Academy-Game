@@ -59,4 +59,4 @@ MonoBehaviour:
         cooldown: 3
         duration: 8
         speedBufPercent: 10
-        damageBufPercent: 80
+        damageBufPercent: 20

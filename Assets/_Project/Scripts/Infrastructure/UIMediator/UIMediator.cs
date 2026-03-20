@@ -18,7 +18,8 @@ public class UIMediator : IUIMediator
     public UIMediator(
         HackingService hackingService, 
         IGuiService guiService,
-        IPlayerProvider playerProvider)
+        IPlayerProvider playerProvider
+        )
     {
         _hackingService = hackingService;
         _guiService = guiService;

@@ -1,5 +1,9 @@
 using _Project.Scripts.Infrastructure.Gui.Screens;
+using _Project.Scripts.Infrastructure.Gui.Service;
+using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
+using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using Cysharp.Threading.Tasks;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -8,111 +12,85 @@ namespace _Project.Visual.UI.Menus.GameMenu
 {
     public class GameMenuWindow : BaseScreen
     {
-        [SerializeField] private GameObject _menuPanel;
-        [SerializeField] private GameObject _controlsPanel;
 
-        [SerializeField] private Button _restartButton;
-        [SerializeField] private Button _pauseButton;
         [SerializeField] private Button _resumeButton;
-        [SerializeField] private Button _loadButton;
-        [SerializeField] private Button _saveButton;
+        [SerializeField] private Button _restartButton;
         [SerializeField] private Button _controlsButton;
         [SerializeField] private Button _exitButton;
-        [SerializeField] private Button _closeControlsButton;
     
-        [SerializeField] private GameObject _startBlackScreen;
-        private SceneLoaderService _sceneLoaderService;
+        private IGuiService _guiService;
         private IMenuActionsService _menuActionsService;
+        private UserInputControls _inputControls;
         private ICursorService _cursorService;
-        private bool _isPaused;
-    
+        public override bool IsOverlay => true;
+        
+        
         [Inject]
         public void Construct(
-            ICursorService cursorService,
-            SceneLoaderService sceneLoaderService,
-            IMenuActionsService menuActionsService)
+            IGuiService guiService,
+            IMenuActionsService menuActionsService,
+            UserInputControls inputControls,
+            ICursorService cursorService
+            )
         {
-            _cursorService = cursorService;
-            _sceneLoaderService = sceneLoaderService;
+            _guiService = guiService;
             _menuActionsService = menuActionsService;
-        
-            _pauseButton.onClick.AddListener(TogglePause);
-            _controlsButton.onClick.AddListener(ToggleControls);
-            _closeControlsButton.onClick.AddListener(ToggleCloseControls);
-            _resumeButton.onClick.AddListener(TogglePause);
-        
-            _exitButton.onClick.AddListener(_menuActionsService.ExitGame);
-            _saveButton.onClick.AddListener(_menuActionsService.SaveGame);
-            _loadButton.onClick.AddListener(_menuActionsService.LoadGame);
+            _inputControls = inputControls;
+            _cursorService = cursorService;
+            
+            _resumeButton.onClick.AddListener(Resume);
+            _controlsButton.onClick.AddListener(OpenControls);
             _restartButton.onClick.AddListener(_menuActionsService.RestartLevel);
+            _exitButton.onClick.AddListener(_menuActionsService.ExitGame);
         }
-
-    
-    
-    
-        private void ToggleCloseControls()
-        {
-            SetControlsVisibility(false);
-            SetStartScreenVisible(false);
-            SetPause(false);
-        }
-        private void ToggleControls()
-        {
-            SetControlsVisibility(true);
-        }
-        private void TogglePause()
-        {
-            SetPause(!_isPaused);
-        }
+        
+        
         public override async UniTask Show()
         {
-            Initialize();
-            SetStartScreenVisible(false);
-        
-        }
-        public void SetStartScreenVisible(bool isVisible)
-        {
-            if (_startBlackScreen != null)
-                _startBlackScreen.SetActive(isVisible);
-        }
-        public void Initialize()
-        {
-            SetMenuVisiblity(false);
-            SetControlsVisibility(false);
+            base.Show();
+            SetPause(true);
+            
+            _inputControls.OnCancel
+                .Subscribe(_ => Resume())
+                .AddTo(this);
         }
 
-        public void SetMenuVisiblity(bool isMenuVisible)
+        private void Resume()
         {
-            _menuPanel.SetActive(isMenuVisible);
-            _pauseButton.gameObject.SetActive(!isMenuVisible);
+            SetPause(false);
+            
+            _guiService.Pop();
         }
-        public void SetControlsVisibility(bool isVisible)
+
+        private void OpenControls()
         {
-            _controlsPanel.SetActive(isVisible);
-            if (isVisible) _menuPanel.SetActive(false); 
+            _guiService.ShowControlsWindow(); 
         }
-        private void SetPause(bool isPaused)
+
+        private void SetPause(bool isPause)
         {
-            _isPaused = isPaused;
-
-            Time.timeScale = isPaused ? 0f : 1f;
-
-            SetMenuVisiblity(isPaused);
-
-            if (isPaused)
+            if (isPause)
             {
                 _cursorService.SetDefaultCursor();
+                _cursorService.SetLockState(false);
                 _cursorService.SetVisible(true);
-                _cursorService.SetLockState(false); 
+                
+                Time.timeScale = 0f;
+                _inputControls.IsBlocked.Value = true;
             }
             else
             {
                 _cursorService.SetCrosshairCursor();
+                _cursorService.SetLockState(false);
                 _cursorService.SetVisible(true);
-                _cursorService.SetLockState(false); 
+            
+                Time.timeScale = 1f;
+                _inputControls.IsBlocked.Value = false;
             }
+            
         }
-    
+        
+        
         public override ScreenType GetScreenType()
         {
             return ScreenType.InGameWindow;

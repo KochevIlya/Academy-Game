@@ -18,7 +18,7 @@ public class GrenadeAbility : BaseAbility<GrenadeSettings>
         _gameFactory = gameFactory;
     }
     
-    public void Initialize(GameUnit unit, AbilityConfig config)
+    public override void Initialize(GameUnit unit, AbilityConfig config)
     {
         base.Initialize(unit, config);
         

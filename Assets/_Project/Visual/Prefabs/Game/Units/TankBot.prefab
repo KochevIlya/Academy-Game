@@ -152,6 +152,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TankBot
       objectReference: {fileID: 0}
+    - target: {fileID: 7608529330507171527, guid: f61f6339d95855f4087a3dc62edb99bd,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 72868bd69ffc9a54a9c21e7260a003d0, type: 2}
     - target: {fileID: 8816781100239282816, guid: f61f6339d95855f4087a3dc62edb99bd,
         type: 3}
       propertyPath: m_LocalPosition.x

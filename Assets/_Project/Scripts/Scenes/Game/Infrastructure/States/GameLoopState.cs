@@ -36,7 +36,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
       Time.timeScale = 1f;
       _cameraService.ResetZoom();
       _guiService.Cleanup();
-      _guiService.ShowInGameWindow();
+      _guiService.ShowPauseButton();
       
       return UniTask.CompletedTask;
     }

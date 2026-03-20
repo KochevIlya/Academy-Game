@@ -96,10 +96,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
         _diContainer.Inject(hacker);
         bot.UpdateControls(_userInputControls);
         
-        var abilityComponent = bot.gameObject.AddComponent<DashAbility>();
-        _diContainer.Inject(abilityComponent);
-        abilityComponent.Initialize(bot, unitData.ability);
-        bot.SetAbility(abilityComponent);
+        
         
       }
       return bot;

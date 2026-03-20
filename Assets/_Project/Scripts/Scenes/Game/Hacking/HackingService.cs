@@ -352,10 +352,13 @@ public class HackingService : IDisposable
         _isErrorState = false;
         _waitForRelease = false;
         _isBattleActive.Value = false;
-    
+        _posessionService.UpdateBlocking(false);
         CurrentProgressIndex.Value = 0;
         CanHack.Value = false;
-
+        
+        _cursorService.SetCrosshairCursor();
+        _cursorService.SetVisible(true);
+        
         _currentTarget = null;
         _hackerUnit = null;
         _originalHero = null;

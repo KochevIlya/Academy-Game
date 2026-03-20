@@ -150,20 +150,20 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
         }
         private void CheckLastSurvivor()
         {
-            // var remainingBots = _activeUnits.Where(u => u != null).ToList();
-            //
-            // if (remainingBots.Count == 1)
-            // {
-            //     var lastBot = remainingBots[0];
-            //
-            //     if (lastBot.IsUnderControl)
-            //     {
-            //         Debug.Log($"<color=yellow>ZONE: Игрок остался один в теле {lastBot.name}. Самоуничтожение носителя.</color>");
-            //
-            //         lastBot.Health.TakeDamage(999999); 
-            //         Observable.TimerFrame(1).Subscribe(_ => _hackingService.ReturnToOriginalBody());
-            //     }
-            // }
+            var remainingBots = _activeUnits.Where(u => u != null).ToList();
+            
+            if (remainingBots.Count == 1)
+            {
+                var lastBot = remainingBots[0];
+            
+                if (lastBot.IsUnderControl)
+                {
+                    Debug.Log($"<color=yellow>ZONE: Игрок остался один в теле {lastBot.name}. Самоуничтожение носителя.</color>");
+            
+                    lastBot.Health.TakeDamage(999999); 
+                    Observable.TimerFrame(1).Subscribe(_ => _hackingService.ReturnToOriginalBody());
+                }
+            }
         }
         private void ActivateAggro(GameUnit target)
         {

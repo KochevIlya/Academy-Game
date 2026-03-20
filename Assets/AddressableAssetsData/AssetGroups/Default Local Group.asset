@@ -117,6 +117,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d7edcd76d26ded848b8f4619ece6a37b
+    m_Address: Assets/_Project/Visual/Materials/ConeMaterial.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e5e9828cc2ed9a443b9822e1fd871237
     m_Address: Assets/_Project/Visual/Prefabs/Game/Units/MeleeBot.prefab
     m_ReadOnly: 0

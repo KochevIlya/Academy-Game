@@ -13,7 +13,7 @@ namespace _Project.Scripts.Scenes.Game.Hacking
     {
         [Inject] private ICameraService _cameraService;
         private Transform _currentViewPoint;
-        
+        [Inject] private ICursorService _cursorService;
         
         public void ClearContext()
         {
@@ -27,8 +27,10 @@ namespace _Project.Scripts.Scenes.Game.Hacking
         public async UniTask<HackableComponent> SelectTarget(CancellationToken token)
         {
            
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            _cursorService.SetDefaultCursor();
+            _cursorService.SetVisible(true);
+            _cursorService.SetLockState(false);
+            
             _cameraService.SetPoint(_currentViewPoint);
 
             HackableComponent lastHovered = null;
@@ -56,20 +58,19 @@ namespace _Project.Scripts.Scenes.Game.Hacking
 
                     if (Input.GetMouseButtonDown(0) && currentHovered != null)
                     {
+                        _cursorService.SetVisible(false);
+                        _cursorService.SetLockState(true);
                         return currentHovered;
                     }
 
                     await UniTask.Yield(PlayerLoopTiming.Update, token);
+                    
                 }
+                
             }
             finally
             {
                 if (lastHovered != null) SetOutlineState(lastHovered, false);
-                if (Application.isPlaying)
-                {
-                    Cursor.visible = false;
-                    Cursor.lockState = CursorLockMode.Locked;
-                }
             }
 
             return null;

@@ -46,7 +46,7 @@ public class GameMenuController : IInitializable, IDisposable
 
         Time.timeScale = isPaused ? 0f : 1f;
 
-        _view.SetMenuVisiblity(isPaused);
+        // _view.SetMenuVisiblity(isPaused);
 
         if (isPaused)
         {

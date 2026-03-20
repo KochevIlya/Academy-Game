@@ -1,0 +1,49 @@
+using System.Collections;
+using System.Collections.Generic;
+using _Project.Scripts.Infrastructure.Gui.Screens;
+using _Project.Scripts.Infrastructure.Gui.Service;
+using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
+using _Project.Visual.UI.Menus.BattleMenu;
+using Cysharp.Threading.Tasks;
+using UniRx;
+using UnityEngine;
+using UnityEngine.UI;
+using Zenject;
+public class PauseButtonWindow : BaseScreen{
+    [SerializeField] private Button _pauseButton;
+    
+    private IGuiService _guiService;
+    private UserInputControls _inputControls;
+    
+    [Inject]
+    public void Construct(
+        IGuiService guiService,
+        UserInputControls inputControls
+    )
+    {
+        _guiService = guiService;
+        _inputControls = inputControls;
+        _pauseButton.onClick.AddListener(OpenMenu);
+    }
+    
+    public override async UniTask Show()
+    {
+        base.Show();
+        _inputControls.OnCancel
+            .Subscribe(_ => _guiService.ShowInGameWindow())
+            .AddTo(this);
+    }
+
+    private void OpenMenu()
+    {
+        _guiService.ShowInGameWindow(); 
+    }
+
+    public override bool IsOverlay => false;
+    
+    
+    public override ScreenType GetScreenType()
+    {
+        return ScreenType.PauseButtonWindow;
+    }
+}

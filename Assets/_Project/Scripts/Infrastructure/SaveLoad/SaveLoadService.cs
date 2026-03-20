@@ -6,6 +6,7 @@ using _Project.Scripts.Infrastructure.Gui.Service;
 using _Project.Scripts.Infrastructure.PersistentProgress;
 using _Project.Scripts.Infrastructure.PersistentProgress.Data;
 using _Project.Scripts.Infrastructure.StateMachine;
+using _Project.Scripts.Infrastructure.UIMediator;
 using _Project.Scripts.Scenes.Game.Hacking.Terminal;
 using _Project.Scripts.Scenes.Game.Infrastructure.Factory;
 using _Project.Scripts.Scenes.Game.Infrastructure.States;
@@ -27,12 +28,15 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
         private readonly List<ITerminalSaveable> _terminalSaveables = new List<ITerminalSaveable>();
         private readonly List<IZoneSaveable> _zoneSaveables = new List<IZoneSaveable>();
         private readonly HackingService _hackingService;
+        private readonly ICursorService _cursorService;
         private readonly string _path = Path.Combine(Application.persistentDataPath, "save.json");
         public SaveLoadService(
             IGameFactory gameFactory,
-            HackingService hackingService
+            HackingService hackingService,
+            ICursorService cursorService
             )
         {
+            _cursorService = cursorService;
             _gameFactory = gameFactory;
             _hackingService = hackingService;
         }
@@ -134,6 +138,9 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
 
             }
             Debug.Log("[SaveLoadService] Загрузка и стыковка завершены.");
+            _cursorService.SetVisible(true);
+            _cursorService.SetCrosshairCursor();
+            _cursorService.SetLockState(false);
         }
 
         public void RegisterUnit(IUnitSaveable saveable)

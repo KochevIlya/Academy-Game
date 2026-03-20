@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using _Project.Scripts.Infrastructure.SaveLoad;
 using _Project.Scripts.Infrastructure.StateMachine;
+using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
@@ -12,17 +13,20 @@ public class MenuActionsService : IMenuActionsService
     private readonly SignalBus _signalBus;
     private readonly SceneLoaderService _sceneLoaderService;
     private readonly IGameStateMachine _stateMachine;
+    private readonly UserInputControls _userInputControls;
     public MenuActionsService(
         ISaveLoadService saveLoadService, 
         SignalBus signalBus, 
         SceneLoaderService sceneLoaderService,
-        IGameStateMachine stateMachine
+        IGameStateMachine stateMachine,
+        UserInputControls userInputControls
         )
     {
         _saveLoadService = saveLoadService;
         _signalBus = signalBus;
         _sceneLoaderService = sceneLoaderService;
         _stateMachine = stateMachine;
+        _userInputControls = userInputControls;
     }
 
     public void SaveGame() => _saveLoadService.Save();
@@ -34,14 +38,14 @@ public class MenuActionsService : IMenuActionsService
         Time.timeScale = 1f;
         _signalBus.Fire<RestartLevelSignal>();
     }
-
+    
     public void ExitGame()
     {
         Time.timeScale = 1f;
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-        Application.Quit();
+        Application.Quit(); 
 #endif
     }
 }

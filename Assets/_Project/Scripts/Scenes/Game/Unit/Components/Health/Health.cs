@@ -33,7 +33,8 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
 
     public void TakeDamage(int amount)
     {
-      int actualAmount = (int)IncomingDamageMultiplier * amount;
+      int actualAmount = (int)(IncomingDamageMultiplier * amount);
+      Debug.Log($"In Taking Damage IncomingDamageMultiplier: {IncomingDamageMultiplier}, Amount: {amount}, CurrentAmount: {actualAmount}" );
       _currentHealth.Value = Mathf.Max(_currentHealth.Value - actualAmount, 0);
       _onDamageTaken.OnNext(amount);
       if (_currentHealth.Value <= 0)

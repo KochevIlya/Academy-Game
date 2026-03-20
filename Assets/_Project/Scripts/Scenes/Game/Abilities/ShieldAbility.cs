@@ -25,10 +25,12 @@ namespace _Project.Scripts.Scenes.Game.Abilities
     
             if (shieldSettings != null)
             {
+                Debug.Log("$shield Ability settings loaded!");
                 _settings = shieldSettings; 
                 _duration = shieldSettings.duration;
-                _speedBuf = (1f - shieldSettings.speedBufPercent * 0.01f);
-                _damageBuf = shieldSettings.damageBufPercent * 0.01f;
+                _speedBuf = 1f - shieldSettings.speedBufPercent * 0.01f;
+                _damageBuf = 1f - shieldSettings.damageBufPercent * 0.01f;
+                Debug.Log($"DamageBuf = {_damageBuf}");
         
                 _timer = 0f;
                 _isReady.Value = true;

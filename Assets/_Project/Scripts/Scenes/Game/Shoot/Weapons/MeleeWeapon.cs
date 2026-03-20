@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class MeleeWeapon : WeaponBase
 {
-    [Header("Настройки ближнего боя")]
+        [Header("Настройки ближнего боя")]
         [SerializeField] private float _attackRadius = 2.5f;
         [SerializeField] private float _attackAngle = 90f;
         [SerializeField] private LayerMask _targetLayer;

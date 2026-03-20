@@ -4,6 +4,9 @@ namespace _Project.Scripts.Infrastructure.Gui.Screens
   {
     GameOver,
     InGameWindow,
-    Battle
+    Battle,
+    PauseButtonWindow,
+    ControlsWindow
+    
   }
 }

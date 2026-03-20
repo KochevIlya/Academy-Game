@@ -19,7 +19,6 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
     [SerializeField] private CameraService _cameraService;
     [SerializeField] private GameObject _hackingPrefab;
     [SerializeField] private Transform _uiRoot;
-    [SerializeField] private GameMenuWindow _menuPrefab;
     [SerializeField] private GuiService _guiServicePrefab;
     public override void InstallBindings()
     {

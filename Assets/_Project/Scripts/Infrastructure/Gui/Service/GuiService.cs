@@ -15,6 +15,8 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     [SerializeField] private GameOverScreen _gameOverScreenPrefab;
     [SerializeField] private GameMenuWindow _gameMenuWindowPrefab;
     [SerializeField] private BattleScreen _battleScreenPrefab;
+    [SerializeField] private PauseButtonWindow _pauseButtonWindowPrefab;
+    [SerializeField] private ControlsWindow _controlsWindowPrefab;
     
     private readonly Stack<BaseScreen> _screens = new Stack<BaseScreen>();
     private DiContainer _container;
@@ -27,14 +29,17 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     }
     void IGuiService.Push(BaseScreen screen)
     {
-      if (_screens.TryPeek(out var oldScreen))
+      if (screen.IsOverlay)
       {
-        if (!screen.IsOverlay)
+        foreach (var oldScreen in _screens)
         {
-          oldScreen.SetActive(false);
+          if (oldScreen != null)
+          {
+            oldScreen.gameObject.SetActive(false);
+          }
         }
       }
-
+      
       _screens.Push(screen);
     }
 
@@ -43,7 +48,9 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     public void ShowInGameWindow() => ShowScreen(_gameMenuWindowPrefab).Forget();
 
     public void ShowBattleScreen() => ShowScreen(_battleScreenPrefab).Forget();
-    
+    public void ShowPauseButton() => ShowScreen(_pauseButtonWindowPrefab).Forget();
+    public void ShowControlsWindow() => ShowScreen(_controlsWindowPrefab).Forget();
+
     private async UniTask<T> ShowScreen<T>(T prefab) where T : BaseScreen
     {
       var screenInstance = Instantiate(prefab);
@@ -69,14 +76,25 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     
     void IGuiService.Pop()
     {
-      if (_screens.TryPop(out var oldScreen))
-      {
-        Destroy(oldScreen.gameObject);
-      }
+      if (!_screens.TryPop(out var closedScreen)) return;
 
-      if (_screens.TryPeek(out var screen))
+      bool wasBlockingEverything = closedScreen.IsOverlay;
+      Destroy(closedScreen.gameObject);
+
+      if (wasBlockingEverything)
       {
-        screen.Show().Forget();
+        foreach (var screen in _screens)
+        {
+          if (screen == null) continue;
+
+          screen.gameObject.SetActive(true);
+            
+          screen.Show().Forget();
+          if (screen.IsOverlay)
+          {
+            break;
+          }
+        }
       }
     }
 
