@@ -17,7 +17,8 @@ namespace _Project.Visual.UI.Menus.GameMenu
         [SerializeField] private Button _restartButton;
         [SerializeField] private Button _controlsButton;
         [SerializeField] private Button _exitButton;
-    
+        [SerializeField] private Button _loadButton;
+        
         private IGuiService _guiService;
         private IMenuActionsService _menuActionsService;
         private UserInputControls _inputControls;
@@ -41,6 +42,7 @@ namespace _Project.Visual.UI.Menus.GameMenu
             _controlsButton.onClick.AddListener(OpenControls);
             _restartButton.onClick.AddListener(_menuActionsService.RestartLevel);
             _exitButton.onClick.AddListener(_menuActionsService.ExitGame);
+            _loadButton.onClick.AddListener(_menuActionsService.LoadGame);
         }
         
         

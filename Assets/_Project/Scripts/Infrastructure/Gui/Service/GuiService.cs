@@ -17,6 +17,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     [SerializeField] private BattleScreen _battleScreenPrefab;
     [SerializeField] private PauseButtonWindow _pauseButtonWindowPrefab;
     [SerializeField] private ControlsWindow _controlsWindowPrefab;
+    [SerializeField] private MainMenuWindow _mainMenuWindowPrefab;
     
     private readonly Stack<BaseScreen> _screens = new Stack<BaseScreen>();
     private DiContainer _container;
@@ -45,11 +46,13 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
 
     public void ShowGameOver() => ShowScreen(_gameOverScreenPrefab).Forget();
 
-    public void ShowInGameWindow() => ShowScreen(_gameMenuWindowPrefab).Forget();
+    public void ShowPauseMenuWindow() => ShowScreen(_gameMenuWindowPrefab).Forget();
 
     public void ShowBattleScreen() => ShowScreen(_battleScreenPrefab).Forget();
     public void ShowPauseButton() => ShowScreen(_pauseButtonWindowPrefab).Forget();
     public void ShowControlsWindow() => ShowScreen(_controlsWindowPrefab).Forget();
+    public void ShowMainMenuWindow(bool isAlreadySaved) => ShowScreen(_mainMenuWindowPrefab).Forget();
+    
 
     private async UniTask<T> ShowScreen<T>(T prefab) where T : BaseScreen
     {

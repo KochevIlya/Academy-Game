@@ -6,7 +6,8 @@ namespace _Project.Scripts.Infrastructure.Gui.Screens
     InGameWindow,
     Battle,
     PauseButtonWindow,
-    ControlsWindow
+    ControlsWindow,
+    MainMenuWindow
     
   }
 }

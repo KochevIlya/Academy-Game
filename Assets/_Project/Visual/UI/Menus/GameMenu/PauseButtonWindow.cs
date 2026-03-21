@@ -23,7 +23,7 @@ public class PauseButtonWindow : BaseScreen{
     {
         _guiService = guiService;
         _inputControls = inputControls;
-        _pauseButton.onClick.AddListener(OpenMenu);
+        _pauseButton.onClick.AddListener(OpenPauseMenu);
     }
     
     public override async UniTask Show()
@@ -32,13 +32,13 @@ public class PauseButtonWindow : BaseScreen{
         LifeTimeDisposable.Clear(); 
     
         _inputControls.OnCancel
-            .Subscribe(_ => _guiService.ShowInGameWindow())
+            .Subscribe(_ => _guiService.ShowPauseMenuWindow())
             .AddTo(LifeTimeDisposable);
     }
 
-    private void OpenMenu()
+    private void OpenPauseMenu()
     {
-        _guiService.ShowInGameWindow(); 
+        _guiService.ShowPauseMenuWindow(); 
     }
 
     public override bool IsOverlay => false;
