@@ -75,23 +75,14 @@ namespace _Project.Scripts.Scenes.Game.Hacking
     
             System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
     
-            HackableComponent closestHackable = null;
-            float closestDistance = float.MaxValue;
-    
             foreach (var hit in hits)
             {
                 var hackable = hit.collider.GetComponentInParent<HackableComponent>();
-        
                 if (hackable != null)
-                {
-                    if (hit.distance < closestDistance)
-                    {
-                        closestDistance = hit.distance;
-                        closestHackable = hackable;
-                    }
-                }
+                    return hackable;
             }
-            return closestHackable;
+    
+            return null;
         }
         
         private void SetOutlineState(HackableComponent target, bool state)
