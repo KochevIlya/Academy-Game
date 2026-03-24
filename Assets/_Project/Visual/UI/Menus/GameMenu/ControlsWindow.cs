@@ -12,32 +12,25 @@ using Zenject;
 public class ControlsWindow : BaseScreen
 {
     public override bool IsOverlay => true;
-    [SerializeField] private Button _exitButton;
+    [SerializeField] protected Button _exitButton;
     
-    private IGuiService _guiService;
-    private UserInputControls _inputControls;
+    protected IGuiService _guiService;
     
     [Inject]
-    public void Construct(IGuiService guiService, UserInputControls inputControls)
+    public virtual void Construct(IGuiService guiService
+        )
     {
         _guiService = guiService;
-        _inputControls = inputControls;
-
+    }
+    protected virtual void Awake() 
+    {
         _exitButton.onClick.AddListener(BackToMenu);
     }
-    
-    public override async UniTask Show()
-    {
-        _inputControls.OnCancel
-            .Subscribe(_ => BackToMenu())
-            .AddTo(this);
-    }
 
-    private void BackToMenu()
+    protected virtual void BackToMenu()
     {
         _guiService.Pop();
     }
-    
     
     public override ScreenType GetScreenType()
     {

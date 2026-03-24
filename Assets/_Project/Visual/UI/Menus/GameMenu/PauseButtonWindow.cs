@@ -12,12 +12,12 @@ using Zenject;
 public class PauseButtonWindow : BaseScreen{
     [SerializeField] private Button _pauseButton;
     
-    private IGuiService _guiService;
+    private IGuiGameService _guiService;
     private UserInputControls _inputControls;
     
     [Inject]
     public void Construct(
-        IGuiService guiService,
+        IGuiGameService guiService,
         UserInputControls inputControls
     )
     {
@@ -32,7 +32,7 @@ public class PauseButtonWindow : BaseScreen{
         LifeTimeDisposable.Clear(); 
     
         _inputControls.OnCancel
-            .Subscribe(_ => _guiService.ShowPauseMenuWindow())
+            .Subscribe(_ => OpenPauseMenu())
             .AddTo(LifeTimeDisposable);
     }
 

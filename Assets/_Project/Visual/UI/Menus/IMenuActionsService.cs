@@ -4,11 +4,11 @@ using UnityEngine;
 
 public interface IMenuActionsService
 {
-    void SaveGame();
     void LoadGame();
-    void RestartLevel();
+    void LoadNewGame();
     void ExitGame();
-    
+    void ExitMainMenu();
+
 }
 
 

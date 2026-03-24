@@ -648,7 +648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canvasGroup: {fileID: 5897036303226756288}
-  _restartButton: {fileID: 7146251409959811339}
+  _mainMenuButton: {fileID: 7146251409959811339}
   _exitButton: {fileID: 8432856811898958538}
   _loadButton: {fileID: 3217831867279974071}
 --- !u!225 &5897036303226756288

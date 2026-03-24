@@ -5,26 +5,33 @@ using _Project.Visual.UI.Menus.BattleMenu;
 using _Project.Visual.UI.Menus.GameMenu;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace _Project.Scripts.Infrastructure.Gui.Service
 {
-  public sealed class GuiService : MonoBehaviour, IGuiService
+  public sealed class GuiGameService : MonoBehaviour, IGuiGameService
   {
     [SerializeField] private Canvas.StaticCanvas _staticCanvas;
+    [SerializeField] private PauseButtonWindow _pauseButtonWindowPrefab;
+    [SerializeField] private BattleScreen _battleScreenPrefab;
     [SerializeField] private ControlsWindow _controlsWindowPrefab;
-    [SerializeField] private MainMenuWindow _mainMenuWindowPrefab;
-    
+    [SerializeField] private GameOverScreen _gameOverMenuWindowPrefab;
+    [FormerlySerializedAs("_gameMenuWindowPrefab")] [SerializeField] private PauseMenuWindow pauseMenuWindowPrefab;
     private readonly Stack<BaseScreen> _screens = new Stack<BaseScreen>();
     private DiContainer _container;
-    Canvas.StaticCanvas IGuiService.StaticCanvas => _staticCanvas;
+    Canvas.StaticCanvas IGuiGameService.StaticCanvas => _staticCanvas;
+    private IGuiService _guiService;
+    
     
     [Inject]
-    public void Construct(DiContainer container)
+    public void Construct(DiContainer container, IGuiService guiService)
     {
       _container = container;
+      _guiService = guiService;
     }
-    void IGuiService.Push(BaseScreen screen)
+
+    void IGuiGameService.Push(BaseScreen screen)
     {
       if (screen.IsOverlay)
       {
@@ -36,41 +43,28 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
           }
         }
       }
-      
+
       _screens.Push(screen);
     }
 
-    public void ShowGameOver()
-    {
-      // ShowScreen(_gameOverScreenPrefab).Forget();
-    }
+    public void ShowGameOver() => ShowScreen(_gameOverMenuWindowPrefab).Forget();
 
-    public void ShowPauseMenuWindow()
-    {
-      // ShowScreen(_gameMenuWindowPrefab).Forget();
-    }
+    public void ShowPauseMenuWindow() => ShowScreen(pauseMenuWindowPrefab).Forget();
 
-    public void ShowPauseButton()
-    {
-      // ShowScreen(_pauseButtonWindowPrefab).Forget();
-    }
+    public void ShowBattleScreen() => ShowScreen(_battleScreenPrefab).Forget();
+    public void ShowPauseButton() => ShowScreen(_pauseButtonWindowPrefab).Forget();
+    public void ShowControlsWindow() => ShowScreen(_controlsWindowPrefab).Forget();
+    public void ShowMainMenuWindow(bool isAlreadySaved) => _guiService.ShowMainMenuWindow(isAlreadySaved);
 
-    public void ShowControlsWindow()
-    {
-      ShowScreen(_controlsWindowPrefab).Forget();
-    }
-
-    public void ShowMainMenuWindow(bool isAlreadySaved) => ShowScreen(_mainMenuWindowPrefab).Forget();
-    
 
     private async UniTask<T> ShowScreen<T>(T prefab) where T : BaseScreen
     {
       var screenInstance = Instantiate(prefab);
-    
+
       _container.InjectGameObject(screenInstance.gameObject);
-    
-      ((IGuiService)this).Push(screenInstance);
-    
+
+      ((IGuiGameService)this).Push(screenInstance);
+
       screenInstance.transform.SetParent(_staticCanvas.Canvas.transform, false);
 
       try
@@ -84,9 +78,9 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
 
       return screenInstance;
     }
-    
-    
-    void IGuiService.Pop()
+
+
+    void IGuiGameService.Pop()
     {
       if (!_screens.TryPop(out var closedScreen)) return;
 
@@ -100,7 +94,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
           if (screen == null) continue;
 
           screen.gameObject.SetActive(true);
-            
+
           screen.Show().Forget();
           if (screen.IsOverlay)
           {
@@ -110,7 +104,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
       }
     }
 
-    void IGuiService.Cleanup()
+    void IGuiGameService.Cleanup()
     {
       foreach (var screen in _screens)
       {

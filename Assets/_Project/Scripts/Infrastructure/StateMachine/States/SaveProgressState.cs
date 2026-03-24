@@ -10,19 +10,21 @@ using UnityEngine;
 public class SaveProgressState : IEnterState
 {
     private readonly ISaveLoadService _saveLoadService;
-
+    private readonly IProgressService _progressService;
     public SaveProgressState(
         ISaveLoadService saveLoadService
+        ,IProgressService progressService
         )
     {
+        _progressService = progressService;
         _saveLoadService = saveLoadService;
     }
 
-    public UniTask Enter(IGameStateMachine gameStateMachine)
+    public async UniTask Enter(IGameStateMachine gameStateMachine)
     {
+        await UniTask.NextFrame();
+        Debug.Log("In SaveProgreessState");
         _saveLoadService.Save();
-        
         gameStateMachine.Enter<GameLoopState>();
-        return UniTask.CompletedTask;
     }
 }

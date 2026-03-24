@@ -11,29 +11,23 @@ using UnityEngine;
 public class MainMenuState : IEnterState
 {
     private readonly IGuiService _guiService;
-    private readonly ISaveLoadService _saveLoadService;
-
+    private readonly IProgressService _progressService;
+    private readonly ICursorService _cursorService;
     public MainMenuState(IGuiService guiService,
-        ICursorService cursorService,
-        ISaveLoadService saveLoadService,
-        ICameraService cameraService
+        ICursorService cursorService
     )
     {
         _guiService = guiService;
-        _saveLoadService = saveLoadService;
+        _cursorService = cursorService;
     }
 
     public UniTask Enter(IGameStateMachine gameStateMachine)
     {
-        Time.timeScale = 0f;
-        if (!_saveLoadService.HasSaveFile()) 
-        {
-            _guiService.ShowMainMenuWindow(false);
-        }
-        else
-        {
-            _guiService.ShowMainMenuWindow(true);
-        }
+        _cursorService.SetDefaultCursor();
+        _cursorService.SetVisible(true);
+        _cursorService.SetLockState(false);
+        
+        _guiService.ShowMainMenuWindow();
         
         
         return UniTask.CompletedTask;

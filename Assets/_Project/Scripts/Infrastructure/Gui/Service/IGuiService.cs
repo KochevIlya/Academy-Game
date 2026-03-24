@@ -10,7 +10,6 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     void Cleanup();
     void ShowGameOver();
     void ShowPauseMenuWindow();
-    void ShowBattleScreen();
     void ShowPauseButton();
     void ShowControlsWindow();
     void ShowMainMenuWindow(bool isAlreadySaved = true);

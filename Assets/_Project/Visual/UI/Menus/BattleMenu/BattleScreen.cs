@@ -30,7 +30,7 @@ namespace _Project.Visual.UI.Menus.BattleMenu
         
         public override ScreenType GetScreenType()
         {
-            return  ScreenType.Battle;
+            return ScreenType.Battle;
         }
         
         private void OnUnitChanged(GameUnit newUnit)

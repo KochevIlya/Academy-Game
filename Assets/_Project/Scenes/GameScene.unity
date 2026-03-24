@@ -2614,7 +2614,7 @@ MonoBehaviour:
   _hackingPrefab: {fileID: 6395302893281217460, guid: 7ec6738d238ae1848a5895517fbe5acc,
     type: 3}
   _uiRoot: {fileID: 1336312563}
-  _guiServicePrefab: {fileID: 4960440675262118062, guid: 964122cf89449604b972a61a1b1dcfe2,
+  _guiServicePrefab: {fileID: -3587674843877266649, guid: 12532b5c402c1da43b6b16df04f057f5,
     type: 3}
 --- !u!4 &426723755 stripped
 Transform:

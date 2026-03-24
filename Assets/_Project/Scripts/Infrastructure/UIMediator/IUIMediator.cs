@@ -7,6 +7,6 @@ namespace _Project.Scripts.Infrastructure.UIMediator
     public interface IUIMediator : IInitializable, IDisposable
     {
         void Initialize();
-        
+        void LoadGameFromPause();
     }
 }

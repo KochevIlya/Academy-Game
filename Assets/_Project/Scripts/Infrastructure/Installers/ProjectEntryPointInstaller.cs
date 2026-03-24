@@ -18,6 +18,8 @@ namespace _Project.Scripts.Infrastructure.Installers
       
       Container.BindState<ReloadCurrentSceneState>();
       Container.BindState<LoadProjectState>();
+      Container.BindState<MainMenuState>();
+      Container.BindState<ExitToMainMenuState>();
       Container.BindState<InitializeCurrentSceneState>();
       
       Container.Bind<IGameStateMachine>().To<GameStateMachine>().AsSingle();

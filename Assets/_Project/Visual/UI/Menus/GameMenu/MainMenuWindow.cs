@@ -18,26 +18,21 @@ public class MainMenuWindow : BaseScreen
     
     private IGuiService _guiService;
     private IMenuActionsService _menuActionsService;
-    private UserInputControls _inputControls;
-    private ICursorService _cursorService;
     
     [Inject]
     public void Construct(
         IGuiService guiService,
-        IMenuActionsService menuActionsService,
-        UserInputControls inputControls,
+        IMenuActionsService menuActionsService, 
         ICursorService cursorService
     )
     {
         _guiService = guiService;
         _menuActionsService = menuActionsService;
-        _inputControls = inputControls;
-        _cursorService = cursorService;
             
         _continueButton.onClick.AddListener(_menuActionsService.LoadGame);
         _controlsButton.onClick.AddListener(OpenControls);
         _exitButton.onClick.AddListener(_menuActionsService.ExitGame);
-        _newGameButton.onClick.AddListener(_menuActionsService.RestartLevel);
+        _newGameButton.onClick.AddListener(_menuActionsService.LoadNewGame);
         
     }
 

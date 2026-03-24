@@ -9,10 +9,10 @@ using UnityEngine;
 
 public class GameOverState : IEnterState
 {
-    private readonly IGuiService _guiService;
+    private readonly IGuiGameService _guiService;
     private readonly ICursorService _cursorService;
     private readonly HackingService _hackingService;
-    public GameOverState(IGuiService guiService,
+    public GameOverState(IGuiGameService guiService,
         ICursorService cursorService,
         HackingService hackingService
         )

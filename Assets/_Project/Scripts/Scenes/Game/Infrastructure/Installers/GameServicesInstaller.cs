@@ -19,19 +19,13 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
     [SerializeField] private CameraService _cameraService;
     [SerializeField] private GameObject _hackingPrefab;
     [SerializeField] private Transform _uiRoot;
-    [SerializeField] private GuiService _guiServicePrefab;
+    [SerializeField] private GuiGameService _guiServicePrefab;
     public override void InstallBindings()
     {
       
       Container.DeclareSignal<SaveRequestedSignal>();
       
-      Container
-        .BindInterfacesTo<GuiService>()
-        .FromComponentInNewPrefab(_guiServicePrefab)
-        .UnderTransform(_uiRoot)
-        .AsSingle()
-        .NonLazy();
-      
+      Container.Bind<ISaveLoadService>().To<SaveLoadService>().AsSingle().NonLazy();
       
       Container.Bind<IPlayerProvider>().To<PlayerProvider>().AsSingle();
       
@@ -46,30 +40,27 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
       
       Container.BindInterfacesAndSelfTo<HackingService>().AsSingle();
       
-      
-      
       Container.Bind<HackingView>()
         .FromComponentInNewPrefab(_hackingPrefab) 
         .UnderTransform(_uiRoot)                      
         .AsSingle()                                   
         .NonLazy();
+      Container
+        .BindInterfacesTo<GuiGameService>()
+        .FromComponentInNewPrefab(_guiServicePrefab)
+        .UnderTransform(_uiRoot)
+        .AsSingle()
+        .NonLazy();
       
-      Container.Bind<ICursorService>().To<CursorService>().AsSingle();
       Container.BindInterfacesAndSelfTo<UserInputControls>().AsSingle();
       Container.Bind<IPosessionService>().To<PosessionService>().AsSingle();
       
+      Container.BindInterfacesAndSelfTo<UIMediator>().AsSingle().NonLazy();
       
-      Container.Bind<SceneLoaderService>().AsSingle();
-      Container.Bind<ISaveLoadService>().To<SaveLoadService>().AsSingle();
       
       Container.BindSignal<SaveRequestedSignal>()
         .ToMethod<ISaveLoadService>(x => x.Save)
         .FromResolve();
-      
-      
-      Container.Bind<IMenuActionsService>().To<MenuActionsService>().AsSingle();
-      Container.BindInterfacesAndSelfTo<UIMediator>().AsSingle().NonLazy();
-      
     }
   }
 }

@@ -773,7 +773,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _canvasGroup: {fileID: 2154329738591815505}
   _resumeButton: {fileID: 3217831867279974071}
-  _restartButton: {fileID: 8432856811898958538}
+  _mainMenuButton: {fileID: 8432856811898958538}
   _controlsButton: {fileID: 2623537283575846194}
   _exitButton: {fileID: 5813411537162000990}
   _loadButton: {fileID: 7146251409959811339}

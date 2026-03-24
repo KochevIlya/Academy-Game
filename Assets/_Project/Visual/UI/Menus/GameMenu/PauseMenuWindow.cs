@@ -1,5 +1,6 @@
 using _Project.Scripts.Infrastructure.Gui.Screens;
 using _Project.Scripts.Infrastructure.Gui.Service;
+using _Project.Scripts.Infrastructure.UIMediator;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using Cysharp.Threading.Tasks;
@@ -10,39 +11,42 @@ using Zenject;
 
 namespace _Project.Visual.UI.Menus.GameMenu
 {
-    public class GameMenuWindow : BaseScreen
+    public class PauseMenuWindow : BaseScreen
     {
 
         [SerializeField] private Button _resumeButton;
-        [SerializeField] private Button _restartButton;
+        [SerializeField] private Button _mainMenuButton;
         [SerializeField] private Button _controlsButton;
         [SerializeField] private Button _exitButton;
         [SerializeField] private Button _loadButton;
         
-        private IGuiService _guiService;
+        private IGuiGameService _guiService;
         private IMenuActionsService _menuActionsService;
         private UserInputControls _inputControls;
         private ICursorService _cursorService;
+        private IUIMediator  _uiMediator;
         public override bool IsOverlay => true;
         
         [Inject]
         public void Construct(
-            IGuiService guiService,
+            IGuiGameService guiService,
             IMenuActionsService menuActionsService,
             UserInputControls inputControls,
             ICursorService cursorService
+            ,IUIMediator mediator
             )
         {
             _guiService = guiService;
             _menuActionsService = menuActionsService;
             _inputControls = inputControls;
             _cursorService = cursorService;
+            _uiMediator = mediator;
             
             _resumeButton.onClick.AddListener(Resume);
             _controlsButton.onClick.AddListener(OpenControls);
-            _restartButton.onClick.AddListener(_menuActionsService.RestartLevel);
+            _mainMenuButton.onClick.AddListener(_menuActionsService.ExitMainMenu);
             _exitButton.onClick.AddListener(_menuActionsService.ExitGame);
-            _loadButton.onClick.AddListener(_menuActionsService.LoadGame);
+            _loadButton.onClick.AddListener(_uiMediator.LoadGameFromPause);
         }
         
         
