@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using System.Linq;
+using _Project.Scripts.Infrastructure.SaveLoad;
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit._Data;
 using _Project.Scripts.Scenes.Game.Unit.Components.Spawner;
@@ -10,28 +12,41 @@ using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using _Project.Scripts.Scenes.Game.Hacking.Terminal;
 using Zenject;
 
-public class CombatZone : MonoBehaviour
+public class CombatZone : MonoBehaviour, IZoneSaveable
     {
         [SerializeField] private List<UnitSpawner> _mySpawners;
-        private List<GameUnit> _activeUnits = new List<GameUnit>();
+        public List<GameUnit> _activeUnits = new List<GameUnit>();
         [SerializeField] private List<TerminalSpawner> _myTerminalSpawners;
-        private List<HackingTerminal> _activeTerminals = new List<HackingTerminal>();
+        public List<HackingTerminal> _activeTerminals = new List<HackingTerminal>();
         private bool _isAlarmActive = false;
         private CompositeDisposable _disposables = new CompositeDisposable();
         private int _botsCount = 0;
         [Inject] HackingService  _hackingService;
         [Inject] InputControllsFactory _inputControllsFactory;
+        [Inject] private ISaveLoadService _saveLoadService;
         private int _hackingAttempts = 0;
         private HackingTerminal _terminal;
+        [Inject]
+        public void Construct(ISaveLoadService saveLoadService)
+        {
+            _saveLoadService = saveLoadService;
+        }
+        
+
+        public List<GameUnit> GetActiveUnits()
+        {
+            return _activeUnits;
+        }
         
         public void InitializeZone()
         {
+            _saveLoadService.RegisterZone(this);
             foreach (var spawner in _mySpawners)
             {
                 if (spawner.SpawnedUnit != null)
                 {
                     RegisterUnit(spawner.SpawnedUnit);
-                    _botsCount++;
+                    
                 }
             }
             
@@ -74,7 +89,7 @@ public class CombatZone : MonoBehaviour
             
         }
 
-        private void RegisterUnit(GameUnit unit)
+        public void RegisterUnit(GameUnit unit)
         {
             _activeUnits.Add(unit);
 
@@ -110,7 +125,7 @@ public class CombatZone : MonoBehaviour
             unit.OnUnitHacked
                 .Subscribe(_ => CheckLastSurvivor())
                 .AddTo(unit);
-            
+            _botsCount++;
         }
 
         private void CheckUnitReturn(GameUnit unit)
@@ -182,6 +197,34 @@ public class CombatZone : MonoBehaviour
         }
         public int GetNextSequenceLength(int _base)
         {
-            return _base + 2 * (_hackingAttempts - 1);
+            return _base + 2 * (_hackingAttempts - 1) > 12 ? 12 : _base + 2 * (_hackingAttempts - 1);
+        }
+
+        public void ClearState()
+        {
+            _activeUnits.Clear();
+            _botsCount = 0;
+        }
+
+
+        public CombatZoneSaveData GetSaveData()
+        {
+            return new CombatZoneSaveData
+            {
+                ZoneId = GetComponent<EntityIdentifier>().ID,
+                Attempts = _hackingAttempts,
+                ActiveUnitIds = GetActiveUnits().Select(u => u.Id).ToList()
+            };
+        }
+
+        public void LoadFromData(CombatZoneSaveData data)
+        {
+            _hackingAttempts = data.Attempts;
+            
+        }
+
+        public void OnDestroy()
+        {
+            _saveLoadService.UnregisterZone(this);
         }
     }

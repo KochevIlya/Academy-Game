@@ -209,3 +209,5 @@ MonoBehaviour:
   _staticCanvas: {fileID: 3264804841043400956}
   _gameOverScreenPrefab: {fileID: 1486701234640761114, guid: 96a11d7778b89b74480ed4d549c9baa9,
     type: 3}
+  _gameMenuWindowPrefab: {fileID: 4983973142571282257, guid: 07ba82bc415e3894094a4bc44af05768,
+    type: 3}

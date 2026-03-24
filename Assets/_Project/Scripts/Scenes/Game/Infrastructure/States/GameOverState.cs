@@ -11,22 +11,28 @@ public class GameOverState : IEnterState
 {
     private readonly IGuiService _guiService;
     private readonly ICursorService _cursorService;
-    public GameOverState(IGuiService guiService, ICursorService cursorService)
+    private readonly HackingService _hackingService;
+    public GameOverState(IGuiService guiService,
+        ICursorService cursorService,
+        HackingService hackingService
+        )
     {
         _guiService = guiService;
         _cursorService = cursorService;
+        _hackingService = hackingService;
     }
-    public UniTask Enter(IGameStateMachine gameStateMachine)
+    public async UniTask Enter(IGameStateMachine gameStateMachine)
     {
+        _hackingService.RequestCancel();
+        await _hackingService.WaitUntilFinished();
         _cursorService.SetDefaultCursor();
         _cursorService.SetVisible(true);
         _cursorService.SetLockState(false);
         
-        Time.timeScale = 0f;
         Debug.Log("In GameOverState");
         _guiService.ShowGameOver();
+        Time.timeScale = 0f;
             
-        return UniTask.CompletedTask;
     }
     public void Exit()
     {

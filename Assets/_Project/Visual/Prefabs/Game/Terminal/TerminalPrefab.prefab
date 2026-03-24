@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8049741895809972074}
   - component: {fileID: 2465215992202454513}
   - component: {fileID: 5496362692072157763}
+  - component: {fileID: 7880311683577524759}
   m_Layer: 0
   m_Name: TerminalZone
   m_TagString: Untagged
@@ -119,6 +120,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WarZoneTransform: {fileID: 0}
+  _isActive: 0
+--- !u!114 &7880311683577524759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3393834944770664361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04bb4be6e263db241bf9068204184c2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7890413836914876028
 GameObject:
   m_ObjectHideFlags: 0

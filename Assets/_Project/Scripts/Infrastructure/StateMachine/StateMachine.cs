@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using _Project.Scripts.Infrastructure.StateMachine.States;
 using _Project.Scripts.Infrastructure.StateMachine.States.Interfaces;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 using Zenject;
 
 namespace _Project.Scripts.Infrastructure.StateMachine
@@ -75,5 +77,11 @@ namespace _Project.Scripts.Infrastructure.StateMachine
       if (!_states.Remove(stateType))
         throw new ArgumentException($"State '{stateType}' not found.");
     }
+    public void OnRestartRequested()
+    {
+      Debug.Log("In restart Requested");
+      Enter<ReloadCurrentSceneState>();
+    }
+    
   }
 }

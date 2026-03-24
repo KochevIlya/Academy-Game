@@ -13,6 +13,7 @@ public class PatrolPath : MonoBehaviour
         public Transform PointTransform;
         public float WaitTime;
     }
+    
     [SerializeField] private List<PatrolPoint> patrolPoints = new List<PatrolPoint>();
     private Dictionary<Transform, float> _waitTimesCache;
     private void Awake()
@@ -20,7 +21,7 @@ public class PatrolPath : MonoBehaviour
         InitializeCache();
     }
     
-    private void InitializeCache()
+    public void InitializeCache()
     {
         _waitTimesCache = new Dictionary<Transform, float>();
         foreach (var point in patrolPoints)

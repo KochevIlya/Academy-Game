@@ -33,6 +33,7 @@ public class PlayerHacker : MonoBehaviour
     }
     private void Start()
     {
+        Debug.Log("PlayerHacker: Start");
         try
         {
             _input.OnHacking
@@ -49,6 +50,7 @@ public class PlayerHacker : MonoBehaviour
     private async void TryToHack()
     {
         if (!(_myUnit.InputControls is UserInputControls)) return;
+        Debug.Log("PlayerHacker: TryToHack, isPosessing: " + _hackingService.IsPossessing);
         if (_hackingService.IsPossessing) return;
         _hackingService.RequestHacking(_myUnit);
     }
@@ -57,21 +59,5 @@ public class PlayerHacker : MonoBehaviour
     {
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, _interactionRadius);
-    }
-    private HackableComponent FindClosestTarget()
-    {
-        var allTargets = Object.FindObjectsByType<HackableComponent>(FindObjectsSortMode.None);
-
-        return allTargets
-            .Where(t => t.gameObject != this.gameObject)
-            .Select(t => new 
-            { 
-                Component = t, 
-                Distance = Vector3.Distance(transform.position, t.transform.position) 
-            })
-            .Where(t => t.Distance <= _interactionRadius)
-            .OrderBy(t => t.Distance)
-            .Select(t => t.Component)
-            .FirstOrDefault();
     }
 }

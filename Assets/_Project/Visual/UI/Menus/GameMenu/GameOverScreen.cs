@@ -5,23 +5,25 @@ using _Project.Scripts.Infrastructure.Gui.Screens;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class GameOverScreen : BaseScreen
 {
-    
+    private IMenuActionsService _menuActionsService;
     [SerializeField] private Button _restartButton;
     [SerializeField] private Button _exitButton;
-
-    private void Awake()
+    [SerializeField] private Button _loadButton;
+    
+    [Inject]
+    public void Construct(IMenuActionsService menuActionsService)
     {
-        _restartButton.onClick.AddListener(OnRestartClicked);
-        _exitButton.onClick.AddListener(OnExitClicked);
-    }   
-
-    private void OnRestartClicked()
-    {
-        Debug.Log("Restart clicked");
+        _menuActionsService = menuActionsService;
+        _restartButton.onClick.AddListener(_menuActionsService.RestartLevel);
+        _exitButton.onClick.AddListener(_menuActionsService.ExitGame);
+        _loadButton.onClick.AddListener(_menuActionsService.LoadGame);
     }
+
+    
 
     public async UniTask Show(CancellationToken token = default)
     {
@@ -29,16 +31,6 @@ public class GameOverScreen : BaseScreen
     
         await UniTask.Delay(1000, cancellationToken: token);
         base.Show().Forget();
-    }
-    
-    private void OnExitClicked()
-    {
-        Time.timeScale = 0f;
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
     }
 
     public override ScreenType GetScreenType() => ScreenType.GameOver; 

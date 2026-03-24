@@ -1,5 +1,6 @@
 using _Project.Scripts.Infrastructure.Gui.Camera;
 using _Project.Scripts.Infrastructure.Gui.Service;
+using _Project.Scripts.Infrastructure.SaveLoad;
 using _Project.Scripts.Scenes.Game.Hacking;
 using _Project.Scripts.Scenes.Game.Infrastructure.Factory;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
@@ -20,6 +21,8 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
     public override void InstallBindings()
     {
       
+      Container.DeclareSignal<SaveRequestedSignal>();
+      
       
       Container.Bind<ICameraService>().To<CameraService>().FromInstance(_cameraService).AsSingle();
       Container.Bind<IInputHelper>().To<InputHelper>().AsSingle();
@@ -35,7 +38,6 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
       
       Container.Bind<ICursorService>().To<CursorService>().AsSingle();
 
-      Container.BindInterfacesAndSelfTo<DummyInputControls>().AsSingle();
       Container.BindInterfacesAndSelfTo<UserInputControls>().AsSingle();
        Container
         .BindInterfacesTo<GuiService>()
@@ -43,14 +45,17 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
         .UnderTransform(_uiRoot)
         .AsSingle()
         .NonLazy();
-      Container.BindInterfacesAndSelfTo<GameMenuController>().AsSingle().NonLazy();
-      Container.Bind<GameMenuWindow>()
-        .FromComponentInNewPrefab(_menuPrefab)
-        .UnderTransform(_uiRoot)
-        .AsSingle()
-        .NonLazy();
       
       Container.Bind<SceneLoaderService>().AsSingle();
+      Container.Bind<ISaveLoadService>().To<SaveLoadService>().AsSingle();
+      
+      Container.BindSignal<SaveRequestedSignal>()
+        .ToMethod<ISaveLoadService>(x => x.Save)
+        .FromResolve();
+      
+      
+      Container.Bind<IMenuActionsService>().To<MenuActionsService>().AsSingle();
+      
     }
   }
 }

@@ -8,6 +8,7 @@ using _Project.Scripts.Scenes.Game.Hacking;
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
+using Cysharp.Threading.Tasks;
 using UniRx;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -16,9 +17,9 @@ using Random = UnityEngine.Random;
 
 public class HackingService : IDisposable
 {
-    private readonly UserInputControls _input;
+    private  UserInputControls _input;
     private readonly CompositeDisposable _disposables = new CompositeDisposable();
-    private readonly DiContainer _container;
+    private  DiContainer _container;
     
     [Inject] HackableSelector _hackableSelector;
     
@@ -30,7 +31,7 @@ public class HackingService : IDisposable
     public bool IsPossessing => _isPossessing;
     public ReactiveProperty<bool> CanHack { get; } = new ReactiveProperty<bool>(false);
     public Subject<HackableComponent> OnHackingProcessStarted { get; } = new Subject<HackableComponent>();
-    
+    private UniTaskCompletionSource _hackingCompletionSource;
     private List<Vector2> _currentSequence;
     private HackableComponent _currentTarget;
     [Inject] private ICameraService _cameraService;
@@ -40,6 +41,7 @@ public class HackingService : IDisposable
     private GameUnit _originalHero;
     private GameUnit _currentPossessedUnit;
     private bool _isPossessing;
+    
     private bool _isErrorState;
     private CancellationTokenSource _hackingCts;
     private CombatZone _currentZoneContext;
@@ -58,17 +60,27 @@ public class HackingService : IDisposable
     {
         CanHack.Value = isInZone;
     }
-    public void RequestCancel()
+    public void RequestCancel(bool silent = false)
     {
         _hackingCts?.Cancel();
     
-        ReturnToOriginalBody();
+        if (!silent)
+        {
+            ReturnToOriginalBody();
+        }
+        else
+        {
+            IsHacking.Value = false;
+            _input.IsBlocked.Value = false;
+        }
     }
-    public async void RequestHacking(GameUnit hacker)
+    public async UniTask RequestHacking(GameUnit hacker)
     {
+        
         if (!CanHack.Value) return;
         if (IsHacking.Value) return;
         
+        _hackingCompletionSource = new UniTaskCompletionSource();
         _hackingCts?.Cancel();
         _hackingCts = new CancellationTokenSource();
         
@@ -83,19 +95,28 @@ public class HackingService : IDisposable
         OnHackingProcessStarted.OnNext(null);
         _cameraService.ZoomOut();
 
-        try 
+        try
         {
             _cursorService.SetDefaultCursor();
-            var dummy = _container.Resolve<DummyInputControls>();
-            _hackerUnit.DisableControl(dummy);
+            _hackerUnit.DisableControl();
 
             target = await _hackableSelector.SelectTarget(_hackingCts.Token);
+        }
+        catch (OperationCanceledException)
+        {
+            Debug.Log("[HackingService] Выбор цели отменен.");
+            return;
         }
         catch (System.Exception e)
         {
             _hackingCts?.Cancel();
             Debug.LogError($"Непредвиденная ошибка при выборе цели: {e}");
             return;
+        }
+        finally
+        {
+            _hackingCompletionSource?.TrySetResult(); 
+            _hackingCompletionSource = null;
         }
 
         if (target != null)
@@ -107,6 +128,7 @@ public class HackingService : IDisposable
             ReturnToOriginalBody();
         }
     }
+    public UniTask WaitUntilFinished() => _hackingCompletionSource?.Task ?? UniTask.CompletedTask;
     public void StartHacking(HackableComponent target, GameUnit hacker)
     {
         _currentTarget = target;
@@ -146,13 +168,16 @@ public class HackingService : IDisposable
             Debug.LogError("Ошибка возврата: оригинальное тело хакера потеряно!");
             return;
         }
-        
-        _cameraService.SetTarget(_originalHero);
-        _cameraService.ResetZoom();
+
+        if (_cameraService != null)
+        {
+            _cameraService.SetTarget(_originalHero);
+            _cameraService.ResetZoom();
+        }
+
         if (_currentPossessedUnit != null)
         {
-            var dummy = _container.Resolve<DummyInputControls>();
-            _currentPossessedUnit.DisableControl(dummy);
+            _currentPossessedUnit.DisableControl();
         }
 
         _originalHero.UpdateControls(_input);
@@ -250,11 +275,10 @@ public class HackingService : IDisposable
         {
             _input.IsBlocked.Value = false;
 
-            var dummy = _container.Resolve<DummyInputControls>();
             _isPossessing = true;
             _currentPossessedUnit = victimUnit;
         
-            _hackerUnit.DisableControl(dummy);
+            _hackerUnit.DisableControl();
             victimUnit.UpdateControls(_input);
             victimUnit.IsUnderControl = true;
             victimUnit.OnUnitHacked.OnNext(victimUnit);
@@ -293,6 +317,30 @@ public class HackingService : IDisposable
             seq.Add(dir);
         }
         return seq;
+    }
+
+    public void ClearState()
+    {
+        _hackingCts?.Cancel();
+        _hackingCts = new CancellationTokenSource();
+
+        _isPossessing = false;
+        IsHacking.Value = false;
+        _isErrorState = false;
+        _waitForRelease = false;
+    
+        CurrentProgressIndex.Value = 0;
+        CanHack.Value = false;
+
+        _currentTarget = null;
+        _hackerUnit = null;
+        _originalHero = null;
+        _currentPossessedUnit = null;
+        _currentZoneContext = null;
+
+        _currentSequence?.Clear();
+
+        Debug.Log("[HackingService] Состояние полностью очищено для новой загрузки.");
     }
     public void Dispose()
     {

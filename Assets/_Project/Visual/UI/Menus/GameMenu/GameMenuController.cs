@@ -19,20 +19,20 @@ public class GameMenuController : IInitializable, IDisposable
     }
     public void Initialize()
     {
-        _view.Initialize();
-        // SetPause(true);
-        _view.SetStartScreenVisible(false);
-        _view.SetControlsVisibility(false);
-        _view.OnPauseClicked.Subscribe(_ => SetPause(true)).AddTo(_disposables);
-        _view.OnResumeClicked.Subscribe(_ => SetPause(false)).AddTo(_disposables);
-        _view.OnControlsClicked.Subscribe(_ => _view.SetControlsVisibility(true)).AddTo(_disposables);
-        _view.OnExitClicked.Subscribe(_ => ExitGame()).AddTo(_disposables);
-        
-        _view.OnCloseControlsClicked.Subscribe(_ => {
-            _view.SetControlsVisibility(false);
-            _view.SetStartScreenVisible(false);
-            SetPause(false);  
-        }).AddTo(_disposables);
+        // _view.Initialize();
+        // // SetPause(true);
+        // _view.SetStartScreenVisible(false);
+        // _view.SetControlsVisibility(false);
+        // _view.OnPauseClicked.Subscribe(_ => SetPause(true)).AddTo(_disposables);
+        // _view.OnResumeClicked.Subscribe(_ => SetPause(false)).AddTo(_disposables);
+        // _view.OnControlsClicked.Subscribe(_ => _view.SetControlsVisibility(true)).AddTo(_disposables);
+        // _view.OnExitClicked.Subscribe(_ => ExitGame()).AddTo(_disposables);
+        //
+        // _view.OnCloseControlsClicked.Subscribe(_ => {
+        //     _view.SetControlsVisibility(false);
+        //     _view.SetStartScreenVisible(false);
+        //     SetPause(false);  
+        // }).AddTo(_disposables);
         
     }
     private void TogglePause()
