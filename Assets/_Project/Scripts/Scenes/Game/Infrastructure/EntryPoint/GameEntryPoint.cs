@@ -6,7 +6,7 @@ using Zenject;
 
 namespace _Project.Scripts.Scenes.Game.Infrastructure
 {
-  public class GameEntryPoint : IInitializable
+  public class GameEntryPoint
   {
     private readonly IGameStateMachine _gameStateMachine;
     public GameEntryPoint(IGameStateMachine gameStateMachine)
@@ -14,7 +14,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
       _gameStateMachine = gameStateMachine;
     }
     
-    public void Initialize()
+    public void Run()
     {
       _gameStateMachine.Enter<SpawnGameState>();
       

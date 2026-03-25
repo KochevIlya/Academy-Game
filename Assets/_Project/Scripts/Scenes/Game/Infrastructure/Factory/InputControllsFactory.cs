@@ -7,6 +7,7 @@ using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using _Project.Scripts.Scenes.Game.Hacking.Terminal;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
+using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls.Variants;
 using UnityEngine;
 using Zenject;
 
@@ -28,6 +29,9 @@ public class InputControllsFactory
                 return new WalkerInputControls(target, terminal);
                 
             case UnitBehaviourType.Distance:
+                return new AggroDistanceInputControls(unit, target);
+            
+            case UnitBehaviourType.Tank:
                 return new AggroDistanceInputControls(unit, target);
             
             default:

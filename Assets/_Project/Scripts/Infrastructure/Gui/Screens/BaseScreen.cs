@@ -8,7 +8,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Screens
   public abstract class BaseScreen : MonoBehaviour
   {
     [SerializeField] private CanvasGroup _canvasGroup;
-
+    public virtual bool IsOverlay => false;
     public readonly ReactiveCommand CloseScreen = new ReactiveCommand();
 
     protected readonly CompositeDisposable LifeTimeDisposable = new CompositeDisposable();

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using _Project.Scripts.Infrastructure.Gui.Screens;
+using _Project.Scripts.Infrastructure.UIMediator;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,17 +11,23 @@ using Zenject;
 public class GameOverScreen : BaseScreen
 {
     private IMenuActionsService _menuActionsService;
-    [SerializeField] private Button _restartButton;
+    private IUIMediator _uiMediator;
+    
+    [SerializeField] private Button _mainMenuButton;
     [SerializeField] private Button _exitButton;
     [SerializeField] private Button _loadButton;
     
     [Inject]
-    public void Construct(IMenuActionsService menuActionsService)
+    public void Construct(IMenuActionsService menuActionsService
+    ,IUIMediator  uiMediator
+    )
     {
         _menuActionsService = menuActionsService;
-        _restartButton.onClick.AddListener(_menuActionsService.RestartLevel);
+        _uiMediator = uiMediator;
+        
+        _mainMenuButton.onClick.AddListener(_menuActionsService.ExitMainMenu);
         _exitButton.onClick.AddListener(_menuActionsService.ExitGame);
-        _loadButton.onClick.AddListener(_menuActionsService.LoadGame);
+        _loadButton.onClick.AddListener(_uiMediator.LoadGameFromPause);
     }
 
     

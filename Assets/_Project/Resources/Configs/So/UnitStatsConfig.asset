@@ -141,7 +141,7 @@ MonoBehaviour:
       Data: 2
     - Name: abilityType
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: ability
       Entry: 10
       Data: 0
@@ -171,13 +171,13 @@ MonoBehaviour:
       Data: 0.6
     - Name: behaviourType
       Entry: 3
-      Data: 2
+      Data: 3
     - Name: weaponType
       Entry: 3
       Data: 3
     - Name: abilityType
       Entry: 3
-      Data: 0
+      Data: 3
     - Name: ability
       Entry: 10
       Data: 0

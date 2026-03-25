@@ -7,6 +7,7 @@ using UnityEngine;
 
 using UnityEngine;
 using _Project.Scripts.Scenes.Game.Unit._Data;
+using UnityEngine.Serialization;
 
 namespace _Project.Scripts.Scenes.Game.Unit._Configs
 {
@@ -14,23 +15,40 @@ namespace _Project.Scripts.Scenes.Game.Unit._Configs
     public enum BotAbilityType
     {
         None,
-        ThrowGrenade
+        ThrowGrenade,
+        Dash,
+        Shield
     }
 
     [Serializable]
     public abstract class AbilitySettings
     {
+        public float cooldown = 3f;
     }
     [Serializable]
     public class GrenadeSettings : AbilitySettings
     {
-        public float cooldown = 3f;
         public int damage = 20;
         public float radius = 3f;
         public float fuseTime = 2f;
         public float speed = 5f;
     }
-    
+
+    [Serializable]
+    public class DashSettings : AbilitySettings
+    {
+        public float distance = 3f;
+        public float timeout = 0.2f;
+        public int jumpNumber = 3;
+        public float speed = 20f;
+    }
+    [Serializable]
+    public class ShieldSettings : AbilitySettings
+    {
+        public float duration = 8f;
+        public float speedBufPercent = 10f;
+        public float damageBufPercent = 80f;
+    }
     
     [CreateAssetMenu(menuName = "Configs/" + nameof(AbilityConfig), fileName = "NewAbilityConfig")]
     public class AbilityConfig : SoConfig<AbilityConfig>

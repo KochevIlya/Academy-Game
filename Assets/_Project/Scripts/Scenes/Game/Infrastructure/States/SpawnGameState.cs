@@ -17,23 +17,32 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
   {
     private readonly IGameFactory _gameFactory;
     private readonly DiContainer _container;
-    public SpawnGameState(IGameFactory gameFactory, DiContainer container)
+    private readonly IProgressService _progressService;
+    public SpawnGameState(IGameFactory gameFactory
+      ,DiContainer container
+      ,IProgressService progressService
+    
+    )
     {
       _container = container;
       _gameFactory = gameFactory;
+      _progressService = progressService;
     }
     
     public async UniTask Enter(IGameStateMachine gameStateMachine)
     {
       await UniTask.Yield();
-      foreach (UnitSpawner spawner in Object.FindObjectsOfType<UnitSpawner>())
+      bool isNewGame = _progressService.Progress == null || _progressService.Progress.enemies.Count == 0;
+      
+      if (isNewGame)
       {
-        GameUnit unit = null;
-        
-        unit = await _gameFactory.SpawnGameUnit(spawner.Position, spawner.UnitСharacteristicsType, spawner.Path);
-        if (unit != null)
+        foreach (UnitSpawner spawner in Object.FindObjectsOfType<UnitSpawner>())
         {
-          spawner.SetSpawnedUnit(unit);
+          GameUnit unit = await _gameFactory.SpawnGameUnit(spawner.Position, spawner.UnitСharacteristicsType, spawner.Path);
+          if (unit != null)
+          {
+            spawner.SetSpawnedUnit(unit);
+          }
         }
       }
       

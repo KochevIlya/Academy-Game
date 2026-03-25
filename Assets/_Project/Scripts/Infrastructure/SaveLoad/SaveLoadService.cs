@@ -6,6 +6,7 @@ using _Project.Scripts.Infrastructure.Gui.Service;
 using _Project.Scripts.Infrastructure.PersistentProgress;
 using _Project.Scripts.Infrastructure.PersistentProgress.Data;
 using _Project.Scripts.Infrastructure.StateMachine;
+using _Project.Scripts.Infrastructure.UIMediator;
 using _Project.Scripts.Scenes.Game.Hacking.Terminal;
 using _Project.Scripts.Scenes.Game.Infrastructure.Factory;
 using _Project.Scripts.Scenes.Game.Infrastructure.States;
@@ -27,14 +28,20 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
         private readonly List<ITerminalSaveable> _terminalSaveables = new List<ITerminalSaveable>();
         private readonly List<IZoneSaveable> _zoneSaveables = new List<IZoneSaveable>();
         private readonly HackingService _hackingService;
+        private readonly ICursorService _cursorService;
+        private readonly IProgressService _progressService;
         private readonly string _path = Path.Combine(Application.persistentDataPath, "save.json");
         public SaveLoadService(
             IGameFactory gameFactory,
-            HackingService hackingService
+            HackingService hackingService,
+            ICursorService cursorService,
+            IProgressService progressService
             )
         {
+            _cursorService = cursorService;
             _gameFactory = gameFactory;
             _hackingService = hackingService;
+            _progressService = progressService;
         }
 
         public void Save()
@@ -60,8 +67,8 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
                 
                 levelData.zones.Add(zoneData);
             }
-            string json = JsonUtility.ToJson(levelData, true); 
-            File.WriteAllText(_path, json);
+            _progressService.Progress = levelData;
+            _progressService.Save();
             Debug.Log($"[SaveLoadService] Сохранено в: {_path}");
         }
 
@@ -69,14 +76,14 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
         {
             _hackingService.ClearState();
             Debug.Log("In SaveLoadService LoadAsync()");
-            if (!File.Exists(_path))
+            
+            LevelData levelData = _progressService.Progress;
+
+            if (levelData == null || levelData.enemies.Count == 0)
             {
-                Debug.LogWarning("Файл сохранения не найден!");
+                Debug.LogWarning("Нет данных для загрузки в IProgressService!");
                 return;
             }
-
-            string json = File.ReadAllText(_path);
-            LevelData levelData = JsonUtility.FromJson<LevelData>(json);
 
             var toDestroy = _unitSaveables.ToList();
             foreach (var unit in toDestroy)
@@ -134,6 +141,9 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
 
             }
             Debug.Log("[SaveLoadService] Загрузка и стыковка завершены.");
+            _cursorService.SetVisible(true);
+            _cursorService.SetCrosshairCursor();
+            _cursorService.SetLockState(false);
         }
 
         public void RegisterUnit(IUnitSaveable saveable)

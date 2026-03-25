@@ -6,6 +6,7 @@ using System.Threading;
 using _Project.Scripts.Infrastructure.Gui.Camera;
 using _Project.Scripts.Scenes.Game.Hacking;
 using _Project.Scripts.Scenes.Game.Unit;
+using _Project.Scripts.Scenes.Game.Unit.Components.Health;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using Cysharp.Threading.Tasks;
@@ -17,12 +18,11 @@ using Random = UnityEngine.Random;
 
 public class HackingService : IDisposable
 {
-    private  UserInputControls _input;
     private readonly CompositeDisposable _disposables = new CompositeDisposable();
     private  DiContainer _container;
     
-    [Inject] HackableSelector _hackableSelector;
-    
+    private readonly ReactiveProperty<bool> _isBattleActive = new ReactiveProperty<bool>(false);
+    public IReadOnlyReactiveProperty<bool> IsBattleActive => _isBattleActive;
     private List<GameUnit> _availableTargets;
     public ReactiveProperty<bool> IsHacking { get; } = new ReactiveProperty<bool>(false);
     public ReactiveProperty<int> CurrentProgressIndex { get; } = new ReactiveProperty<int>(0);
@@ -34,8 +34,14 @@ public class HackingService : IDisposable
     private UniTaskCompletionSource _hackingCompletionSource;
     private List<Vector2> _currentSequence;
     private HackableComponent _currentTarget;
+    
+    [Inject] HackableSelector _hackableSelector;
     [Inject] private ICameraService _cameraService;
     [Inject] private ICursorService _cursorService;
+    private IPosessionService _posessionService;
+    private  UserInputControls _input;
+    
+    
     private bool _waitForRelease;
     private GameUnit _hackerUnit;
     private GameUnit _originalHero;
@@ -45,9 +51,15 @@ public class HackingService : IDisposable
     private bool _isErrorState;
     private CancellationTokenSource _hackingCts;
     private CombatZone _currentZoneContext;
-    public HackingService(UserInputControls input, DiContainer container)
+    
+    public HackingService(
+        DiContainer container,
+        IPosessionService posessionService,
+        UserInputControls input
+        )
     {
         _input = input;
+        _posessionService = posessionService;
         _container = container;
         SubscribeToInput();
         
@@ -60,10 +72,14 @@ public class HackingService : IDisposable
     {
         CanHack.Value = isInZone;
     }
+    public void StopBattle()
+    {
+        _isBattleActive.Value = false;
+    }
     public void RequestCancel(bool silent = false)
     {
         _hackingCts?.Cancel();
-    
+        StopBattle();
         if (!silent)
         {
             ReturnToOriginalBody();
@@ -71,7 +87,7 @@ public class HackingService : IDisposable
         else
         {
             IsHacking.Value = false;
-            _input.IsBlocked.Value = false;
+            _posessionService.UpdateBlocking(false);
         }
     }
     public async UniTask RequestHacking(GameUnit hacker)
@@ -88,7 +104,7 @@ public class HackingService : IDisposable
         _hackerUnit = hacker;
         _originalHero ??= hacker;
 
-        _input.IsBlocked.Value = true;
+        _posessionService.UpdateBlocking(true);
     
         HackableComponent target = null;
         
@@ -143,7 +159,7 @@ public class HackingService : IDisposable
         CurrentProgressIndex.Value = 0;
         IsHacking.Value = true;
     
-        _input.IsBlocked.Value = true;
+        _posessionService.UpdateBlocking(true);
         _cameraService.SetTarget(target.GetComponent<GameUnit>());
     
         OnHackingStarted.OnNext(_currentSequence);
@@ -156,13 +172,21 @@ public class HackingService : IDisposable
             .Subscribe(CheckInput)
             .AddTo(_disposables);
         
-        _input.OnCancel
+        _input.OnAction
             .Where(_ => _isPossessing && !IsHacking.Value)
-            .Subscribe(_ => ReturnToOriginalBody())
+            .Subscribe(_ => SelfDestroy())
             .AddTo(_disposables);
+    }
+
+    private void SelfDestroy()
+    {
+        var currentUnit = _currentPossessedUnit.GetComponentInChildren<GameUnit>();
+        currentUnit.Health.TakeDamage(Int32.MaxValue);
+        ReturnToOriginalBody();
     }
     public void ReturnToOriginalBody()
     {
+        
         if (_originalHero == null) 
         {
             Debug.LogError("Ошибка возврата: оригинальное тело хакера потеряно!");
@@ -180,11 +204,10 @@ public class HackingService : IDisposable
             _currentPossessedUnit.DisableControl();
         }
 
-        _originalHero.UpdateControls(_input);
+        _posessionService.Possess(_originalHero);
     
         _isPossessing = false;
         _currentPossessedUnit = null;
-        _input.IsBlocked.Value = false;
         _hackerUnit = _originalHero;
         
         _cursorService.SetCrosshairCursor();
@@ -273,13 +296,13 @@ public class HackingService : IDisposable
     
         if (victimUnit != null && _hackerUnit != null)
         {
-            _input.IsBlocked.Value = false;
 
             _isPossessing = true;
             _currentPossessedUnit = victimUnit;
-        
-            _hackerUnit.DisableControl();
-            victimUnit.UpdateControls(_input);
+            
+            _posessionService.Possess(victimUnit);
+            _isBattleActive.Value = true;
+            
             victimUnit.IsUnderControl = true;
             victimUnit.OnUnitHacked.OnNext(victimUnit);
 
@@ -289,7 +312,7 @@ public class HackingService : IDisposable
                                  ?? victimUnit.gameObject.AddComponent<PlayerHacker>();
             _container.Inject(newHackerLogic);
             
-
+            
         }
         
         _cursorService.SetCrosshairCursor();
@@ -328,10 +351,14 @@ public class HackingService : IDisposable
         IsHacking.Value = false;
         _isErrorState = false;
         _waitForRelease = false;
-    
+        _isBattleActive.Value = false;
+        _posessionService.UpdateBlocking(false);
         CurrentProgressIndex.Value = 0;
         CanHack.Value = false;
-
+        
+        _cursorService.SetCrosshairCursor();
+        _cursorService.SetVisible(true);
+        
         _currentTarget = null;
         _hackerUnit = null;
         _originalHero = null;

@@ -47,8 +47,8 @@ namespace _Project.Scripts.Infrastructure.Gui.Camera
             return;
         }
         
-      _cameraZoomIn.Follow = unit.transform;
-      _target = unit.transform;
+        _cameraZoomIn.Follow = unit.transform;
+        _target = unit.transform;
     }
 
     void ICameraService.Cleanup()
@@ -125,6 +125,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Camera
         {
             var lens = _cameraZoomIn.Lens;
         
+            
             float currentSize = lens.OrthographicSize;
             float nextSize = Mathf.Lerp(currentSize, _targetDistance, Time.deltaTime * _zoomSpeed);
         

@@ -207,7 +207,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _staticCanvas: {fileID: 3264804841043400956}
-  _gameOverScreenPrefab: {fileID: 1486701234640761114, guid: 96a11d7778b89b74480ed4d549c9baa9,
+  _gameOverScreenPrefab: {fileID: 5697986158970430235, guid: 51919b24c7dc14a409b905a4f6fb67dc,
     type: 3}
-  _gameMenuWindowPrefab: {fileID: 4983973142571282257, guid: 07ba82bc415e3894094a4bc44af05768,
+  _gameMenuWindowPrefab: {fileID: 4420036374338241017, guid: aa84e0301a7c1b04da9ba77afc8a5f6e,
+    type: 3}
+  _battleScreenPrefab: {fileID: 5630956435968979042, guid: 02e3c9e0e58ccff478f6e0d26fd0b303,
+    type: 3}
+  _pauseButtonWindowPrefab: {fileID: 4878015446131074945, guid: f6e094b6525154a4f9e8a13f7e48b79d,
+    type: 3}
+  _controlsWindowPrefab: {fileID: 438274146923279786, guid: 5f7e23b8eeee40f428cdb782f87bbe79,
+    type: 3}
+  _mainMenuWindowPrefab: {fileID: -7111627553410209246, guid: 9e1257a76a53ed140bddcbe19d226e29,
     type: 3}

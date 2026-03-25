@@ -13,9 +13,11 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Zenject;
 using _Project.Scripts.Libs.Pool;
+using _Project.Scripts.Scenes.Game.Abilities;
 using _Project.Scripts.Scenes.Game.Hacking.Terminal;
 using _Project.Scripts.Scenes.Game.Unit._Configs;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
+using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls.Variants;
 
 namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
 {
@@ -72,12 +74,13 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       {
         
         if (unitData.abilityType == BotAbilityType.ThrowGrenade)
-        {
-          var abilityComponent = bot.gameObject.AddComponent<GrenadeAbility>();
-          _diContainer.Inject(abilityComponent);
-          abilityComponent.Initialize(bot, unitData.ability);
-          bot.SetAbility(abilityComponent);
-        }
+          AddAbility<GrenadeAbility>(bot, unitData.ability);
+        
+        else if (unitData.abilityType == BotAbilityType.Dash)
+          AddAbility<DashAbility>(bot, unitData.ability);
+        
+        else if(unitData.abilityType == BotAbilityType.Shield)
+          AddAbility<ShieldAbility>(bot, unitData.ability);
         
         bot.UpdateWeapon(await SpawnWeapon(unitData.weaponType, bot));
         bot.AddComponent<HackableComponent>();
@@ -92,10 +95,21 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
         var hacker = bot.gameObject.AddComponent<PlayerHacker>();
         _diContainer.Inject(hacker);
         bot.UpdateControls(_userInputControls);
+        
+        
+        
       }
       return bot;
     }
-
+    
+    private void AddAbility<T>(GameUnit bot, AbilityConfig config) where T : MonoBehaviour, IAbility
+    {
+      var abilityComponent = bot.gameObject.AddComponent<T>();
+      _diContainer.Inject(abilityComponent);
+      abilityComponent.Initialize(bot, config);
+      bot.SetAbility(abilityComponent);
+    }
+    
     public async UniTask<Grenade> SpawnGrenade(Vector3 position)
     {
       var prefabReference = _staticData.UnitsConfig.Grenade;

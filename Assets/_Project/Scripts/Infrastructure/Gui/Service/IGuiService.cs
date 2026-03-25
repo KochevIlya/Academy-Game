@@ -9,6 +9,9 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     void Pop();
     void Cleanup();
     void ShowGameOver();
-    void ShowInGameWindow();
+    void ShowPauseMenuWindow();
+    void ShowPauseButton();
+    void ShowControlsWindow();
+    void ShowMainMenuWindow(bool isAlreadySaved = true);
   }
 }

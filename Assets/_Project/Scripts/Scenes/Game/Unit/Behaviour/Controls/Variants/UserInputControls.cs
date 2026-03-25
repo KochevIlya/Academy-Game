@@ -18,9 +18,9 @@ namespace _Project.Scripts.Scenes.Game.Unit.Controls.Variants
     private readonly Subject<Vector2> _movement = new Subject<Vector2>();
     private readonly Subject<UniRx.Unit> _shoot = new Subject<UniRx.Unit>();
     private readonly Subject<UniRx.Unit> _abilityUse = new Subject<UniRx.Unit>();
-    private readonly CompositeDisposable _disposable = new CompositeDisposable();
-    private readonly Subject<UniRx.Unit> _hackingUse = new Subject<UniRx.Unit>();
+    private readonly Subject<UniRx.Unit> _actionUse = new Subject<UniRx.Unit>();
     private readonly Subject<UniRx.Unit> _cancelUse = new Subject<UniRx.Unit>();
+    private readonly CompositeDisposable _disposable = new CompositeDisposable();
     public BoolReactiveProperty IsBlocked { get; } = new BoolReactiveProperty(false);
     public Vector2 MousePosition { get; private set; }
     public IObservable<Vector2> OnRawMovement => _movement;
@@ -36,8 +36,8 @@ namespace _Project.Scripts.Scenes.Game.Unit.Controls.Variants
         : _movement.Select(vec2 => new Vector3(vec2.x, 0, vec2.y)))
       .Switch();
     public IObservable<UniRx.Unit> OnShoot => _shoot.Where(_ => !IsBlocked.Value);
-    public IObservable<UniRx.Unit> OnAbilityUse => _abilityUse;
-    public IObservable<UniRx.Unit> OnHacking => _hackingUse;
+    public IObservable<UniRx.Unit> OnAbilityUse => _abilityUse.Where(_ => !IsBlocked.Value);
+    public IObservable<UniRx.Unit> OnAction => _actionUse.Where(_ => !IsBlocked.Value);
     public IObservable<UniRx.Unit> OnCancel => _cancelUse;
 
 
@@ -59,6 +59,9 @@ namespace _Project.Scripts.Scenes.Game.Unit.Controls.Variants
           HandleGamepadAiming();
         })
     .AddTo(_disposable);
+      
+      
+      
     }
 
     void PlayerControls.IPlayerActions.OnMove(InputAction.CallbackContext ctx)
@@ -80,15 +83,17 @@ namespace _Project.Scripts.Scenes.Game.Unit.Controls.Variants
         _abilityUse.OnNext(UniRx.Unit.Default);
     }
 
-    void PlayerControls.IPlayerActions.OnHacking(InputAction.CallbackContext ctx)
+    void PlayerControls.IPlayerActions.OnAction(InputAction.CallbackContext context)
     {
-      if (ctx.phase == InputActionPhase.Started)
-        _hackingUse.OnNext(UniRx.Unit.Default);
+      if (context.phase == InputActionPhase.Started)
+        _actionUse.OnNext(UniRx.Unit.Default);
     }
+
+    
 
     void PlayerControls.IPlayerActions.OnCancel(InputAction.CallbackContext ctx)
     {
-      if (ctx.phase == InputActionPhase.Performed || ctx.phase == InputActionPhase.Started)
+      if (ctx.phase == InputActionPhase.Started)
       {
         Debug.Log("Кнопка ESC нажата в UserInputControls!");
         _cancelUse.OnNext(UniRx.Unit.Default);
@@ -112,6 +117,8 @@ namespace _Project.Scripts.Scenes.Game.Unit.Controls.Variants
     {
       _gamepadAimInput = context.ReadValue<Vector2>();
     }
+
+    
 
     public void Dispose()
     {

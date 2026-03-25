@@ -3,6 +3,7 @@ using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit._Data;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
+using _Project.Scripts.Utils.Extensions;
 using UniRx;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -36,7 +37,11 @@ public class AggroDistanceInputControls : IInputControls
         {
             if (_target == null) return Vector2.zero;
 
-            Vector3 targetCenter = _target.transform.position + Vector3.up * 1.0f;
+            Vector3 targetCenter = new Vector3(
+                _target.transform.position.x,
+                _target.WeaponPoint.position.y,
+                _target.transform.position.z
+            );
 
             Vector3 screenPoint = Camera.main.WorldToScreenPoint(targetCenter);
             

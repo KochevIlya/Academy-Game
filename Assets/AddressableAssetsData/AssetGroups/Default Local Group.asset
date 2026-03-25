@@ -17,6 +17,11 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: fd12c4cf47c2163489ab67db6704689d
   m_SerializeEntries:
+  - m_GUID: 02e3c9e0e58ccff478f6e0d26fd0b303
+    m_Address: Assets/_Project/Visual/Prefabs/UI/BattleWindow.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 07ba82bc415e3894094a4bc44af05768
     m_Address: Assets/_Project/Visual/Prefabs/UI/GameMenuWindow.prefab
     m_ReadOnly: 0
@@ -67,6 +72,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8157ed664162f2d4eb17d10bc08bdf25
+    m_Address: Assets/_Project/Visual/Prefabs/Game/Units/TankBot.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8ec09520357109d4785720dfabc7e219
     m_Address: Bullet
     m_ReadOnly: 0
@@ -104,6 +114,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c9213c49431d7ec49b500a24b4f70108
     m_Address: Assets/_Project/Visual/Prefabs/Game/Armaments/SpawnableBullet.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d7edcd76d26ded848b8f4619ece6a37b
+    m_Address: Assets/_Project/Visual/Materials/ConeMaterial.mat
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

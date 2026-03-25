@@ -1,4 +1,5 @@
 using System;
+using _Project.Visual.UI.Menus.GameMenu;
 using UniRx;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,12 +7,12 @@ using Zenject;
 
 public class GameMenuController : IInitializable, IDisposable
 {
-    private readonly GameMenuWindow _view;
+    private readonly PauseMenuWindow _view;
     private readonly CompositeDisposable _disposables = new CompositeDisposable();
     private readonly ICursorService _cursorService;
     private readonly SceneLoaderService _sceneLoaderService;
     private bool _isPaused = false;
-    public GameMenuController(GameMenuWindow view, SceneLoaderService sceneLoaderService, ICursorService cursorService)
+    public GameMenuController(PauseMenuWindow view, SceneLoaderService sceneLoaderService, ICursorService cursorService)
     {
         _view = view;
         _sceneLoaderService = sceneLoaderService;
@@ -45,7 +46,7 @@ public class GameMenuController : IInitializable, IDisposable
 
         Time.timeScale = isPaused ? 0f : 1f;
 
-        _view.SetMenuVisiblity(isPaused);
+        // _view.SetMenuVisiblity(isPaused);
 
         if (isPaused)
         {

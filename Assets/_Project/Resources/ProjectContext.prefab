@@ -152,3 +152,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03bf9c1cedd243f49d17349232eebee2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _guiServicePrefab: {fileID: 4960440675262118062, guid: 964122cf89449604b972a61a1b1dcfe2,
+    type: 3}

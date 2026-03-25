@@ -37,7 +37,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
             }
             await UniTask.WhenAll(initTasks);
     
-            gameStateMachine.Enter<GameLoopState>().Forget();
+            gameStateMachine.Enter<LoadProgressState>();
         }
     }
 }

@@ -131,8 +131,11 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
         private void CheckUnitReturn(GameUnit unit)
         {
             if (unit.IsUnderControl)
+            {
                 _hackingService.ReturnToOriginalBody();
-            
+                _hackingService.StopBattle();
+            }
+
         }
         private void CheckAlarm()
         {
@@ -152,7 +155,7 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
             if (remainingBots.Count == 1)
             {
                 var lastBot = remainingBots[0];
-        
+            
                 if (lastBot.IsUnderControl)
                 {
                     Debug.Log($"<color=yellow>ZONE: Игрок остался один в теле {lastBot.name}. Самоуничтожение носителя.</color>");

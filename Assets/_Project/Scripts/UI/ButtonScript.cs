@@ -10,8 +10,7 @@ public class ButtonScript : MonoBehaviour
 {
     [Inject] private IMenuActionsService _actions;
     
-    public void OnRestart() => _actions.RestartLevel();
-    public void OnSave() => _actions.SaveGame();
+    public void OnRestart() => _actions.LoadNewGame();
     public void OnLoad() => _actions.LoadGame();
     
     
