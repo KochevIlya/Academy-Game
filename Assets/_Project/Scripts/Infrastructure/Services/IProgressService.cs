@@ -8,4 +8,5 @@ public interface IProgressService
     void Save();
 
     void Load();
+    public bool HasSaveFile();
 }

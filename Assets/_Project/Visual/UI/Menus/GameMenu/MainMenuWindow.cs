@@ -5,6 +5,7 @@ using _Project.Scripts.Infrastructure.Gui.Service;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
 
@@ -18,16 +19,19 @@ public class MainMenuWindow : BaseScreen
     
     private IGuiService _guiService;
     private IMenuActionsService _menuActionsService;
+    private IProgressService _progressService;
     
     [Inject]
     public void Construct(
         IGuiService guiService,
         IMenuActionsService menuActionsService, 
         ICursorService cursorService
+        ,IProgressService progressService
     )
     {
         _guiService = guiService;
         _menuActionsService = menuActionsService;
+        _progressService = progressService;
             
         _continueButton.onClick.AddListener(_menuActionsService.LoadGame);
         _controlsButton.onClick.AddListener(OpenControls);
@@ -38,10 +42,19 @@ public class MainMenuWindow : BaseScreen
 
     public override async UniTask Show()
     {
+        if(!_progressService.HasSaveFile())
+            _continueButton.interactable = false;
+        else
+            _continueButton.interactable = true;
+        
         await base.Show();
+        
         Time.timeScale = 0f;
     }
-    
+    void OnEnable() 
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+    }
     
     private void OpenControls()
     {

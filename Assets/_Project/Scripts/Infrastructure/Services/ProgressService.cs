@@ -18,4 +18,6 @@ public class ProgressService : IProgressService {
             Progress = JsonUtility.FromJson<LevelData>(json);
         }
     }
+    
+    public bool HasSaveFile() => File.Exists(_path);
 }

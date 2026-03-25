@@ -6,6 +6,7 @@ using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
 
@@ -70,7 +71,10 @@ namespace _Project.Visual.UI.Menus.GameMenu
         {
             _guiService.ShowControlsWindow(); 
         }
-
+        void OnEnable() 
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+        }
         private void SetPause(bool isPause)
         {
             if (isPause)
