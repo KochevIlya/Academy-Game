@@ -296,7 +296,14 @@ public class HackingService : IDisposable
     
         if (victimUnit != null && _hackerUnit != null)
         {
-
+        
+            int targetLayer = LayerMask.NameToLayer("Default"); 
+                
+            if (targetLayer != -1)
+            {
+                SetLayerRecursively(victimUnit.gameObject, targetLayer);
+            }
+            
             _isPossessing = true;
             _currentPossessedUnit = victimUnit;
             
@@ -369,6 +376,16 @@ public class HackingService : IDisposable
 
         Debug.Log("[HackingService] Состояние полностью очищено для новой загрузки.");
     }
+    
+    private void SetLayerRecursively(GameObject obj, int newLayer)
+    {
+        obj.layer = newLayer;
+        foreach (Transform child in obj.transform)
+        {
+            SetLayerRecursively(child.gameObject, newLayer);
+        }
+    }
+    
     public void Dispose()
     {
         _disposables.Dispose();
