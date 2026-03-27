@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using _Project.Scripts.Infrastructure.Gui.Screens;
 using _Project.Visual.UI.Menus.BattleMenu;
 using _Project.Visual.UI.Menus.GameMenu;
@@ -18,7 +19,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     [SerializeField] private ControlsWindow _controlsWindowPrefab;
     [SerializeField] private GameOverScreen _gameOverMenuWindowPrefab;
     [SerializeField] private SaveWindow _saveWindowPrefab;
-    [SerializeField] private DefaultWindow _hackingSelectionWindowPrefab;
+    [SerializeField] private HackingSelectionWindow _hackingSelectionWindowPrefab;
     [SerializeField] private HackingWindow _hackingwindowPrefab;
     [FormerlySerializedAs("_gameMenuWindowPrefab")] [SerializeField] private PauseMenuWindow pauseMenuWindowPrefab;
     private readonly Stack<BaseScreen> _screens = new Stack<BaseScreen>();
@@ -85,7 +86,37 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
       }
     }
 
+    public async UniTask CloseScreen(ScreenType screenType)
+    {
+      BaseScreen screenToClose = _screens.LastOrDefault(s => s.GetScreenType() == screenType);
+
+      if (screenToClose == null)
+      {
+        Debug.LogWarning($"[GuiGameService] Попытка закрыть {screenType}, но такое окно не найдено в стеке.");
+        return;
+      }
       
+      bool wasOverlay = screenToClose.IsOverlay;
+      var tempStack = _screens.ToList();
+      
+      _screens.Clear();
+      foreach (var screen in tempStack)
+      {
+        if (screen == screenToClose) continue;
+        _screens.Push(screen);
+      }
+
+      if (screenToClose.gameObject != null)
+      {
+        Destroy(screenToClose.gameObject);
+      }
+
+      if (wasOverlay)
+      {
+        RefreshVisibility();
+      }
+      await UniTask.Yield();
+    }
     
     private void RefreshVisibility()
     {

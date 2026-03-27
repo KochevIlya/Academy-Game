@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using _Project.Scripts.Infrastructure.Gui.Camera;
+using _Project.Scripts.Infrastructure.Gui.Screens;
 using _Project.Scripts.Infrastructure.Gui.Service;
 using _Project.Scripts.Scenes.Game.Hacking;
 using _Project.Scripts.Scenes.Game.Unit;
@@ -63,7 +64,6 @@ public class HackingService : IDisposable
         _input = input;
         _posessionService = posessionService;
         _container = container;
-        SubscribeToInput();
         
     }
     public void SetCurrentZoneContext(CombatZone zone)
@@ -92,9 +92,17 @@ public class HackingService : IDisposable
             _posessionService.UpdateBlocking(false);
         }
     }
+    public void StopHacking()
+    {
+        _hackingCts?.Cancel();
+        IsHacking.Value = false;
+        CanHack.Value = false;
+        _disposables.Clear(); 
+        
+        Debug.Log("[HackingService] Логика и ввод полностью отключены.");
+    }
     public async UniTask RequestHacking(GameUnit hacker)
     {
-        
         if (!CanHack.Value) return;
         if (IsHacking.Value) return;
         
@@ -109,6 +117,7 @@ public class HackingService : IDisposable
         _posessionService.UpdateBlocking(true);
     
         HackableComponent target = null;
+        SubscribeToInput();
         
         OnHackingProcessStarted.OnNext(null);
         _cameraService.ZoomOut();
@@ -294,7 +303,9 @@ public class HackingService : IDisposable
     private void CompleteHacking()
     {
         _cameraService.ResetZoom();
-        _guiGameService.Pop();
+        Debug.Log($"[Hacking Service] GuiGameService.Pop()");
+        _guiGameService.CloseScreen(ScreenType.HackingWindow);
+        StopHacking();
         if (_currentTarget == null)
         {
             

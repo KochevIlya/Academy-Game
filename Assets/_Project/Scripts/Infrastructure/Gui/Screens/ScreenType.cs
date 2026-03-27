@@ -10,7 +10,8 @@ namespace _Project.Scripts.Infrastructure.Gui.Screens
     MainMenuWindow,
     SaveWindow,
     DefaultWindow,
-    HackingWindow
+    HackingWindow,
+    HackingSelectionWindow
     
   }
 }

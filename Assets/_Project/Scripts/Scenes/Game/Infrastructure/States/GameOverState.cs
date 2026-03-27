@@ -26,6 +26,7 @@ public class GameOverState : IEnterState
         await _guiService.Cleanup();
         
         _hackingService.RequestCancel();
+        _hackingService.StopHacking();
         await _hackingService.WaitUntilFinished();
         _guiService.ShowGameOver();
         

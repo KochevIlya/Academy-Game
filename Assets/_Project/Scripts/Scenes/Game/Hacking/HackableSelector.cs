@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using _Project.Scripts.Infrastructure.Gui.Camera;
+using _Project.Scripts.Infrastructure.Gui.Screens;
 using _Project.Scripts.Infrastructure.Gui.Service;
 using _Project.Scripts.Scenes.Game.Unit;
 using Cysharp.Threading.Tasks;
@@ -73,7 +74,8 @@ namespace _Project.Scripts.Scenes.Game.Hacking
             finally
             {
                 if (lastHovered != null) SetOutlineState(lastHovered, false);
-                _guiGameService.Pop();
+                Debug.Log($"[HackableSelector] SelectTarget() GuiGameService.Pop()");
+                await _guiGameService.CloseScreen(ScreenType.HackingSelectionWindow);
             }
             return null;
         }

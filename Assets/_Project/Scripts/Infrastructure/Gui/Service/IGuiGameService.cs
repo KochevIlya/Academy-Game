@@ -20,6 +20,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
         void ShowSaveMenuWindow();
         void ShowHackingSelectionWindow();
         UniTask CloseScreen(BaseScreen screen);
+        UniTask CloseScreen(ScreenType screenType);
         public UniTask ShowHackingWindow();
     }
 }
