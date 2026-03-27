@@ -22,11 +22,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 07ba82bc415e3894094a4bc44af05768
-    m_Address: Assets/_Project/Visual/Prefabs/UI/GameMenuWindow.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0d571c597da462243b8e5d89d8304f49
     m_Address: Character
     m_ReadOnly: 0
@@ -77,11 +72,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8157ed664162f2d4eb17d10bc08bdf25
-    m_Address: Assets/_Project/Visual/Prefabs/Game/Units/TankBot.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8ec09520357109d4785720dfabc7e219
     m_Address: Bullet
     m_ReadOnly: 0
@@ -89,11 +79,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 964122cf89449604b972a61a1b1dcfe2
     m_Address: Assets/_Project/Visual/Prefabs/UI/GuiServiceRoot.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 96a11d7778b89b74480ed4d549c9baa9
-    m_Address: Assets/_Project/Visual/Prefabs/UI/GameOverWindow.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

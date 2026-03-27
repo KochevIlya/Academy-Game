@@ -17,6 +17,9 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     [SerializeField] private BattleScreen _battleScreenPrefab;
     [SerializeField] private ControlsWindow _controlsWindowPrefab;
     [SerializeField] private GameOverScreen _gameOverMenuWindowPrefab;
+    [SerializeField] private SaveWindow _saveWindowPrefab;
+    [SerializeField] private DefaultWindow _hackingSelectionWindowPrefab;
+    [SerializeField] private HackingWindow _hackingwindowPrefab;
     [FormerlySerializedAs("_gameMenuWindowPrefab")] [SerializeField] private PauseMenuWindow pauseMenuWindowPrefab;
     private readonly Stack<BaseScreen> _screens = new Stack<BaseScreen>();
     private DiContainer _container;
@@ -55,13 +58,14 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     public void ShowPauseButton() => ShowScreen(_pauseButtonWindowPrefab).Forget();
     public void ShowControlsWindow() => ShowScreen(_controlsWindowPrefab).Forget();
     public void ShowMainMenuWindow(bool isAlreadySaved) => _guiService.ShowMainMenuWindow(isAlreadySaved);
-
+    public void ShowSaveMenuWindow() => ShowScreen(_saveWindowPrefab).Forget(); 
+    
+    public void ShowHackingSelectionWindow() => ShowScreen(_hackingSelectionWindowPrefab).Forget();
+    public async UniTask ShowHackingWindow() => await ShowScreen(_hackingwindowPrefab);
 
     private async UniTask<T> ShowScreen<T>(T prefab) where T : BaseScreen
     {
-      var screenInstance = Instantiate(prefab);
-
-      _container.InjectGameObject(screenInstance.gameObject);
+      var screenInstance = _container.InstantiatePrefabForComponent<T>(prefab);
 
       ((IGuiGameService)this).Push(screenInstance);
 

@@ -3263,6 +3263,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Survace (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3310530354998663069, guid: e6a495b1758c51f4aa2cea036a42cffc,
+        type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: 28455d5834258bd47b6ef6e50f124e28,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -7,7 +7,10 @@ namespace _Project.Scripts.Infrastructure.Gui.Screens
     Battle,
     PauseButtonWindow,
     ControlsWindow,
-    MainMenuWindow
+    MainMenuWindow,
+    SaveWindow,
+    DefaultWindow,
+    HackingWindow
     
   }
 }

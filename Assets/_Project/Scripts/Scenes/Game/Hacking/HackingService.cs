@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using _Project.Scripts.Infrastructure.Gui.Camera;
+using _Project.Scripts.Infrastructure.Gui.Service;
 using _Project.Scripts.Scenes.Game.Hacking;
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit.Components.Health;
@@ -38,6 +39,7 @@ public class HackingService : IDisposable
     [Inject] HackableSelector _hackableSelector;
     [Inject] private ICameraService _cameraService;
     [Inject] private ICursorService _cursorService;
+    [Inject] private IGuiGameService _guiGameService;
     private IPosessionService _posessionService;
     private  UserInputControls _input;
     
@@ -117,6 +119,7 @@ public class HackingService : IDisposable
             _hackerUnit.DisableControl();
 
             target = await _hackableSelector.SelectTarget(_hackingCts.Token);
+            
         }
         catch (OperationCanceledException)
         {
@@ -145,8 +148,9 @@ public class HackingService : IDisposable
         }
     }
     public UniTask WaitUntilFinished() => _hackingCompletionSource?.Task ?? UniTask.CompletedTask;
-    public void StartHacking(HackableComponent target, GameUnit hacker)
+    public async void StartHacking(HackableComponent target, GameUnit hacker)
     {
+        await _guiGameService.ShowHackingWindow();
         _currentTarget = target;
         int length = target.Difficulty;
         if (_currentZoneContext != null)
@@ -284,6 +288,7 @@ public class HackingService : IDisposable
     private void CompleteHacking()
     {
         _cameraService.ResetZoom();
+        _guiGameService.Pop();
         if (_currentTarget == null)
         {
             

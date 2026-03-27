@@ -54,6 +54,12 @@ MonoBehaviour:
     type: 3}
   _gameOverMenuWindowPrefab: {fileID: 5697986158970430235, guid: 51919b24c7dc14a409b905a4f6fb67dc,
     type: 3}
+  _saveWindowPrefab: {fileID: -8066442638714639946, guid: 32acace0726a78a49aeba1b3f228218a,
+    type: 3}
+  _hackingSelectionWindowPrefab: {fileID: 6230423417289360273, guid: e82c12b9ddc75544e99007dc0c323496,
+    type: 3}
+  _hackingwindowPrefab: {fileID: 520037038498309279, guid: 5f9abbac97b0edc4cabb306a9a2860a8,
+    type: 3}
   pauseMenuWindowPrefab: {fileID: 4420036374338241017, guid: aa84e0301a7c1b04da9ba77afc8a5f6e,
     type: 3}
 --- !u!1 &7850851786578166575

@@ -200,7 +200,7 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
         }
         public int GetNextSequenceLength(int _base)
         {
-            return _base + 2 * (_hackingAttempts - 1) > 12 ? 12 : _base + 2 * (_hackingAttempts - 1);
+            return _base + 1 * (_hackingAttempts - 1) > 12 ? 12 : _base + 1 * (_hackingAttempts - 1);
         }
 
         public void ClearState()

@@ -71,7 +71,7 @@ namespace _Project.Visual.UI.Menus.GameMenu
         {
             _guiService.ShowControlsWindow(); 
         }
-        void OnEnable() 
+        protected override void OnEnable() 
         {
             EventSystem.current.SetSelectedGameObject(null);
         }

@@ -121,6 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WarZoneTransform: {fileID: 0}
   _isActive: 0
+  _id: 
 --- !u!114 &7880311683577524759
 MonoBehaviour:
   m_ObjectHideFlags: 0

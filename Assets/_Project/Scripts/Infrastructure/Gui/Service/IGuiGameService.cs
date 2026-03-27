@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using _Project.Scripts.Infrastructure.Gui.Screens;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 namespace _Project.Scripts.Infrastructure.Gui.Service
 {
@@ -16,5 +17,8 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
         void ShowPauseButton();
         void ShowControlsWindow();
         void ShowMainMenuWindow(bool isAlreadySaved = true);
+        void ShowSaveMenuWindow();
+        void ShowHackingSelectionWindow();
+        public UniTask ShowHackingWindow();
     }
 }
