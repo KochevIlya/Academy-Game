@@ -28,7 +28,7 @@ namespace _Project.Visual.UI.Menus.GameMenu
 
             if (this != null && gameObject != null)
             {
-                _guiService.Pop();
+                _guiService.CloseScreen(this).Forget();
             }
 
         }

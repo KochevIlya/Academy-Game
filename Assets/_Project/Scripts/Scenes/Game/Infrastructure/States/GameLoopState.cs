@@ -37,12 +37,12 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
         Debug.LogWarning("No save file found");
         gameStateMachine.Enter<SaveProgressState>();
       }
-      Time.timeScale = 1f;
-      _cameraService.ResetZoom();
       _guiService.Cleanup();
       _guiGameService.Cleanup();
+      _cameraService.ResetZoom();
       _guiGameService.ShowPauseButton();
       
+      Time.timeScale = 1f;
       return UniTask.CompletedTask;
     }
   }

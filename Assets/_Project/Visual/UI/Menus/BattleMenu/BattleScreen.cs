@@ -16,7 +16,6 @@ namespace _Project.Visual.UI.Menus.BattleMenu
         private Health _currentHealth;
         private IPlayerProvider _playerProvider;
         private CompositeDisposable _unitDisposables = new CompositeDisposable();
-        public override bool IsOverlay => true;
         
         [Inject]
         public void Construct(IPlayerProvider playerProvider)

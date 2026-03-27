@@ -150,7 +150,13 @@ public class HackingService : IDisposable
     public UniTask WaitUntilFinished() => _hackingCompletionSource?.Task ?? UniTask.CompletedTask;
     public async void StartHacking(HackableComponent target, GameUnit hacker)
     {
-        await _guiGameService.ShowHackingWindow();
+        if (!IsHacking.Value)
+        {
+            await _guiGameService.ShowHackingWindow();
+            IsHacking.Value = true;
+        }
+
+        if (target == null) return;
         _currentTarget = target;
         int length = target.Difficulty;
         if (_currentZoneContext != null)
@@ -161,7 +167,7 @@ public class HackingService : IDisposable
         _waitForRelease = false;
     
         CurrentProgressIndex.Value = 0;
-        IsHacking.Value = true;
+        
     
         _posessionService.UpdateBlocking(true);
         _cameraService.SetTarget(target.GetComponent<GameUnit>());

@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UniRx;
 using _Project.Scripts.Scenes.Game.Unit;
 using TMPro;
+using Zenject;
 
 namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
 {
@@ -17,7 +18,8 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
         private GameUnit _targetUnit;
         private Camera _mainCamera;
         private RectTransform _rectTransform;
-
+        [Inject] IPlayerProvider _playerProvider;
+        
         public void Initialize(GameUnit unit)
         {
             if (this == null) return;
@@ -26,7 +28,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
             _rectTransform = GetComponent<RectTransform>();
 
             UpdateHealthBar();
-
+            _playerProvider.ActiveUnit.Subscribe(unit => UnitChecking(unit)).AddTo(this);
             unit.Health.CurrentHealth
                 .Subscribe(currentHealth => UpdateHealthBar())
                 .AddTo(this);
@@ -40,6 +42,10 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
                 .AddTo(this);
         }
 
+        private void UnitChecking(GameUnit unit)
+        {
+            gameObject.SetActive(unit != _targetUnit);
+        }
         private void UpdateHealthBar()
         {
             int currentHealth = _targetUnit.Health.CurrentHealth.Value;

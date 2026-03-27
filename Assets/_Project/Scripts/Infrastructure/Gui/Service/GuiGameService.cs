@@ -50,7 +50,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
       _screens.Push(screen);
     }
 
-    public void ShowGameOver() => ShowScreen(_gameOverMenuWindowPrefab).Forget();
+    public void ShowGameOver() => ShowScreen(_gameOverMenuWindowPrefab);
 
     public void ShowPauseMenuWindow() => ShowScreen(pauseMenuWindowPrefab).Forget();
 
@@ -61,7 +61,52 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     public void ShowSaveMenuWindow() => ShowScreen(_saveWindowPrefab).Forget(); 
     
     public void ShowHackingSelectionWindow() => ShowScreen(_hackingSelectionWindowPrefab).Forget();
-    public async UniTask ShowHackingWindow() => await ShowScreen(_hackingwindowPrefab);
+    
+    public async UniTask CloseScreen(BaseScreen screen)
+    {
+      if (screen == null || !_screens.Contains(screen)) return;
+
+      var tempStack = new List<BaseScreen>(_screens);
+      _screens.Clear();
+
+      bool wasOverlay = screen.IsOverlay;
+
+     for (int i = tempStack.Count - 1; i >= 0; i--)
+      {
+        if (tempStack[i] == screen) continue;
+        _screens.Push(tempStack[i]);
+      }
+
+      Destroy(screen.gameObject);
+
+      if (wasOverlay)
+      {
+        RefreshVisibility();
+      }
+    }
+
+      
+    
+    private void RefreshVisibility()
+    {
+      foreach (var screen in _screens)
+      {
+        if (screen == null) continue;
+
+        screen.gameObject.SetActive(true);
+        screen.Show().Forget();
+
+        if (screen.IsOverlay)
+        {
+          break;
+        }
+      }
+    }
+
+    public async UniTask ShowHackingWindow()
+    {
+      await ShowScreen(_hackingwindowPrefab);
+    }
 
     private async UniTask<T> ShowScreen<T>(T prefab) where T : BaseScreen
     {
@@ -88,27 +133,16 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     {
       if (!_screens.TryPop(out var closedScreen)) return;
 
-      bool wasBlockingEverything = closedScreen.IsOverlay;
+      bool wasOverlay = closedScreen.IsOverlay;
       Destroy(closedScreen.gameObject);
 
-      if (wasBlockingEverything)
+      if (wasOverlay)
       {
-        foreach (var screen in _screens)
-        {
-          if (screen == null) continue;
-
-          screen.gameObject.SetActive(true);
-
-          screen.Show().Forget();
-          if (screen.IsOverlay)
-          {
-            break;
-          }
-        }
+        RefreshVisibility();
       }
     }
 
-    void IGuiGameService.Cleanup()
+    UniTask IGuiGameService.Cleanup()
     {
       foreach (var screen in _screens)
       {
@@ -116,6 +150,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
       }
 
       _screens.Clear();
+      return UniTask.CompletedTask;
     }
   }
 }

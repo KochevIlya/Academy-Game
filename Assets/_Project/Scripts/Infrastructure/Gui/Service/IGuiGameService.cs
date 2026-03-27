@@ -10,7 +10,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
         Canvas.StaticCanvas StaticCanvas { get; }
         void Push(BaseScreen screen);
         void Pop();
-        void Cleanup();
+        UniTask Cleanup();
         void ShowGameOver();
         void ShowPauseMenuWindow();
         void ShowBattleScreen();
@@ -19,6 +19,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
         void ShowMainMenuWindow(bool isAlreadySaved = true);
         void ShowSaveMenuWindow();
         void ShowHackingSelectionWindow();
+        UniTask CloseScreen(BaseScreen screen);
         public UniTask ShowHackingWindow();
     }
 }
