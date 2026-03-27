@@ -60,6 +60,10 @@ MonoBehaviour:
     type: 3}
   _hackingwindowPrefab: {fileID: 520037038498309279, guid: 5f9abbac97b0edc4cabb306a9a2860a8,
     type: 3}
+  _screenMappings:
+  - ScreenType: 10
+    Prefab: {fileID: 4168603991305432070, guid: 0ea91b24bc28e9e42a3a0ac0837a8978,
+      type: 3}
   pauseMenuWindowPrefab: {fileID: 4420036374338241017, guid: aa84e0301a7c1b04da9ba77afc8a5f6e,
     type: 3}
 --- !u!1 &7850851786578166575

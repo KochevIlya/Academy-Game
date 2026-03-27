@@ -8,9 +8,14 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Zenject;
-
 namespace _Project.Scripts.Infrastructure.Gui.Service
 {
+  [Serializable]
+  public struct ScreenPrefabMapping
+  {
+    public ScreenType ScreenType;
+    public BaseScreen Prefab;
+  }
   public sealed class GuiGameService : MonoBehaviour, IGuiGameService
   {
     [SerializeField] private Canvas.StaticCanvas _staticCanvas;
@@ -21,6 +26,9 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     [SerializeField] private SaveWindow _saveWindowPrefab;
     [SerializeField] private HackingSelectionWindow _hackingSelectionWindowPrefab;
     [SerializeField] private HackingWindow _hackingwindowPrefab;
+    
+    [SerializeField] private List<ScreenPrefabMapping> _screenMappings;
+    private Dictionary<ScreenType, BaseScreen> _prefabsDictionary;
     [FormerlySerializedAs("_gameMenuWindowPrefab")] [SerializeField] private PauseMenuWindow pauseMenuWindowPrefab;
     private readonly Stack<BaseScreen> _screens = new Stack<BaseScreen>();
     private DiContainer _container;
@@ -33,6 +41,18 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     {
       _container = container;
       _guiService = guiService;
+      _prefabsDictionary = new Dictionary<ScreenType, BaseScreen>();
+      foreach (var mapping in _screenMappings)
+      {
+        if (!_prefabsDictionary.ContainsKey(mapping.ScreenType))
+        {
+          _prefabsDictionary.Add(mapping.ScreenType, mapping.Prefab);
+        }
+        else
+        {
+          Debug.LogWarning($"[GuiGameService] Дубликат типа экрана в настройках: {mapping.ScreenType}");
+        }
+      }
     }
 
     void IGuiGameService.Push(BaseScreen screen)
@@ -63,6 +83,57 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     
     public void ShowHackingSelectionWindow() => ShowScreen(_hackingSelectionWindowPrefab).Forget();
     
+
+    public async UniTask<BaseScreen> ShowWindow(ScreenType type)
+    {
+      if (_prefabsDictionary == null) 
+      {
+        Debug.LogError("[GuiGameService] Словарь префабов не инициализирован! Метод Construct был вызван?");
+        return null;
+      }
+      if (!_prefabsDictionary.TryGetValue(type, out var prefab))
+      {
+        Debug.LogError($"[GuiGameService] Префаб для экрана {type} не найден в словаре! Добавь его в инспекторе.");
+        return null;
+      }
+
+      var screenInstance = _container.InstantiatePrefabForComponent<BaseScreen>(prefab);
+
+      ((IGuiGameService)this).Push(screenInstance);
+
+      screenInstance.transform.SetParent(_staticCanvas.Canvas.transform, false);
+
+      try
+      {
+        await screenInstance.Show();
+      }
+      catch (OperationCanceledException)
+      {
+        Debug.Log($"[GuiGameService] Показ экрана {type} отменён");
+      }
+
+      return screenInstance;
+    }
+    private async UniTask<T> ShowScreen<T>(T prefab) where T : BaseScreen
+    {
+      var screenInstance = _container.InstantiatePrefabForComponent<T>(prefab);
+
+      ((IGuiGameService)this).Push(screenInstance);
+
+      screenInstance.transform.SetParent(_staticCanvas.Canvas.transform, false);
+
+      try
+      {
+        await screenInstance.Show();
+      }
+      catch (OperationCanceledException)
+      {
+        Debug.Log($"Показ экрана {typeof(T).Name} отменён");
+      }
+
+      return screenInstance;
+    }
+
     public async UniTask CloseScreen(BaseScreen screen)
     {
       if (screen == null || !_screens.Contains(screen)) return;
@@ -139,25 +210,6 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
       await ShowScreen(_hackingwindowPrefab);
     }
 
-    private async UniTask<T> ShowScreen<T>(T prefab) where T : BaseScreen
-    {
-      var screenInstance = _container.InstantiatePrefabForComponent<T>(prefab);
-
-      ((IGuiGameService)this).Push(screenInstance);
-
-      screenInstance.transform.SetParent(_staticCanvas.Canvas.transform, false);
-
-      try
-      {
-        await screenInstance.Show();
-      }
-      catch (OperationCanceledException)
-      {
-        Debug.Log($"Показ экрана {typeof(T).Name} отменён");
-      }
-
-      return screenInstance;
-    }
 
 
     void IGuiGameService.Pop()

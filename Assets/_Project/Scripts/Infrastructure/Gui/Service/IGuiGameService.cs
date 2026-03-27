@@ -19,6 +19,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
         void ShowMainMenuWindow(bool isAlreadySaved = true);
         void ShowSaveMenuWindow();
         void ShowHackingSelectionWindow();
+        UniTask<BaseScreen> ShowWindow(ScreenType screenType);
         UniTask CloseScreen(BaseScreen screen);
         UniTask CloseScreen(ScreenType screenType);
         public UniTask ShowHackingWindow();

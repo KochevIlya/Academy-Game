@@ -1,4 +1,6 @@
 ﻿using System;
+using _Project.Scripts.Infrastructure.Gui.Screens;
+using _Project.Scripts.Infrastructure.Gui.Service;
 using _Project.Scripts.Infrastructure.StateMachine;
 using _Project.Scripts.Infrastructure.StateMachine.States.Interfaces;
 using _Project.Scripts.Scenes.Game.Infrastructure.Factory;
@@ -18,15 +20,18 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
     private readonly IGameFactory _gameFactory;
     private readonly DiContainer _container;
     private readonly IProgressService _progressService;
+    private readonly IGuiGameService _guiService;
     public SpawnGameState(IGameFactory gameFactory
       ,DiContainer container
       ,IProgressService progressService
+      ,IGuiGameService guiService
     
     )
     {
       _container = container;
       _gameFactory = gameFactory;
       _progressService = progressService;
+      _guiService = guiService;
     }
     
     public async UniTask Enter(IGameStateMachine gameStateMachine)
@@ -36,6 +41,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
       
       if (isNewGame)
       {
+        
         foreach (UnitSpawner spawner in Object.FindObjectsOfType<UnitSpawner>())
         {
           GameUnit unit = await _gameFactory.SpawnGameUnit(spawner.Position, spawner.UnitСharacteristicsType, spawner.Path);

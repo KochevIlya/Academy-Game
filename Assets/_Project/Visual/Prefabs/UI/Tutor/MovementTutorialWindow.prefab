@@ -661,8 +661,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3673912855899217995}
   - component: {fileID: 2154329738591815505}
+  - component: {fileID: 4168603991305432070}
   m_Layer: 0
-  m_Name: TutorStart
+  m_Name: MovementTutorialWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -701,6 +702,19 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &4168603991305432070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4773911729902829314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c14fefd9d2c15458db6d67eef4e304, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvasGroup: {fileID: 2154329738591815505}
 --- !u!1 &4840467385981258489
 GameObject:
   m_ObjectHideFlags: 0

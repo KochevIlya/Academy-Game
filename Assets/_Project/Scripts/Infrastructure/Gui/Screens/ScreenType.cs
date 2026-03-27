@@ -11,7 +11,9 @@ namespace _Project.Scripts.Infrastructure.Gui.Screens
     SaveWindow,
     DefaultWindow,
     HackingWindow,
-    HackingSelectionWindow
+    HackingSelectionWindow,
+    TutorialMovementWindow,
+    TutorialTerminalWindow
     
   }
 }
