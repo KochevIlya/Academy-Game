@@ -59,7 +59,7 @@ namespace _Project.Visual.UI.Menus.GameMenu
             
             _guiService.CloseScreen(GetScreenType()).Forget();
             
-            // _guiService.ShowWindow(ScreenType.TutorialTerminalWindow).Forget();
+            _guiService.ShowWindow(ScreenType.TutorialTerminalWindow).Forget();
         }
         
         public override ScreenType GetScreenType()
