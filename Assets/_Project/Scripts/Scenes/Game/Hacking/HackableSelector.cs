@@ -83,19 +83,18 @@ namespace _Project.Scripts.Scenes.Game.Hacking
         {
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out RaycastHit hit, 100f))
+            RaycastHit[] hits = Physics.RaycastAll(ray, 100f);
+    
+            System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+    
+            foreach (var hit in hits)
             {
                 var hackable = hit.collider.GetComponentInParent<HackableComponent>();
-
-                if (hackable != null)
-                {
-                    return hackable;
-                }
-
+                if (hackable != null) return hackable;
             }
             return null;
-
         }
+        
         private void SetOutlineState(HackableComponent target, bool state)
         {
             if (target == null || target.Equals(null)) return;
