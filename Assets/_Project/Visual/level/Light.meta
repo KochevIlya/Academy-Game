@@ -1,7 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/_Project/Visual/level/Light.meta
 guid: 9b36813e618fae84aafb43fda531cf7e
 folderAsset: yes
 DefaultImporter:
+========
+guid: 36f85fafe7c2b874fae00419d820f11f
+PrefabImporter:
+>>>>>>>> feature/temp:Assets/_Project/Visual/level/Light/Directional Light.prefab.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
