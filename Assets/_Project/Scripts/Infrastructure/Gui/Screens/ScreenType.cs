@@ -13,7 +13,10 @@ namespace _Project.Scripts.Infrastructure.Gui.Screens
     HackingWindow,
     HackingSelectionWindow,
     TutorialMovementWindow,
-    TutorialTerminalWindow
+    TutorialTerminalWindow,
+    SelectionTutorialWindow,
+    AbilitiesTutorialWindow
+    
     
   }
 }

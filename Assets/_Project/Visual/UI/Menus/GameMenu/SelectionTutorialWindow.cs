@@ -2,18 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using _Project.Scripts.Infrastructure.Gui.Screens;
 using _Project.Scripts.Infrastructure.Gui.Service;
-using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 using Zenject;
 
-public class TerminalTutorialWindow : BaseScreen
+public class SelectionTutorialWindow : BaseScreen
 {
-
+    
     private HackingService _hackingService;
     private IGuiGameService _guiService;
-    
     
     [Inject]
     public void Construct(
@@ -24,21 +22,23 @@ public class TerminalTutorialWindow : BaseScreen
         _hackingService = hackingService;
         _guiService = guiService;
     }
+    
     private void Start()
     {
-        _hackingService.OnHackingProcessStarted
+        _hackingService.OnHackingStarted
             .Subscribe(_ => SwitchWindow())
             .AddTo(LifeTimeDisposable);
+        _guiService.CloseScreen(ScreenType.HackingSelectionWindow);
     }
-
+    
     private void SwitchWindow()
     {
-        _guiService.ShowWindow(ScreenType.SelectionTutorialWindow);
-        _guiService.CloseScreen(ScreenType.TutorialTerminalWindow);
+        _guiService.ShowWindow(ScreenType.AbilitiesTutorialWindow).Forget();
+        _guiService.CloseScreen(ScreenType.SelectionTutorialWindow).Forget();
     }
     
     public override ScreenType GetScreenType()
     {
-        return ScreenType.TutorialTerminalWindow;
+        return ScreenType.SelectionTutorialWindow;
     }
 }

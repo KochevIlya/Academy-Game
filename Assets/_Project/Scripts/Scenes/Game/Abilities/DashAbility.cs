@@ -12,6 +12,7 @@ namespace _Project.Scripts.Scenes.Game.Abilities
 {
     public class DashAbility : BaseAbility<DashSettings>
     {
+        protected readonly ReactiveProperty<bool> _isReady = new ReactiveProperty<bool>(false);
         
         private CharacterController _characterController;
         
@@ -25,6 +26,7 @@ namespace _Project.Scripts.Scenes.Game.Abilities
                 return;
             }
             _isReady.Value = false;
+            _onUsed.OnNext(UniRx.Unit.Default);
             for (var i = 0; i < Settings.jumpNumber; i++)
             {
                 if (_settings == null || _characterController == null)

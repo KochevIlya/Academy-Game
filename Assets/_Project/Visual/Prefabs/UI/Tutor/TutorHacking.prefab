@@ -613,6 +613,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3673912855899217995}
   - component: {fileID: 2154329738591815505}
+  - component: {fileID: 8107093040441175236}
   m_Layer: 0
   m_Name: TutorHacking
   m_TagString: Untagged
@@ -658,6 +659,19 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &8107093040441175236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4773911729902829314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af73e4346abcca24f89f3fa3e2a866fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvasGroup: {fileID: 2154329738591815505}
 --- !u!1 &4840467385981258489
 GameObject:
   m_ObjectHideFlags: 0
