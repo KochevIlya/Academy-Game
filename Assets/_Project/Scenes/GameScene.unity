@@ -2794,11 +2794,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: World
       objectReference: {fileID: 0}
-    - target: {fileID: 6468612320920254464, guid: 7e505665de86cd444ac8d1f555cd4f48,
+    - target: {fileID: 3235598158051903484, guid: 7e505665de86cd444ac8d1f555cd4f48,
         type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: ba740ef82c6773c419342fc75d32f0ce,
+        type: 2}
     - target: {fileID: 6966104260368733964, guid: 7e505665de86cd444ac8d1f555cd4f48,
         type: 3}
       propertyPath: m_LocalPosition.x
