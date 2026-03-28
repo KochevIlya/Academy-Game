@@ -1,3 +1,4 @@
+using System;
 using _Project.Scripts.Infrastructure.Gui.Screens;
 using _Project.Scripts.Infrastructure.Gui.Service;
 using _Project.Scripts.Infrastructure.UIMediator;
@@ -55,6 +56,7 @@ namespace _Project.Visual.UI.Menus.GameMenu
         {
             await base.Show();
             SetPause(true);
+            LifeTimeDisposable.Clear();
             _inputControls.OnCancel
                 .Subscribe(_ => Resume())
                 .AddTo(LifeTimeDisposable);
@@ -71,7 +73,7 @@ namespace _Project.Visual.UI.Menus.GameMenu
         {
             _guiService.ShowControlsWindow(); 
         }
-        void OnEnable() 
+        protected override void OnEnable() 
         {
             EventSystem.current.SetSelectedGameObject(null);
         }
@@ -97,8 +99,12 @@ namespace _Project.Visual.UI.Menus.GameMenu
             }
             
         }
-        
-        
+
+        private void OnDestroy()
+        {
+            LifeTimeDisposable.Clear();
+        }
+
         public override ScreenType GetScreenType()
         {
             return ScreenType.InGameWindow;

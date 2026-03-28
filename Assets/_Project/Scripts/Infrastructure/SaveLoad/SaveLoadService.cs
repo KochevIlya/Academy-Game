@@ -30,22 +30,26 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
         private readonly HackingService _hackingService;
         private readonly ICursorService _cursorService;
         private readonly IProgressService _progressService;
+        private readonly IGuiGameService _guiGameService;
         private readonly string _path = Path.Combine(Application.persistentDataPath, "save.json");
         public SaveLoadService(
             IGameFactory gameFactory,
             HackingService hackingService,
             ICursorService cursorService,
             IProgressService progressService
+            , IGuiGameService guiGameService
             )
         {
             _cursorService = cursorService;
             _gameFactory = gameFactory;
             _hackingService = hackingService;
             _progressService = progressService;
+            _guiGameService = guiGameService;
         }
 
         public void Save()
         {
+            _guiGameService.ShowSaveMenuWindow();
             Debug.Log("In SaveLoadService Save()");
             var levelData = new LevelData();
 

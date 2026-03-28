@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using _Project.Scripts.Infrastructure.Gui.Screens;
@@ -14,6 +15,7 @@ public class PauseButtonWindow : BaseScreen{
     
     private IGuiGameService _guiService;
     private UserInputControls _inputControls;
+    public override bool IsOverlay => false;
     
     [Inject]
     public void Construct(
@@ -24,6 +26,9 @@ public class PauseButtonWindow : BaseScreen{
         _guiService = guiService;
         _inputControls = inputControls;
         _pauseButton.onClick.AddListener(OpenPauseMenu);
+    }
+    protected void Awake() {
+        Debug.Log($"[UI] PauseButtonWindow AWAKE. InstanceID: {this.GetInstanceID()}");
     }
     
     public override async UniTask Show()
@@ -41,9 +46,13 @@ public class PauseButtonWindow : BaseScreen{
         _guiService.ShowPauseMenuWindow(); 
     }
 
-    public override bool IsOverlay => false;
-    
-    
+
+    private void OnDestroy()
+    {
+        LifeTimeDisposable.Clear();
+        Debug.Log($"[UI] PauseButtonWindow DESTROYED. InstanceID: {this.GetInstanceID()}");
+    }
+
     public override ScreenType GetScreenType()
     {
         return ScreenType.PauseButtonWindow;

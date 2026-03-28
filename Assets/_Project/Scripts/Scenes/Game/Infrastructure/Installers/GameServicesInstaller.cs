@@ -40,11 +40,6 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
       
       Container.BindInterfacesAndSelfTo<HackingService>().AsSingle();
       
-      Container.Bind<HackingView>()
-        .FromComponentInNewPrefab(_hackingPrefab) 
-        .UnderTransform(_uiRoot)                      
-        .AsSingle()                                   
-        .NonLazy();
       Container
         .BindInterfacesTo<GuiGameService>()
         .FromComponentInNewPrefab(_guiServicePrefab)

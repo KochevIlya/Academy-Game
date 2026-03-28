@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using _Project.Scripts.Scenes.Game.Unit;
@@ -13,9 +14,10 @@ public abstract class BaseAbility<T> : MonoBehaviour, IAbility where T : Ability
 {
     [Inject] protected readonly UserInputControls _input;
     [Inject] protected readonly IInputHelper _inputHelper;
-    
     protected readonly ReactiveProperty<bool> _isReady = new ReactiveProperty<bool>(false);
+    protected readonly Subject<Unit> _onUsed = new Subject<Unit>();
     public IReadOnlyReactiveProperty<bool> IsReady => _isReady;
+    public IObservable<Unit> OnUsed => _onUsed;
     protected AbilityConfig _abilityConfig;
     protected T Settings => _settings as T;
     protected AbilitySettings _settings;
@@ -26,6 +28,7 @@ public abstract class BaseAbility<T> : MonoBehaviour, IAbility where T : Ability
     public virtual void Use(Vector3 targetPosition)
     {
         if (!CanUse()) return;
+        _onUsed.OnNext(Unit.Default);
         _isReady.Value = false;   
         UseAbility().Forget();
         _timer = _settings.cooldown;

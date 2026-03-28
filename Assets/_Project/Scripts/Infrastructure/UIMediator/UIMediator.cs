@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using _Project.Scripts.Infrastructure.Gui.Screens;
 using _Project.Scripts.Infrastructure.Gui.Service;
 using _Project.Scripts.Infrastructure.StateMachine;
 using _Project.Scripts.Infrastructure.UIMediator;
@@ -59,7 +60,7 @@ public class UIMediator : IUIMediator
 
     private void HideBattleScreen()
     {
-        _guiGameService.Pop();
+        _guiGameService.CloseScreen(ScreenType.Battle);
     }
     
 

@@ -3,6 +3,7 @@ using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit._Configs;
 using _Project.Scripts.Scenes.Game.Unit._Data;
 using Cysharp.Threading.Tasks;
+using UniRx;
 using UnityEngine;
 using Zenject;
 
@@ -10,7 +11,7 @@ public class GrenadeAbility : BaseAbility<GrenadeSettings>
 {
     private IGameFactory _gameFactory;
     
-    
+    protected readonly ReactiveProperty<bool> _isReady = new ReactiveProperty<bool>(false);
 
     [Inject]    
     public void Construct(IGameFactory gameFactory)
@@ -42,6 +43,7 @@ public class GrenadeAbility : BaseAbility<GrenadeSettings>
         Debug.Log($"Grenade In Use Grenade");
         if (!CanUse()) return;
         _isReady.Value = false;
+        _onUsed.OnNext(Unit.Default);
         ThrowGrenade(targetPosition).Forget();
         
         _timer = _settings.cooldown;
