@@ -23,14 +23,18 @@ public class GameOverState : IEnterState
     }
     public async UniTask Enter(IGameStateMachine gameStateMachine)
     {
+        await _guiService.Cleanup();
+        
         _hackingService.RequestCancel();
+        _hackingService.StopHacking();
         await _hackingService.WaitUntilFinished();
+        _guiService.ShowGameOver();
+        
         _cursorService.SetDefaultCursor();
         _cursorService.SetVisible(true);
         _cursorService.SetLockState(false);
         
         Debug.Log("In GameOverState");
-        _guiService.ShowGameOver();
         Time.timeScale = 0f;
             
     }

@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using _Project.Scripts.Infrastructure.Gui.Camera;
+using _Project.Scripts.Infrastructure.Gui.Screens;
+using _Project.Scripts.Infrastructure.Gui.Service;
 using _Project.Scripts.Scenes.Game.Unit;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -14,6 +16,7 @@ namespace _Project.Scripts.Scenes.Game.Hacking
         [Inject] private ICameraService _cameraService;
         private Transform _currentViewPoint;
         [Inject] private ICursorService _cursorService;
+        [Inject] private IGuiGameService _guiGameService;
         
         public void ClearContext()
         {
@@ -26,7 +29,7 @@ namespace _Project.Scripts.Scenes.Game.Hacking
         
         public async UniTask<HackableComponent> SelectTarget(CancellationToken token)
         {
-           
+            _guiGameService.ShowHackingSelectionWindow();
             _cursorService.SetDefaultCursor();
             _cursorService.SetVisible(true);
             _cursorService.SetLockState(false);
@@ -71,8 +74,9 @@ namespace _Project.Scripts.Scenes.Game.Hacking
             finally
             {
                 if (lastHovered != null) SetOutlineState(lastHovered, false);
+                Debug.Log($"[HackableSelector] SelectTarget() GuiGameService.Pop()");
+                await _guiGameService.CloseScreen(ScreenType.HackingSelectionWindow);
             }
-
             return null;
         }
         private HackableComponent ScanForTarget(Camera camera)

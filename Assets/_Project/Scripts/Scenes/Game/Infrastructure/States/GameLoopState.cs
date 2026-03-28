@@ -1,4 +1,5 @@
 ﻿using _Project.Scripts.Infrastructure.Gui.Camera;
+using _Project.Scripts.Infrastructure.Gui.Screens;
 using _Project.Scripts.Infrastructure.Gui.Service;
 using _Project.Scripts.Infrastructure.SaveLoad;
 using _Project.Scripts.Infrastructure.StateMachine;
@@ -15,12 +16,14 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
     private readonly ICameraService _cameraService;
     private readonly ICursorService _cursorService;
     private readonly IGuiService _guiService;
+    private readonly IProgressService _progressService;
 
     public GameLoopState(IGuiGameService guiGameService,
       IGuiService guiService,
       ICursorService cursorService,
       ISaveLoadService saveLoadService,
       ICameraService cameraService
+      ,IProgressService progressService
       )
     {
       _guiGameService = guiGameService;
@@ -28,22 +31,37 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
       _saveLoadService = saveLoadService;
       _cameraService = cameraService;
       _guiService = guiService;
+      _progressService = progressService;
     }
-    public UniTask Enter(IGameStateMachine gameStateMachine)
+    public async UniTask Enter(IGameStateMachine gameStateMachine)
     {
       Debug.Log("In GameLoopState");
       if (!_saveLoadService.HasSaveFile()) 
       {
         Debug.LogWarning("No save file found");
         gameStateMachine.Enter<SaveProgressState>();
+        return;
       }
-      Time.timeScale = 1f;
-      _cameraService.ResetZoom();
+      Debug.Log($"[UI] Start Cleanup. Time: {Time.frameCount}");
       _guiService.Cleanup();
-      _guiGameService.Cleanup();
+      
+      await _guiGameService.Cleanup();
+      Debug.Log($"[UI] Cleanup finished. Waiting for frame... Time: {Time.frameCount}");
+      
+      if (_progressService.IsFirstStart)
+      {
+        Debug.Log($"[SpawnGameState] Showing TutorialMovementWindow");
+        _guiGameService.ShowWindow(ScreenType.TutorialMovementWindow);
+        _progressService.IsFirstStart = false;
+      }
+      
+      await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate);
+      Debug.Log($"[UI] Creating Pause Button. Time: {Time.frameCount}");
+      
+      _cameraService.ResetZoom();
       _guiGameService.ShowPauseButton();
       
-      return UniTask.CompletedTask;
+      Time.timeScale = 1f;
     }
   }
 }
