@@ -22,12 +22,25 @@ namespace _Project.Scripts.Scenes.Game.Hacking.Terminal
             {
                 _isActive = true;
                 Debug.Log($"Внутри зоны ");
-
+        
             _hackingService.SetHackingZoneStatus(true);
             _hackableSelector.SetContext(WarZoneTransform);
             ShowInteractionUI();
             }
         }
+
+        // private void OnTriggerStay(Collider other)
+        // {
+        //     if (other.tag == "Player")
+        //     {
+        //         _isActive = true;
+        //         Debug.Log($"Внутри зоны ");
+        //
+        //         _hackingService.SetHackingZoneStatus(true);
+        //         _hackableSelector.SetContext(WarZoneTransform);
+        //         ShowInteractionUI();
+        //     }
+        // }
         
         private void OnTriggerExit(Collider other)
         {

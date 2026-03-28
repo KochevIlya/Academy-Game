@@ -1,5 +1,6 @@
 using _Project.Scripts.Infrastructure.Gui.Screens;
 using _Project.Scripts.Scenes.Game.Unit;
+using _Project.Scripts.Scenes.Game.Unit.Components.Health;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,11 +10,12 @@ namespace _Project.Visual.UI.Menus.BattleMenu
 {
     public class BattleScreen : BaseScreen
     {
-        [SerializeField] private Button _abilityButton;
+        [SerializeField] private GameObject _ability;
+        [SerializeField] private Slider _healthSlider;
         private IAbility _currentAbility;
+        private Health _currentHealth;
         private IPlayerProvider _playerProvider;
         private CompositeDisposable _unitDisposables = new CompositeDisposable();
-        public override bool IsOverlay => true;
         
         [Inject]
         public void Construct(IPlayerProvider playerProvider)
@@ -36,14 +38,15 @@ namespace _Project.Visual.UI.Menus.BattleMenu
         private void OnUnitChanged(GameUnit newUnit)
         {
             _unitDisposables.Clear();
-
+            
             if (newUnit == null) return;
             
             var ability = newUnit.Ability; 
-        
+            _currentHealth = newUnit.Health;
+            
             if (ability == null)
             {
-                Debug.LogError($"[BattleScreen] У юнита {newUnit.name} нет абилки!");
+                Debug.LogWarning($"[BattleScreen] У юнита {newUnit.name} нет абилки!");
                 return;
             }
             Debug.Log($"[BattleScreen] Подписываемся на абилку. Текущее состояние IsReady: {ability.IsReady.Value}");
@@ -54,11 +57,22 @@ namespace _Project.Visual.UI.Menus.BattleMenu
                     ShowAbilityButton(ready);
                 })
                 .AddTo(_unitDisposables);
+            _currentHealth.CurrentHealth.Subscribe(_ =>
+                {
+                    ChangeHealth();
+                })
+            .AddTo(_unitDisposables);
+            
         }
         
-        public void ShowAbilityButton(bool isActive)
+        private void ShowAbilityButton(bool isActive)
         {
-            _abilityButton.gameObject.SetActive(isActive);
+            _ability.SetActive(!isActive);
+        }
+
+        private void ChangeHealth()
+        {
+            _healthSlider.value = (float)_currentHealth.CurrentHealth.Value / _currentHealth.MaxHealth.Value;
         }
         
     }

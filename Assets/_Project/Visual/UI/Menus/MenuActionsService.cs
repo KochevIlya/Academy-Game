@@ -38,6 +38,7 @@ public class MenuActionsService : IMenuActionsService
     public void LoadNewGame()
     {
         _progressService.Progress = null;
+        _progressService.IsFirstStart = true;
         _stateMachine.Enter<LoadProjectState>();
     }
     

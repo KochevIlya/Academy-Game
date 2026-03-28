@@ -16,6 +16,8 @@ public class GameOverScreen : BaseScreen
     [SerializeField] private Button _mainMenuButton;
     [SerializeField] private Button _exitButton;
     [SerializeField] private Button _loadButton;
+
+    public override bool IsOverlay => true;
     
     [Inject]
     public void Construct(IMenuActionsService menuActionsService

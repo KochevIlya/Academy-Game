@@ -37,7 +37,7 @@ public class PlayerHacker : MonoBehaviour
         try
         {
             _input.OnAction
-                .Where(_ => !_hackingService.IsHacking.Value)
+                .Where(_ => !_hackingService.IsHacking.Value && _hackingService.CanHack.Value)
                 .TakeUntilDestroy(this)
                 .Subscribe(_ => TryToHack())
                 .AddTo(this);

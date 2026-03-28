@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using _Project.Scripts.Infrastructure.Gui.Camera;
+using _Project.Scripts.Infrastructure.Gui.Screens;
+using _Project.Scripts.Infrastructure.Gui.Service;
 using _Project.Scripts.Scenes.Game.Hacking;
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit.Components.Health;
@@ -38,6 +40,7 @@ public class HackingService : IDisposable
     [Inject] HackableSelector _hackableSelector;
     [Inject] private ICameraService _cameraService;
     [Inject] private ICursorService _cursorService;
+    [Inject] private IGuiGameService _guiGameService;
     private IPosessionService _posessionService;
     private  UserInputControls _input;
     
@@ -61,7 +64,6 @@ public class HackingService : IDisposable
         _input = input;
         _posessionService = posessionService;
         _container = container;
-        SubscribeToInput();
         
     }
     public void SetCurrentZoneContext(CombatZone zone)
@@ -90,9 +92,17 @@ public class HackingService : IDisposable
             _posessionService.UpdateBlocking(false);
         }
     }
+    public void StopHacking()
+    {
+        _hackingCts?.Cancel();
+        IsHacking.Value = false;
+        CanHack.Value = false;
+        _disposables.Clear(); 
+        
+        Debug.Log("[HackingService] Логика и ввод полностью отключены.");
+    }
     public async UniTask RequestHacking(GameUnit hacker)
     {
-        
         if (!CanHack.Value) return;
         if (IsHacking.Value) return;
         
@@ -107,6 +117,7 @@ public class HackingService : IDisposable
         _posessionService.UpdateBlocking(true);
     
         HackableComponent target = null;
+        SubscribeToInput();
         
         OnHackingProcessStarted.OnNext(null);
         _cameraService.ZoomOut();
@@ -117,6 +128,7 @@ public class HackingService : IDisposable
             _hackerUnit.DisableControl();
 
             target = await _hackableSelector.SelectTarget(_hackingCts.Token);
+            
         }
         catch (OperationCanceledException)
         {
@@ -145,8 +157,15 @@ public class HackingService : IDisposable
         }
     }
     public UniTask WaitUntilFinished() => _hackingCompletionSource?.Task ?? UniTask.CompletedTask;
-    public void StartHacking(HackableComponent target, GameUnit hacker)
+    public async void StartHacking(HackableComponent target, GameUnit hacker)
     {
+        if (!IsHacking.Value)
+        {
+            await _guiGameService.ShowHackingWindow();
+            IsHacking.Value = true;
+        }
+
+        if (target == null) return;
         _currentTarget = target;
         int length = target.Difficulty;
         if (_currentZoneContext != null)
@@ -157,7 +176,7 @@ public class HackingService : IDisposable
         _waitForRelease = false;
     
         CurrentProgressIndex.Value = 0;
-        IsHacking.Value = true;
+        
     
         _posessionService.UpdateBlocking(true);
         _cameraService.SetTarget(target.GetComponent<GameUnit>());
@@ -284,6 +303,9 @@ public class HackingService : IDisposable
     private void CompleteHacking()
     {
         _cameraService.ResetZoom();
+        Debug.Log($"[Hacking Service] GuiGameService.Pop()");
+        _guiGameService.CloseScreen(ScreenType.HackingWindow);
+        StopHacking();
         if (_currentTarget == null)
         {
             

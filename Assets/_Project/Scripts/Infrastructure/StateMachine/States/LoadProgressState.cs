@@ -26,7 +26,7 @@ public class LoadProgressState : IEnterState
         {
             Debug.Log("Progress initialized.");
             await _saveLoadService.LoadAsync();
-            gameStateMachine.Enter<GameLoopState>().Forget();
+            gameStateMachine.Enter<GameLoopState>();
         }
 
         else 

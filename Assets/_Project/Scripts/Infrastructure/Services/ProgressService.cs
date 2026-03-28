@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ProgressService : IProgressService {
     public LevelData Progress { get; set; } = new LevelData();
+    public bool IsFirstStart { get; set; }
     private string _path = Path.Combine(Application.persistentDataPath, "save.json");
 
     public void Save() {
