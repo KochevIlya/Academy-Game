@@ -223,6 +223,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6445723275952953712}
   - component: {fileID: 520037038498309279}
+  - component: {fileID: 1442449392232186760}
   m_Layer: 0
   m_Name: HackingWindow
   m_TagString: Untagged
@@ -268,7 +269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 777efca9d8de0b84aaad70512f901b47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canvasGroup: {fileID: 0}
+  _canvasGroup: {fileID: 1442449392232186760}
   _arrowsContainer: {fileID: 3735723054655103690}
   _arrowPrefab: {fileID: 242011918911956079, guid: dd4aa528fbf7e0b4db0673662548edb2,
     type: 3}
@@ -280,6 +281,18 @@ MonoBehaviour:
   _currentColor: {r: 1, g: 1, b: 1, a: 1}
   _futureColor: {r: 1, g: 1, b: 1, a: 0.3}
   _errorColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!225 &1442449392232186760
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2823146712050113472}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3614795849414896414
 GameObject:
   m_ObjectHideFlags: 0
