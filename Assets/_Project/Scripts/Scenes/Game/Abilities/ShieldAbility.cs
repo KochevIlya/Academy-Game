@@ -14,7 +14,6 @@ namespace _Project.Scripts.Scenes.Game.Abilities
         private float _damageBuf = 0.1f;
         private GameUnit _unit;
         private ShieldVisual _shieldVisual;
-        protected readonly ReactiveProperty<bool> _isReady = new ReactiveProperty<bool>(false);
         public override void Initialize(GameUnit unit, AbilityConfig config)
         {
             base.Initialize(unit, config);

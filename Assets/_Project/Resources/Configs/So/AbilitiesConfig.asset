@@ -38,8 +38,8 @@ MonoBehaviour:
       type: {class: GrenadeSettings, ns: _Project.Scripts.Scenes.Game.Unit._Configs,
         asm: Assembly-CSharp}
       data:
-        cooldown: 2
-        damage: 40
+        cooldown: 6
+        damage: 50
         radius: 3
         fuseTime: 1
         speed: 5
@@ -47,7 +47,7 @@ MonoBehaviour:
       type: {class: DashSettings, ns: _Project.Scripts.Scenes.Game.Unit._Configs,
         asm: Assembly-CSharp}
       data:
-        cooldown: 1
+        cooldown: 8
         distance: 5
         timeout: 0.2
         jumpNumber: 3
@@ -56,7 +56,7 @@ MonoBehaviour:
       type: {class: ShieldSettings, ns: _Project.Scripts.Scenes.Game.Unit._Configs,
         asm: Assembly-CSharp}
       data:
-        cooldown: 3
-        duration: 8
-        speedBufPercent: 10
+        cooldown: 10
+        duration: 5
+        speedBufPercent: 20
         damageBufPercent: 20

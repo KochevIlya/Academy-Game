@@ -11,8 +11,6 @@ public class GrenadeAbility : BaseAbility<GrenadeSettings>
 {
     private IGameFactory _gameFactory;
     
-    protected readonly ReactiveProperty<bool> _isReady = new ReactiveProperty<bool>(false);
-
     [Inject]    
     public void Construct(IGameFactory gameFactory)
     {

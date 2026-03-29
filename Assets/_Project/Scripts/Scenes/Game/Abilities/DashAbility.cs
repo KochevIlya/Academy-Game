@@ -12,8 +12,6 @@ namespace _Project.Scripts.Scenes.Game.Abilities
 {
     public class DashAbility : BaseAbility<DashSettings>
     {
-        protected readonly ReactiveProperty<bool> _isReady = new ReactiveProperty<bool>(false);
-        
         private CharacterController _characterController;
         
         protected override async UniTask UseAbility()
