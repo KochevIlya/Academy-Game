@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 7385813181778079113}
   - component: {fileID: 4366640079015099473}
   - component: {fileID: 2893193138119472316}
+  - component: {fileID: 2893193138119472317}
+  - component: {fileID: 2912139417418081409}
   m_Layer: 0
   m_Name: Panel (4)
   m_TagString: Untagged
@@ -76,6 +78,39 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &2893193138119472317
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2635659678853278906}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
+--- !u!114 &2912139417418081409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2635659678853278906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 808a136356438534e89c9f5ec2737e85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeDuration: 1.5
+  fadeWaitTime: 0.5
+  minAlpha: 1
+  maxAlpha: 1
+  floatDuration: 2
+  floatHeight: 0.5
+  floatDelay: 0
+  playOnStart: 1
+  useLocalPosition: 0
 --- !u!1 &2930817156957205171
 GameObject:
   m_ObjectHideFlags: 0
