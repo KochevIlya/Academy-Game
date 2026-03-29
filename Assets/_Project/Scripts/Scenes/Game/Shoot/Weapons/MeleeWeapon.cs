@@ -57,7 +57,6 @@ public class MeleeWeapon : WeaponBase
 
             foreach (var hit in hits)
             {
-                if (!hit.isTrigger) continue;
                 if (hit.gameObject == unit.gameObject) continue;
                 if (damagedObjects.Contains(hit.gameObject)) continue;
 

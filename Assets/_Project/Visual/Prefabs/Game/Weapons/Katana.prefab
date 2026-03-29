@@ -51,7 +51,7 @@ MonoBehaviour:
   _attackAngle: 90
   _targetLayer:
     serializedVersion: 2
-    m_Bits: 119
+    m_Bits: 503
   _coneMeshFilter: {fileID: 6521422691418895566}
   _visualDuration: 0.2
   _segments: 20
