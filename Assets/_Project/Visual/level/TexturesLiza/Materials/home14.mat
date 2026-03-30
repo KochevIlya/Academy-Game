@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: home14
-  m_Shader: {fileID: -6465566751694194690, guid: 65b12e9bb2a9a5c40b6cda235b5878db,
+  m_Shader: {fileID: -6465566751694194690, guid: 9c571e56a95c786409e61da533305622,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -57,11 +57,11 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Emission:
+    - _EmissionMap:
         m_Texture: {fileID: 2800000, guid: 6c43e0aded135ac4ca70d9ca25b5a2a0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
+    - _EmissionTexture2D:
         m_Texture: {fileID: 2800000, guid: 6c43e0aded135ac4ca70d9ca25b5a2a0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -74,7 +74,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalTexture2D:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 4121059322885126062, guid: bdb085924d75a5c41a9c30580984772f,
+          type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -138,6 +139,8 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
+    - _UseEmission: 1
+    - _UseNormal: 0
     - _WorkflowMode: 0
     - _ZWrite: 1
     m_Colors:
