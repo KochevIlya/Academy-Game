@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AbilitiesConfig
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
+    SerializedFormat: 0
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -47,11 +47,11 @@ MonoBehaviour:
       type: {class: DashSettings, ns: _Project.Scripts.Scenes.Game.Unit._Configs,
         asm: Assembly-CSharp}
       data:
-        cooldown: 8
+        cooldown: 1
         distance: 5
         timeout: 0.2
         jumpNumber: 3
-        speed: 50
+        speed: 20
     - rid: 4397388231571668992
       type: {class: ShieldSettings, ns: _Project.Scripts.Scenes.Game.Unit._Configs,
         asm: Assembly-CSharp}
