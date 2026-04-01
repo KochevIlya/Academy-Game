@@ -25,7 +25,8 @@ namespace _Project.Scripts.Scenes.Game.Abilities
             }
             _isReady.Value = false;
             _onUsed.OnNext(UniRx.Unit.Default);
-            for (var i = 0; i < Settings.jumpNumber; i++)
+            //for (var i = 0; i < Settings.jumpNumber; i++)
+            for (var i = 0; i < 1; i++)
             {
                 if (_settings == null || _characterController == null)
                 {
@@ -45,7 +46,7 @@ namespace _Project.Scripts.Scenes.Game.Abilities
                 direction.Normalize();
 
                 _input.IsBlocked.Value = true;
-
+ 
                 float distanceDashed = 0f;
 
                 while (distanceDashed < Settings.distance)

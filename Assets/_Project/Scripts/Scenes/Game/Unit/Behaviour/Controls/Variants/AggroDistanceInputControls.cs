@@ -14,12 +14,12 @@ public class AggroDistanceInputControls : IInputControls
     private readonly GameUnit _target;
     
     
-    private const float MinDistance = 5f; 
+    private const float MinDistance = 3f; 
     private const float MaxDistance = 15f;
     private const float AimThreshold = 0.9f;
     
     private float _strafeTimer;
-    private float _strafeChangeInterval = 1f;
+    private float _strafeChangeInterval = 2f;
     private float _currentStrafeDir = 0f;
 
     private const float CoolDown = 0.7f;

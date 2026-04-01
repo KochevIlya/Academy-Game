@@ -214,8 +214,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnPoint: {fileID: 7685892925020640612}
-  angle: 15
-  bulletsNum: 3
+  angle: 20
+  bulletsNum: 5
 --- !u!4 &8889394366843145102 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 871479199104901276, guid: d3776292704409d498fe1f0e867490be,
