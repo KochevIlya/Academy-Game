@@ -15,6 +15,11 @@ public class WalkerInputControls : IInputControls
     private const float StopDistance = 1f;
     private readonly Transform _camTransform;
     
+    private readonly Subject<UniRx.Unit> _onTargetReached = new Subject<UniRx.Unit>();
+    public IObservable<UniRx.Unit> OnTargetReached => _onTargetReached;
+
+    private bool _hasReached = false;
+    
     public Vector3 TargetPosition => _terminal.transform.position;
     public WalkerInputControls(GameUnit self, HackingTerminal terminal)
     {
@@ -51,6 +56,12 @@ public class WalkerInputControls : IInputControls
 
         if (distance <= StopDistance)
         {
+            if (!_hasReached)
+            {
+                _hasReached = true;
+                _onTargetReached.OnNext(UniRx.Unit.Default);
+                _onTargetReached.OnCompleted();
+            }
             return selfPos;
         }
 
