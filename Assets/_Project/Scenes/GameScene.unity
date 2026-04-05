@@ -5200,6 +5200,16 @@ PrefabInstance:
       propertyPath: patrolPoints.Array.data[2].PointTransform
       value: 
       objectReference: {fileID: 1933137247}
+    - target: {fileID: 2086507628588939920, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: Lens.ModeOverride
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2086507628588939920, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: Lens.NearClipPlane
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 2173705112073394421, guid: 7e505665de86cd444ac8d1f555cd4f48,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5527,6 +5537,16 @@ PrefabInstance:
       propertyPath: _mySpawners.Array.data[8]
       value: 
       objectReference: {fileID: 1286772849}
+    - target: {fileID: 4515359617126045291, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: orthographic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4515359617126045291, guid: 7e505665de86cd444ac8d1f555cd4f48,
+        type: 3}
+      propertyPath: near clip plane
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 4583395562820289648, guid: 7e505665de86cd444ac8d1f555cd4f48,
         type: 3}
       propertyPath: m_LocalPosition.x
