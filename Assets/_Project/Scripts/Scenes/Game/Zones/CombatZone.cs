@@ -21,6 +21,14 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
         private bool _isAlarmActive = false;
         private CompositeDisposable _disposables = new CompositeDisposable();
         private int _botsCount = 0;
+
+        private readonly Subject<int> _unitCountSubject = new Subject<int>();
+        public IObservable<int> UnitCountChanged => _unitCountSubject;
+
+        private readonly Subject<bool> _battleStateSubject = new Subject<bool>();
+        public IObservable<bool> BattleStateChanged => _battleStateSubject;
+
+        public bool IsBattleActive => _isAlarmActive;
         [Inject] HackingService  _hackingService;
         [Inject] InputControllsFactory _inputControllsFactory;
         [Inject] private ISaveLoadService _saveLoadService;
@@ -32,6 +40,8 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
             _saveLoadService = saveLoadService;
         }
         
+
+        public int BotsCount => _botsCount;
 
         public List<GameUnit> GetActiveUnits()
         {
@@ -92,6 +102,7 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
         public void RegisterUnit(GameUnit unit)
         {
             _activeUnits.Add(unit);
+            _unitCountSubject.OnNext(_activeUnits.Count);
 
             unit.Health.OnDamageTaken
                 .Subscribe(_ => 
@@ -116,9 +127,10 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
 
             unit.Health.Die
                 .Subscribe(_ => {
-                    _activeUnits.Remove(unit); 
+                    _activeUnits.Remove(unit);
                     CheckLastSurvivor();
                     _botsCount--;
+                    _unitCountSubject.OnNext(_activeUnits.Count);
                     CheckUnitReturn(unit);
                 })
                 .AddTo(unit);
@@ -165,10 +177,23 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
                 }
             }
         }
+        public void ActivateAggroOnUnit(GameUnit unit)
+        {
+            if (unit == null || unit.IsUnderControl) return;
+
+            var player = _activeUnits.FirstOrDefault(u => u != null && u.IsUnderControl);
+            if (player == null) return;
+
+            var aggro = _inputControllsFactory.ChangeAggressiveControls(unit, player, _terminal);
+            unit.UpdateControls(aggro);
+            Debug.Log($"<color=red>[CombatZone {name}]</color> Юнит {unit.name} переведён в Aggro режим. Цель: {player.name}");
+        }
+
         private void ActivateAggro(GameUnit target)
         {
             _isAlarmActive = true;
-    
+            _battleStateSubject.OnNext(true);
+
             target.Health.Die
                 .Take(1)
                 .Subscribe(_ => ActivateWalk(_terminal))
@@ -188,6 +213,7 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
         private void ActivateWalk(HackingTerminal terminal)
         {
             _isAlarmActive = false;
+            _battleStateSubject.OnNext(false);
             Debug.Log($"<color=green>ЗОНА {name}: цель: уничтожена</color>");
 
             foreach (var bot in _activeUnits)
