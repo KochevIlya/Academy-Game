@@ -12,9 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceea00b5795e1274f9ec691fdcaecff1, type: 3}
   m_Name: WaveConfig
   m_EditorClassIdentifier: 
-  unitType: 0
-  spawnPoints: []
-  unitsPerWave: 1
+  unitType: 2
   triggerThreshold: 2
   maxActivations: 2
   delayBetweenWaves: 3
