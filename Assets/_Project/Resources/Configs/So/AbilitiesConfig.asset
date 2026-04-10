@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AbilitiesConfig
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 0
+    SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -39,7 +39,7 @@ MonoBehaviour:
         asm: Assembly-CSharp}
       data:
         cooldown: 6
-        damage: 50
+        damage: 150
         radius: 3
         fuseTime: 1
         speed: 5
@@ -48,9 +48,9 @@ MonoBehaviour:
         asm: Assembly-CSharp}
       data:
         cooldown: 1
-        distance: 5
+        distance: 7
         timeout: 0.2
-        jumpNumber: 3
+        jumpNumber: 1
         speed: 20
     - rid: 4397388231571668992
       type: {class: ShieldSettings, ns: _Project.Scripts.Scenes.Game.Unit._Configs,
