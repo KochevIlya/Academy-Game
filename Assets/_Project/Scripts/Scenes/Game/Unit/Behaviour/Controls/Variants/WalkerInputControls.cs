@@ -23,7 +23,6 @@ public class WalkerInputControls : IInputControls
     public Vector3 TargetPosition => _terminal.transform.position;
     public WalkerInputControls(GameUnit self, HackingTerminal terminal)
     {
-        Debug.Log("WalkerInputControls ctor");
         _self = self;
         _terminal = terminal;
         _camTransform = Camera.main.transform;
@@ -54,19 +53,16 @@ public class WalkerInputControls : IInputControls
             new Vector2(selfPos.x, selfPos.z)
         );
 
-        if (distance <= StopDistance)
+        if (distance <= StopDistance && !_hasReached)
         {
-            if (!_hasReached)
-            {
-                _hasReached = true;
-                _onTargetReached.OnNext(UniRx.Unit.Default);
-                _onTargetReached.OnCompleted();
-            }
+            _hasReached = true;
+            _onTargetReached.OnNext(UniRx.Unit.Default);
+            _onTargetReached.OnCompleted();
             return selfPos;
         }
-
         return targetPos;
     });
+    
     public IObservable<Vector2> OnRawMovement { get; } = Observable.Never<Vector2>();
     public float GetMovementSpeed(UnitStatsData stats)
     {

@@ -199,15 +199,8 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
                 bot.UpdateControls(walk);
                 walk.OnTargetReached
                     .Take(1) 
-                    .Delay(TimeSpan.FromSeconds(1))
-                    .Subscribe(_ => 
-                    {
-                        if (bot != null && !bot.IsUnderControl && !_isAlarmActive)
-                        {
-                            Debug.Log($"[CombatZone] Бот {bot.name} не обнаружил злоумышленника и возвращается в патруль.");
-                            bot.UpdateControls(new PatrolInputControls(bot));
-                        }
-                    })
+                    .Delay(TimeSpan.FromSeconds(3))
+                    .Subscribe(_ => ReturnToPatrol())
                     .AddTo(bot);
             }
         }
@@ -239,6 +232,20 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
             
         }
 
+        private void ReturnToPatrol()
+        {
+            if (_isAlarmActive) return;
+            
+            Debug.Log($"ЗОНА {name}: Все враги возвращаются к патрулированию.");
+
+            foreach (var bot in _activeUnits)
+            {
+                if (bot == null || bot.IsUnderControl) continue;
+                
+                bot.UpdateControls(new PatrolInputControls(bot));
+            }
+        }
+        
         public void OnDestroy()
         {
             _saveLoadService.UnregisterZone(this);
