@@ -39,7 +39,7 @@ MonoBehaviour:
         asm: Assembly-CSharp}
       data:
         cooldown: 6
-        damage: 150
+        damage: 250
         radius: 3
         fuseTime: 1
         speed: 5

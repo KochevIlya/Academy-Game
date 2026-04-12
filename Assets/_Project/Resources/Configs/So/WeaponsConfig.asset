@@ -53,7 +53,7 @@ MonoBehaviour:
       Data: 2|_Project.Scripts.Scenes.Game.Shoot.Data.WeaponData, Assembly-CSharp
     - Name: Damage
       Entry: 3
-      Data: 7
+      Data: 8
     - Name: CoolDown
       Entry: 4
       Data: 0.01
@@ -116,7 +116,7 @@ MonoBehaviour:
       Data: 5|_Project.Scripts.Scenes.Game.Shoot.Data.WeaponData, Assembly-CSharp
     - Name: Damage
       Entry: 3
-      Data: 25
+      Data: 35
     - Name: CoolDown
       Entry: 4
       Data: 0.2
@@ -179,7 +179,7 @@ MonoBehaviour:
       Data: 8|_Project.Scripts.Scenes.Game.Shoot.Data.WeaponData, Assembly-CSharp
     - Name: Damage
       Entry: 3
-      Data: 10
+      Data: 11
     - Name: CoolDown
       Entry: 4
       Data: 0.7

@@ -57,7 +57,7 @@ MonoBehaviour:
       Data: 100
     - Name: speed
       Entry: 4
-      Data: 5
+      Data: 4
     - Name: patrolSpeed
       Entry: 4
       Data: 0
@@ -90,7 +90,7 @@ MonoBehaviour:
       Data: 3|_Project.Scripts.Scenes.Game.Unit._Data.UnitStatsData, Assembly-CSharp
     - Name: maxHealth
       Entry: 3
-      Data: 310
+      Data: 450
     - Name: speed
       Entry: 4
       Data: 6
@@ -126,7 +126,7 @@ MonoBehaviour:
       Data: 4|_Project.Scripts.Scenes.Game.Unit._Data.UnitStatsData, Assembly-CSharp
     - Name: maxHealth
       Entry: 3
-      Data: 180
+      Data: 300
     - Name: speed
       Entry: 4
       Data: 8
@@ -162,7 +162,7 @@ MonoBehaviour:
       Data: 5|_Project.Scripts.Scenes.Game.Unit._Data.UnitStatsData, Assembly-CSharp
     - Name: maxHealth
       Entry: 3
-      Data: 450
+      Data: 750
     - Name: speed
       Entry: 4
       Data: 3.5
