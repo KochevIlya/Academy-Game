@@ -15,6 +15,7 @@ namespace _Project.Scripts.Scenes.Game.Shoot
     protected float _currentLifeTime = 0f;
     protected int _damage = 20; 
     protected GameUnit _owner;
+    private bool _isRemoved = false;
     
 
     public void SetDirection(Vector3 direction) => _direction = direction;
@@ -53,9 +54,18 @@ namespace _Project.Scripts.Scenes.Game.Shoot
       }
     }
 
+    public override void OnSpawned()
+    {
+      base.OnSpawned();
+      _currentLifeTime = 0f;
+      _isRemoved = false;
+    }
     
     protected void ResetAndRemove()
     {
+      if (!_isRemoved) return;
+      _isRemoved = true;
+      
       _currentLifeTime = 0f;
       Remove();
     } 
