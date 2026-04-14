@@ -63,7 +63,7 @@ namespace _Project.Scripts.Scenes.Game.Shoot
     
     protected void ResetAndRemove()
     {
-      if (!_isRemoved) return;
+      if (_isRemoved) return;
       _isRemoved = true;
       
       _currentLifeTime = 0f;
