@@ -43,7 +43,7 @@ public class WalkerInputControls : IInputControls
     public MoverType RequiredMoverType => MoverType.Bot;
     public IObservable<Vector3> OnMovement => Observable.EveryUpdate().Select(_ =>
     {
-        if (_terminal == null) return _self.transform.position;
+        if (_terminal == null || _hasReached) return _self.transform.position;
 
         Vector3 targetPos = _terminal.transform.position;
         Vector3 selfPos = _self.transform.position;
