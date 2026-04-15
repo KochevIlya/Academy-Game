@@ -44,7 +44,7 @@ namespace _Project.Scripts.Scenes.Game.Shoot
       if (!other.CompareTag("Bot")) return;
       if (_owner != null && other.gameObject == _owner.gameObject)
       {
-        return; 
+        return;
       }
       if (other.TryGetComponent<Health>(out var health))
       {
