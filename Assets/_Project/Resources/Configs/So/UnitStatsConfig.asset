@@ -57,7 +57,7 @@ MonoBehaviour:
       Data: 100
     - Name: speed
       Entry: 4
-      Data: 6
+      Data: 4
     - Name: patrolSpeed
       Entry: 4
       Data: 0
