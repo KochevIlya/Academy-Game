@@ -34,7 +34,7 @@ namespace _Project.Scripts.Scenes.Game.Hacking.Terminal
             if (other.tag == "Player")
             {
                 _isActive = true;
-                Debug.Log($"Внутри зоны ");
+                //Debug.Log($"Внутри зоны ");
         
                 _hackingService.SetHackingZoneStatus(true);
                 _hackableSelector.SetContext(WarZoneTransform);
@@ -47,15 +47,20 @@ namespace _Project.Scripts.Scenes.Game.Hacking.Terminal
             if (other.tag == "Player")
             {
                 _isActive = false;
-                Debug.Log($"Ушли из зоны");
+                //Debug.Log($"Ушли из зоны");
                 _hackingService.SetHackingZoneStatus(false);
                 _hackableSelector.ClearContext();
                 HideInteractionUI();
             }
         }
-    
-        private void ShowInteractionUI() => Debug.Log("UI: [E] Взломать");
-        private void HideInteractionUI() => Debug.Log("UI: Скрыто");
+
+        private void ShowInteractionUI()
+        {
+            //Debug.Log("UI: [E] Взломать");
+        } 
+        private void HideInteractionUI() {
+            //Debug.Log("UI: Скрыто");
+        }
         
     }
 }

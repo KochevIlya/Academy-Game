@@ -28,11 +28,13 @@ namespace _Project.Scripts.Scenes.Game.Unit.Attacker
       {
         _shootMousePosition = shootPosition; 
         unit.Animator.Shoot();
+        Debug.Log("1. Shoot");
       }
     }
 
     public void OnShootCast(GameUnit unit)
     {
+      Debug.Log("2. TRY TO ATTACK " + unit.HasWeapon);
       if(unit.HasWeapon) 
         unit.Weapon.Shoot(_shootMousePosition, unit);
     }

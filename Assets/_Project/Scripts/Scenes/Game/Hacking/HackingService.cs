@@ -113,7 +113,9 @@ public class HackingService : IDisposable
         
         _hackerUnit = hacker;
         _originalHero ??= hacker;
-
+        
+        _hackerUnit.Animator.PushButton();
+        
         _posessionService.UpdateBlocking(true);
     
         HackableComponent target = null;
