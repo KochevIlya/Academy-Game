@@ -7,6 +7,12 @@
       "dependencies": {},
       "hash": "73a63b7f672b88f7e9992f6917eb458a8cbb6fa9"
     },
+    "com.kinematicsoup.scenefusion2lite": {
+      "version": "file:com.kinematicsoup.scenefusion2lite",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.neuecc.unirx": {
       "version": "https://github.com/neuecc/UniRx.git?path=Assets/Plugins/UniRx/Scripts",
       "depth": 0,
