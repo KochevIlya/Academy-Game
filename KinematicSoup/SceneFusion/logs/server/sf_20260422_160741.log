@@ -1,0 +1,89 @@
+2026-04-22 19:07:42.6103 [INFO; Root]  KinematicSoup Technologies Inc.
+2026-04-22 19:07:42.6156 [INFO; Root]  Scene Fusion Server 2.0.4asl
+2026-04-22 19:07:42.6479 [DEBUG; Root]  Loading Asset Scripts
+2026-04-22 19:07:42.6495 [DEBUG; Root]  Loading Room Configs
+2026-04-22 19:07:42.6511 [DEBUG; Root]  Loading entity prefabs
+2026-04-22 19:07:42.6512 [DEBUG; Root]  Loading entity instances
+2026-04-22 19:07:42.6516 [DEBUG; Root]  Initializing scripts
+2026-04-22 19:07:42.6613 [INFO; Root]  Loading config.json
+2026-04-22 19:07:42.6614 [INFO; Root]  ProjectId: 1
+2026-04-22 19:07:42.6614 [INFO; Root]  Tier: SF Unity LAN
+2026-04-22 19:07:42.6615 [INFO; Root]  Terrain Editing: True
+2026-04-22 19:07:42.6615 [INFO; Root]  Object Limit: Unlimited
+2026-04-22 19:07:42.7062 [DEBUG; Root]  Room setup complete
+2026-04-22 19:07:42.7067 [INFO;  .⁑]  Starting room 0
+2026-04-22 19:07:42.7068 [INFO; Root]  Sending client updates every 6 frames
+2026-04-22 19:07:42.7069 [INFO; Root]  Setting player limit to 2
+2026-04-22 19:07:42.7070 [INFO; Root]  Opening TCP port 8030
+2026-04-22 19:07:43.9901 [INFO; Root]  Client(id = 1, address = 127.0.0.1:53129) connected
+2026-04-22 19:07:43.9950 [DEBUG; Root]  Client(id = 1, address = 127.0.0.1:53129) model validated
+2026-04-22 19:07:44.0232 [INFO; Authentication]  Client(id = 1, address = 127.0.0.1) authenticated.
+2026-04-22 19:07:44.0251 [INFO; KS.SceneFusion2.Server.srAuthenticationManager]  Connection [account = ZizTo, address = 127.0.0.1]
+2026-04-22 19:07:45.6017 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 85 B (1), Config: 53 B (1), String Table: 32 B
+2026-04-22 19:07:45.6031 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 168 B (2), String Table: 71 B, Config: 53 B (1), SceneSubscriptions: 44 B (1)
+2026-04-22 19:07:45.6041 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 193 B (3), String Table: 80 B, Config: 53 B (1), SceneSubscriptions: 44 B (1), SceneLock: 16 B (1)
+2026-04-22 19:07:45.6050 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 474 B (4), Avatar: 198 B (1), String Table: 163 B, Config: 53 B (1), SceneSubscriptions: 44 B (1), SceneLock: 16 B (1)
+2026-04-22 19:07:46.3293 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 673 B (5), String Table: 277 B, Avatar: 198 B (1), AssetPath: 69 B (1), SceneSubscriptions: 60 B (1), Config: 53 B (1), SceneLock: 16 B (1)
+2026-04-22 19:07:46.3294 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 807 B (6), String Table: 342 B, Avatar: 198 B (1), AssetPath: 138 B (2), SceneSubscriptions: 60 B (1), Config: 53 B (1), SceneLock: 16 B (1)
+2026-04-22 19:07:46.3299 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 1,02 kB (7), String Table: 461 B, AssetPath: 231 B (3), Avatar: 198 B (1), SceneSubscriptions: 60 B (1), Config: 53 B (1), SceneLock: 16 B (1)
+2026-04-22 19:07:46.3299 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 1,26 kB (8), String Table: 618 B, AssetPath: 320 B (4), Avatar: 198 B (1), SceneSubscriptions: 60 B (1), Config: 53 B (1), SceneLock: 16 B (1)
+2026-04-22 19:07:46.3299 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 1,43 kB (9), String Table: 732 B, AssetPath: 372 B (5), Avatar: 198 B (1), SceneSubscriptions: 60 B (1), Config: 53 B (1), SceneLock: 16 B (1)
+2026-04-22 19:07:46.3302 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 3,54 kB (10), Asset: 1,72 kB (1), String Table: 1,12 kB, AssetPath: 372 B (5), Avatar: 198 B (1), SceneSubscriptions: 60 B (1), Config: 53 B (1), SceneLock: 16 B (1)
+2026-04-22 19:07:46.3303 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 3,73 kB (11), Asset: 1,72 kB (1), String Table: 1,22 kB, AssetPath: 461 B (6), Avatar: 198 B (1), SceneSubscriptions: 60 B (1), Config: 53 B (1), SceneLock: 16 B (1)
+2026-04-22 19:07:46.3303 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 3,9 kB (12), Asset: 1,72 kB (1), String Table: 1,3 kB, AssetPath: 550 B (7), Avatar: 198 B (1), SceneSubscriptions: 60 B (1), Config: 53 B (1), SceneLock: 16 B (1)
+2026-04-22 19:07:46.3303 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 4,07 kB (13), Asset: 1,72 kB (1), String Table: 1,39 kB, AssetPath: 639 B (8), Avatar: 198 B (1), SceneSubscriptions: 60 B (1), Config: 53 B (1), SceneLock: 16 B (1)
+2026-04-22 19:07:46.3303 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 4,24 kB (14), Asset: 1,72 kB (1), String Table: 1,47 kB, AssetPath: 728 B (9), Avatar: 198 B (1), SceneSubscriptions: 60 B (1), Config: 53 B (1), SceneLock: 16 B (1)
+2026-04-22 19:07:46.3303 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 4,41 kB (15), Asset: 1,72 kB (1), String Table: 1,57 kB, AssetPath: 797 B (10), Avatar: 198 B (1), SceneSubscriptions: 60 B (1), Config: 53 B (1), SceneLock: 16 B (1)
+2026-04-22 19:07:46.3304 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 4,58 kB (16), Asset: 1,72 kB (1), String Table: 1,66 kB, AssetPath: 866 B (11), Avatar: 198 B (1), SceneSubscriptions: 60 B (1), Config: 53 B (1), SceneLock: 16 B (1)
+2026-04-22 19:07:46.3306 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 5,42 kB (17), Asset: 2,17 kB (2), String Table: 2,06 kB, AssetPath: 866 B (11), Avatar: 198 B (1), SceneSubscriptions: 60 B (1), Config: 53 B (1), SceneLock: 16 B (1)
+2026-04-22 19:07:46.3306 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 5,6 kB (18), Asset: 2,17 kB (2), String Table: 2,15 kB, AssetPath: 955 B (12), Avatar: 198 B (1), SceneSubscriptions: 60 B (1), Config: 53 B (1), SceneLock: 16 B (1)
+2026-04-22 19:07:46.3307 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 5,76 kB (19), String Table: 2,25 kB, Asset: 2,17 kB (2), AssetPath: 1,02 kB (13), Avatar: 198 B (1), SceneSubscriptions: 60 B (1), Config: 53 B (1), SceneLock: 16 B (1)
+2026-04-22 19:07:46.3309 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 9,38 kB (20), Asset: 5,12 kB (3), String Table: 2,91 kB, AssetPath: 1,02 kB (13), Avatar: 198 B (1), SceneSubscriptions: 60 B (1), Config: 53 B (1), SceneLock: 16 B (1)
+2026-04-22 19:07:46.3537 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 6472 object(s).
+Total: 385 kB (6492), Component: 243 kB (5037), GameObject: 125 kB (1430), String Table: 8,36 kB, Asset: 5,12 kB (3), AssetPath: 1,02 kB (13), LightmapSettings: 981 B (1), RenderSettings: 526 B (1), Avatar: 198 B (1), OcclusionSettings: 76 B (1), SceneSubscriptions: 60 B (1), Config: 53 B (1), Scene: 28 B (1), SceneLock: 16 B (1), Hierarchy: 16 B (1)
+2026-04-22 19:08:05.6609 [INFO; Root]  Client(id = 2, address = 26.222.202.102:52099) connected
+2026-04-22 19:08:05.6698 [DEBUG; Root]  Client(id = 2, address = 26.222.202.102:52099) model validated
+2026-04-22 19:08:05.6863 [INFO; Authentication]  Client(id = 2, address = 26.222.202.102) authenticated.
+2026-04-22 19:08:05.6864 [INFO; KS.SceneFusion2.Server.srAuthenticationManager]  Connection [account = Lena Volkova, address = 26.222.202.102]
+2026-04-22 19:08:06.4960 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 385 kB (6493), Component: 243 kB (5037), GameObject: 125 kB (1430), String Table: 8,4 kB, Asset: 5,12 kB (3), AssetPath: 1,02 kB (13), LightmapSettings: 981 B (1), RenderSettings: 526 B (1), Avatar: 198 B (1), SceneSubscriptions: 104 B (2), OcclusionSettings: 76 B (1), Config: 53 B (1), Scene: 28 B (1), SceneLock: 16 B (1), Hierarchy: 16 B (1)
+2026-04-22 19:08:06.4961 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 385 kB (6494), Component: 243 kB (5037), GameObject: 125 kB (1430), String Table: 8,48 kB, Asset: 5,12 kB (3), AssetPath: 1,02 kB (13), LightmapSettings: 981 B (1), RenderSettings: 526 B (1), Avatar: 396 B (2), SceneSubscriptions: 104 B (2), OcclusionSettings: 76 B (1), Config: 53 B (1), Scene: 28 B (1), SceneLock: 16 B (1), Hierarchy: 16 B (1)
+2026-04-22 19:08:07.9641 [WARNING; Root]  Network sync rate is lower than the target sync rate. Sync rate reduced to 9 of 10 syncs per second.
+2026-04-22 19:08:47.7648 [INFO; Root]  Client(id = 1, address = 127.0.0.1:53129) disconnected: 2-End of file
+2026-04-22 19:08:47.7738 [INFO; KS.SceneFusion2.Server.srAuthenticationManager]  Disconnection [account = ZizTo, address = 127.0.0.1]
+2026-04-22 19:08:47.7845 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Deleted 2 object(s).
+Total: 385 kB (6492), Component: 243 kB (5037), GameObject: 125 kB (1430), String Table: 8,48 kB, Asset: 5,12 kB (3), AssetPath: 1,02 kB (13), LightmapSettings: 981 B (1), RenderSettings: 526 B (1), Avatar: 198 B (1), OcclusionSettings: 76 B (1), SceneSubscriptions: 60 B (1), Config: 53 B (1), Scene: 28 B (1), SceneLock: 16 B (1), Hierarchy: 16 B (1)
+2026-04-22 19:09:11.1005 [INFO; Root]  Client(id = 3, address = 26.194.159.119:64291) connected
+2026-04-22 19:09:11.1011 [DEBUG; Root]  Client(id = 3, address = 26.194.159.119:64291) model validated
+2026-04-22 19:09:11.1112 [INFO; Authentication]  Client(id = 3, address = 26.194.159.119) authenticated.
+2026-04-22 19:09:11.1118 [INFO; KS.SceneFusion2.Server.srAuthenticationManager]  Connection [account = ZizTo, address = 26.194.159.119]
+2026-04-22 19:09:11.1606 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 385 kB (6493), Component: 243 kB (5037), GameObject: 125 kB (1430), String Table: 8,52 kB, Asset: 5,12 kB (3), AssetPath: 1,02 kB (13), LightmapSettings: 981 B (1), RenderSettings: 526 B (1), Avatar: 198 B (1), SceneSubscriptions: 104 B (2), OcclusionSettings: 76 B (1), Config: 53 B (1), Scene: 28 B (1), SceneLock: 16 B (1), Hierarchy: 16 B (1)
+2026-04-22 19:09:11.1606 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 385 kB (6494), Component: 243 kB (5037), GameObject: 125 kB (1430), String Table: 8,6 kB, Asset: 5,12 kB (3), AssetPath: 1,02 kB (13), LightmapSettings: 981 B (1), RenderSettings: 526 B (1), Avatar: 396 B (2), SceneSubscriptions: 104 B (2), OcclusionSettings: 76 B (1), Config: 53 B (1), Scene: 28 B (1), SceneLock: 16 B (1), Hierarchy: 16 B (1)
+2026-04-22 19:09:13.7326 [WARNING; Root]  Network sync rate is lower than the target sync rate. Sync rate reduced to 9 of 10 syncs per second.
+2026-04-22 19:09:21.9233 [INFO; Root]  Client(id = 2, address = 26.222.202.102:52099) disconnected: 2-End of file
+2026-04-22 19:09:21.9345 [INFO; KS.SceneFusion2.Server.srAuthenticationManager]  Disconnection [account = Lena Volkova, address = 26.222.202.102]
+2026-04-22 19:09:21.9368 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Deleted 2 object(s).
+Total: 385 kB (6492), Component: 243 kB (5037), GameObject: 125 kB (1430), String Table: 8,6 kB, Asset: 5,12 kB (3), AssetPath: 1,02 kB (13), LightmapSettings: 981 B (1), RenderSettings: 526 B (1), Avatar: 198 B (1), OcclusionSettings: 76 B (1), SceneSubscriptions: 60 B (1), Config: 53 B (1), Scene: 28 B (1), SceneLock: 16 B (1), Hierarchy: 16 B (1)

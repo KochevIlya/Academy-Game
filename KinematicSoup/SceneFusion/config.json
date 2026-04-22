@@ -1,0 +1,9 @@
+{
+	"projectId": 1,
+	"projectName": "Academy game",
+	"scene": "GameScene",
+	"creator": "ZizTo",
+	"version": "2.0.4",
+	"port": 8030,
+	"application": "Unity 2022.3.62f2"
+}
