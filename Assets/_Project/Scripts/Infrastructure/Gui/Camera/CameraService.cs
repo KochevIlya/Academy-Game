@@ -71,6 +71,8 @@ namespace _Project.Scripts.Infrastructure.Gui.Camera
     }
     void Update()
     {
+        HandleZoom();
+        
         if (_target == null)
         {
             ResetAllFaders();
