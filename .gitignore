@@ -82,3 +82,5 @@ fbg.log
 _progress*.txt
 TransparentFrames/
 .utmp
+KinematicSoup/SceneFusion/config.json
+KinematicSoup/SceneFusion/logs
