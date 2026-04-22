@@ -118,7 +118,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f61f6339d95855f4087a3dc62edb99bd
-    m_Address: Assets/_Project/Visual/Prefabs/Game/Units/Bot.prefab
+    m_Address: roject/Visual/Prefabs/Game/Units/Bot.prefabot.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

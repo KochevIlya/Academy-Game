@@ -401,6 +401,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: idle_3
       objectReference: {fileID: 0}
+    - target: {fileID: 1664155778726053561, guid: c78153f41ef3aa24f95ecca0444abeb3,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 544c873c26058e34eb6ce26c538da034, type: 2}
     - target: {fileID: 5866666021909216657, guid: c78153f41ef3aa24f95ecca0444abeb3,
         type: 3}
       propertyPath: m_Controller
