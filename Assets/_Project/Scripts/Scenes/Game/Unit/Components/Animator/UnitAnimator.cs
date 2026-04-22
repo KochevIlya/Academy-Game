@@ -76,14 +76,19 @@ namespace _Project.Scripts.Scenes.Game.Unit.Animator
             }
         }
 
-        public void Shoot() => _animator.SetTrigger(Animations.Shoot);
+        public void Shoot()
+        {
+            _animator.SetTrigger(Animations.Shoot);
+            OnShootCast.Execute(UniRx.Unit.Default);
+        }
 
         public void PushButton() => _animator.SetTrigger(Animations.PushingButton);
 
         public void EnteredState(int stateHash)
         {
+            /*Debug.Log($"EnteredState: {stateHash == Animations.Shoot}");
             if (stateHash == Animations.Shoot)
-                OnShootCast.Execute(UniRx.Unit.Default);
+                OnShootCast.Execute(UniRx.Unit.Default);*/
         }
 
         public void UpdateState(int stateHash) { }
