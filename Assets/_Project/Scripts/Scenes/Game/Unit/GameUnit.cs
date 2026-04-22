@@ -81,6 +81,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
 
     public void UpdateControls(IInputControls inputControls)
     {
+      
       if (_currentMover != null) _currentMover.ResetMovement(this);
       _lifetimeDisposable.Clear();
 
@@ -141,7 +142,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
       InputControls.OnShoot
         .Subscribe(_ => _attacker.Value.Attack(this, InputControls.MousePosition))
         .AddTo(_lifetimeDisposable);
-
+      
       Animator.OnShootCast
         .Subscribe(_ => _attacker.Value.OnShootCast(this))
         .AddTo(_lifetimeDisposable);

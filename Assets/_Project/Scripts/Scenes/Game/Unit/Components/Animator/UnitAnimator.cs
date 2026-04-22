@@ -1,3 +1,4 @@
+using System;
 using _Project.Scripts.Infrastructure.Animation;
 using _Project.Scripts.Utils;
 using UniRx;
@@ -22,16 +23,20 @@ namespace _Project.Scripts.Scenes.Game.Unit.Animator
 
         public void Run(Vector2 localDirection, float deltaTime)
         {
+            //Debug.Log("Running =====================================================");
             var lerpVector = Vector2.Lerp(_lastVelocity, localDirection, _movementSmoothing * deltaTime);
             _animator.SetFloat(Animations.VelocityX, lerpVector.x);
             _animator.SetFloat(Animations.VelocityY, lerpVector.y);
             _lastVelocity = lerpVector;
+            _animator.SetBool(Animations.IsRunning, Math.Abs(lerpVector.x) + Math.Abs(lerpVector.y) > 0.1 );
         }
 
         public void Idle()
         {
+            //Debug.Log("Stoppped =====================================================");
             _animator.SetFloat(Animations.VelocityX, 0f);
             _animator.SetFloat(Animations.VelocityY, 0f);
+            _animator.SetBool(Animations.IsRunning, false);
         }
 
         public void Rotate(Vector2 localRotation, float deltaTime)
@@ -71,12 +76,19 @@ namespace _Project.Scripts.Scenes.Game.Unit.Animator
             }
         }
 
-        public void Shoot() => _animator.SetTrigger(Animations.Shoot);
+        public void Shoot()
+        {
+            _animator.SetTrigger(Animations.Shoot);
+            OnShootCast.Execute(UniRx.Unit.Default);
+        }
+
+        public void PushButton() => _animator.SetTrigger(Animations.PushingButton);
 
         public void EnteredState(int stateHash)
         {
+            /*Debug.Log($"EnteredState: {stateHash == Animations.Shoot}");
             if (stateHash == Animations.Shoot)
-                OnShootCast.Execute(UniRx.Unit.Default);
+                OnShootCast.Execute(UniRx.Unit.Default);*/
         }
 
         public void UpdateState(int stateHash) { }
