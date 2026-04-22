@@ -87,3 +87,25 @@ Total: 385 kB (6494), Component: 243 kB (5037), GameObject: 125 kB (1430), Strin
 2026-04-22 19:09:21.9345 [INFO; KS.SceneFusion2.Server.srAuthenticationManager]  Disconnection [account = Lena Volkova, address = 26.222.202.102]
 2026-04-22 19:09:21.9368 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Deleted 2 object(s).
 Total: 385 kB (6492), Component: 243 kB (5037), GameObject: 125 kB (1430), String Table: 8,6 kB, Asset: 5,12 kB (3), AssetPath: 1,02 kB (13), LightmapSettings: 981 B (1), RenderSettings: 526 B (1), Avatar: 198 B (1), OcclusionSettings: 76 B (1), SceneSubscriptions: 60 B (1), Config: 53 B (1), Scene: 28 B (1), SceneLock: 16 B (1), Hierarchy: 16 B (1)
+2026-04-22 19:11:20.2936 [INFO; Root]  Client(id = 4, address = 26.222.202.102:61859) connected
+2026-04-22 19:11:20.2979 [DEBUG; Root]  Client(id = 4, address = 26.222.202.102:61859) model validated
+2026-04-22 19:11:20.3180 [INFO; Authentication]  Client(id = 4, address = 26.222.202.102) authenticated.
+2026-04-22 19:11:20.3182 [INFO; KS.SceneFusion2.Server.srAuthenticationManager]  Connection [account = Lena Volkova, address = 26.222.202.102]
+2026-04-22 19:11:20.5092 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 385 kB (6493), Component: 243 kB (5037), GameObject: 125 kB (1430), String Table: 8,64 kB, Asset: 5,12 kB (3), AssetPath: 1,02 kB (13), LightmapSettings: 981 B (1), RenderSettings: 526 B (1), Avatar: 198 B (1), SceneSubscriptions: 104 B (2), OcclusionSettings: 76 B (1), Config: 53 B (1), Scene: 28 B (1), SceneLock: 16 B (1), Hierarchy: 16 B (1)
+2026-04-22 19:11:20.5093 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Created 1 object(s).
+Total: 385 kB (6494), Component: 243 kB (5037), GameObject: 125 kB (1430), String Table: 8,73 kB, Asset: 5,12 kB (3), AssetPath: 1,02 kB (13), LightmapSettings: 981 B (1), RenderSettings: 526 B (1), Avatar: 396 B (2), SceneSubscriptions: 104 B (2), OcclusionSettings: 76 B (1), Config: 53 B (1), Scene: 28 B (1), SceneLock: 16 B (1), Hierarchy: 16 B (1)
+2026-04-22 19:11:25.2153 [WARNING; Root]  Network sync rate is lower than the target sync rate. Sync rate reduced to 9 of 10 syncs per second.
+2026-04-22 19:11:42.2225 [INFO; Root]  Client(id = 3, address = 26.194.159.119:64291) disconnected: 2-End of file
+2026-04-22 19:11:42.2264 [INFO; KS.SceneFusion2.Server.srAuthenticationManager]  Disconnection [account = ZizTo, address = 26.194.159.119]
+2026-04-22 19:11:42.2283 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Deleted 2 object(s).
+Total: 385 kB (6492), Component: 243 kB (5037), GameObject: 125 kB (1430), String Table: 8,73 kB, Asset: 5,12 kB (3), AssetPath: 1,02 kB (13), LightmapSettings: 981 B (1), RenderSettings: 526 B (1), Avatar: 198 B (1), OcclusionSettings: 76 B (1), SceneSubscriptions: 60 B (1), Config: 53 B (1), Scene: 28 B (1), SceneLock: 16 B (1), Hierarchy: 16 B (1)
+2026-04-22 19:11:42.4509 [INFO; Root]  Client(id = 4, address = 26.222.202.102:61859) disconnected: 2-End of file
+2026-04-22 19:11:42.4579 [INFO; KS.SceneFusion2.Server.srAuthenticationManager]  Disconnection [account = Lena Volkova, address = 26.222.202.102]
+2026-04-22 19:11:42.4609 [DEBUG; KS.SceneFusion2.Server.srObjectManager]  Deleted 2 object(s).
+Total: 385 kB (6490), Component: 243 kB (5037), GameObject: 125 kB (1430), String Table: 8,73 kB, Asset: 5,12 kB (3), AssetPath: 1,02 kB (13), LightmapSettings: 981 B (1), RenderSettings: 526 B (1), OcclusionSettings: 76 B (1), Config: 53 B (1), Scene: 28 B (1), SceneLock: 16 B (1), Hierarchy: 16 B (1)
+2026-04-22 19:11:42.4609 [INFO; KS.SceneFusion2.Server.srAuthenticationManager]  Shutting down because no users are connected.
+2026-04-22 19:11:42.5072 [INFO;  .⁑]  Stopping room 0
+2026-04-22 19:11:42.5084 [DEBUG; KS.SceneFusion2.Server.srAnalytics]  Sending analytics data...
+2026-04-22 19:11:42.7585 [DEBUG; KS.SceneFusion2.Server.srAnalytics]  Analytics event recorded succesfully.
+2026-04-22 19:11:45.7616 [INFO; Root]  Closing TCP port 8030
