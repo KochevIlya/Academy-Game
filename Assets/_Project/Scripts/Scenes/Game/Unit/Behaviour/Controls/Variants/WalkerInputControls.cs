@@ -15,10 +15,14 @@ public class WalkerInputControls : IInputControls
     private const float StopDistance = 1f;
     private readonly Transform _camTransform;
     
+    private readonly Subject<UniRx.Unit> _onTargetReached = new Subject<UniRx.Unit>();
+    public IObservable<UniRx.Unit> OnTargetReached => _onTargetReached;
+
+    private bool _hasReached = false;
+    
     public Vector3 TargetPosition => _terminal.transform.position;
     public WalkerInputControls(GameUnit self, HackingTerminal terminal)
     {
-        Debug.Log("WalkerInputControls ctor");
         _self = self;
         _terminal = terminal;
         _camTransform = Camera.main.transform;
@@ -39,7 +43,7 @@ public class WalkerInputControls : IInputControls
     public MoverType RequiredMoverType => MoverType.Bot;
     public IObservable<Vector3> OnMovement => Observable.EveryUpdate().Select(_ =>
     {
-        if (_terminal == null) return _self.transform.position;
+        if (_terminal == null || _hasReached) return _self.transform.position;
 
         Vector3 targetPos = _terminal.transform.position;
         Vector3 selfPos = _self.transform.position;
@@ -49,13 +53,16 @@ public class WalkerInputControls : IInputControls
             new Vector2(selfPos.x, selfPos.z)
         );
 
-        if (distance <= StopDistance)
+        if (distance <= StopDistance && !_hasReached)
         {
+            _hasReached = true;
+            _onTargetReached.OnNext(UniRx.Unit.Default);
+            _onTargetReached.OnCompleted();
             return selfPos;
         }
-
         return targetPos;
     });
+    
     public IObservable<Vector2> OnRawMovement { get; } = Observable.Never<Vector2>();
     public float GetMovementSpeed(UnitStatsData stats)
     {

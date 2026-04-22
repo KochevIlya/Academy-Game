@@ -9,6 +9,7 @@ using _Project.Scripts.Scenes.Game.Unit._Data;
 using _Project.Scripts.Scenes.Game.Unit.Components.Spawner;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
+using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls.Variants;
 using _Project.Scripts.Scenes.Game.Hacking.Terminal;
 using Zenject;
 
@@ -222,6 +223,11 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
                 
                 var walk = new WalkerInputControls(bot, terminal);
                 bot.UpdateControls(walk);
+                walk.OnTargetReached
+                    .Take(1) 
+                    .Delay(TimeSpan.FromSeconds(3))
+                    .Subscribe(_ => ReturnToPatrol())
+                    .AddTo(bot);
             }
         }
         public int GetNextSequenceLength(int _base)
@@ -252,6 +258,20 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
             
         }
 
+        private void ReturnToPatrol()
+        {
+            if (_isAlarmActive) return;
+            
+            Debug.Log($"ЗОНА {name}: Все враги возвращаются к патрулированию.");
+
+            foreach (var bot in _activeUnits)
+            {
+                if (bot == null || bot.IsUnderControl) continue;
+                
+                bot.UpdateControls(new PatrolInputControls(bot));
+            }
+        }
+        
         public void OnDestroy()
         {
             _saveLoadService.UnregisterZone(this);
