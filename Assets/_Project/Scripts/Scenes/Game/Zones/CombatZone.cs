@@ -101,7 +101,11 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
         }
 
         public void RegisterUnit(GameUnit unit)
-        {
+        {   
+            foreach (var terminal in _activeTerminals)
+            {
+                terminal.SetHackingStatus(true); 
+            }
             _activeUnits.Add(unit);
             _unitCountSubject.OnNext(_activeUnits.Count);
 
@@ -128,6 +132,7 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
 
             unit.Health.Die
                 .Subscribe(_ => {
+                    
                     _activeUnits.Remove(unit);
                     CheckLastSurvivor();
                     _botsCount--;
@@ -167,6 +172,11 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
             
             if (remainingBots.Count == 1)
             {
+                foreach (var terminal in _activeTerminals)
+                {
+                    terminal.SetHackingStatus(false); 
+                }
+                
                 var lastBot = remainingBots[0];
             
                 if (lastBot.IsUnderControl)
@@ -176,6 +186,7 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
                     lastBot.Health.TakeDamage(999999); 
                     Observable.TimerFrame(1).Subscribe(_ => _hackingService.ReturnToOriginalBody());
                 }
+                
             }
         }
         public void ActivateAggroOnUnit(GameUnit unit)
