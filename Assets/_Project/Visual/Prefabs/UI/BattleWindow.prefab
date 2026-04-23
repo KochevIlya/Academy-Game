@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2524125231839636707}
   - component: {fileID: 5384920563571328741}
   m_Layer: 0
-  m_Name: Panel (1)
+  m_Name: Ability
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -321,6 +321,7 @@ MonoBehaviour:
   _canvasGroup: {fileID: 8415554370637402059}
   _ability: {fileID: 8558866906857910251}
   _healthSlider: {fileID: 8191284255316084497}
+  _cooldownOverlay: {fileID: 4685151160442307043}
 --- !u!223 &6053227154670042250
 Canvas:
   m_ObjectHideFlags: 0
@@ -877,12 +878,12 @@ GameObject:
   - component: {fileID: 5308010758627412608}
   - component: {fileID: 4685151160442307043}
   m_Layer: 0
-  m_Name: Panel (2)
+  m_Name: Overlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6601480272976368775
 RectTransform:
   m_ObjectHideFlags: 0
@@ -931,12 +932,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 495b8120337c2be45a178754d31b6158, type: 3}
-  m_Type: 0
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 1
+  m_FillAmount: 0
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 2
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1

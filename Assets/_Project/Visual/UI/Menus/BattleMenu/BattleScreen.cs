@@ -10,8 +10,9 @@ namespace _Project.Visual.UI.Menus.BattleMenu
 {
     public class BattleScreen : BaseScreen
     {
-        [SerializeField] private GameObject _ability;
+        // [SerializeField] private GameObject _ability;
         [SerializeField] private Slider _healthSlider;
+        [SerializeField] private Image _cooldownOverlay;
         private IAbility _currentAbility;
         private Health _currentHealth;
         private IPlayerProvider _playerProvider;
@@ -50,11 +51,21 @@ namespace _Project.Visual.UI.Menus.BattleMenu
                 return;
             }
             Debug.Log($"[BattleScreen] Подписываемся на абилку. Текущее состояние IsReady: {ability.IsReady.Value}");
-            ability.IsReady
-                .Subscribe(ready => 
+            // ability.IsReady
+            //     .Subscribe(ready => 
+            //     {
+            //         Debug.Log($"[BattleScreen] Реакция на изменение IsReady: {ready}");
+            //         ShowAbilityButton(ready);
+            //     })
+            //     .AddTo(_unitDisposables);
+            Observable.EveryUpdate()
+                .Subscribe(_ =>
                 {
-                    Debug.Log($"[BattleScreen] Реакция на изменение IsReady: {ready}");
-                    ShowAbilityButton(ready);
+                    if (ability.MaxCooldown > 0)
+                    {
+                        float fill = ability.CurrentTimer / ability.MaxCooldown;
+                        _cooldownOverlay.fillAmount = fill;
+                    }
                 })
                 .AddTo(_unitDisposables);
             _currentHealth.CurrentHealth.Subscribe(_ =>
@@ -67,7 +78,7 @@ namespace _Project.Visual.UI.Menus.BattleMenu
         
         private void ShowAbilityButton(bool isActive)
         {
-            _ability.SetActive(!isActive);
+            // _ability.SetActive(!isActive);
         }
 
         private void ChangeHealth()

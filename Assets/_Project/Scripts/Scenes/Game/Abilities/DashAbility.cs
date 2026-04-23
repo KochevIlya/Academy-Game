@@ -73,7 +73,6 @@ namespace _Project.Scripts.Scenes.Game.Abilities
             }
 
             _input.IsBlocked.Value = false;
-            _timer = _settings.cooldown;
         }
 
         public override void Initialize(GameUnit unit, AbilityConfig config)

@@ -23,6 +23,10 @@ public abstract class BaseAbility<T> : MonoBehaviour, IAbility where T : Ability
     protected AbilitySettings _settings;
     protected float _timer;
     
+    public float CurrentTimer => _timer;
+    public float MaxCooldown => (_settings != null) ? _settings.cooldown : 1f;
+    
+    
     protected GameUnit _unit;
     
     public virtual void Use(Vector3 targetPosition)

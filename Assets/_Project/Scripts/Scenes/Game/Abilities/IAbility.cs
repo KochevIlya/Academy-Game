@@ -14,4 +14,7 @@ public interface IAbility
     bool CanUse();
     public void Initialize(GameUnit unit, AbilityConfig config);
     public BotAbilityType GetAbilityType();
+    float CurrentTimer { get; }
+    float MaxCooldown { get; }
+    
 }
