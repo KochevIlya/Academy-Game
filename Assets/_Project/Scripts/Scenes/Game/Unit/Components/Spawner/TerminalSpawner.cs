@@ -25,6 +25,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Spawner
         }
         public GameObject SpawnedTerminalObject { get; set; }
         public Vector3 Position => transform.position;
+        public Quaternion Rotation => transform.rotation;
         public GameObject WarZonePoint;
         public Transform WarZoneTransform =>  WarZonePoint.transform; 
     }
