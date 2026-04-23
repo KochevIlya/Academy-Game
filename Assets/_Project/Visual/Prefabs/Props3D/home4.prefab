@@ -1,5 +1,79 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &556214410821650046
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2490272874880757869}
+    m_Modifications:
+    - target: {fileID: 2668522011898147675, guid: 4772d4a63e896bf44b284491cea97ce2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668522011898147675, guid: 4772d4a63e896bf44b284491cea97ce2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668522011898147675, guid: 4772d4a63e896bf44b284491cea97ce2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668522011898147675, guid: 4772d4a63e896bf44b284491cea97ce2,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668522011898147675, guid: 4772d4a63e896bf44b284491cea97ce2,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668522011898147675, guid: 4772d4a63e896bf44b284491cea97ce2,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668522011898147675, guid: 4772d4a63e896bf44b284491cea97ce2,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668522011898147675, guid: 4772d4a63e896bf44b284491cea97ce2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668522011898147675, guid: 4772d4a63e896bf44b284491cea97ce2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668522011898147675, guid: 4772d4a63e896bf44b284491cea97ce2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3333699520995240417, guid: 4772d4a63e896bf44b284491cea97ce2,
+        type: 3}
+      propertyPath: m_Name
+      value: con1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4772d4a63e896bf44b284491cea97ce2, type: 3}
+--- !u!4 &2499617291621479717 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2668522011898147675, guid: 4772d4a63e896bf44b284491cea97ce2,
+    type: 3}
+  m_PrefabInstance: {fileID: 556214410821650046}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2667679646559213446
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -90,7 +164,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 97f7832993ef3f0419e550a7919cfed6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2499617291621479717}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 97f7832993ef3f0419e550a7919cfed6,
         type: 3}
@@ -121,6 +199,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6268275745008606964}
   m_SourcePrefab: {fileID: 100100000, guid: 97f7832993ef3f0419e550a7919cfed6, type: 3}
+--- !u!4 &2490272874880757869 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 97f7832993ef3f0419e550a7919cfed6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2667679646559213446}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3009786984282368727 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 97f7832993ef3f0419e550a7919cfed6,
