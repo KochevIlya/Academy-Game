@@ -172,10 +172,7 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
             
             if (remainingBots.Count == 1)
             {
-                foreach (var terminal in _activeTerminals)
-                {
-                    terminal.SetHackingStatus(false); 
-                }
+                
                 
                 var lastBot = remainingBots[0];
             
@@ -188,6 +185,10 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
                 }
                 
             }
+            if (remainingBots.Count == 0)
+                foreach (var terminal in _activeTerminals)
+                    terminal.SetHackingStatus(false); 
+                
         }
         public void ActivateAggroOnUnit(GameUnit unit)
         {

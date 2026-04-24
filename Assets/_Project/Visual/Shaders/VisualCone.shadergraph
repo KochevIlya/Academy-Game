@@ -782,10 +782,10 @@
         "r": 0.3254716992378235,
         "g": 0.8197998404502869,
         "b": 1.0,
-        "a": 0.0
+        "a": 0.12156862765550614
     },
     "isMainColor": false,
-    "m_ColorMode": 1
+    "m_ColorMode": 0
 }
 
 {
@@ -833,7 +833,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "6edf25ce7a7b42a4a92a07808701f885",
     "m_Id": 0,
-    "m_DisplayName": "Alpha",
+    "m_DisplayName": "VisionAlpha",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -1183,10 +1183,10 @@
         "r": 1.0,
         "g": 0.03798597306013107,
         "b": 0.0,
-        "a": 0.40392157435417178
+        "a": 0.23529411852359773
     },
     "isMainColor": false,
-    "m_ColorMode": 1
+    "m_ColorMode": 0
 }
 
 {
@@ -1242,10 +1242,10 @@
     "m_Guid": {
         "m_GuidSerialized": "02a35477-9015-4b15-a708-3c8a6a7e5eab"
     },
-    "m_Name": "Alpha",
+    "m_Name": "VisionAlpha",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Alpha",
-    "m_DefaultReferenceName": "_Alpha",
+    "m_RefNameGeneratedByDisplayName": "VisionAlpha",
+    "m_DefaultReferenceName": "_VisionAlpha",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
@@ -1256,7 +1256,7 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": 0.0,
-    "m_FloatType": 0,
+    "m_FloatType": 1,
     "m_RangeValues": {
         "x": 0.0,
         "y": 1.0
@@ -1619,10 +1619,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 406.0,
-            "y": 236.0,
-            "width": 0.0,
-            "height": 0.0
+            "x": 419.0,
+            "y": 244.0,
+            "width": 105.0,
+            "height": 34.0
         }
     },
     "m_Slots": [
