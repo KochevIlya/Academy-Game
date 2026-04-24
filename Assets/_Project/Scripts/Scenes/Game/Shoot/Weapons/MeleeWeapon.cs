@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using _Project.Scripts.Scenes.Game.Shoot;
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit.Components.Health;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class MeleeWeapon : WeaponBase
@@ -16,6 +17,7 @@ public class MeleeWeapon : WeaponBase
         [SerializeField] private MeshFilter _coneMeshFilter;
         [SerializeField] private float _visualDuration = 0.2f;
         [SerializeField] private int _segments = 20;
+        [SerializeField] [CanBeNull] private GameObject VFXPrefab;
 
         private float _currentTime;
         private Mesh _mesh;
@@ -54,7 +56,9 @@ public class MeleeWeapon : WeaponBase
         {
             Collider[] hits = Physics.OverlapSphere(unit.transform.position, _attackRadius, _targetLayer);
             List<GameObject> damagedObjects = new List<GameObject>();
-
+            
+            if (VFXPrefab) Instantiate(VFXPrefab, unit.transform.position, Quaternion.identity);
+            
             foreach (var hit in hits)
             {
                 if (hit.gameObject == unit.gameObject) continue;

@@ -55,6 +55,8 @@ MonoBehaviour:
   _coneMeshFilter: {fileID: 6521422691418895566}
   _visualDuration: 0.2
   _segments: 20
+  VFXPrefab: {fileID: 1035977224672214417, guid: 057aa477789506a44bd206e9c5acad19,
+    type: 3}
 --- !u!1 &6610611628603841439
 GameObject:
   m_ObjectHideFlags: 0
