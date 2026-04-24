@@ -12,7 +12,11 @@ namespace _Project.Scripts.Infrastructure.Gui.Camera
     [SerializeField] private float alphaSpeed = 1f;
     [SerializeField] private float minAlpha = 0f;
     
+    private static readonly int AlphaProperty = Shader.PropertyToID("_Alpha");
+    
     private Transform _target;
+    private Dictionary<Renderer, List<Material>> _activeFaders = new();
+    private List<Renderer> _toRemove = new();
     private CinemachineFollow _followComponent;
     private float _defaultDistance;
     private float _targetDistance;
@@ -67,54 +71,89 @@ namespace _Project.Scripts.Infrastructure.Gui.Camera
     }
     void Update()
     {
-        
         HandleZoom();
         
-        if (_target == null) return;
+        if (_target == null)
+        {
+            ResetAllFaders();
+            return;
+        }
+        HandleFadeLogic();
+    }
 
+    private void HandleFadeLogic()
+    {
         Vector3 origin = _camera.transform.position;
         Vector3 direction = (_target.position - origin).normalized;
         float distance = Vector3.Distance(origin, _target.position);
-
-        RaycastHit[] hits = Physics.RaycastAll(origin, direction, distance);
-
+        
+        RaycastHit[] hits = Physics.SphereCastAll(origin, 0.5f, direction, distance);
         HashSet<Renderer> currentHits = new();
-
         foreach (var hit in hits)
         {
-            if (hit.transform == _target) continue;
+            if (hit.transform == _target || _target.IsChildOf(hit.transform)) continue;
 
-            Renderer[]  renderers = hit.transform.GetComponentsInChildren<Renderer>();
+            Renderer[] renderers = hit.transform.GetComponentsInChildren<Renderer>();
+
             foreach (var rend in renderers)
             {
-                foreach (var mat in rend.materials)
-                {
-                    if (mat.HasProperty("_Alpha"))
-                    {
-                        currentHits.Add(rend);
-                        float current = mat.GetFloat("_Alpha");
-                        mat.SetFloat("_Alpha", Mathf.MoveTowards(current, minAlpha, Time.deltaTime * alphaSpeed));
-                    }
-                }
+                ProcessRenderer(rend, currentHits, minAlpha);
             }
         }
+        UpdateAlphaTransitions(currentHits);
+    }
 
-        foreach (var rend in FindObjectsOfType<Renderer>())
+    private void ProcessRenderer(Renderer rend, HashSet<Renderer> currentHits, float targetAlpha)
+    {
+        currentHits.Add(rend);
+        if (!_activeFaders.ContainsKey(rend))
         {
+            _activeFaders.Add(rend, new List<Material>(rend.materials));
+        }
+        FadeMaterials(_activeFaders[rend], targetAlpha);
+    }
+
+    private void UpdateAlphaTransitions(HashSet<Renderer> currentHits)
+    {
+        _toRemove.Clear();
+        foreach (var pair in _activeFaders)
+        {
+            Renderer rend = pair.Key;
             if (!currentHits.Contains(rend))
             {
-                foreach (var mat in rend.materials)
-                {
-                    if (mat.HasProperty("_Alpha"))
-                    {
-                        float current = mat.GetFloat("_Alpha");
-                        mat.SetFloat("_Alpha", Mathf.MoveTowards(current, 1, Time.deltaTime * alphaSpeed));
-                    }
-                }
+                bool isDone = FadeMaterials(pair.Value, 1.0f);
+                if (isDone) _toRemove.Add(rend);
             }
         }
 
-        Debug.DrawLine(origin, _target.position, Color.green);
+        foreach (var rend in _toRemove)
+        {
+            _activeFaders.Remove(rend);
+        }
+    }
+
+    private bool FadeMaterials(List<Material> materials, float target)
+    {
+        bool allFinished = true;
+        foreach (var mat in materials)
+        {
+            if (mat.HasProperty(AlphaProperty))
+            {
+                float current = mat.GetFloat(AlphaProperty);
+                float next = Mathf.MoveTowards(current, target, Time.deltaTime * alphaSpeed);
+                mat.SetFloat(AlphaProperty, next);
+                if (!Mathf.Approximately(next, target)) allFinished = false;
+            }
+        }
+
+        return allFinished;
+    }
+
+    private void ResetAllFaders()
+    {
+        if (_activeFaders.Count == 0) return;
+        foreach (var pair in _activeFaders) FadeMaterials(pair.Value, 1.0f);
+        _activeFaders.Clear();
     }
     
     private void HandleZoom()
