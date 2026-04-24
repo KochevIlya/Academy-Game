@@ -69,7 +69,7 @@ namespace _Project.Visual.UI.Menus.BattleMenu
                     {
                         float fill = ability.CurrentTimer / ability.MaxCooldown;
                         if(!ability.IsReady.Value)
-                            _cooldownText.text = $"{ability.CurrentTimer:F2}";
+                            _cooldownText.text = $"{ability.CurrentTimer:F1}";
                         else
                         {
                             _cooldownText.text = $"";
