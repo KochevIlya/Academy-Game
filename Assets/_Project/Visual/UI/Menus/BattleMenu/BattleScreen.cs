@@ -1,6 +1,7 @@
 using _Project.Scripts.Infrastructure.Gui.Screens;
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit.Components.Health;
+using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,7 @@ namespace _Project.Visual.UI.Menus.BattleMenu
         // [SerializeField] private GameObject _ability;
         [SerializeField] private Slider _healthSlider;
         [SerializeField] private Image _cooldownOverlay;
+        [SerializeField] private TMP_Text _cooldownText;
         private IAbility _currentAbility;
         private Health _currentHealth;
         private IPlayerProvider _playerProvider;
@@ -55,7 +57,9 @@ namespace _Project.Visual.UI.Menus.BattleMenu
             //     .Subscribe(ready => 
             //     {
             //         Debug.Log($"[BattleScreen] Реакция на изменение IsReady: {ready}");
-            //         ShowAbilityButton(ready);
+            //         
+            //         if(ready)
+            //             _cooldownText.text = $"";
             //     })
             //     .AddTo(_unitDisposables);
             Observable.EveryUpdate()
@@ -64,6 +68,12 @@ namespace _Project.Visual.UI.Menus.BattleMenu
                     if (ability.MaxCooldown > 0)
                     {
                         float fill = ability.CurrentTimer / ability.MaxCooldown;
+                        if(!ability.IsReady.Value)
+                            _cooldownText.text = $"{ability.CurrentTimer:F2}";
+                        else
+                        {
+                            _cooldownText.text = $"";
+                        }
                         _cooldownOverlay.fillAmount = fill;
                     }
                 })
