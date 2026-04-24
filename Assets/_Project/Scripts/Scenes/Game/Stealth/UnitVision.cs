@@ -10,6 +10,7 @@ public class UnitVision : MonoBehaviour
     [Header("Ссылки")]
     [SerializeField] private Transform _eyeAnchor;
     [SerializeField] private MeshFilter _viewMeshFilter;
+    [SerializeField] private MeshRenderer _viewMeshRenderer;
 
     [Header("Настройки обзора")]
     [SerializeField] private float _viewRadius = 5f;
@@ -18,12 +19,20 @@ public class UnitVision : MonoBehaviour
     [SerializeField] private LayerMask _targetMask;
     [SerializeField] private LayerMask _obstacleMask;
 
+    [Header("Настройки обнаружения")]
+    [SerializeField] private float _timeToCatch = 2f;
+    [SerializeField] private float _detectionDrainRate = 1f;
+
     [Header("Визуализация")]
     [SerializeField] private int _segments = 50;
 
     private Mesh _viewMesh;
     private GameUnit _owner;
     private float _eyeHeight;
+    private float _currentDetectionTime = 0f;
+
+    private static readonly int _DetectionProgressProp = Shader.PropertyToID("_DetectionProgress");
+
     [Inject]
     private IGameStateMachine _gameStateMachine;
 
@@ -31,9 +40,12 @@ public class UnitVision : MonoBehaviour
     {
         _viewMesh = new Mesh { name = "View Mesh" };
         _viewMeshFilter.mesh = _viewMesh;
+
+        if (_viewMeshRenderer == null)
+            _viewMeshRenderer = _viewMeshFilter.GetComponent<MeshRenderer>();
+
         _owner = GetComponentInParent<GameUnit>();
         _eyeHeight = _eyeAnchor.position.y;
-        
     }
 
     private void LateUpdate()
@@ -45,16 +57,22 @@ public class UnitVision : MonoBehaviour
         if (!isPatrolling)
         {
             _viewMesh.Clear();
+            _currentDetectionTime = 0f;
+            UpdateShaderParameters();
             return;
         }
+
         DrawVisionCone();
         FindVisibleTargets();
+        UpdateShaderParameters();
     }
 
     private void FindVisibleTargets()
     {
         Vector3 origin = _eyeAnchor.position;
         Collider[] targetsInRadius = Physics.OverlapSphere(origin, _viewRadius, _targetMask);
+
+        bool isPlayerVisibleThisFrame = false;
 
         foreach (var target in targetsInRadius)
         {
@@ -68,9 +86,35 @@ public class UnitVision : MonoBehaviour
             {
                 if (!Physics.Raycast(origin, dirToTarget, dstToTarget, _obstacleMask))
                 {
-                    _gameStateMachine.Enter<GameOverState>();
+                    isPlayerVisibleThisFrame = true;
+                    break;
                 }
             }
+        }
+
+        if (isPlayerVisibleThisFrame)
+        {
+            _currentDetectionTime += Time.deltaTime;
+            if (_currentDetectionTime >= _timeToCatch)
+            {
+                _gameStateMachine.Enter<GameOverState>();
+            }
+        }
+        else
+        {
+            _currentDetectionTime -= Time.deltaTime * _detectionDrainRate;
+        }
+
+        _currentDetectionTime = Mathf.Clamp(_currentDetectionTime, 0f, _timeToCatch);
+    }
+
+    private void UpdateShaderParameters()
+    {
+        if (_viewMeshRenderer != null && _viewMeshRenderer.material != null)
+        {
+            float progress = _currentDetectionTime / _timeToCatch;
+            
+            _viewMeshRenderer.material.SetFloat(_DetectionProgressProp, progress);
         }
     }
 
@@ -80,9 +124,11 @@ public class UnitVision : MonoBehaviour
 
         int vertexCount = _segments + 2;
         Vector3[] vertices = new Vector3[vertexCount];
+        Vector2[] uvs = new Vector2[vertexCount];
         int[] triangles = new int[_segments * 3];
 
         vertices[0] = Vector3.zero;
+        uvs[0] = new Vector2(0.5f, 0f); 
 
         float angleStep = _viewAngle / _segments;
         float currentAngle = -_viewAngle / 2;
@@ -93,15 +139,18 @@ public class UnitVision : MonoBehaviour
         {
             Vector3 localDir = Quaternion.Euler(0, currentAngle, 0) * Vector3.forward;
             Vector3 worldDir = transform.TransformDirection(localDir);
-        
+
             float dist = _viewRadius;
 
             if (Physics.Raycast(eyePosition, worldDir, out RaycastHit hit, _viewRadius, _obstacleMask))
             {
                 dist = hit.distance;
             }
-            
+
             vertices[i + 1] = localDir * dist;
+
+            float normalizedDist = dist / _viewRadius;
+            uvs[i + 1] = new Vector2((float)i / _segments, normalizedDist); 
 
             if (i < _segments)
             {
@@ -113,6 +162,7 @@ public class UnitVision : MonoBehaviour
         }
 
         _viewMesh.vertices = vertices;
+        _viewMesh.uv = uvs;
         _viewMesh.triangles = triangles;
         _viewMesh.RecalculateNormals();
     }

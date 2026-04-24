@@ -925,6 +925,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _eyeAnchor: {fileID: 7762540231625283312}
   _viewMeshFilter: {fileID: 2116732295429898156}
+  _viewMeshRenderer: {fileID: 0}
   _viewRadius: 5
   _viewAngle: 120
   _targetMask:
@@ -933,6 +934,8 @@ MonoBehaviour:
   _obstacleMask:
     serializedVersion: 2
     m_Bits: 128
+  _timeToCatch: 1
+  _detectionDrainRate: 1
   _segments: 20
 --- !u!195 &-5932651953419682619
 NavMeshAgent:
