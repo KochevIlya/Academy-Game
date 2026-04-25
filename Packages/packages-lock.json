@@ -7,6 +7,13 @@
       "dependencies": {},
       "hash": "73a63b7f672b88f7e9992f6917eb458a8cbb6fa9"
     },
+    "com.elringus.spriteglow": {
+      "version": "https://github.com/elringus/sprite-glow.git#package",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "05442994ffb7f6c679f648d702cdf888bd8c01dc"
+    },
     "com.kinematicsoup.scenefusion2lite": {
       "version": "file:com.kinematicsoup.scenefusion2lite",
       "depth": 0,
