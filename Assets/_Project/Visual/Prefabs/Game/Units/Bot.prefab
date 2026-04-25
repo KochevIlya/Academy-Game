@@ -934,7 +934,7 @@ MonoBehaviour:
   _obstacleMask:
     serializedVersion: 2
     m_Bits: 128
-  _timeToCatch: 1
+  _timeToCatch: 2
   _detectionDrainRate: 1
   _segments: 20
 --- !u!195 &-5932651953419682619
