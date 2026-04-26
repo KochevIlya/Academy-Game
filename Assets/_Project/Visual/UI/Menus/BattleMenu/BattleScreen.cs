@@ -76,9 +76,16 @@ namespace _Project.Visual.UI.Menus.BattleMenu
             
             if (newUnit == null) return;
             
-            var ability = newUnit.Ability; 
+            var ability = newUnit.Ability;
+            if (ability == null)
+                return;
+            AbilityPair pair = new AbilityPair();
+            if (_prefabsDictionary != null && _prefabsDictionary.TryGetValue(ability.GetAbilityType(), out var mappedPair))
+            {
+                pair = mappedPair;
+            }
             
-            _abilityPair = _prefabsDictionary[ability.GetAbilityType()];
+            
             _currentHealth = newUnit.Health;
             //
             // _abilityPair.PrefabOn.SetActive(true);
@@ -113,25 +120,31 @@ namespace _Project.Visual.UI.Menus.BattleMenu
                         if (!ability.IsReady.Value)
                         {
                             
-                            _abilityPair.CooldownText.text = $"{ability.CurrentTimer:F1}";
-                            _abilityPair.PrefabOn.SetActive(false);
-                            _abilityPair.PrefabOff.SetActive(true);
+                            if(pair.CooldownOverlay != null)
+                                pair.CooldownText.text = $"{ability.CurrentTimer:F1}";
+                            if(pair.PrefabOn != null)
+                                pair.PrefabOn.SetActive(false);
+                            if(pair.PrefabOff != null)
+                                pair.PrefabOff.SetActive(true);
                         }
                         else
                         {
-                            _abilityPair.CooldownText.text = $"";
-                            _abilityPair.PrefabOn.SetActive(true);
-                            _abilityPair.PrefabOff.SetActive(false);
+                            if(pair.CooldownOverlay != null)
+                                pair.CooldownText.text = $"";
+                            if(pair.PrefabOn != null)
+                                pair.PrefabOn.SetActive(true);
+                            if(pair.PrefabOff != null)
+                                pair.PrefabOff.SetActive(false);
                         }
-                        _abilityPair.CooldownOverlay.fillAmount = fill;
+                        pair.CooldownOverlay.fillAmount = fill;
                     }
                 })
-                .AddTo(this);
+                .AddTo(_unitDisposables);
             _currentHealth.CurrentHealth.Subscribe(_ =>
                 {
                     ChangeHealth();
                 })
-            .AddTo(this);
+            .AddTo(_unitDisposables);
             
         }
         
