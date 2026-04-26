@@ -28,6 +28,10 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
 
         private readonly Subject<bool> _battleStateSubject = new Subject<bool>();
         public IObservable<bool> BattleStateChanged => _battleStateSubject;
+        
+        private readonly Subject<UniRx.Unit> _zoneClearedSubject = new Subject<UniRx.Unit>();
+        public IObservable<UniRx.Unit> OnZoneCleared => _zoneClearedSubject;
+        
 
         public bool IsBattleActive => _isAlarmActive;
         [Inject] HackingService  _hackingService;
@@ -185,10 +189,15 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
                 }
                 
             }
+
             if (remainingBots.Count == 0)
+            {
                 foreach (var terminal in _activeTerminals)
-                    terminal.SetHackingStatus(false); 
-                
+                    terminal.SetHackingStatus(false);
+                Debug.Log($"<color=cyan>ЗОНА {name}: ЗАЧИЩЕНА!</color>");
+                _zoneClearedSubject.OnNext(UniRx.Unit.Default);
+            }
+
         }
         public void ActivateAggroOnUnit(GameUnit unit)
         {

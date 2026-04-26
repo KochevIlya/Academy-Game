@@ -100,9 +100,9 @@ namespace _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls.Variants
         private async UniTaskVoid WaitAtPoint()
         {
             _isWaiting = true;
-            _waitStartTime = Time.time;
+            _waitStartTime = Time.time; 
         
-            _waitForwardDirection = _self.transform.forward;
+            _waitForwardDirection = _waypoints[_currentIndex].PointTransform.forward;
             if (_waitForwardDirection == Vector3.zero) _waitForwardDirection = Vector3.forward;
         
             float waitTime = _waypoints[_currentIndex].WaitTime;
