@@ -5,23 +5,23 @@ using _Project.Scripts.Infrastructure.Gui.Screens;
 using _Project.Scripts.Infrastructure.UIMediator;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Zenject;
 
-public class GameOverScreen : BaseScreen
+public class VictoryWindow : BaseScreen
 {
     private IMenuActionsService _menuActionsService;
     private IUIMediator _uiMediator;
     
     [SerializeField] private Button _mainMenuButton;
     [SerializeField] private Button _exitButton;
-    [SerializeField] private Button _loadButton;
 
     public override bool IsOverlay => true;
     
     [Inject]
     public void Construct(IMenuActionsService menuActionsService
-    ,IUIMediator  uiMediator
+        ,IUIMediator  uiMediator
     )
     { 
         _menuActionsService = menuActionsService;
@@ -29,7 +29,6 @@ public class GameOverScreen : BaseScreen
         
         _mainMenuButton.onClick.AddListener(_menuActionsService.ExitMainMenu);
         _exitButton.onClick.AddListener(_menuActionsService.ExitGame);
-        _loadButton.onClick.AddListener(_uiMediator.LoadGameFromPause);
     }
 
     
@@ -42,6 +41,6 @@ public class GameOverScreen : BaseScreen
         base.Show().Forget();
     }
 
-    public override ScreenType GetScreenType() => ScreenType.GameOver; 
+    public override ScreenType GetScreenType() => ScreenType.VictoryWindow; 
     
 }

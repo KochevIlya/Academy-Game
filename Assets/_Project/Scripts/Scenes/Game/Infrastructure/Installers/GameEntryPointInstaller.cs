@@ -12,6 +12,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
       Container.BindState<InitializeGameServices>();
       Container.BindState<SpawnGameState>();
       Container.BindState<GameOverState>();
+      Container.BindState<VictoryState>();
       Container.BindState<GameLoopState>();
       Container.BindState<LoadProgressState>();
       Container.BindState<SaveProgressState>();

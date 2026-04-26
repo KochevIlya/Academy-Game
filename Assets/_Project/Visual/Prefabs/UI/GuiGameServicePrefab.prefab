@@ -73,6 +73,9 @@ MonoBehaviour:
   - ScreenType: 13
     Prefab: {fileID: 3540071079588056327, guid: 989be3b25f149ac4897731cd679eae8f,
       type: 3}
+  - ScreenType: 14
+    Prefab: {fileID: 1297523339801135119, guid: f4f7fe96c1eb9eb458c922e4e99df114,
+      type: 3}
   pauseMenuWindowPrefab: {fileID: 4420036374338241017, guid: aa84e0301a7c1b04da9ba77afc8a5f6e,
     type: 3}
 --- !u!1 &7850851786578166575
@@ -194,8 +197,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
