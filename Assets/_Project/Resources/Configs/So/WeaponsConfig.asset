@@ -59,7 +59,7 @@ MonoBehaviour:
       Data: 0.01
     - Name: BulletLifeTime
       Entry: 4
-      Data: 5
+      Data: 1
     - Name: Speed
       Entry: 4
       Data: 16
@@ -185,7 +185,7 @@ MonoBehaviour:
       Data: 0.7
     - Name: BulletLifeTime
       Entry: 4
-      Data: 1
+      Data: 0.7
     - Name: Speed
       Entry: 4
       Data: 12
