@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using _Project.Scripts.Infrastructure.AssetProvider;
 using _Project.Scripts.Infrastructure.Gui.Camera;
 using _Project.Scripts.Infrastructure.StaticData;
@@ -125,6 +126,12 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     {
       PatrolPath path = PatrolPathSaveHelper.RestorePath(data.customPath, data.Id);
       GameUnit unit = await SpawnGameUnit(data.Position, data.CharacteristicsType, path);
+      if (unit.Health.IsDead())
+      {
+        Debug.Log("Unit dead");
+        unit.Health.TakeDamage(Int32.MaxValue);
+      }
+
       unit.SetId(data.Id);
       unit.LoadFromData(data);
       

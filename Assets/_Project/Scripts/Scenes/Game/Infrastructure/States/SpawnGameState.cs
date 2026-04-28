@@ -1,6 +1,7 @@
 ﻿using System;
 using _Project.Scripts.Infrastructure.Gui.Screens;
 using _Project.Scripts.Infrastructure.Gui.Service;
+using _Project.Scripts.Infrastructure.SaveLoad;
 using _Project.Scripts.Infrastructure.StateMachine;
 using _Project.Scripts.Infrastructure.StateMachine.States.Interfaces;
 using _Project.Scripts.Scenes.Game.Infrastructure.Factory;
@@ -20,11 +21,13 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
     private readonly IGameFactory _gameFactory;
     private readonly DiContainer _container;
     private readonly IProgressService _progressService;
+    private readonly ISaveLoadService _gameSaveLoadService;
     private readonly IGuiGameService _guiService;
     public SpawnGameState(IGameFactory gameFactory
       ,DiContainer container
       ,IProgressService progressService
       ,IGuiGameService guiService
+      ,ISaveLoadService saveLoadService
     
     )
     {
@@ -32,6 +35,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
       _gameFactory = gameFactory;
       _progressService = progressService;
       _guiService = guiService;
+      _gameSaveLoadService = saveLoadService;
     }
     
     public async UniTask Enter(IGameStateMachine gameStateMachine)
@@ -50,6 +54,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
             spawner.SetSpawnedUnit(unit);
           }
         }
+        
       }
       
       foreach (TerminalSpawner spawner in Object.FindObjectsOfType<TerminalSpawner>())
@@ -65,6 +70,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
       foreach (var zone in Object.FindObjectsOfType<CombatZone>())
       {
         _container.Inject(zone);
+        _gameSaveLoadService.RegisterZone(zone);
         zone.InitializeZone();
         
       }

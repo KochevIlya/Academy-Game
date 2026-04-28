@@ -16,6 +16,7 @@ using Zenject;
 public class CombatZone : MonoBehaviour, IZoneSaveable
     {
         [SerializeField] private List<UnitSpawner> _mySpawners;
+        [Inject] private SignalBus _signalBus;
         public List<GameUnit> _activeUnits = new List<GameUnit>();
         [SerializeField] private List<TerminalSpawner> _myTerminalSpawners;
         public List<HackingTerminal> _activeTerminals = new List<HackingTerminal>();
@@ -196,6 +197,13 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
                     terminal.SetHackingStatus(false);
                 Debug.Log($"<color=cyan>ЗОНА {name}: ЗАЧИЩЕНА!</color>");
                 _zoneClearedSubject.OnNext(UniRx.Unit.Default);
+                Observable.TimerFrame(5) 
+                    .Subscribe(_ => 
+                    {
+                        _signalBus.Fire<SaveRequestedSignal>();
+                        Debug.Log("<color=orange>Signal Sent: SaveRequested from CombatZone</color>");
+                    })
+                    .AddTo(_disposables);
             }
 
         }
