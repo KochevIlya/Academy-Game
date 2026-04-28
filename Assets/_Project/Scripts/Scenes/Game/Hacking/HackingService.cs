@@ -231,7 +231,7 @@ public class HackingService : IDisposable
         _currentPossessedUnit = null;
         _hackerUnit = _originalHero;
         
-        _cursorService.SetCrosshairCursor();
+        _cursorService.SetDefaultCursor();
         _cursorService.SetVisible(true);
         _cursorService.SetLockState(false);
         _currentZoneContext = null;
