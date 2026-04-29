@@ -57,7 +57,7 @@ MonoBehaviour:
       Data: 100
     - Name: speed
       Entry: 4
-      Data: 4
+      Data: 6
     - Name: patrolSpeed
       Entry: 4
       Data: 0
@@ -93,7 +93,7 @@ MonoBehaviour:
       Data: 450
     - Name: speed
       Entry: 4
-      Data: 6
+      Data: 7
     - Name: patrolSpeed
       Entry: 4
       Data: 1.2
@@ -129,7 +129,7 @@ MonoBehaviour:
       Data: 300
     - Name: speed
       Entry: 4
-      Data: 8
+      Data: 9
     - Name: patrolSpeed
       Entry: 4
       Data: 2
@@ -165,7 +165,7 @@ MonoBehaviour:
       Data: 750
     - Name: speed
       Entry: 4
-      Data: 3.5
+      Data: 4.5
     - Name: patrolSpeed
       Entry: 4
       Data: 0.6
