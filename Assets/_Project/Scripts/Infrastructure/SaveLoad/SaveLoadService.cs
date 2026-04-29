@@ -150,6 +150,8 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
             _cursorService.SetLockState(false);
         }
 
+        
+
         public void RegisterUnit(IUnitSaveable saveable)
         {
             if (!_unitSaveables.Contains(saveable))
@@ -178,6 +180,7 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
         {
             if(!_zoneSaveables.Contains(saveable))
                 _zoneSaveables.Add(saveable);
+            
         }
 
         public void UnregisterZone(IZoneSaveable saveable)

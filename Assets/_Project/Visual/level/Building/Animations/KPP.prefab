@@ -66,6 +66,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3da1f1c63641a92478796784c3162f08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &3242098883304275045
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8472072595232446829}
+  - component: {fileID: 6302376047926501627}
+  m_Layer: 0
+  m_Name: OpeningTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8472072595232446829
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3242098883304275045}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1913891562415594101}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6302376047926501627
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3242098883304275045}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 11.71663, y: 2.9780176, z: 9.04591}
+  m_Center: {x: -0.1320293, y: 0.9890088, z: -12.793393}
 --- !u!1001 &2091142752927186334
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -166,6 +219,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6382908440606243609}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: e094f37807afbc942af54360dc5db0c4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8472072595232446829}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e094f37807afbc942af54360dc5db0c4,
         type: 3}
@@ -217,6 +274,7 @@ MonoBehaviour:
   _finalZone: {fileID: 0}
   _gateAnimator: {fileID: 1127085890615122641}
   _victoryTrigger: {fileID: 8537394503084900058}
+  _openingTrigger: {fileID: 0}
 --- !u!95 &1127085890615122641
 Animator:
   serializedVersion: 5

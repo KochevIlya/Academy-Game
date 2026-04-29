@@ -59,6 +59,8 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
       Debug.Log($"[UI] Creating Pause Button. Time: {Time.frameCount}");
       
       _cameraService.ResetZoom();
+      _cursorService.SetDefaultCursor();
+      _cursorService.SetVisible(true);
       _guiGameService.ShowPauseButton();
       
       Time.timeScale = 1f;

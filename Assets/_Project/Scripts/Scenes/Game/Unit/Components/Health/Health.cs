@@ -54,5 +54,14 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
     {
       _currentHealth.Value = value;
     }
+
+    public bool IsDead()
+    {
+      Debug.Log("[Health] In Health IsDead");
+      Debug.Log($"[Health] Current Unit Health {_currentHealth.Value}");
+      if (_currentHealth.Value <= 0)
+        Debug.Log("[Health] Unit dead");
+    return _currentHealth.Value <= 0;
+    }
   }
 }
