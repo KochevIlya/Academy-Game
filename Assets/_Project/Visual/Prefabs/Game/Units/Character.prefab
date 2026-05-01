@@ -68,6 +68,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 619441312511183627, guid: fe0d8696859b47940851431c5478d46c,
+        type: 3}
+      propertyPath: m_StepOffset
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 1787969264439270792, guid: fe0d8696859b47940851431c5478d46c,
         type: 3}
       propertyPath: m_Name
