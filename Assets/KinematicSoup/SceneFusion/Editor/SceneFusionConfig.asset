@@ -19,7 +19,7 @@ MonoBehaviour:
   m_syncPrefabs: 1
   UI:
     ShowUserCameras: 1
-    m_showLockShaders: 1
+    m_showLockShaders: 0
     m_showUserTerrainBrushes: 1
     m_hierarchyIconOffset: 0
     m_projectBrowserIconOffset: {x: 0, y: 0}
