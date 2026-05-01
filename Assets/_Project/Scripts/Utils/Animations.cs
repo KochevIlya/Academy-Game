@@ -9,5 +9,6 @@ namespace _Project.Scripts.Utils
     public static int Shoot => Animator.StringToHash(nameof(Shoot));
     public static int PushingButton => Animator.StringToHash(nameof(PushingButton));
     public static int IsRunning => Animator.StringToHash(nameof(IsRunning));
+    public static int Die => Animator.StringToHash(nameof(Die));
   }
 }

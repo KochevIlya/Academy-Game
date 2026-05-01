@@ -27,6 +27,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Animator
             var lerpVector = Vector2.Lerp(_lastVelocity, localDirection, _movementSmoothing * deltaTime);
             _animator.SetFloat(Animations.VelocityX, lerpVector.x);
             _animator.SetFloat(Animations.VelocityY, lerpVector.y);
+            if (gameObject.name == "Character(Clone)") Debug.Log(gameObject.name + " - " + lerpVector);
             _lastVelocity = lerpVector;
             _animator.SetBool(Animations.IsRunning, Math.Abs(lerpVector.x) + Math.Abs(lerpVector.y) > 0.1 );
         }
@@ -81,6 +82,8 @@ namespace _Project.Scripts.Scenes.Game.Unit.Animator
             _animator.SetTrigger(Animations.Shoot);
             OnShootCast.Execute(UniRx.Unit.Default);
         }
+
+        public void Die() => _animator.SetTrigger(Animations.Die);
 
         public void PushButton() => _animator.SetTrigger(Animations.PushingButton);
 

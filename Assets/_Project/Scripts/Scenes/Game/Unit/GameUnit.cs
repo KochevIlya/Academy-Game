@@ -55,6 +55,8 @@ namespace _Project.Scripts.Scenes.Game.Unit
       Id = id;
     }
     public UnitStatsData GetStats() => _stats;
+    
+    private bool isDying = false;
     private void Start()
     { 
       
@@ -63,8 +65,17 @@ namespace _Project.Scripts.Scenes.Game.Unit
       if (HealthView != null)
         HealthView.Initialize(this);
       
-      Health.Die.Subscribe(_ => Destroy(gameObject)).AddTo(this);
+      Health.Die.Where(_ => !isDying).Subscribe(_ =>
+      {
+        isDying = true;
+        Weapon = null;
+        Destroy(GetComponent<HackableComponent>());
+        UpdateControls(new DummyInputControls(InputControls.MousePosition));
+        Animator.Die();
+        Destroy(gameObject, 10f);
+      }).AddTo(this);
     }
+    
     public void SetAbility(IAbility ability) 
     {
       Ability = ability;
@@ -122,6 +133,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
       Observable.EveryUpdate()
         .Select(_ => InputControls.MousePosition)
         .TakeUntilDestroy(this)
+        .Where(_ => InputControls is not DummyInputControls)
         .Subscribe(mousePos => _rotator.Value.Rotate(this, mousePos, Time.deltaTime))
         .AddTo(_lifetimeDisposable);
     }
@@ -159,7 +171,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     
     public void DisableControl()
     {
-      UpdateControls(new DummyInputControls());
+      UpdateControls(new DummyInputControls(InputControls.MousePosition));
       IsUnderControl = false;
       Debug.Log($"[{name}] Управление переведено на Dummy.");
     }

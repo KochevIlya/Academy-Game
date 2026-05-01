@@ -8,6 +8,10 @@ namespace _Project.Scripts.Scenes.Game.Unit.Controls.Variants
 {
   public class DummyInputControls : IInputControls
   {
+    public DummyInputControls(Vector2 mousePosition = new Vector2())
+    {
+      MousePosition = mousePosition;
+    }
     public IObservable<Vector3> OnMovement { get; } = new Subject<Vector3>();
     public IObservable<UniRx.Unit> OnShoot { get; } = new Subject<UniRx.Unit>();
     public IObservable<UniRx.Unit> OnAbilityUse { get; } = new Subject<UniRx.Unit>();
