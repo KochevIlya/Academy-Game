@@ -202,7 +202,7 @@ public class HackingService : IDisposable
     private void SelfDestroy()
     {
         var currentUnit = _currentPossessedUnit.GetComponentInChildren<GameUnit>();
-        currentUnit.Health.TakeDamage(Int32.MaxValue);
+        currentUnit.SelfDestroy();
         ReturnToOriginalBody();
     }
     public void ReturnToOriginalBody()
@@ -330,6 +330,9 @@ public class HackingService : IDisposable
             
             _isPossessing = true;
             _currentPossessedUnit = victimUnit;
+            
+            _disposables.Clear();
+            SubscribeToInput();
             
             _posessionService.Possess(victimUnit);
             _isBattleActive.Value = true;

@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using _Project.Scripts.Libs.SerializeInterface;
 using _Project.Scripts.Scenes.Game.Shoot;
@@ -22,6 +23,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
 {
   public class GameUnit : MonoBehaviour, IUnitSaveable
   {
+    [Inject] private DiContainer _container;
     public UnitAnimator Animator;
     public Health Health;
 
@@ -40,6 +42,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     [SerializeField] private InterfaceReference<IUnitMover> _botMover;
     [SerializeField] private InterfaceReference<IUnitRotator> _rotator;
     [SerializeField] private InterfaceReference<IUnitAttacker> _attacker;
+    [SerializeField] private GrenadeExplosionEffect _explosionPrefab;
     //[SerializeField] private float _moveSpeed = 1.5f;
     private IUnitMover _currentMover;
     private UnitStatsData _stats;
@@ -48,12 +51,18 @@ namespace _Project.Scripts.Scenes.Game.Unit
     
     private readonly CompositeDisposable _lifetimeDisposable = new CompositeDisposable();
     
+    public GrenadeExplosionEffect SelfDestructionPrefab => _explosionPrefab;
     public IInputControls InputControls { get; private set; }
+    [SerializeField] private float _timeToSelfDestroy = 5f;
+    [SerializeField] private float _explosionRadius = 3f;
+    [SerializeField] private int _explosionDamage = 500;
+    private bool _isExploded = false;
     public string Id { get; private set; }
     public void SetId(string id)
     {
       Id = id;
     }
+    public float getTimeToSelfDestroy() {  return _timeToSelfDestroy; }
     public UnitStatsData GetStats() => _stats;
     private void Start()
     { 
@@ -218,6 +227,33 @@ namespace _Project.Scripts.Scenes.Game.Unit
       Health.SetHealth(data.CurrentHealth);
     }
 
+    public void SelfDestroy()
+    {
+      Vector3 explosionOrigin = transform.position;
+      var prefabFromUnit = SelfDestructionPrefab;
+        
+      if (prefabFromUnit != null)
+      {
+        var effect = _container.InstantiatePrefabForComponent<GrenadeExplosionEffect>(
+          prefabFromUnit, explosionOrigin, Quaternion.identity, null);
+        effect.Initialize(_explosionRadius, 0.5f);
+      }
+        
+      Collider[] hitColliders = Physics.OverlapSphere(explosionOrigin, _explosionRadius);
+    
+      foreach (var hitCollider in hitColliders)
+      {
+        if (!hitCollider.CompareTag("HitBox")) continue;
+
+        var health = hitCollider.GetComponentInParent<Health>();
+        if (health != null)
+        {
+          health.TakeDamage(_explosionDamage);
+        }
+      }
+      Debug.Log($"[SelfDestroy] Unit exploded! Damage: {_explosionDamage}, Targets found: {hitColliders.Length}");
+      Health.TakeDamage(Int32.MaxValue);
+    }
     
     public void DestroyEntity()
     {

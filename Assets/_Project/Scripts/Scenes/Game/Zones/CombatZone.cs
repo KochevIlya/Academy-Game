@@ -183,10 +183,18 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
             
                 if (lastBot.IsUnderControl)
                 {
-                    Debug.Log($"<color=yellow>ZONE: Игрок остался один в теле {lastBot.name}. Самоуничтожение носителя.</color>");
-            
-                    lastBot.Health.TakeDamage(999999); 
-                    Observable.TimerFrame(1).Subscribe(_ => _hackingService.ReturnToOriginalBody());
+                    Debug.Log($"<color=yellow>ZONE: Игрок остался один в теле {lastBot.name}. Самоуничтожение носителя через {lastBot.getTimeToSelfDestroy()} секунд...</color>");
+                    
+                    Observable.Timer(TimeSpan.FromSeconds(lastBot.getTimeToSelfDestroy()))
+                    .Subscribe(_ => 
+                    {
+                        if (lastBot != null)
+                        {
+                            lastBot.SelfDestroy();
+                            Observable.TimerFrame(1).Subscribe(__ => _hackingService.ReturnToOriginalBody());
+                        }
+                    })
+                    .AddTo(lastBot);
                 }
                 
             }
