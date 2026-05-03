@@ -12,7 +12,7 @@ using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using _Project.Scripts.Scenes.Game.Unit.Mover;
 using _Project.Scripts.Scenes.Game.Unit.Rotator;
 using _Project.Scripts.Scenes.Game.Unit._Data;
-using _Project.Scripts.Scenes.Game.Unit.Components.Health;
+using _Project.Scripts.Scenes.Game.Unit.Components.Timer;
 using System.Linq;
 using _Project.Scripts.Infrastructure.SaveLoad;
 using _Project.Scripts.Scenes.Game.Unit._Configs;
@@ -31,6 +31,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     private UnitСharacteristicsType _characteristicsType;
     [Inject] private ISaveLoadService _saveLoadService;
     [field: SerializeField] public HealthView HealthView { get; set; }
+    [field: SerializeField] public TimerView TimerView { get; set; }
     [field: SerializeField] public Transform WeaponPoint { get; private set; }
     public WeaponBase Weapon { get; private set; }
     public float SpeedMultiplier { get; set; } = 1f;
@@ -71,6 +72,9 @@ namespace _Project.Scripts.Scenes.Game.Unit
       
       if (HealthView != null)
         HealthView.Initialize(this);
+      
+      if (TimerView != null)
+        TimerView.Initialize(this);
       
       Health.Die.Subscribe(_ => Destroy(gameObject)).AddTo(this);
     }
