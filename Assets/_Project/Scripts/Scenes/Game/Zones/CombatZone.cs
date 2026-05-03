@@ -11,6 +11,7 @@ using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls.Variants;
 using _Project.Scripts.Scenes.Game.Hacking.Terminal;
+using _Project.Scripts.Scenes.Game.Posts;
 using Zenject;
 
 public class CombatZone : MonoBehaviour, IZoneSaveable
@@ -20,6 +21,7 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
         public List<GameUnit> _activeUnits = new List<GameUnit>();
         [SerializeField] private List<TerminalSpawner> _myTerminalSpawners;
         public List<HackingTerminal> _activeTerminals = new List<HackingTerminal>();
+        [SerializeField] private List<Post> _posts;
         private bool _isAlarmActive = false;
         private CompositeDisposable _disposables = new CompositeDisposable();
         private int _botsCount = 0;
@@ -195,6 +197,8 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
             {
                 foreach (var terminal in _activeTerminals)
                     terminal.SetHackingStatus(false);
+                foreach (var post in _posts)
+                    post.Hide();
                 Debug.Log($"<color=cyan>ЗОНА {name}: ЗАЧИЩЕНА!</color>");
                 _zoneClearedSubject.OnNext(UniRx.Unit.Default);
                 Observable.TimerFrame(5) 
