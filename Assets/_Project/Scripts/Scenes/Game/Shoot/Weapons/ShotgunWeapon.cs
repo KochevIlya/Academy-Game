@@ -31,7 +31,7 @@ public class ShotgunWeapon : RiffleWeapon
                 }
 
                 Vector3 finalDirection = Quaternion.Euler(0, currentAngleOffset, 0) * direction;
-
+                PerformVFX();
                 SpawnAndSetup(
                     finalDirection, 
                     WeaponData.Speed, 

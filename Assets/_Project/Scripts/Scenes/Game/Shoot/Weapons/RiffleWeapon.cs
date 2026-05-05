@@ -36,6 +36,7 @@ namespace _Project.Scripts.Scenes.Game.Shoot
         float fireHeight = SpawnPoint.position.y;
         _inputHelper.ScreenToGroundPosition(shootMousePosition, fireHeight, out var worldPosition); 
         var direction = (worldPosition - SpawnPoint.position).normalized;
+        PerformVFX();
         SpawnAndSetup(direction, WeaponData.Speed, WeaponData.BulletLifeTime, WeaponData.Damage, unit).Forget();
         _currentTime = 0f;
       }

@@ -19,7 +19,8 @@ public class QueuegunWeapon : RiffleWeapon
         {
             return;
         }
-
+        
+        PerformVFX();
         ShootBurst(shootMousePosition, unit).Forget();
     }
     

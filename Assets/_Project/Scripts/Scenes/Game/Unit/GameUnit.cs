@@ -212,6 +212,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     
     public EnemySaveData GetSaveData()
     {
+      if (Health.CurrentHealth.Value <= 0) return null;
       return new EnemySaveData
       {
         Id = this.Id,

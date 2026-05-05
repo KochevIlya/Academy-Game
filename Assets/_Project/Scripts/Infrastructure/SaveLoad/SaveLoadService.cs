@@ -56,7 +56,7 @@ namespace _Project.Scripts.Infrastructure.SaveLoad
             foreach (var unit in _unitSaveables)
             {
                 var data = unit.GetSaveData();
-                levelData.enemies.Add(data);
+                if (data is not null) levelData.enemies.Add(data);
             }
 
             foreach (var terminal in _terminalSaveables)

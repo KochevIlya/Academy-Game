@@ -2,6 +2,7 @@
 using UniRx;
 using UnityEngine;
 using _Project.Scripts.Scenes.Game.Unit._Data;
+using JetBrains.Annotations;
 using UnityEngine.Serialization;
 
 namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
@@ -17,7 +18,11 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
     
     public float IncomingDamageMultiplier { get; set; } = 1f;
     public bool IsAlive => CurrentHealth.Value > 0;
-
+    
+    [Header("Take Damage VFX (to disable, leave nothing in prefab)")]
+    [SerializeField] [CanBeNull] private GameObject VFXPrefab;
+    [SerializeField] private Vector3 vfxOffset = new Vector3(0f, 0f, 0f);
+    [SerializeField] private float vfxScaleModifier = 1;
 
     private ReactiveProperty<int> _currentHealth;
     private ReactiveProperty<int> _maxHealth;
@@ -37,6 +42,15 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
       Debug.Log($"In Taking Damage IncomingDamageMultiplier: {IncomingDamageMultiplier}, Amount: {amount}, CurrentAmount: {actualAmount}" );
       _currentHealth.Value = Mathf.Max(_currentHealth.Value - actualAmount, 0);
       _onDamageTaken.OnNext(amount);
+      
+      Debug.Log($"[HEALTH] In Health Taking Damage VFX {VFXPrefab is not null} ===========================================");
+      if (VFXPrefab is not null)
+      {
+        Debug.Log("[HEALTH] In Health Taking Damage VFX ===========================================");
+        var vfxObj = Instantiate(VFXPrefab, gameObject.transform.position + vfxOffset, Quaternion.identity);
+        vfxObj.transform.localScale *= vfxScaleModifier;
+      }
+      
       if (_currentHealth.Value <= 0)
       {
         _die.OnNext(UniRx.Unit.Default);
@@ -52,6 +66,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
 
     public void SetHealth(int value)
     {
+      Debug.Log($"[Health] Current Health: {value}");
       _currentHealth.Value = value;
     }
 
