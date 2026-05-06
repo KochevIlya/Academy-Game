@@ -289,6 +289,21 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
         {
             _hackingAttempts = data.Attempts;
             
+            Observable.NextFrame().Subscribe(_ => RefreshPostsState()).AddTo(_disposables);
+        }
+
+        private void RefreshPostsState()
+        {
+            if (_activeUnits.Count == 0)
+            {
+                foreach (var post in _posts)
+                {
+                    if (post != null)
+                    {
+                        post.HideImmediate();
+                    }
+                }
+            }
         }
 
         private void ReturnToPatrol()

@@ -39,6 +39,20 @@ namespace _Project.Scripts.Scenes.Game.Posts
             _plane.transform.DOKill();
             _plane.transform.DOMove(_originalPosition, _moveDuration).SetEase(Ease.InOutQuad);
         }
+        
+        public void HideImmediate()
+        {
+            _isActive = false;
+            _plane.transform.DOKill();
+    
+            if (_originalPosition == Vector3.zero) 
+            {
+                _originalPosition = _plane.transform.position;
+                _targetPosition = _originalPosition - new Vector3(0, _moveDownDistance, 0);
+            }
+    
+            _plane.transform.position = _targetPosition;
+        }
     }
 }
 
