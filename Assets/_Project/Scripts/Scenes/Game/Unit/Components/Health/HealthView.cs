@@ -65,7 +65,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
             _fillImage.gameObject.SetActive(isVisible);
             return;
         }
-        private void FixedUpdate()
+        private void LateUpdate()
         {
             if (_targetUnit == null || _targetUnit.gameObject == null)
             {

@@ -166,7 +166,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Camera
         
             
             float currentSize = lens.OrthographicSize;
-            float nextSize = Mathf.Lerp(currentSize, _targetDistance, Time.deltaTime * _zoomSpeed);
+            float nextSize = Mathf.Lerp(currentSize, _targetDistance, Time.unscaledDeltaTime * _zoomSpeed);
         
             lens.OrthographicSize = nextSize;
         

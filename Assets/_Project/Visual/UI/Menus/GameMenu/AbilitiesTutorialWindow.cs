@@ -32,6 +32,7 @@ namespace _Project.Visual.UI.Menus.GameMenu
             if (_hackingService != null && _hackingService.IsBattleActive.Value)
             {
                 gameObject.SetActive(true);
+                Time.timeScale = 0f;
                 await base.Show();
             }
         }
@@ -58,11 +59,13 @@ namespace _Project.Visual.UI.Menus.GameMenu
         }
         private void CloseTutorial()
         {
+            Time.timeScale = 1f;
             Debug.Log("[Abilities Tutorial] Ability used! Closing...");
             _guiService.CloseScreen(GetScreenType()).Forget(); 
         }
         private void SwitchWindow(bool isActive)
         {
+            Time.timeScale = 1f;
             if (isActive)
             {
                 Debug.Log($"[Abilities Tutorial Window] Battle active. Showing window.");

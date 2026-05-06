@@ -9,9 +9,14 @@ using Zenject;
 
 public class SelectionTutorialWindow : BaseScreen
 {
-    
     private HackingService _hackingService;
     private IGuiGameService _guiService;
+ 
+    public override async UniTask Show()
+    {
+        Time.timeScale = 0f;
+        await base.Show();
+    }
     
     [Inject]
     public void Construct(
@@ -33,6 +38,7 @@ public class SelectionTutorialWindow : BaseScreen
     
     private void SwitchWindow()
     {
+        Time.timeScale = 1f;
         _guiService.ShowWindow(ScreenType.AbilitiesTutorialWindow).Forget();
         _guiService.CloseScreen(ScreenType.SelectionTutorialWindow).Forget();
     }
