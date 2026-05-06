@@ -16,7 +16,8 @@ namespace _Project.Scripts.Infrastructure.Gui.Screens
     TutorialTerminalWindow,
     SelectionTutorialWindow,
     AbilitiesTutorialWindow,
-    VictoryWindow
+    VictoryWindow,
+    CreditsWindow
     
     
   }

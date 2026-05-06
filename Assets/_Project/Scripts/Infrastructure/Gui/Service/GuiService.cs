@@ -13,6 +13,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
   {
     [SerializeField] private Canvas.StaticCanvas _staticCanvas;
     [SerializeField] private ControlsWindow _controlsWindowPrefab;
+    [SerializeField] private CreditsWindow _creditsWindowPrefab;
     [SerializeField] private MainMenuWindow _mainMenuWindowPrefab;
     
     private readonly Stack<BaseScreen> _screens = new Stack<BaseScreen>();
@@ -58,6 +59,11 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     public void ShowControlsWindow()
     {
       ShowScreen(_controlsWindowPrefab).Forget();
+    }
+    
+    public void ShowCreditsWindow()
+    {
+      ShowScreen(_creditsWindowPrefab).Forget();
     }
 
     public void ShowMainMenuWindow(bool isAlreadySaved) => ShowScreen(_mainMenuWindowPrefab).Forget();

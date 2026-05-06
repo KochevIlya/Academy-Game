@@ -12,6 +12,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     void ShowPauseMenuWindow();
     void ShowPauseButton();
     void ShowControlsWindow();
+    void ShowCreditsWindow();
     void ShowMainMenuWindow(bool isAlreadySaved = true);
   }
 }

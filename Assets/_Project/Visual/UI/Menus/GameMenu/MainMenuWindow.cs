@@ -35,6 +35,7 @@ public class MainMenuWindow : BaseScreen
             
         _continueButton.onClick.AddListener(_menuActionsService.LoadGame);
         _controlsButton.onClick.AddListener(OpenControls);
+        _authorsButton.onClick.AddListener(_guiService.ShowCreditsWindow);
         _exitButton.onClick.AddListener(_menuActionsService.ExitGame);
         _newGameButton.onClick.AddListener(_menuActionsService.LoadNewGame);
         
