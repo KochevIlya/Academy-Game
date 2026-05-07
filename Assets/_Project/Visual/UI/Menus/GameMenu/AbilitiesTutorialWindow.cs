@@ -14,6 +14,7 @@ namespace _Project.Visual.UI.Menus.GameMenu
         private IGuiGameService _guiService;
         private IPlayerProvider _playerProvider;
         private readonly SerialDisposable _abilitySubscription = new SerialDisposable();
+        [SerializeField] private SkipPanel _skipHandler;
     
         [Inject]
         public void Construct(
@@ -49,6 +50,13 @@ namespace _Project.Visual.UI.Menus.GameMenu
             _playerProvider.ActiveUnit
                 .Subscribe(OnUnitChanged)
                 .AddTo(LifeTimeDisposable);
+            
+            if (_skipHandler != null)
+            {
+                _skipHandler.OnSkipPressed
+                    .Subscribe(_ => CloseTutorial())
+                    .AddTo(LifeTimeDisposable);
+            }
         }
         private void OnUnitChanged(GameUnit unit)
         {
