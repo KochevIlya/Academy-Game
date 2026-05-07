@@ -124,6 +124,15 @@ public class HackingService : IDisposable
         OnHackingProcessStarted.OnNext(null);
         _cameraService.ZoomOut();
 
+        if (_currentZoneContext != null)
+        {
+            _hackableSelector.SetAllowedTargets(_currentZoneContext.GetActiveUnits());
+        }
+        else
+        {
+            _hackableSelector.SetAllowedTargets(null);
+        }
+        
         try
         {
             _cursorService.SetDefaultCursor();
@@ -145,6 +154,7 @@ public class HackingService : IDisposable
         }
         finally
         {
+            _hackableSelector.SetAllowedTargets(null);
             _hackingCompletionSource?.TrySetResult(); 
             _hackingCompletionSource = null;
         }
