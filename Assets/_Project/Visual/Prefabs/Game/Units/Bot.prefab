@@ -800,6 +800,12 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 7468955070000597841, guid: 0d571c597da462243b8e5d89d8304f49,
+        type: 3}
+      propertyPath: VFXPrefab
+      value: 
+      objectReference: {fileID: 8782009059513614302, guid: 171dda363e9efd94ca9bc63e38ca9658,
+        type: 3}
     - target: {fileID: 7539180740147523322, guid: 0d571c597da462243b8e5d89d8304f49,
         type: 3}
       propertyPath: m_Layer

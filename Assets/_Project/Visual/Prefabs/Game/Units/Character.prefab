@@ -97,7 +97,7 @@ PrefabInstance:
         type: 3}
       propertyPath: VFXPrefab
       value: 
-      objectReference: {fileID: 1035977224672214417, guid: 057aa477789506a44bd206e9c5acad19,
+      objectReference: {fileID: 8782009059513614302, guid: 171dda363e9efd94ca9bc63e38ca9658,
         type: 3}
     - target: {fileID: 2791659882551571227, guid: fe0d8696859b47940851431c5478d46c,
         type: 3}
@@ -110,6 +110,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 03b8bd25613314449b2e21878467a466,
         type: 2}
+    - target: {fileID: 2791659882551571227, guid: fe0d8696859b47940851431c5478d46c,
+        type: 3}
+      propertyPath: vfxScaleModifier
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3745044819507979051, guid: fe0d8696859b47940851431c5478d46c,
         type: 3}
       propertyPath: _animator

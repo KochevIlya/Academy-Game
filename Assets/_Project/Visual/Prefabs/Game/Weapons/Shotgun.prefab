@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnPoint: {fileID: 7685892925020640612}
-  VFXPrefab: {fileID: 1035977224672214417, guid: 057aa477789506a44bd206e9c5acad19,
+  VFXPrefab: {fileID: 3042519775331041172, guid: 841004c4c6a39e244abe2257394de913,
     type: 3}
   vfxOffset: {x: 0, y: 0, z: 0}
   vfxScaleModifier: 1

@@ -289,6 +289,11 @@ PrefabInstance:
       propertyPath: _animator
       value: 
       objectReference: {fileID: 6447301706022800339}
+    - target: {fileID: 3926903964614392246, guid: f61f6339d95855f4087a3dc62edb99bd,
+        type: 3}
+      propertyPath: vfxScaleModifier
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7608529330507171527, guid: f61f6339d95855f4087a3dc62edb99bd,
         type: 3}
       propertyPath: m_Materials.Array.data[0]

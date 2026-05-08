@@ -209,12 +209,17 @@ PrefabInstance:
     - target: {fileID: 6470226109407749570, guid: 0d571c597da462243b8e5d89d8304f49,
         type: 3}
       propertyPath: m_Name
-      value: Bot
+      value: Debug
       objectReference: {fileID: 0}
     - target: {fileID: 6470226109407749570, guid: 0d571c597da462243b8e5d89d8304f49,
         type: 3}
       propertyPath: m_TagString
       value: Bot
+      objectReference: {fileID: 0}
+    - target: {fileID: 7468955070000597841, guid: 0d571c597da462243b8e5d89d8304f49,
+        type: 3}
+      propertyPath: vfxScaleModifier
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7862558533910167365, guid: 0d571c597da462243b8e5d89d8304f49,
         type: 3}
@@ -257,6 +262,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4e328968aa4446438be63646ed95435, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _eyeAnchor: {fileID: 0}
+  _viewMeshFilter: {fileID: 2116732295429898156}
+  _viewMeshRenderer: {fileID: 0}
   _viewRadius: 5
   _viewAngle: 120
   _targetMask:
@@ -265,7 +273,8 @@ MonoBehaviour:
   _obstacleMask:
     serializedVersion: 2
     m_Bits: 0
-  _viewMeshFilter: {fileID: 2116732295429898156}
+  _timeToCatch: 2
+  _detectionDrainRate: 1
   _segments: 20
 --- !u!4 &8816781100239282816 stripped
 Transform:
