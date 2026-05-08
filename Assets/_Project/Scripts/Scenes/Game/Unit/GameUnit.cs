@@ -84,10 +84,6 @@ namespace _Project.Scripts.Scenes.Game.Unit
     {
       _saveLoadService.UnregisterUnit(this);
       _lifetimeDisposable.Clear();
-      if (PatrolPath != null)
-      {
-        Destroy(PatrolPath.gameObject);
-      }
     }
 
     public void UpdateControls(IInputControls inputControls)

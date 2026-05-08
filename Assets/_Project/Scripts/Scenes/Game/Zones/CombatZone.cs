@@ -19,6 +19,7 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
         [Inject] private SignalBus _signalBus;
         public List<GameUnit> _activeUnits = new List<GameUnit>();
         [SerializeField] private List<TerminalSpawner> _myTerminalSpawners;
+        [SerializeField] private List<PatrolPath> _myPatrolPaths;
         public List<HackingTerminal> _activeTerminals = new List<HackingTerminal>();
         private bool _isAlarmActive = false;
         private CompositeDisposable _disposables = new CompositeDisposable();
@@ -57,12 +58,12 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
         public void InitializeZone()
         {
             _saveLoadService.RegisterZone(this);
+            _myPatrolPaths.Clear();
             foreach (var spawner in _mySpawners)
             {
                 if (spawner.SpawnedUnit != null)
                 {
                     RegisterUnit(spawner.SpawnedUnit);
-                    
                 }
             }
             
@@ -148,6 +149,10 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
             unit.OnUnitHacked
                 .Subscribe(_ => CheckLastSurvivor())
                 .AddTo(unit);
+            if (unit.PatrolPath != null)
+            {
+                _myPatrolPaths.Add(unit.PatrolPath);
+            }
             _botsCount++;
         }
 
@@ -293,10 +298,26 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
             
             Debug.Log($"ЗОНА {name}: Все враги возвращаются к патрулированию.");
 
+            var occupiedPaths = _activeUnits
+                .Where(u => u != null && u.PatrolPath != null)
+                .Select(u => u.PatrolPath)
+                .ToList();
+
+            var availablePaths = _myPatrolPaths
+                .Where(p => p != null && !occupiedPaths.Contains(p))
+                .ToList();
+            
+            int pathIndex = 0;
+            
             foreach (var bot in _activeUnits)
             {
                 if (bot == null || bot.IsUnderControl) continue;
                 
+                if (bot.PatrolPath == null && pathIndex < availablePaths.Count)
+                {
+                    bot.PatrolPath = availablePaths[pathIndex];
+                    pathIndex++;
+                }
                 bot.UpdateControls(new PatrolInputControls(bot));
             }
         }
