@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using _Project.Scripts.Scenes.Game.Unit.Components.Health;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class Grenade : MonoBehaviour
@@ -15,6 +16,11 @@ public class Grenade : MonoBehaviour
     private bool _exploded = false;
     [SerializeField] private GrenadeExplosionEffect _explosionPrefab;
     [SerializeField] private float _visualDuration = 0.5f;
+    
+    [Header("Take Damage VFX (to disable, leave nothing in prefab)")]
+    [SerializeField] [CanBeNull] private GameObject VFXPrefab;
+    [SerializeField] private Vector3 vfxOffset = new Vector3(0f, 0f, 0f);
+    [SerializeField] private float vfxScaleModifier = 1;
     public void Setup(Vector3 targetPosition, int damage, float radius, float fuseTime, float speed)
     {
         _targetPosition = targetPosition;
@@ -51,6 +57,11 @@ public class Grenade : MonoBehaviour
         {
             var effect = Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
             effect.Initialize(explosionRadius, _visualDuration);
+        }
+        if (VFXPrefab is not null)
+        {
+            var vfxObj = Instantiate(VFXPrefab, gameObject.transform.position + vfxOffset, Quaternion.identity);
+            vfxObj.transform.localScale *= vfxScaleModifier;
         }
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius);
         foreach (var hitCollider in hitColliders)

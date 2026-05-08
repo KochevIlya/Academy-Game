@@ -39,14 +39,14 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
     public void TakeDamage(int amount)
     {
       int actualAmount = (int)(IncomingDamageMultiplier * amount);
-      Debug.Log($"In Taking Damage IncomingDamageMultiplier: {IncomingDamageMultiplier}, Amount: {amount}, CurrentAmount: {actualAmount}" );
+      //Debug.Log($"In Taking Damage IncomingDamageMultiplier: {IncomingDamageMultiplier}, Amount: {amount}, CurrentAmount: {actualAmount}" );
       _currentHealth.Value = Mathf.Max(_currentHealth.Value - actualAmount, 0);
       _onDamageTaken.OnNext(amount);
       
-      Debug.Log($"[HEALTH] In Health Taking Damage VFX {VFXPrefab is not null} ===========================================");
+      //Debug.Log($"[HEALTH] In Health Taking Damage VFX {VFXPrefab is not null} ===========================================");
       if (VFXPrefab is not null)
       {
-        Debug.Log("[HEALTH] In Health Taking Damage VFX ===========================================");
+        //Debug.Log("[HEALTH] In Health Taking Damage VFX ===========================================");
         var vfxObj = Instantiate(VFXPrefab, gameObject.transform.position + vfxOffset, Quaternion.identity);
         vfxObj.transform.localScale *= vfxScaleModifier;
       }

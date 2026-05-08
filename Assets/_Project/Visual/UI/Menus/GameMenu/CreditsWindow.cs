@@ -18,7 +18,12 @@ public class CreditsWindow : BaseScreen
 
     [SerializeField] private float _movingPosY;
     [SerializeField] private float _startMovingPosY;
+    
+    [SerializeField] private RectTransform _lastObject;
+    [SerializeField] private RectTransform _logo;
 
+    private bool _isEnd = false;
+    
     public override bool IsOverlay => true;
     
     [Inject]
@@ -32,18 +37,25 @@ public class CreditsWindow : BaseScreen
 
     private void Start()
     {
+        Debug.Log(Screen.currentResolution.height);
+        _movingPosY = -Screen.currentResolution.height - _movingPart.sizeDelta.y / 2;
         _startMovingPosY = -_movingPart.sizeDelta.y / 2;
-        _movingPosY = _startMovingPosY - 300;
-
+        _lastObject.sizeDelta = new Vector2(_lastObject.sizeDelta.x, _lastObject.sizeDelta.y 
+            + Screen.currentResolution.height / 2 - _logo.sizeDelta.y / 2);
+        
+        //_movingPosY = _startMovingPosY - 300;
     }
 
     private void Update()
     {
-        _movingPosY += 1f;
-        if (_movingPosY >= -_startMovingPosY)
-            _movingPosY = _startMovingPosY - Screen.currentResolution.height;
+        _movingPosY += 0.7f;
         
-        _movingPart.anchoredPosition = new Vector2(_movingPart.anchoredPosition.x, _movingPosY);
+        if (_movingPosY <= -_startMovingPosY //+ _logo.GetComponent<RectTransform>().anchoredPosition.y/2)
+            )
+        {
+            //_movingPosY = _startMovingPosY - Screen.currentResolution.height;
+            _movingPart.anchoredPosition = new Vector2(_movingPart.anchoredPosition.x, _movingPosY);
+        }
     }
 
     public override ScreenType GetScreenType() => ScreenType.CreditsWindow; 
