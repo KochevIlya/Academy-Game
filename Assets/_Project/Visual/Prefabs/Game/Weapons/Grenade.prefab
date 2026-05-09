@@ -77,6 +77,10 @@ MonoBehaviour:
   _explosionPrefab: {fileID: -3121922822087632907, guid: 31386600cd686494c83ec09be63e9f5c,
     type: 3}
   _visualDuration: 0.5
+  VFXPrefab: {fileID: 3042519775331041172, guid: 841004c4c6a39e244abe2257394de913,
+    type: 3}
+  vfxOffset: {x: 0, y: 0, z: 0}
+  vfxScaleModifier: 1
 --- !u!136 &5278029712701433745
 CapsuleCollider:
   m_ObjectHideFlags: 0
