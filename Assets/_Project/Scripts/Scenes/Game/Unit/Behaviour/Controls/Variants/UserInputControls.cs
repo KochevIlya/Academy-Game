@@ -40,7 +40,10 @@ namespace _Project.Scripts.Scenes.Game.Unit.Controls.Variants
     public IObservable<UniRx.Unit> OnAction => _actionUse.Where(_ => !IsBlocked.Value);
     public IObservable<UniRx.Unit> OnCancel => _cancelUse;
 
-
+    public Vector2 GetMoveDirection()
+    {
+      return _moveDirection;
+    }
     public void Initialize()
     {
       if (_input == null)

@@ -33,17 +33,28 @@ namespace _Project.Scripts.Scenes.Game.Abilities
                     _input.IsBlocked.Value = false;
                     return;
                 }
-                Vector2 mouseScreenPos = _input.MousePosition;
-                if (!_inputHelper.ScreenToGroundPosition(mouseScreenPos, _unit.transform.position.y,
-                        out Vector3 targetWorldPos))
-                {
-                    _input.IsBlocked.Value = false;
-                    return;
-                }
+                // Vector2 mouseScreenPos = _input.MousePosition;
+                // if (!_inputHelper.ScreenToGroundPosition(mouseScreenPos, _unit.transform.position.y,
+                //         out Vector3 targetWorldPos))
+                // {
+                //     _input.IsBlocked.Value = false;
+                //     return;
+                // }
+                
+                Vector3 cameraForward = Camera.main.transform.forward;
+                cameraForward.y = 0;
+                cameraForward.Normalize();
 
-                Vector3 direction = targetWorldPos - _unit.transform.position;
-                direction.y = 0f;
+                Vector3 cameraRight = Camera.main.transform.right;
+                cameraRight.y = 0;
+                cameraRight.Normalize();
+
+                Vector2 inputMove = _input.GetMoveDirection();
+                Vector3 direction = (cameraForward * inputMove.y) + (cameraRight * inputMove.x);
+                
                 direction.Normalize();
+                
+                
 
                 _input.IsBlocked.Value = true;
  
