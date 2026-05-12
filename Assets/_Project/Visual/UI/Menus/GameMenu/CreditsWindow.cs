@@ -38,8 +38,11 @@ public class CreditsWindow : BaseScreen
     private void Start()
     {
         Debug.Log(Screen.currentResolution.height);
-        _movingPosY = -Screen.currentResolution.height - _movingPart.sizeDelta.y / 2;
-        _startMovingPosY = -_movingPart.sizeDelta.y / 2;
+        Debug.Log($"[CreditsWindow] MovingPart.SizeDelta.y: {_movingPart.sizeDelta.y}");
+        _movingPosY = - Screen.currentResolution.height;
+        Debug.Log($"[CreditsWindow] _movingPosY: {_movingPosY}");
+        _startMovingPosY = - Screen.currentResolution.height;
+        Debug.Log($"[CreditsWindow] _startMovingPosY: {_startMovingPosY}");
         _lastObject.sizeDelta = new Vector2(_lastObject.sizeDelta.x, _lastObject.sizeDelta.y 
             + Screen.currentResolution.height / 2 - _logo.sizeDelta.y / 2);
         
@@ -48,7 +51,7 @@ public class CreditsWindow : BaseScreen
 
     private void Update()
     {
-        _movingPosY += 0.7f;
+        _movingPosY += 0.4f;
         
         if (_movingPosY <= -_startMovingPosY //+ _logo.GetComponent<RectTransform>().anchoredPosition.y/2)
             )
