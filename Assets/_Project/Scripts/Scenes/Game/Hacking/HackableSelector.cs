@@ -17,6 +17,12 @@ namespace _Project.Scripts.Scenes.Game.Hacking
         private Transform _currentViewPoint;
         [Inject] private ICursorService _cursorService;
         [Inject] private IGuiGameService _guiGameService;
+        private List<GameUnit> _allowedTargets;
+        
+        public void SetAllowedTargets(List<GameUnit> targets)
+        {
+            _allowedTargets = targets;
+        }
         
         public void ClearContext()
         {
@@ -90,7 +96,15 @@ namespace _Project.Scripts.Scenes.Game.Hacking
             foreach (var hit in hits)
             {
                 var hackable = hit.collider.GetComponentInParent<HackableComponent>();
-                if (hackable != null) return hackable;
+                if (hackable != null)
+                {
+                    var unit = hackable.GetComponent<GameUnit>();
+                    if (_allowedTargets != null && !_allowedTargets.Contains(unit))
+                    {
+                        continue;
+                    }
+                    return hackable;
+                }
             }
             return null;
         }
