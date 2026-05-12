@@ -343,6 +343,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 371574051603860291, guid: 0d571c597da462243b8e5d89d8304f49,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 497233911948604914, guid: 0d571c597da462243b8e5d89d8304f49,
         type: 3}
       propertyPath: m_Layer
@@ -377,6 +382,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1307357686869155195, guid: 0d571c597da462243b8e5d89d8304f49,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1359913024065148288, guid: 0d571c597da462243b8e5d89d8304f49,
         type: 3}
@@ -458,6 +468,12 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 979db199ddec4db4dbd3a9859b801dc1,
+        type: 3}
+    - target: {fileID: 3029900669262944937, guid: 0d571c597da462243b8e5d89d8304f49,
+        type: 3}
+      propertyPath: _explosionPrefab
+      value: 
+      objectReference: {fileID: -3121922822087632907, guid: 31386600cd686494c83ec09be63e9f5c,
         type: 3}
     - target: {fileID: 3029900669262944937, guid: 0d571c597da462243b8e5d89d8304f49,
         type: 3}
