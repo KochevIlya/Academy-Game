@@ -269,5 +269,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _angleRange: 40
-  _speed: 0.1
-  _pauseTime: 199
+  _timeToRotate: 5
+  _pauseTime: 4
