@@ -20,12 +20,14 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
     [SerializeField] private GameObject _hackingPrefab;
     [SerializeField] private Transform _uiRoot;
     [SerializeField] private GuiGameService _guiServicePrefab;
+    
     public override void InstallBindings()
     {
       
       Container.DeclareSignal<SaveRequestedSignal>();
       
       Container.Bind<ISaveLoadService>().To<SaveLoadService>().AsSingle().NonLazy();
+      
       
       Container.Bind<IPlayerProvider>().To<PlayerProvider>().AsSingle();
       

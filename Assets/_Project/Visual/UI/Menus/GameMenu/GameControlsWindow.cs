@@ -16,9 +16,10 @@ public class GameControlsWindow : ControlsWindow
     public void Construct(IGuiGameService guiGameService
         ,UserInputControls inputControls
         ,IGuiService guiService
+        , ISoundService soundService
     )
     {
-        base.Construct(guiService);
+        base.Construct(guiService, soundService);
         _guiGameService = guiGameService;
         _inputControls = inputControls;
 
