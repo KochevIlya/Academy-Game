@@ -6,25 +6,45 @@ public class CameraRotator : MonoBehaviour
 {
     [Header("Настройки вращения")]
     [SerializeField] private float _angleRange = 45f;
-    [SerializeField] private float _speed = 1f;
+    [SerializeField] private float _timeToRotate = 1f;
     [SerializeField] private float _pauseTime = 0.5f;
 
     private Quaternion _startRotation;
-    private float _timer;
 
     private void Start()
     {
         _startRotation = transform.localRotation;
+        StartCoroutine(RotateRoutine());
     }
 
-    private void Update()
+    private IEnumerator RotateRoutine()
     {
-        float pingPong = Mathf.PingPong(Time.time * _speed, 1f);
+        while (true)
+        {
+            yield return StartCoroutine(MoveToAngle(_angleRange));
+            yield return new WaitForSeconds(_pauseTime);
+
+            yield return StartCoroutine(MoveToAngle(-_angleRange));
+            yield return new WaitForSeconds(_pauseTime);
+        }
+    }
+
+    private IEnumerator MoveToAngle(float targetAngle)
+    {
+        float elapsed = 0f;
+        Quaternion fromRotation = transform.localRotation;
+        Quaternion toRotation = _startRotation * Quaternion.Euler(0, targetAngle, 0);
+
+        while (elapsed < _timeToRotate)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / _timeToRotate;
+            float smoothedT = Mathf.SmoothStep(0, 1, t);
+            
+            transform.localRotation = Quaternion.Slerp(fromRotation, toRotation, smoothedT);
+            yield return null;
+        }
         
-        float smoothedStep = Mathf.SmoothStep(0f, 1f, pingPong);
-
-        float currentAngle = Mathf.Lerp(-_angleRange, _angleRange, smoothedStep);
-
-        transform.localRotation = _startRotation * Quaternion.Euler(0, currentAngle, 0);
+        transform.localRotation = toRotation;
     }
 }
