@@ -245,15 +245,15 @@ MonoBehaviour:
   _eyeAnchor: {fileID: 8573981966363589224}
   _viewMeshFilter: {fileID: 2269711182372469930}
   _viewMeshRenderer: {fileID: 0}
-  _viewRadius: 5
-  _viewAngle: 120
+  _viewRadius: 7
+  _viewAngle: 130
   _targetMask:
     serializedVersion: 2
     m_Bits: 247
   _obstacleMask:
     serializedVersion: 2
     m_Bits: 128
-  _timeToCatch: 2
+  _timeToCatch: 1.5
   _detectionDrainRate: 1
   _segments: 20
 --- !u!114 &684127761341417053
@@ -268,6 +268,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1021149d9fb355a4384eb956f21b61f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _angleRange: 45
-  _speed: 1
-  _pauseTime: 0.5
+  _angleRange: 40
+  _speed: 0.1
+  _pauseTime: 199
