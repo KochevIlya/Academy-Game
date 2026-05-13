@@ -14,6 +14,7 @@ namespace _Project.Scripts.Infrastructure.Installers
     
     [SerializeField] private GuiService _guiServicePrefab;
     [SerializeField] private AudioSource _musicAudioSource;
+    [SerializeField] private AudioSource _warSoundAudioSource;
     public override void InstallBindings()
     {
       Container
@@ -22,7 +23,14 @@ namespace _Project.Scripts.Infrastructure.Installers
         .AsSingle()
         .NonLazy();
       
-      Container.Bind<AudioSource>().FromInstance(_musicAudioSource).AsSingle();
+      Container.Bind<AudioSource>()
+        .WithId("Global")
+        .FromInstance(_musicAudioSource);
+      
+      Container.Bind<AudioSource>()
+        .WithId("War")
+        .FromInstance(_warSoundAudioSource);
+      
       Container.Bind<ISoundService>().To<SoundService>().AsSingle().NonLazy();
       Container.Bind<IProgressService>().To<ProgressService>().AsSingle();
       Container.Bind<IStaticDataService>().To<StaticDataService>().AsSingle();

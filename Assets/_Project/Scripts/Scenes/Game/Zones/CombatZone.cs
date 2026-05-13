@@ -18,6 +18,7 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
     {
         [SerializeField] private List<UnitSpawner> _mySpawners;
         [Inject] private SignalBus _signalBus;
+        [Inject] private ISoundService _soundService;
         public List<GameUnit> _activeUnits = new List<GameUnit>();
         [SerializeField] private List<TerminalSpawner> _myTerminalSpawners;
         [SerializeField] private List<PatrolPath> _myPatrolPaths;
@@ -219,6 +220,8 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
 
             if (remainingBots.Count == 0)
             {
+                _soundService.StopWar();
+                _soundService.PlayGlobal();
                 foreach (var terminal in _activeTerminals)
                     terminal.SetHackingStatus(false);
                 foreach (var post in _posts)
@@ -232,6 +235,7 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
                         Debug.Log("<color=orange>Signal Sent: SaveRequested from CombatZone</color>");
                     })
                     .AddTo(_disposables);
+                
             }
 
         }
@@ -251,6 +255,9 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
         {
             _isAlarmActive = true;
             _battleStateSubject.OnNext(true);
+            
+            _soundService.StopGlobal();
+            _soundService.PlayWar();
 
             target.Health.Die
                 .Take(1)
@@ -272,6 +279,9 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
         {
             _isAlarmActive = false;
             _battleStateSubject.OnNext(false);
+            
+            _soundService.StopWar();
+            _soundService.PlayGlobal();
             Debug.Log($"<color=green>ЗОНА {name}: цель: уничтожена</color>");
 
             foreach (var bot in _activeUnits)

@@ -6,7 +6,11 @@ public interface ISoundService
 
 {
     float Volume { get; set; }
-    void Play();
-    void Stop();
-    
+    void PlayGlobal();
+    void StopGlobal();
+    void PlayGlobalFromBeginning();
+    void PlayWar();
+    void StopWar();
+    void PlayWarFromBeginning();
+
 }

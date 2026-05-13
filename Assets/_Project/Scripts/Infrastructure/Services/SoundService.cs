@@ -1,19 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class SoundService : ISoundService
 {
-    private readonly AudioSource _audioSource;
+    private readonly AudioSource _globalAudioSource;
+    private readonly AudioSource _warAudioSource;
     private float _volume;
-    public SoundService(AudioSource audioSource)
+    public SoundService([Inject(Id = "Global")]AudioSource globalAudioSource, [Inject(Id = "War")]AudioSource warAudioSource)
     {
-        _audioSource = audioSource;
-        _volume = audioSource.volume;
-        
-        if (_audioSource != null)
+        _globalAudioSource = globalAudioSource;
+        _warAudioSource = warAudioSource;
+        _volume = globalAudioSource.volume;
+        StopWar();
+        if (_globalAudioSource != null)
         {
-            _audioSource.volume = _volume;
+            _globalAudioSource.volume = _volume;
         }
     }
     public float Volume
@@ -23,25 +26,75 @@ public class SoundService : ISoundService
         {
             _volume = Mathf.Clamp01(value); 
             
-            if (_audioSource != null)
+            if (_globalAudioSource != null)
             {
-                _audioSource.volume = _volume;
+                _globalAudioSource.volume = _volume;
             }
         }
     }
+
+    public void PlayGlobal()
+    {
+        if (_globalAudioSource != null && !_globalAudioSource.isPlaying)
+        {
+            _globalAudioSource.Play();
+        }
+    }
+
+    public void StopGlobal()
+    {
+        if (_globalAudioSource != null && _globalAudioSource.isPlaying)
+        {
+            _globalAudioSource.Stop();
+        }
+    }
+
+    public void PlayGlobalFromBeginning()
+    {
+        if (_globalAudioSource != null && !_globalAudioSource.isPlaying)
+        {
+            _globalAudioSource.Play();
+        }
+    }
+
+    public void PlayWar()
+    {
+        if (_warAudioSource != null && !_warAudioSource.isPlaying)
+        {
+            Debug.Log("[Sound Service] Play War]");
+            _warAudioSource.Play();
+        }
+    }
+
+    public void StopWar()
+    {
+        if (_warAudioSource != null && _warAudioSource.isPlaying)
+        {
+            _warAudioSource.Stop();
+        }
+    }
+
+    public void PlayWarFromBeginning()
+    {
+        if (_warAudioSource != null && !_warAudioSource.isPlaying)
+        {
+            _warAudioSource.Play();
+        }
+    }
+
     public void Play()
     {
-        if (_audioSource != null && !_audioSource.isPlaying)
+        if (_globalAudioSource != null && !_globalAudioSource.isPlaying)
         {
-            _audioSource.Play();
+            _globalAudioSource.Play();
         }
     }
 
     public void Stop()
     {
-        if (_audioSource != null && _audioSource.isPlaying)
+        if (_globalAudioSource != null && _globalAudioSource.isPlaying)
         {
-            _audioSource.Stop();
+            _globalAudioSource.Stop();
         }
     }
 }
