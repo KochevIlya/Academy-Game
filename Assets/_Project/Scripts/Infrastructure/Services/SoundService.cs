@@ -8,7 +8,9 @@ public class SoundService : ISoundService
     private readonly AudioSource _globalAudioSource;
     private readonly AudioSource _warAudioSource;
     private float _volume;
-    public SoundService([Inject(Id = "Global")]AudioSource globalAudioSource, [Inject(Id = "War")]AudioSource warAudioSource)
+    public SoundService(
+        [Inject(Id = "Global")]AudioSource globalAudioSource
+        ,[Inject(Id = "War")]AudioSource warAudioSource)
     {
         _globalAudioSource = globalAudioSource;
         _warAudioSource = warAudioSource;
@@ -37,7 +39,9 @@ public class SoundService : ISoundService
     {
         if (_globalAudioSource != null && !_globalAudioSource.isPlaying)
         {
-            _globalAudioSource.Play();
+            _globalAudioSource.UnPause();
+            if (!_globalAudioSource.isPlaying) 
+                _globalAudioSource.Play();
         }
     }
 
@@ -45,7 +49,7 @@ public class SoundService : ISoundService
     {
         if (_globalAudioSource != null && _globalAudioSource.isPlaying)
         {
-            _globalAudioSource.Stop();
+            _globalAudioSource.Pause();
         }
     }
 
