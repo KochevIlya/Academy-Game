@@ -17,6 +17,7 @@ public class ControlsWindow : BaseScreen
     protected IGuiService _guiService;
     protected ISoundService _soundService;
     
+    
     [Inject]
     public virtual void Construct(
         IGuiService guiService
@@ -48,6 +49,7 @@ public class ControlsWindow : BaseScreen
     protected virtual void BackToMenu()
     {
         _guiService.Pop();
+        Interract();
     }
     
     public override ScreenType GetScreenType()

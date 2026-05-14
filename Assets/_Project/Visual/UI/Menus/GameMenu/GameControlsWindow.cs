@@ -1,41 +1,47 @@
-using System.Collections;
-using System.Collections.Generic;
 using _Project.Scripts.Infrastructure.Gui.Service;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
+using _Project.Sounds;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 using Zenject;
 
-public class GameControlsWindow : ControlsWindow
+namespace _Project.Visual.UI.Menus.GameMenu
 {
-    private IGuiGameService _guiGameService;
-    private UserInputControls _inputControls;
-    
-    [Inject]
-    public void Construct(IGuiGameService guiGameService
-        ,UserInputControls inputControls
-        ,IGuiService guiService
-        , ISoundService soundService
-    )
+    public class GameControlsWindow : ControlsWindow
     {
-        base.Construct(guiService, soundService);
-        _guiGameService = guiGameService;
-        _inputControls = inputControls;
+        private IGuiGameService _guiGameService;
+        private UserInputControls _inputControls;
+    
+        [Inject]
+        public void Construct(IGuiGameService guiGameService
+            ,UserInputControls inputControls
+            ,IGuiService guiService
+            , ISoundService soundService
+        )
+        {
+            base.Construct(guiService, soundService);
+            _guiGameService = guiGameService;
+            _inputControls = inputControls;
 
-    }
+        }
     
-    public override async UniTask Show()
-    {
-        await base.Show();
-        _inputControls.OnCancel
-            .Subscribe(_ => BackToMenu())
-            .AddTo(this);
-    }
-    protected override void BackToMenu()
-    {
-        Debug.Log($"[GameControlsWindow] Pop called at {Time.time}");
-        _guiGameService.Pop();
-    }
+        public override async UniTask Show()
+        {
+            await base.Show();
+            _inputControls.OnCancel
+                .Subscribe(_ =>
+                {
+                    BackToMenu();
+                    _soundService.Play(Audio.AudioType.Click);
+                })
+                .AddTo(this);
+        }
+        protected override void BackToMenu()
+        {
+            Debug.Log($"[GameControlsWindow] Pop called at {Time.time}");
+            _guiGameService.Pop();
+        }
     
+    }
 }

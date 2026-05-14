@@ -28,7 +28,9 @@ public class VictoryWindow : BaseScreen
         _uiMediator = uiMediator;
         
         _mainMenuButton.onClick.AddListener(_menuActionsService.ExitMainMenu);
+        _mainMenuButton.onClick.AddListener(Interract);
         _exitButton.onClick.AddListener(_menuActionsService.ExitGame);
+        _exitButton.onClick.AddListener(Interract);
     }
 
     

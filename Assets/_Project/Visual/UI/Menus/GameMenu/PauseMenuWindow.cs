@@ -45,10 +45,15 @@ namespace _Project.Visual.UI.Menus.GameMenu
             _uiMediator = mediator;
             
             _resumeButton.onClick.AddListener(Resume);
+            _resumeButton.onClick.AddListener(Interract);
             _controlsButton.onClick.AddListener(OpenControls);
+            _controlsButton.onClick.AddListener(Interract);
             _mainMenuButton.onClick.AddListener(_menuActionsService.ExitMainMenu);
+            _mainMenuButton.onClick.AddListener(Interract);
             _exitButton.onClick.AddListener(_menuActionsService.ExitGame);
+            _exitButton.onClick.AddListener(Interract);
             _loadButton.onClick.AddListener(_uiMediator.LoadGameFromPause);
+            _loadButton.onClick.AddListener(Interract);
         }
         
         

@@ -33,6 +33,7 @@ public class CreditsWindow : BaseScreen
         _guiService = guiService;
         
         _mainMenuButton.onClick.AddListener(_guiService.Pop);
+        _mainMenuButton.onClick.AddListener(Interract);
     }
 
     private void Start()
