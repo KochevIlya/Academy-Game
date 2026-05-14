@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using _Project.Sounds;
 using UnityEngine;
 
 public interface ISoundService
@@ -12,7 +13,7 @@ public interface ISoundService
     void PlayWar();
     void StopWar();
     void PlayWarFromBeginning();
-    void Play(AudioType type, bool fromBeginning = false);
-    void Stop(AudioType type);
+    void Play(Audio.AudioType type, bool fromBeginning = false);
+    void Stop(Audio.AudioType type);
 
 }

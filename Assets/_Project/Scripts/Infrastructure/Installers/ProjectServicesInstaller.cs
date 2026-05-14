@@ -6,6 +6,7 @@ using _Project.Scripts.Infrastructure.SaveLoad;
 using _Project.Scripts.Infrastructure.StaticData;
 using _Project.Scripts.Libs.Configs.Loader;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
+using _Project.Sounds;
 using UnityEngine;
 using Zenject;
 
@@ -14,7 +15,7 @@ namespace _Project.Scripts.Infrastructure.Installers
   [Serializable]
   public struct AudioData
   { 
-    public AudioType Type;
+    public Audio.AudioType Type;
     public AudioSource Source;
   }
 
@@ -42,7 +43,7 @@ public class ProjectServicesInstaller : MonoInstaller
         .WithId("War")
         .FromInstance(_warSoundAudioSource);
       
-      var audioDictionary = new Dictionary<AudioType, AudioSource>();
+      var audioDictionary = new Dictionary<Audio.AudioType, AudioSource>();
       foreach (var audio in _audioSources)
       {
         if (audio.Source != null && !audioDictionary.ContainsKey(audio.Type))
@@ -50,8 +51,8 @@ public class ProjectServicesInstaller : MonoInstaller
           audioDictionary.Add(audio.Type, audio.Source);
         }
       }
-      
-      Container.Bind<IReadOnlyDictionary<AudioType, AudioSource>>()
+
+      Container.Bind < IReadOnlyDictionary < Audio.AudioType, AudioSource>>()
         .FromInstance(audioDictionary)
         .AsSingle();
       

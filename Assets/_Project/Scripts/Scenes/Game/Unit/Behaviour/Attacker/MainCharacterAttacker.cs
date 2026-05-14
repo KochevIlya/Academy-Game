@@ -2,6 +2,7 @@
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
+using _Project.Sounds;
 using UnityEngine;
 using Zenject;
 
@@ -13,12 +14,16 @@ namespace _Project.Scripts.Scenes.Game.Unit.Attacker
     private Vector3 _shootMousePosition;
     private IInputHelper _inputHelper;
     private UserInputControls _userInputControls;
+    private ISoundService _soundService;
     private const float DefaultFireHeight = 1.2f;
     
     [Inject]
-    public void Construct(UserInputControls userInputControls,IInputHelper inputHelper)
+    public void Construct(UserInputControls userInputControls,IInputHelper inputHelper
+    ,ISoundService soundService
+    )
     {
       _userInputControls = userInputControls;
+      _soundService = soundService;
       _inputHelper = inputHelper;
     }
 
@@ -28,6 +33,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Attacker
       {
         _shootMousePosition = shootPosition; 
         unit.Animator.Shoot();
+        _soundService.Play(Audio.AudioType.Shooting);
         
       }
     }

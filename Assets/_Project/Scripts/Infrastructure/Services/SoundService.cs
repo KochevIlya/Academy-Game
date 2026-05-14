@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using _Project.Sounds;
 using UnityEngine;
 using Zenject;
 
@@ -8,20 +9,24 @@ public class SoundService : ISoundService
     private readonly AudioSource _globalAudioSource;
     private readonly AudioSource _warAudioSource;
     
-    private readonly IReadOnlyDictionary<AudioType, AudioSource> _audioDict;
+    private readonly IReadOnlyDictionary<Audio.AudioType, AudioSource> _audioDict;
+    
     
     private float _volume;
     private float _effectsVolume;
     public SoundService(
         [Inject(Id = "Global")]AudioSource globalAudioSource
         ,[Inject(Id = "War")]AudioSource warAudioSource
-        ,IReadOnlyDictionary<AudioType, AudioSource> audioDict
+        ,IReadOnlyDictionary<Audio.AudioType, AudioSource> audioDict
         )
         
     {
+        _audioDict = audioDict;
+        
         _globalAudioSource = globalAudioSource;
         _warAudioSource = warAudioSource;
         _volume = globalAudioSource.volume;
+        PlayGlobalFromBeginning();
         StopWar();
         if (_globalAudioSource != null)
         {
@@ -93,7 +98,7 @@ public class SoundService : ISoundService
         }
     }
 
-    public void Play(AudioType type, bool fromBeginning = false)
+    public void Play(Audio.AudioType type, bool fromBeginning = false)
     {
         if (TryGetSource(type, out var source))
         {
@@ -108,7 +113,9 @@ public class SoundService : ISoundService
             }
         }
     }
-    private bool TryGetSource(AudioType type, out AudioSource source)
+    
+
+    private bool TryGetSource(Audio.AudioType type, out AudioSource source)
     {
         if (_audioDict.TryGetValue(type, out source) && source != null)
         {
@@ -118,14 +125,14 @@ public class SoundService : ISoundService
         Debug.LogWarning($"[Sound Service] AudioSource for type {type} not found or null!");
         return false;
     }
-    public void Stop(AudioType type)
+    public void Stop(Audio.AudioType type)
     {
         if (TryGetSource(type, out var source) && source.isPlaying)
         {
             source.Stop();
         }
     }
-    public void UnPause(AudioType type)
+    public void UnPause(Audio.AudioType type)
     {
         if (TryGetSource(type, out var source) && !source.isPlaying)
         {

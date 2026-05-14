@@ -1,22 +1,22 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Audio : MonoBehaviour
+namespace _Project.Sounds
 {
-    public enum AudioType
+    public class Audio : MonoBehaviour
     {
-        Global,
-        War,
-        Damage,
-        Terminal,
-        Click,
-        Explosion,
-        Hover,
-        Shooting
+        public enum AudioType
+        {
+            Global,
+            War,
+            Damage,
+            Terminal,
+            Click,
+            Explosion,
+            Hover,
+            Shooting
 
-    }
+        }
 
     
+    }
 }
