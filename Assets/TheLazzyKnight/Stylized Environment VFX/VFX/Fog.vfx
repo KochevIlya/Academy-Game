@@ -98,21 +98,21 @@ MonoBehaviour:
     textSize: Small
   categories:
   - name: Coloring
-    collapsed: 0
+    collapsed: 1
   - name: Main
     collapsed: 1
   - name: Spawn
-    collapsed: 0
+    collapsed: 1
   - name: 'Wind '
-    collapsed: 0
+    collapsed: 1
   - name: Advanced
-    collapsed: 0
+    collapsed: 1
   uiBounds:
     serializedVersion: 2
     x: -1014
     y: -190
-    width: 2381
-    height: 3460
+    width: 2382
+    height: 3475
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -675,7 +675,7 @@ VisualEffectResource:
     m_CullingFlags: 3
     m_UpdateMode: 0
     m_PreWarmDeltaTime: 0.05
-    m_PreWarmStepCount: 0
+    m_PreWarmStepCount: 400
     m_InitialEventName: OnPlay
     m_InstancingMode: -1
     m_InstancingCapacity: 64
@@ -1140,7 +1140,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614800}
   - {fileID: 8926484042661614949}
   dataType: 0
-  capacity: 45
+  capacity: 10000
   stripCapacity: 16
   particlePerStripCount: 16
   needsComputeBounds: 0
@@ -6849,8 +6849,12 @@ MonoBehaviour:
   m_Nodes:
   - m_Id: 0
     linkedSlots:
-    - outputSlot: {fileID: 8926484042661615124}
-      inputSlot: {fileID: 0}
+    - outputSlot: {fileID: 8926484042661615126}
+      inputSlot: {fileID: 8926484042661615428}
+    - outputSlot: {fileID: 8926484042661615130}
+      inputSlot: {fileID: 8926484042661615440}
+    - outputSlot: {fileID: 8926484042661615131}
+      inputSlot: {fileID: 8926484042661615441}
     position: {x: 744, y: 573}
     expandedSlots: []
     expanded: 1
@@ -9563,7 +9567,7 @@ MonoBehaviour:
   m_Parent: {fileID: 114350483966674976}
   m_Children: []
   m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 0
+  m_UICollapsed: 1
   m_UISuperCollapsed: 0
   m_InputSlots: []
   m_OutputSlots:
@@ -10327,7 +10331,7 @@ MonoBehaviour:
   m_Parent: {fileID: 114350483966674976}
   m_Children: []
   m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 0
+  m_UICollapsed: 1
   m_UISuperCollapsed: 0
   m_InputSlots: []
   m_OutputSlots:
@@ -10557,7 +10561,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"40a267da375c77c4b9c47a1b00268e81","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"0924d903e5eb7c0499e506d4c3f4be72","type":3}}'
     m_Space: 2147483647
   m_Property:
     name: mainTexture
