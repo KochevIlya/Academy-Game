@@ -12,5 +12,7 @@ public interface ISoundService
     void PlayWar();
     void StopWar();
     void PlayWarFromBeginning();
+    void Play(AudioType type, bool fromBeginning = false);
+    void Stop(AudioType type);
 
 }

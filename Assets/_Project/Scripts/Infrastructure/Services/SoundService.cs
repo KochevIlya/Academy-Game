@@ -7,10 +7,17 @@ public class SoundService : ISoundService
 {
     private readonly AudioSource _globalAudioSource;
     private readonly AudioSource _warAudioSource;
+    
+    private readonly IReadOnlyDictionary<AudioType, AudioSource> _audioDict;
+    
     private float _volume;
+    private float _effectsVolume;
     public SoundService(
         [Inject(Id = "Global")]AudioSource globalAudioSource
-        ,[Inject(Id = "War")]AudioSource warAudioSource)
+        ,[Inject(Id = "War")]AudioSource warAudioSource
+        ,IReadOnlyDictionary<AudioType, AudioSource> audioDict
+        )
+        
     {
         _globalAudioSource = globalAudioSource;
         _warAudioSource = warAudioSource;
@@ -28,9 +35,9 @@ public class SoundService : ISoundService
         {
             _volume = Mathf.Clamp01(value); 
             
-            if (_globalAudioSource != null)
+            foreach (var source in _audioDict.Values)
             {
-                _globalAudioSource.volume = _volume;
+                source.volume = _volume;
             }
         }
     }
@@ -86,19 +93,43 @@ public class SoundService : ISoundService
         }
     }
 
-    public void Play()
+    public void Play(AudioType type, bool fromBeginning = false)
     {
-        if (_globalAudioSource != null && !_globalAudioSource.isPlaying)
+        if (TryGetSource(type, out var source))
         {
-            _globalAudioSource.Play();
+            if (fromBeginning)
+            {
+                source.Stop();
+                source.Play();
+            }
+            else if (!source.isPlaying)
+            {
+                source.Play();
+            }
         }
     }
-
-    public void Stop()
+    private bool TryGetSource(AudioType type, out AudioSource source)
     {
-        if (_globalAudioSource != null && _globalAudioSource.isPlaying)
+        if (_audioDict.TryGetValue(type, out source) && source != null)
         {
-            _globalAudioSource.Stop();
+            return true;
+        }
+        
+        Debug.LogWarning($"[Sound Service] AudioSource for type {type} not found or null!");
+        return false;
+    }
+    public void Stop(AudioType type)
+    {
+        if (TryGetSource(type, out var source) && source.isPlaying)
+        {
+            source.Stop();
+        }
+    }
+    public void UnPause(AudioType type)
+    {
+        if (TryGetSource(type, out var source) && !source.isPlaying)
+        {
+            source.UnPause();
         }
     }
 }

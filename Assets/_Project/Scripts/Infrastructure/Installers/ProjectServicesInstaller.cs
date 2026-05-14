@@ -1,4 +1,6 @@
-﻿using _Project.Scripts.Infrastructure.AssetProvider;
+﻿using System;
+using System.Collections.Generic;
+using _Project.Scripts.Infrastructure.AssetProvider;
 using _Project.Scripts.Infrastructure.Gui.Service;
 using _Project.Scripts.Infrastructure.SaveLoad;
 using _Project.Scripts.Infrastructure.StaticData;
@@ -9,12 +11,21 @@ using Zenject;
 
 namespace _Project.Scripts.Infrastructure.Installers
 {
-  public class ProjectServicesInstaller : MonoInstaller
+  [Serializable]
+  public struct AudioData
+  { 
+    public AudioType Type;
+    public AudioSource Source;
+  }
+
+
+public class ProjectServicesInstaller : MonoInstaller
   {
     
     [SerializeField] private GuiService _guiServicePrefab;
     [SerializeField] private AudioSource _musicAudioSource;
     [SerializeField] private AudioSource _warSoundAudioSource;
+    [SerializeField] private List<AudioData> _audioSources;
     public override void InstallBindings()
     {
       Container
@@ -30,6 +41,19 @@ namespace _Project.Scripts.Infrastructure.Installers
       Container.Bind<AudioSource>()
         .WithId("War")
         .FromInstance(_warSoundAudioSource);
+      
+      var audioDictionary = new Dictionary<AudioType, AudioSource>();
+      foreach (var audio in _audioSources)
+      {
+        if (audio.Source != null && !audioDictionary.ContainsKey(audio.Type))
+        {
+          audioDictionary.Add(audio.Type, audio.Source);
+        }
+      }
+      
+      Container.Bind<IReadOnlyDictionary<AudioType, AudioSource>>()
+        .FromInstance(audioDictionary)
+        .AsSingle();
       
       Container.Bind<ISoundService>().To<SoundService>().AsSingle().NonLazy();
       Container.Bind<IProgressService>().To<ProgressService>().AsSingle();
