@@ -13,7 +13,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls.Variants
         private readonly List<PatrolPath.PatrolPoint> _waypoints;
     
         private int _currentIndex = 0;
-        private const float StopDistance = 0.3f;
+        private const float StopDistance = 0.7f;
     
         private bool _isWaiting = false;
     
