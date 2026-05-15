@@ -155,6 +155,20 @@ public class SoundService : ISoundService
             source.Stop();
         }
     }
+
+    public void StopAll()
+    {
+        foreach (var source in _effectsDict.Keys)
+        {
+            Stop(source);
+        }
+
+        foreach (var source in _audioDict.Keys)
+        {
+            Stop(source);
+        }
+    }
+
     public void UnPause(Audio.AudioType type)
     {
         if (TryGetSource(type, out var source) && !source.isPlaying)

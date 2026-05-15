@@ -212,8 +212,7 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
                         {
                             lastBot.SelfDestroy();
                             Observable.TimerFrame(1).Subscribe(__ => _hackingService.ReturnToOriginalBody(false));
-                            _soundService.Stop(Audio.AudioType.War);
-                            _soundService.Play(Audio.AudioType.Global);
+                            
                         }
                     })
                     .AddTo(lastBot);

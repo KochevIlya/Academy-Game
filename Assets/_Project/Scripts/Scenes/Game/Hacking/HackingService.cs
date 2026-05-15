@@ -79,6 +79,8 @@ public class HackingService : IDisposable
     public void StopBattle()
     {
         _isBattleActive.Value = false;
+        _soundService.Stop(Audio.AudioType.War);
+        _soundService.Play(Audio.AudioType.Global);
     }
     public void RequestCancel(bool silent = false)
     {
@@ -173,7 +175,7 @@ public class HackingService : IDisposable
         }
         else
         {
-            ReturnToOriginalBody();
+            ReturnToOriginalBody(false);
         }
     }
     public UniTask WaitUntilFinished() => _hackingCompletionSource?.Task ?? UniTask.CompletedTask;
@@ -225,14 +227,17 @@ public class HackingService : IDisposable
     }
     public void ReturnToOriginalBody(bool isWar = true)
     {
-        
-        _soundService.Stop(Audio.AudioType.Terminal);
-        
+
         if (isWar)
+        {
             _soundService.Play(Audio.AudioType.War);
-        else 
+        }
+        else
+        {
+            _soundService.Stop(Audio.AudioType.War);
             _soundService.Play(Audio.AudioType.Global);
-        
+        }
+
         if (_originalHero == null) 
         {
             Debug.LogError("Ошибка возврата: оригинальное тело хакера потеряно!");
@@ -330,9 +335,10 @@ public class HackingService : IDisposable
             })
             .AddTo(_disposables);
         
-    }
+    }   
     private void CompleteHacking()
     {
+        
         _soundService.Stop(Audio.AudioType.Terminal);
         _soundService.Play(Audio.AudioType.War);
         _cameraService.ResetZoom();

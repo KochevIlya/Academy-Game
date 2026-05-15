@@ -16,5 +16,6 @@ public interface ISoundService
     void PlayWarFromBeginning();
     void Play(Audio.AudioType type, bool fromBeginning = false);
     void Stop(Audio.AudioType type);
+    void StopAll();
 
 }
