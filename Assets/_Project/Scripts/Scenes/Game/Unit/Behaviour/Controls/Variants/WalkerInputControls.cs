@@ -12,7 +12,7 @@ public class WalkerInputControls : IInputControls
     private readonly GameUnit _self;
     private readonly HackingTerminal _terminal;
     
-    private const float StopDistance = 1f;
+    private const float StopDistance = 0.05f;
     private readonly Transform _camTransform;
     
     private readonly Subject<UniRx.Unit> _onTargetReached = new Subject<UniRx.Unit>();
