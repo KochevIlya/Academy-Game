@@ -7,6 +7,7 @@ public interface ISoundService
 
 {
     float Volume { get; set; }
+    float EffectVolume { get; set; }
     void PlayGlobal();
     void StopGlobal();
     void PlayGlobalFromBeginning();

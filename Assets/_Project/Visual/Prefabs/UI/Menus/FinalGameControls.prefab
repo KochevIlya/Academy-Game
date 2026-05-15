@@ -4675,6 +4675,7 @@ MonoBehaviour:
   _canvasGroup: {fileID: 7671708299921588254}
   _exitButton: {fileID: 1250855288350777717}
   _slider: {fileID: 745199188420379147}
+  _effectSlider: {fileID: 6618931917268263134}
 --- !u!1 &4793954154186549453
 GameObject:
   m_ObjectHideFlags: 0

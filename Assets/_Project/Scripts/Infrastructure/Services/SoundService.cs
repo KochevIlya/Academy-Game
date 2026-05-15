@@ -10,27 +10,32 @@ public class SoundService : ISoundService
     private readonly AudioSource _warAudioSource;
     
     private readonly IReadOnlyDictionary<Audio.AudioType, AudioSource> _audioDict;
-    
+    private readonly IReadOnlyDictionary<Audio.AudioType, AudioSource> _effectsDict;
     
     private float _volume;
     private float _effectsVolume;
+    
     public SoundService(
         [Inject(Id = "Global")]AudioSource globalAudioSource
         ,[Inject(Id = "War")]AudioSource warAudioSource
-        ,IReadOnlyDictionary<Audio.AudioType, AudioSource> audioDict
+        ,[Inject (Id = "Global")]IReadOnlyDictionary<Audio.AudioType, AudioSource> audioDict
+        ,[Inject (Id = "Effects")]IReadOnlyDictionary<Audio.AudioType, AudioSource> effectsDict
         )
         
     {
         _audioDict = audioDict;
+        _effectsDict = effectsDict;
         
         _globalAudioSource = globalAudioSource;
         _warAudioSource = warAudioSource;
         _volume = globalAudioSource.volume;
+        _effectsVolume = globalAudioSource.volume;
         PlayGlobalFromBeginning();
         StopWar();
         if (_globalAudioSource != null)
         {
             _globalAudioSource.volume = _volume;
+            _warAudioSource.volume = _volume;
         }
     }
     public float Volume
@@ -43,6 +48,19 @@ public class SoundService : ISoundService
             foreach (var source in _audioDict.Values)
             {
                 source.volume = _volume;
+            }
+        }
+    }
+
+    public float EffectVolume
+    {
+        get => _effectsVolume;
+        set
+        {
+            _effectsVolume = Mathf.Clamp01(value);
+            foreach (var source in _effectsDict.Values)
+            {
+                source.volume = _effectsVolume;
             }
         }
     }
@@ -118,6 +136,11 @@ public class SoundService : ISoundService
     private bool TryGetSource(Audio.AudioType type, out AudioSource source)
     {
         if (_audioDict.TryGetValue(type, out source) && source != null)
+        {
+            return true;
+        }
+        
+        if (_effectsDict.TryGetValue(type, out source) && source != null)
         {
             return true;
         }

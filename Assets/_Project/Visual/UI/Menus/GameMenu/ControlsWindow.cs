@@ -14,6 +14,7 @@ public class ControlsWindow : BaseScreen
     public override bool IsOverlay => true;
     [SerializeField] protected Button _exitButton;
     [SerializeField] protected Slider _slider;
+    [SerializeField] protected Slider _effectSlider;
     protected IGuiService _guiService;
     protected ISoundService _soundService;
     
@@ -21,7 +22,7 @@ public class ControlsWindow : BaseScreen
     [Inject]
     public virtual void Construct(
         IGuiService guiService
-    ,ISoundService soundService
+        ,ISoundService soundService
         )
     {
         _guiService = guiService;
@@ -29,27 +30,38 @@ public class ControlsWindow : BaseScreen
     }
     protected virtual void Awake() 
     {
-        _exitButton.onClick.AddListener(BackToMenu);
         
+        _exitButton.onClick.AddListener(BackToMenu);
+        _exitButton.onClick.AddListener(Interract);
     }
     
     protected void Start()
     {
-        _slider.value = _soundService.Volume;
         
+        _slider.value = _soundService.Volume;
+        _effectSlider.value = _soundService.EffectVolume;
         _slider.onValueChanged.AddListener(OnSliderValueChanged);
+        _effectSlider.onValueChanged.AddListener(OnEffectSliderValueChanged);
+        
     }
+    
     protected void OnSliderValueChanged(float newValue)
     {
-        
         _soundService.Volume = newValue;
+    }
+
+    protected void OnEffectSliderValueChanged(float newValue)
+    {
+        _soundService.EffectVolume = newValue;
     }
     
     
     protected virtual void BackToMenu()
     {
+        
         _guiService.Pop();
         Interract();
+        
     }
     
     public override ScreenType GetScreenType()

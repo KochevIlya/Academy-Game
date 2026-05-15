@@ -585,6 +585,7 @@ MonoBehaviour:
     Source: {fileID: 2901027367971718545}
   - Type: 1
     Source: {fileID: 8849179359746625888}
+  _audioEffectsSources:
   - Type: 2
     Source: {fileID: 3758952430621822703}
   - Type: 3
