@@ -292,6 +292,7 @@ public class HackingService : IDisposable
         if (inputDir == _currentSequence[index])
         {
             index++;
+            _soundService.Play(Audio.AudioType.ArrowTrue);
             CurrentProgressIndex.Value = index;
 
             if (index >= _currentSequence.Count)
@@ -301,11 +302,13 @@ public class HackingService : IDisposable
         }
         else
         {
+            
             ExecuteErrorState();
         }
     }
     private void ExecuteErrorState()
     {
+        _soundService.Play(Audio.AudioType.ArrowFalse);
         _isErrorState = true;
         
         OnError.OnNext(-1); 
