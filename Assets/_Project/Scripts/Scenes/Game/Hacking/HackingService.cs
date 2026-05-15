@@ -137,6 +137,7 @@ public class HackingService : IDisposable
         
         try
         {
+            _soundService.Stop(Audio.AudioType.Global);
             _soundService.Play(Audio.AudioType.Terminal);
             _cursorService.SetDefaultCursor();
             _hackerUnit.DisableControl();
@@ -147,12 +148,14 @@ public class HackingService : IDisposable
         catch (OperationCanceledException)
         {
             _soundService.Stop(Audio.AudioType.Terminal);
+            _soundService.Play(Audio.AudioType.Global);
             Debug.Log("[HackingService] Выбор цели отменен.");
             return;
         }
         catch (System.Exception e)
         {
             _soundService.Stop(Audio.AudioType.Terminal);
+            _soundService.Play(Audio.AudioType.Global);
             _hackingCts?.Cancel();
             Debug.LogError($"Непредвиденная ошибка при выборе цели: {e}");
             return;
@@ -223,6 +226,7 @@ public class HackingService : IDisposable
     public void ReturnToOriginalBody()
     {
         _soundService.Stop(Audio.AudioType.Terminal);
+        _soundService.Play(Audio.AudioType.Global);
         
         if (_originalHero == null) 
         {
@@ -321,6 +325,7 @@ public class HackingService : IDisposable
     private void CompleteHacking()
     {
         _soundService.Stop(Audio.AudioType.Terminal);
+        _soundService.Play(Audio.AudioType.War);
         _cameraService.ResetZoom();
         Debug.Log($"[Hacking Service] GuiGameService.Pop()");
         _guiGameService.CloseScreen(ScreenType.HackingWindow);
@@ -396,6 +401,7 @@ public class HackingService : IDisposable
     public void ClearState()
     {
         _soundService.Stop(Audio.AudioType.Terminal);
+        _soundService.Play(Audio.AudioType.Global);
         _hackingCts?.Cancel();
         _hackingCts = new CancellationTokenSource();
 

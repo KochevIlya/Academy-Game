@@ -13,7 +13,14 @@ namespace _Project.Sounds
             Click,
             Explosion,
             Hover,
-            Shooting
+            Shooting,
+            Sword,
+            ArrowTrue,
+            ArrowFalse,
+            TerminalIn,
+            Lose, 
+            Win, 
+            
 
         }
 

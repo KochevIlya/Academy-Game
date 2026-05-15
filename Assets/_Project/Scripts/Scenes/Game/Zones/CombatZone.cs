@@ -256,8 +256,6 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
             _isAlarmActive = true;
             _battleStateSubject.OnNext(true);
             
-            _soundService.StopGlobal();
-            _soundService.PlayWar();
 
             target.Health.Die
                 .Take(1)
@@ -280,8 +278,9 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
             _isAlarmActive = false;
             _battleStateSubject.OnNext(false);
             
-            _soundService.StopWar();
-            _soundService.PlayGlobal();
+            //
+            // _soundService.StopWar();
+            // _soundService.PlayGlobal();
             Debug.Log($"<color=green>ЗОНА {name}: цель: уничтожена</color>");
 
             foreach (var bot in _activeUnits)
