@@ -223,10 +223,15 @@ public class HackingService : IDisposable
         currentUnit.SelfDestroy();
         ReturnToOriginalBody();
     }
-    public void ReturnToOriginalBody()
+    public void ReturnToOriginalBody(bool isWar = true)
     {
+        
         _soundService.Stop(Audio.AudioType.Terminal);
-        _soundService.Play(Audio.AudioType.Global);
+        
+        if (isWar)
+            _soundService.Play(Audio.AudioType.War);
+        else 
+            _soundService.Play(Audio.AudioType.Global);
         
         if (_originalHero == null) 
         {
@@ -292,6 +297,7 @@ public class HackingService : IDisposable
         if (inputDir == _currentSequence[index])
         {
             index++;
+            _soundService.Stop(Audio.AudioType.ArrowTrue);
             _soundService.Play(Audio.AudioType.ArrowTrue);
             CurrentProgressIndex.Value = index;
 

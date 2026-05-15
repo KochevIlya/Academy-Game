@@ -33,6 +33,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Attacker
       {
         _shootMousePosition = shootPosition; 
         unit.Animator.Shoot();
+        _soundService.Stop(Audio.AudioType.Shooting);
         _soundService.Play(Audio.AudioType.Shooting);
         
       }

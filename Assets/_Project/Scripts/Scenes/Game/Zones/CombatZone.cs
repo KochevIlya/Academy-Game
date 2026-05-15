@@ -12,6 +12,7 @@ using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls.Variants;
 using _Project.Scripts.Scenes.Game.Hacking.Terminal;
 using _Project.Scripts.Scenes.Game.Posts;
+using _Project.Sounds;
 using Zenject;
 
 public class CombatZone : MonoBehaviour, IZoneSaveable
@@ -210,7 +211,9 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
                         if (duration <= 0)
                         {
                             lastBot.SelfDestroy();
-                            Observable.TimerFrame(1).Subscribe(__ => _hackingService.ReturnToOriginalBody());
+                            Observable.TimerFrame(1).Subscribe(__ => _hackingService.ReturnToOriginalBody(false));
+                            _soundService.Stop(Audio.AudioType.War);
+                            _soundService.Play(Audio.AudioType.Global);
                         }
                     })
                     .AddTo(lastBot);

@@ -18,6 +18,7 @@ namespace _Project.Sounds
             ArrowTrue,
             ArrowFalse,
             TerminalIn,
+            Death,
             Lose, 
             Win, 
             

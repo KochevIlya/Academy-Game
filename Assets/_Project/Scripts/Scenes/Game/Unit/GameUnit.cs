@@ -89,7 +89,11 @@ namespace _Project.Scripts.Scenes.Game.Unit
       if (TimerView != null)
         TimerView.Initialize(this);
       
-      Health.Die.Subscribe(_ => Destroy(gameObject)).AddTo(this);
+      Health.Die.Subscribe(_ =>
+      {
+        Destroy(gameObject);
+        _soundService.Play(Audio.AudioType.Death);
+      }).AddTo(this);
     }
     
     public void SetAbility(IAbility ability) 
@@ -257,10 +261,10 @@ namespace _Project.Scripts.Scenes.Game.Unit
         var effect = _container.InstantiatePrefabForComponent<GrenadeExplosionEffect>(
           prefabFromUnit, explosionOrigin, Quaternion.identity, null);
         effect.Initialize(_explosionRadius, 0.5f);
-        _soundService.Play(Audio.AudioType.Explosion);
+        _soundService.Play(Audio.AudioType.Shooting);
         if (IsUnderControl)
         {
-          _soundService.Play(Audio.AudioType.Damage);
+          // _soundService.Play(Audio.AudioType.Damage);
         }
       }
         
