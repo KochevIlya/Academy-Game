@@ -3,7 +3,9 @@ using _Project.Scripts.Scenes.Game.Shoot.Config;
 using _Project.Scripts.Scenes.Game.Unit;
 using UnityEngine;
 using _Project.Scripts.Scenes.Game.Unit.Components.Health;
+using _Project.Sounds;
 using UnityEngine.Pool;
+using Zenject;
 
 namespace _Project.Scripts.Scenes.Game.Shoot
 {
@@ -15,6 +17,7 @@ namespace _Project.Scripts.Scenes.Game.Shoot
     protected float _currentLifeTime = 0f;
     protected int _damage = 20; 
     protected GameUnit _owner;
+    [Inject] protected ISoundService _soundService;
     private bool _isRemoved = false;
     
 
@@ -49,6 +52,11 @@ namespace _Project.Scripts.Scenes.Game.Shoot
       }
       if (other.TryGetComponent<Health>(out var health))
       {
+        if (other.TryGetComponent<GameUnit>(out var unit))
+        {
+          if(unit.IsUnderControl)
+            _soundService.Play(Audio.AudioType.Damage);
+        }
         health.TakeDamage(_damage);
         ResetAndRemove();
       }

@@ -1,7 +1,9 @@
+using _Project.Sounds;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UniRx;
 using UnityEngine;
+using Zenject;
 
 namespace _Project.Scripts.Infrastructure.Gui.Screens
 {
@@ -10,7 +12,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Screens
     [SerializeField] private CanvasGroup _canvasGroup;
     public virtual bool IsOverlay => false;
     public readonly ReactiveCommand CloseScreen = new ReactiveCommand();
-
+    [Inject] protected ISoundService _soundService;
     protected readonly CompositeDisposable LifeTimeDisposable = new CompositeDisposable();
 
     protected virtual void OnEnable() { }
@@ -47,6 +49,10 @@ namespace _Project.Scripts.Infrastructure.Gui.Screens
       if (this == null) return;
       _canvasGroup.interactable = isEnable;
       _canvasGroup.blocksRaycasts = isEnable;
+    }
+    protected void Interract()
+    {
+      _soundService.Play(Audio.AudioType.Click);
     }
   }
 

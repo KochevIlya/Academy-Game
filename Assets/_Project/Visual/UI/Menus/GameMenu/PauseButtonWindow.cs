@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using _Project.Scripts.Infrastructure.Gui.Screens;
 using _Project.Scripts.Infrastructure.Gui.Service;
 using _Project.Scripts.Scenes.Game.Unit.Controls.Variants;
+using _Project.Sounds;
 using _Project.Visual.UI.Menus.BattleMenu;
 using Cysharp.Threading.Tasks;
 using UniRx;
@@ -37,7 +38,11 @@ public class PauseButtonWindow : BaseScreen{
         LifeTimeDisposable.Clear(); 
     
         _inputControls.OnCancel
-            .Subscribe(_ => OpenPauseMenu())
+            .Subscribe(_ =>
+            {
+                OpenPauseMenu();
+                _soundService.Play(Audio.AudioType.Click);
+            })
             .AddTo(LifeTimeDisposable);
     }
 

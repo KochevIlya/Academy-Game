@@ -4,6 +4,7 @@ using _Project.Scripts.Infrastructure.Gui.Camera;
 using _Project.Scripts.Infrastructure.Gui.Screens;
 using _Project.Scripts.Infrastructure.Gui.Service;
 using _Project.Scripts.Scenes.Game.Unit;
+using _Project.Sounds;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,7 @@ namespace _Project.Scripts.Scenes.Game.Hacking
 {
     public class HackableSelector
     {
+        [Inject] private ISoundService _soundService;
         [Inject] private ICameraService _cameraService;
         private Transform _currentViewPoint;
         [Inject] private ICursorService _cursorService;
@@ -59,9 +61,10 @@ namespace _Project.Scripts.Scenes.Game.Hacking
 
                     if (currentHovered != lastHovered)
                     {
+                        
                         if (lastHovered != null) SetOutlineState(lastHovered, false);
                         if (currentHovered != null) SetOutlineState(currentHovered, true);
-                
+                        _soundService.Play(Audio.AudioType.Hover);
                         lastHovered = currentHovered;
                     }
 

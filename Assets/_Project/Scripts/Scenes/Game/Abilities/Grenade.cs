@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using _Project.Scripts.Scenes.Game.Unit.Components.Health;
+using _Project.Sounds;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ public class Grenade : MonoBehaviour
     private int damage = 20;
     private float fuseTime = 2f;
     private LayerMask enemyLayer;
-
+    private ISoundService _soundService;
     private Vector3 _targetPosition;
     private bool _exploded = false;
     [SerializeField] private GrenadeExplosionEffect _explosionPrefab;
@@ -21,8 +22,12 @@ public class Grenade : MonoBehaviour
     [SerializeField] [CanBeNull] private GameObject VFXPrefab;
     [SerializeField] private Vector3 vfxOffset = new Vector3(0f, 0f, 0f);
     [SerializeField] private float vfxScaleModifier = 1;
-    public void Setup(Vector3 targetPosition, int damage, float radius, float fuseTime, float speed)
+    public void Setup(
+        ISoundService soundService
+        ,Vector3 targetPosition
+        , int damage, float radius, float fuseTime, float speed)
     {
+        _soundService = soundService;
         _targetPosition = targetPosition;
         this.damage = damage;
         this.explosionRadius = radius;
@@ -73,7 +78,7 @@ public class Grenade : MonoBehaviour
                 health.TakeDamage(damage);
             }
         }
-        
+        _soundService.Play(Audio.AudioType.Explosion);
         Debug.Log($"BOOM! Radiused: {explosionRadius}, Found colliders: {hitColliders.Length}");
         Destroy(gameObject);
     }

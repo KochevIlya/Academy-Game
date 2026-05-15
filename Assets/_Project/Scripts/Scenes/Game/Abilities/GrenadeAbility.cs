@@ -3,6 +3,7 @@ using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit._Configs;
 using _Project.Scripts.Scenes.Game.Unit._Data;
 using Cysharp.Threading.Tasks;
+using TMPro;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -10,10 +11,15 @@ using Zenject;
 public class GrenadeAbility : BaseAbility<GrenadeSettings>
 {
     private IGameFactory _gameFactory;
+    private ISoundService _soundService;
     
     [Inject]    
-    public void Construct(IGameFactory gameFactory)
+    public void Construct(IGameFactory gameFactory
+    , ISoundService soundService
+        
+        )
     {
+        _soundService = soundService;
         _gameFactory = gameFactory;
     }
     
@@ -59,6 +65,7 @@ public class GrenadeAbility : BaseAbility<GrenadeSettings>
         var grenade = await _gameFactory.SpawnGrenade(targetPosition);
         
         grenade.Setup(
+            _soundService,
             targetPosition, 
             Settings.damage, 
             Settings.radius, 

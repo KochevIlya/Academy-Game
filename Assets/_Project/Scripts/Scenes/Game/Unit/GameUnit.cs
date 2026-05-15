@@ -17,6 +17,7 @@ using System.Linq;
 using _Project.Scripts.Infrastructure.SaveLoad;
 using _Project.Scripts.Scenes.Game.Unit._Configs;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
+using _Project.Sounds;
 using Zenject;
 
 namespace _Project.Scripts.Scenes.Game.Unit
@@ -30,6 +31,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     public PatrolPath PatrolPath { get; set; } = null;
     private UnitСharacteristicsType _characteristicsType;
     [Inject] private ISaveLoadService _saveLoadService;
+    [Inject] private ISoundService _soundService;
     [field: SerializeField] public HealthView HealthView { get; set; }
     [field: SerializeField] public TimerView TimerView { get; set; }
     [field: SerializeField] public Transform WeaponPoint { get; private set; }
@@ -87,7 +89,11 @@ namespace _Project.Scripts.Scenes.Game.Unit
       if (TimerView != null)
         TimerView.Initialize(this);
       
-      Health.Die.Subscribe(_ => Destroy(gameObject)).AddTo(this);
+      Health.Die.Subscribe(_ =>
+      {
+        Destroy(gameObject);
+        _soundService.Play(Audio.AudioType.Death);
+      }).AddTo(this);
     }
     
     public void SetAbility(IAbility ability) 
@@ -162,7 +168,11 @@ namespace _Project.Scripts.Scenes.Game.Unit
     private void SubscribeShoot()
     {
       InputControls.OnShoot
-        .Subscribe(_ => _attacker.Value.Attack(this, InputControls.MousePosition))
+        .Subscribe(_ =>
+        {
+          _attacker.Value.Attack(this, InputControls.MousePosition);
+          
+        })
         .AddTo(_lifetimeDisposable);
       
       Animator.OnShootCast
@@ -251,6 +261,11 @@ namespace _Project.Scripts.Scenes.Game.Unit
         var effect = _container.InstantiatePrefabForComponent<GrenadeExplosionEffect>(
           prefabFromUnit, explosionOrigin, Quaternion.identity, null);
         effect.Initialize(_explosionRadius, 0.5f);
+        _soundService.Play(Audio.AudioType.Shooting);
+        if (IsUnderControl)
+        {
+          // _soundService.Play(Audio.AudioType.Damage);
+        }
       }
         
       Collider[] hitColliders = Physics.OverlapSphere(explosionOrigin, _explosionRadius);

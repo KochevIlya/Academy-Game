@@ -34,10 +34,15 @@ public class MainMenuWindow : BaseScreen
         _progressService = progressService;
             
         _continueButton.onClick.AddListener(_menuActionsService.LoadGame);
+        _continueButton.onClick.AddListener(Interract);
         _controlsButton.onClick.AddListener(OpenControls);
+        _controlsButton.onClick.AddListener(Interract);
         _authorsButton.onClick.AddListener(_guiService.ShowCreditsWindow);
+        _authorsButton.onClick.AddListener(Interract);
         _exitButton.onClick.AddListener(_menuActionsService.ExitGame);
+        _exitButton.onClick.AddListener(Interract);
         _newGameButton.onClick.AddListener(_menuActionsService.LoadNewGame);
+        _newGameButton.onClick.AddListener(Interract);
         
     }
 

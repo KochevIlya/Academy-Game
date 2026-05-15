@@ -4,6 +4,7 @@ using _Project.Scripts.Infrastructure.Gui.Service;
 using _Project.Scripts.Infrastructure.SaveLoad;
 using _Project.Scripts.Infrastructure.StateMachine;
 using _Project.Scripts.Infrastructure.StateMachine.States.Interfaces;
+using _Project.Sounds;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -17,6 +18,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
     private readonly ICursorService _cursorService;
     private readonly IGuiService _guiService;
     private readonly IProgressService _progressService;
+    private readonly ISoundService _soundService;
 
     public GameLoopState(IGuiGameService guiGameService,
       IGuiService guiService,
@@ -24,6 +26,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
       ISaveLoadService saveLoadService,
       ICameraService cameraService
       ,IProgressService progressService
+      ,ISoundService soundService
       )
     {
       _guiGameService = guiGameService;
@@ -32,9 +35,11 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
       _cameraService = cameraService;
       _guiService = guiService;
       _progressService = progressService;
+      _soundService = soundService;
     }
     public async UniTask Enter(IGameStateMachine gameStateMachine)
     {
+      
       Debug.Log("In GameLoopState");
       if (!_saveLoadService.HasSaveFile()) 
       {
@@ -62,6 +67,9 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
       _cursorService.SetDefaultCursor();
       _cursorService.SetVisible(true);
       _guiGameService.ShowPauseButton();
+      
+      _soundService.Stop(Audio.AudioType.War);
+      _soundService.Play(Audio.AudioType.Global);
       
       Time.timeScale = 1f;
     }
