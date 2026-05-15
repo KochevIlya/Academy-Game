@@ -13,12 +13,12 @@ namespace _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls.Variants
         private readonly List<PatrolPath.PatrolPoint> _waypoints;
     
         private int _currentIndex = 0;
-        private const float StopDistance = 0.1f;
+        private const float StopDistance = 0.3f;
     
         private bool _isWaiting = false;
     
-        private const float RotationSpeed = 0.1f; 
-        private const float MaxViewAngle = 45f;
+        private const float RotationSpeed = 0.01f; 
+        private const float MaxViewAngle = 10f;
     
         private float _randomSeedX;
         private float _randomSeedZ;
