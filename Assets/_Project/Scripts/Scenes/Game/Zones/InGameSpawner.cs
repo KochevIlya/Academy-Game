@@ -100,7 +100,7 @@ namespace _Project.Scripts.Scenes.Game.Zones
 
             Debug.Log($"<color=yellow>[InGameSpawner]</color> Волна {_activationsCount}/{maxActivations}. Спавн юнита типа {unitType}");
 
-            GameUnit unit = await _gameFactory.SpawnGameUnit(transform.position, unitType, null);
+            GameUnit unit = await _gameFactory.SpawnGameUnit(transform.position, Quaternion.identity,  unitType, null);
 
             if (unit != null)
             {

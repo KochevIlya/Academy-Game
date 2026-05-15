@@ -6,8 +6,10 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Spawner
 {
   public class UnitSpawner : MonoBehaviour
   {
+    
     public UnitСharacteristicsType UnitСharacteristicsType;
     public GameUnit SpawnedUnit { get; private set; }
+    public Quaternion Rotation => transform.rotation;
     public Vector3 Position => transform.position;
     public void SetSpawnedUnit(GameUnit unit) 
     {

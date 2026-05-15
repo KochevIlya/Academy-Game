@@ -51,6 +51,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       _cursorService = cursorService;
     }
     public async UniTask<GameUnit> SpawnGameUnit(Vector3 position,
+      Quaternion rotation,
       UnitСharacteristicsType unitСharacteristicsType,
       PatrolPath path)
     {
@@ -65,7 +66,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       
       GameUnit bot = _diContainer
         .InstantiatePrefabForComponent<GameUnit>(prefab, 
-          position, Quaternion.identity, null);
+          position, rotation, null);
       
       bot.SetId(System.Guid.NewGuid().ToString());
       
@@ -125,7 +126,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     public async UniTask<GameUnit> RestoreGameUnit(EnemySaveData data)
     {
       PatrolPath path = PatrolPathSaveHelper.RestorePath(data.customPath, data.Id);
-      GameUnit unit = await SpawnGameUnit(data.Position, data.CharacteristicsType, path);
+      GameUnit unit = await SpawnGameUnit(data.Position, Quaternion.identity,  data.CharacteristicsType, path);
       if (unit.Health.IsDead())
       {
         Debug.Log("Unit dead");

@@ -48,7 +48,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
         
         foreach (UnitSpawner spawner in Object.FindObjectsOfType<UnitSpawner>())
         {
-          GameUnit unit = await _gameFactory.SpawnGameUnit(spawner.Position, spawner.UnitСharacteristicsType, spawner.Path);
+          GameUnit unit = await _gameFactory.SpawnGameUnit(spawner.Position, spawner.Rotation, spawner.UnitСharacteristicsType, spawner.Path);
           if (unit != null)
           {
             spawner.SetSpawnedUnit(unit);
