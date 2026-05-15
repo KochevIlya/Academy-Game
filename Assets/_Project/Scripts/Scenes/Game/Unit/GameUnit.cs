@@ -17,6 +17,7 @@ using System.Linq;
 using _Project.Scripts.Infrastructure.SaveLoad;
 using _Project.Scripts.Scenes.Game.Unit._Configs;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
+using JetBrains.Annotations;
 using Zenject;
 
 namespace _Project.Scripts.Scenes.Game.Unit
@@ -57,6 +58,13 @@ namespace _Project.Scripts.Scenes.Game.Unit
     [SerializeField] private float _timeToSelfDestroy = 5f;
     [SerializeField] private float _explosionRadius = 3f;
     [SerializeField] private int _explosionDamage = 500;
+    
+    [Header("Self Destroy VFX (to disable, leave nothing in prefab)")]
+    [SerializeField] [CanBeNull] private GameObject VFXPrefab;
+    [SerializeField] private Vector3 vfxOffset = new Vector3(0f, 0f, 0f);
+    [SerializeField] private float vfxScaleModifier = 1;
+    
+    
     private bool _isExploded = false;
     public string Id { get; private set; }
     public void SetId(string id)
@@ -264,6 +272,11 @@ namespace _Project.Scripts.Scenes.Game.Unit
         {
           health.TakeDamage(_explosionDamage);
         }
+      }
+      if (VFXPrefab is not null)
+      {
+        var vfxObj = Instantiate(VFXPrefab, gameObject.transform.position + vfxOffset, Quaternion.identity);
+        vfxObj.transform.localScale *= vfxScaleModifier;
       }
       Debug.Log($"[SelfDestroy] Unit exploded! Damage: {_explosionDamage}, Targets found: {hitColliders.Length}");
       Health.TakeDamage(Int32.MaxValue);
