@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1292313925466228533}
   - component: {fileID: 2148976728888669395}
   - component: {fileID: 1422892734184132874}
+  - component: {fileID: 8363969322467427906}
   m_Layer: 0
   m_Name: VFX_ImpactCross_1.1.0
   m_TagString: Untagged
@@ -4900,6 +4901,19 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &8363969322467427906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1226031520979461127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c57ef78bfc4c7e4da04610320c3e7b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lifetime: 3
 --- !u!1 &3080161124591148868
 GameObject:
   m_ObjectHideFlags: 0

@@ -48,6 +48,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
       {
         //Debug.Log("[HEALTH] In Health Taking Damage VFX ===========================================");
         var vfxObj = Instantiate(VFXPrefab, gameObject.transform.position + vfxOffset, Quaternion.identity);
+        
         vfxObj.transform.localScale *= vfxScaleModifier;
       }
       

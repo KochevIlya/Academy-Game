@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2431406399621001696}
   - component: {fileID: 1623298396792479162}
   - component: {fileID: 4652279233575634131}
+  - component: {fileID: 2283413455077051686}
   m_Layer: 0
   m_Name: VFX_ImpactToon_1.1.0
   m_TagString: Untagged
@@ -4899,6 +4900,19 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &2283413455077051686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 271054424957760564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c57ef78bfc4c7e4da04610320c3e7b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lifetime: 3
 --- !u!1 &3877762152598825534
 GameObject:
   m_ObjectHideFlags: 0

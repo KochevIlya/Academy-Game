@@ -100,7 +100,8 @@ namespace _Project.Scripts.Scenes.Game.Unit
       Health.Die.Subscribe(_ =>
       {
         Destroy(gameObject);
-        _soundService.Play(Audio.AudioType.Death);
+        if(IsUnderControl)
+          _soundService.Play(Audio.AudioType.Death);
       }).AddTo(this);
     }
     

@@ -4899,6 +4899,7 @@ GameObject:
   - component: {fileID: 4402744080923607039}
   - component: {fileID: 3642160410948286680}
   - component: {fileID: 3889521147320697831}
+  - component: {fileID: 31589940512126805}
   m_Layer: 0
   m_Name: VFX_Blood_01
   m_TagString: Untagged
@@ -9786,3 +9787,16 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &31589940512126805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8782009059513614302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c57ef78bfc4c7e4da04610320c3e7b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lifetime: 3
