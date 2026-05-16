@@ -23,13 +23,24 @@ public class GreetingWindow : BaseScreen
         
         _exitButton.onClick.AddListener( () =>
         {
-            _gameStateMachine.Enter<MainMenuState>();
-            _guiService.CloseScreen(ScreenType.GreetingWindow);
-
+            CloseWindow();
         });
         _exitButton.onClick.AddListener(Interract);
     }
     
+    private void Update()
+    {
+        if (Input.anyKeyDown)
+        {
+            CloseWindow();
+        }
+    }
+    
+    private void CloseWindow()
+    {
+        _gameStateMachine.Enter<MainMenuState>();
+        _guiService.CloseScreen(ScreenType.GreetingWindow);
+    }
     
     public override ScreenType GetScreenType()
     {
