@@ -18,7 +18,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Screens
     AbilitiesTutorialWindow,
     VictoryWindow,
     CreditsWindow
-    
+    ,GreetingWindow
     
   }
 }

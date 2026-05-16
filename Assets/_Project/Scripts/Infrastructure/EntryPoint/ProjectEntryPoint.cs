@@ -15,7 +15,8 @@ namespace _Project.Scripts.Infrastructure.EntryPoint
     
     public void Initialize()
     {
-      _gameStateMachine.Enter<MainMenuState>();
+      
+      _gameStateMachine.Enter<GreetingState>();
     }
   }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using _Project.Scripts.Infrastructure.Gui.Screens;
 using _Project.Visual.UI.Menus.BattleMenu;
 using _Project.Visual.UI.Menus.GameMenu;
@@ -15,7 +16,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     [SerializeField] private ControlsWindow _controlsWindowPrefab;
     [SerializeField] private CreditsWindow _creditsWindowPrefab;
     [SerializeField] private MainMenuWindow _mainMenuWindowPrefab;
-    
+    [SerializeField] private GreetingWindow _greetingWindowPrefab;
     private readonly Stack<BaseScreen> _screens = new Stack<BaseScreen>();
     private DiContainer _container;
     Canvas.StaticCanvas IGuiService.StaticCanvas => _staticCanvas;
@@ -39,6 +40,16 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
       }
       
       _screens.Push(screen);
+    }
+
+    public void ShowGreetingWindow()
+    {
+      ShowScreen(_greetingWindowPrefab).Forget();
+    }
+
+    public void CloseGreetingWindow()
+    {
+      CloseScreen(_greetingWindowPrefab).Forget();
     }
 
     public void ShowGameOver()
@@ -124,6 +135,75 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
       }
 
       _screens.Clear();
+    }
+    public async UniTask CloseScreen(ScreenType screenType)
+    {
+      BaseScreen screenToClose = _screens.LastOrDefault(s => s.GetScreenType() == screenType);
+
+      if (screenToClose == null)
+      {
+        Debug.LogWarning($"[GuiGameService] Попытка закрыть {screenType}, но такое окно не найдено в стеке.");
+        return;
+      }
+      
+      bool wasOverlay = screenToClose.IsOverlay;
+      var tempStack = _screens.ToList();
+      
+      _screens.Clear();
+      foreach (var screen in tempStack)
+      {
+        if (screen == screenToClose) continue;
+        _screens.Push(screen);
+      }
+
+      if (screenToClose.gameObject != null)
+      {
+        Destroy(screenToClose.gameObject);
+      }
+
+      if (wasOverlay)
+      {
+        RefreshVisibility();
+      }
+      await UniTask.Yield();
+    }
+    public async UniTask CloseScreen(BaseScreen screen)
+    {
+      if (screen == null || !_screens.Contains(screen)) return;
+
+      var tempStack = new List<BaseScreen>(_screens);
+      _screens.Clear();
+
+      bool wasOverlay = screen.IsOverlay;
+
+      for (int i = tempStack.Count - 1; i >= 0; i--)
+      {
+        if (tempStack[i] == screen) continue;
+        _screens.Push(tempStack[i]);
+      }
+
+      Destroy(screen.gameObject);
+
+      if (wasOverlay)
+      {
+        RefreshVisibility();
+      }
+    }
+    
+    private void RefreshVisibility()
+    {
+      foreach (var screen in _screens)
+      {
+        if (screen == null) continue;
+
+        screen.gameObject.SetActive(true);
+        screen.Show().Forget();
+
+        if (screen.IsOverlay)
+        {
+          break;
+        }
+      }
     }
   }
 }

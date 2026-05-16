@@ -213,3 +213,5 @@ MonoBehaviour:
     type: 3}
   _mainMenuWindowPrefab: {fileID: -7111627553410209246, guid: 9e1257a76a53ed140bddcbe19d226e29,
     type: 3}
+  _greetingWindowPrefab: {fileID: 998609543905878640, guid: df666314c6b40544784049c093748253,
+    type: 3}
