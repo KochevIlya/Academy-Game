@@ -79,8 +79,6 @@ public class HackingService : IDisposable
     public void StopBattle()
     {
         _isBattleActive.Value = false;
-        _soundService.Stop(Audio.AudioType.War);
-        _soundService.Play(Audio.AudioType.Global);
     }
     public void RequestCancel(bool silent = false)
     {
@@ -140,6 +138,7 @@ public class HackingService : IDisposable
         try
         {
             _soundService.Stop(Audio.AudioType.Global);
+            _soundService.Play(Audio.AudioType.TerminalIn);
             _soundService.Play(Audio.AudioType.Terminal);
             _cursorService.SetDefaultCursor();
             _hackerUnit.DisableControl();

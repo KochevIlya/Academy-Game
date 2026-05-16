@@ -144,10 +144,10 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
                 .Subscribe(_ => {
                     
                     _activeUnits.Remove(unit);
-                    CheckLastSurvivor();
+                    bool isLast = CheckLastSurvivor();
                     _botsCount--;
                     _unitCountSubject.OnNext(_activeUnits.Count);
-                    CheckUnitReturn(unit);
+                    CheckUnitReturn(unit, isLast);
                 })
                 .AddTo(unit);
             unit.OnUnitHacked
@@ -160,11 +160,14 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
             _botsCount++;
         }
 
-        private void CheckUnitReturn(GameUnit unit)
+        private void CheckUnitReturn(GameUnit unit, bool isLast)
         {
             if (unit.IsUnderControl)
             {
-                _hackingService.ReturnToOriginalBody();
+                if(isLast)
+                    _hackingService.ReturnToOriginalBody(false);
+                else
+                    _hackingService.ReturnToOriginalBody(true);
                 _hackingService.StopBattle();
             }
 
@@ -180,7 +183,7 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
                 ActivateAggro(player);
             }
         }
-        private void CheckLastSurvivor()
+        private bool CheckLastSurvivor()
         {
             var remainingBots = _activeUnits.Where(u => u != null).ToList();
             
@@ -237,9 +240,10 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
                         Debug.Log("<color=orange>Signal Sent: SaveRequested from CombatZone</color>");
                     })
                     .AddTo(_disposables);
-                
+                return true;
             }
 
+            return false;
         }
         public void ActivateAggroOnUnit(GameUnit unit)
         {
