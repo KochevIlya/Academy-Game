@@ -205,33 +205,6 @@ namespace _Project.Scripts.Scenes.Game.Unit
       Debug.Log($"[{name}] Управление переведено на Dummy.");
     }
     
-    // private void OnTriggerEnter(Collider other)
-    // {
-    //   if (InputControls is DummyInputControls)
-    //   {
-    //     if (other.CompareTag("Bullet"))
-    //     {
-    //       var bullet = other.GetComponent<Bullet>();
-    //       if (bullet != null)
-    //       {
-    //         var target = FindObjectsOfType<GameUnit>()
-    //           .FirstOrDefault(unit => unit.IsUnderControl);
-    //
-    //         if (target != null)
-    //         {
-    //           Observable.EveryUpdate()
-    //             .TakeUntil(target.Health.Die)
-    //             .Subscribe(_ =>
-    //             {
-    //               _attacker.Value.Attack(this, target.transform.position);
-    //             })
-    //             .AddTo(_lifetimeDisposable);
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
-
     public void UpdateStats(UnitStatsData unitStats, UnitСharacteristicsType type)
     {
       _stats = unitStats;
@@ -270,7 +243,8 @@ namespace _Project.Scripts.Scenes.Game.Unit
         var effect = _container.InstantiatePrefabForComponent<GrenadeExplosionEffect>(
           prefabFromUnit, explosionOrigin, Quaternion.identity, null);
         effect.Initialize(_explosionRadius, 0.5f);
-        _soundService.Play(Audio.AudioType.Shooting);
+        _soundService.Play(Audio.AudioType.Explosion);
+        
         if (IsUnderControl)
         {
           // _soundService.Play(Audio.AudioType.Damage);
@@ -289,11 +263,13 @@ namespace _Project.Scripts.Scenes.Game.Unit
           health.TakeDamage(_explosionDamage);
         }
       }
+      
       if (VFXPrefab is not null)
       {
         var vfxObj = Instantiate(VFXPrefab, gameObject.transform.position + vfxOffset, Quaternion.identity);
         vfxObj.transform.localScale *= vfxScaleModifier;
       }
+      
       Debug.Log($"[SelfDestroy] Unit exploded! Damage: {_explosionDamage}, Targets found: {hitColliders.Length}");
       Health.TakeDamage(Int32.MaxValue);
     }
