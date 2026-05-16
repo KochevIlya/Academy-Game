@@ -43,7 +43,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Screens
       .SetEase(Ease.Linear)
       .SetLink(gameObject).SetUpdate(true);
 
-    private void SetCanvasEnable(bool isEnable)
+    protected void SetCanvasEnable(bool isEnable)
     {
       if (_canvasGroup == null) return; 
       if (this == null) return;

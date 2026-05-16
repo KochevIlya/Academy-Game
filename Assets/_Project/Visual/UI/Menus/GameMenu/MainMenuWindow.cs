@@ -54,13 +54,13 @@ public class MainMenuWindow : BaseScreen
             _continueButton.interactable = true;
         
         await base.Show();
-        
         Time.timeScale = 0f;
     }
     void OnEnable() 
     {
         EventSystem.current.SetSelectedGameObject(null);
     }
+    
     
     private void OpenControls()
     {

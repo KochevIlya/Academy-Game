@@ -15,6 +15,8 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     void ShowPauseButton();
     void ShowControlsWindow();
     void ShowCreditsWindow();
+    void ShowBackground();
+    void CloseBackground();
     void ShowMainMenuWindow(bool isAlreadySaved = true);
     UniTask CloseScreen(ScreenType screenType);
     UniTask CloseScreen(BaseScreen screen);

@@ -6,6 +6,7 @@ using _Project.Visual.UI.Menus.BattleMenu;
 using _Project.Visual.UI.Menus.GameMenu;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Zenject;
 
 namespace _Project.Scripts.Infrastructure.Gui.Service
@@ -17,6 +18,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     [SerializeField] private CreditsWindow _creditsWindowPrefab;
     [SerializeField] private MainMenuWindow _mainMenuWindowPrefab;
     [SerializeField] private GreetingWindow _greetingWindowPrefab;
+    [SerializeField] private BackgroundWindow _backgroundPrefab;
     private readonly Stack<BaseScreen> _screens = new Stack<BaseScreen>();
     private DiContainer _container;
     Canvas.StaticCanvas IGuiService.StaticCanvas => _staticCanvas;
@@ -32,6 +34,8 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
       {
         foreach (var oldScreen in _screens)
         {
+          if(ScreenType.Background  == oldScreen.GetScreenType())
+            continue;
           if (oldScreen != null)
           {
             oldScreen.gameObject.SetActive(false);
@@ -75,6 +79,16 @@ namespace _Project.Scripts.Infrastructure.Gui.Service
     public void ShowCreditsWindow()
     {
       ShowScreen(_creditsWindowPrefab).Forget();
+    }
+
+    public void ShowBackground()
+    {
+      ShowScreen(_backgroundPrefab).Forget();
+    }
+
+    public void CloseBackground()
+    {
+      CloseScreen(_backgroundPrefab).Forget();
     }
 
     public void ShowMainMenuWindow(bool isAlreadySaved) => ShowScreen(_mainMenuWindowPrefab).Forget();

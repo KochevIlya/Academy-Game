@@ -32,6 +32,7 @@ public class MainMenuState : IEnterState
         _cursorService.SetLockState(false);
         
         _soundService.Play(Audio.AudioType.Global);
+        _guiService.ShowBackground();
         _guiService.ShowMainMenuWindow();
         
         

@@ -19,6 +19,7 @@ namespace _Project.Scripts.Infrastructure.Gui.Screens
     VictoryWindow,
     CreditsWindow
     ,GreetingWindow
+    ,Background
     
   }
 }

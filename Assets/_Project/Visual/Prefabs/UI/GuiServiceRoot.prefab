@@ -215,3 +215,5 @@ MonoBehaviour:
     type: 3}
   _greetingWindowPrefab: {fileID: 998609543905878640, guid: df666314c6b40544784049c093748253,
     type: 3}
+  _backgroundPrefab: {fileID: 8941974992907089886, guid: a874d65b7ba8f954091ba8afed882fcb,
+    type: 3}
