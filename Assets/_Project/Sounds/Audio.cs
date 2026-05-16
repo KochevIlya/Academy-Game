@@ -21,6 +21,8 @@ namespace _Project.Sounds
             Death,
             Lose, 
             Win, 
+            Shotgun
+            
             
 
         }

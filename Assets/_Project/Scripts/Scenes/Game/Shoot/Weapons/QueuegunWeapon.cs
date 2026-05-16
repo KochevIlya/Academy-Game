@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using _Project.Scripts.Scenes.Game.Shoot;
 using _Project.Scripts.Scenes.Game.Unit;
+using _Project.Sounds;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 

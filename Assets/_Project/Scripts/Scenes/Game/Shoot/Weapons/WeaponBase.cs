@@ -3,6 +3,7 @@ using _Project.Scripts.Scenes.Game.Shoot.Data;
 using _Project.Scripts.Scenes.Game.Unit;
 using JetBrains.Annotations;
 using UnityEngine;
+using Zenject;
 
 namespace _Project.Scripts.Scenes.Game.Shoot
 {
@@ -12,7 +13,7 @@ namespace _Project.Scripts.Scenes.Game.Shoot
     
     protected WeaponData WeaponData;
     protected GameUnit Unit;
-    
+    [Inject] protected ISoundService _soundService;
     [Header("VFX (to disable, leave nothing in prefab)")]
     [SerializeField] [CanBeNull] private GameObject VFXPrefab;
     [SerializeField] private Vector3 vfxOffset = new Vector3(0f, 0f, 0f);

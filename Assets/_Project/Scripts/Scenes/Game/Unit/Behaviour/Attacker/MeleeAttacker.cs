@@ -39,8 +39,8 @@ public class MeleeAttacker : MonoBehaviour, IUnitAttacker
         if (unit.HasWeapon)
         {
             unit.Weapon.Shoot(Vector2.zero, unit);
-            _soundService.Stop(Audio.AudioType.Sword);
-            _soundService.Play(Audio.AudioType.Sword);
+            // _soundService.Stop(Audio.AudioType.Sword);
+            // _soundService.Play(Audio.AudioType.Sword);
         }
     }
 

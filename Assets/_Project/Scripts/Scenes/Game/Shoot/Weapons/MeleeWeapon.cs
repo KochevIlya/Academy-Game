@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using _Project.Scripts.Scenes.Game.Shoot;
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit.Components.Health;
+using _Project.Sounds;
 using JetBrains.Annotations;
 using UnityEngine;
+using Zenject;
 
 public class MeleeWeapon : WeaponBase
 {
@@ -21,7 +23,7 @@ public class MeleeWeapon : WeaponBase
         private float _currentTime;
         private Mesh _mesh;
         private Coroutine _visualRoutine;
-
+        
         private void Awake()
         {
             _mesh = new Mesh();
@@ -39,12 +41,15 @@ public class MeleeWeapon : WeaponBase
         {
             if (_currentTime >= WeaponData.CoolDown)
             {
+                _soundService.Stop(Audio.AudioType.Sword);
+                _soundService.Play(Audio.AudioType.Sword);
+                
                 if (_coneMeshFilter != null)
                 {
                     if (_visualRoutine != null) StopCoroutine(_visualRoutine);
                     _visualRoutine = StartCoroutine(DrawConeMesh(unit.transform));
                 }
-
+                
                 PerformAttack(unit);
 
                 _currentTime = 0f;

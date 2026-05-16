@@ -40,8 +40,8 @@ namespace _Project.Scripts.Scenes.Game.Unit.Attacker
     {
       if (unit.HasWeapon)
       {
-        _soundService.Stop(Audio.AudioType.Shooting);
-        _soundService.Play(Audio.AudioType.Shooting);
+        // _soundService.Stop(Audio.AudioType.Shooting);
+        // _soundService.Play(Audio.AudioType.Shooting);
         unit.Weapon.Shoot(_shootMousePosition, unit);
       }
     }

@@ -2,6 +2,7 @@
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
 using _Project.Scripts.Utils.Extensions;
+using _Project.Sounds;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
@@ -13,9 +14,11 @@ namespace _Project.Scripts.Scenes.Game.Shoot
     protected IGameFactory _gameFactory;
     protected IInputHelper _inputHelper;
     protected float _currentTime; 
+    
 
     [Inject]
-    public void Construct(IGameFactory gameFactory, IInputHelper inputHelper)
+    public void Construct(IGameFactory gameFactory, IInputHelper inputHelper
+    )
     {
       _inputHelper = inputHelper;
       _gameFactory = gameFactory;
@@ -33,6 +36,8 @@ namespace _Project.Scripts.Scenes.Game.Shoot
     {
       if (_currentTime >= WeaponData.CoolDown)
       {
+        _soundService.Stop(Audio.AudioType.Shooting);
+        _soundService.Play(Audio.AudioType.Shooting);
         float fireHeight = SpawnPoint.position.y;
         _inputHelper.ScreenToGroundPosition(shootMousePosition, fireHeight, out var worldPosition); 
         var direction = (worldPosition - SpawnPoint.position).normalized;

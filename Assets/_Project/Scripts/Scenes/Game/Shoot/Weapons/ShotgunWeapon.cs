@@ -1,10 +1,12 @@
 
 
+
 using _Project.Scripts.Scenes.Game.Infrastructure.Factory;
 using _Project.Scripts.Scenes.Game.Shoot;
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
 using _Project.Scripts.Utils.Extensions;
+using _Project.Sounds;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
@@ -18,6 +20,9 @@ public class ShotgunWeapon : RiffleWeapon
     {
         if (_currentTime >= WeaponData.CoolDown)
         {
+            _soundService.Stop(Audio.AudioType.Shotgun);
+            _soundService.Play(Audio.AudioType.Shotgun);
+            
             float fireHeight = SpawnPoint.position.y;
             _inputHelper.ScreenToGroundPosition(shootMousePosition, fireHeight, out var worldPosition); 
             var direction = (worldPosition - SpawnPoint.position).normalized;
