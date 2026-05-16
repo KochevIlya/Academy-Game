@@ -307,7 +307,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 23, y: 23}
+  m_SizeDelta: {x: 51.1385, y: 23}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2587567460603469609
 CanvasRenderer:
@@ -438,7 +438,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0415"
+  m_text: Space
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 676f84a0defa0fe4ea38b1016f6d8450, type: 2}
   m_sharedMaterial: {fileID: -4998268097164992528, guid: 676f84a0defa0fe4ea38b1016f6d8450,
@@ -626,5 +626,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4558bbea80f3c445b864855cd1f011a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _skipKey: 101
+  _skipKey: 32
   _skipText: {fileID: 5624096764208931260}
