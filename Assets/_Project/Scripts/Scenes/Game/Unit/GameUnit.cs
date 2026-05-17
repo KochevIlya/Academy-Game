@@ -93,6 +93,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
         UpdateControls(new DummyInputControls(InputControls.MousePosition));
         Animator.Die();
         Destroy(gameObject, 10f);
+        
       }).AddTo(this);
       if (TimerView != null)
         TimerView.Initialize(this);

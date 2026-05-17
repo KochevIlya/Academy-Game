@@ -4267,6 +4267,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4253649495011773376, guid: a1616083d86b50246bf9cc8e1aed4053,
         type: 3}
+      propertyPath: _posts.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253649495011773376, guid: a1616083d86b50246bf9cc8e1aed4053,
+        type: 3}
+      propertyPath: _posts.Array.data[0]
+      value: 
+      objectReference: {fileID: 989476783125245736}
+    - target: {fileID: 4253649495011773376, guid: a1616083d86b50246bf9cc8e1aed4053,
+        type: 3}
       propertyPath: _mySpawners.Array.size
       value: 7
       objectReference: {fileID: 0}
@@ -5482,10 +5492,6 @@ PrefabInstance:
         type: 3}
       insertIndex: 7
       addedObject: {fileID: 2360627800464823842}
-    - targetCorrespondingSourceObject: {fileID: 1311927990346511542, guid: a1616083d86b50246bf9cc8e1aed4053,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4412432070301188090}
     - targetCorrespondingSourceObject: {fileID: 6410281873820901148, guid: a1616083d86b50246bf9cc8e1aed4053,
         type: 3}
       insertIndex: -1
@@ -5549,14 +5555,18 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2202057925278742276, guid: a1616083d86b50246bf9cc8e1aed4053,
         type: 3}
       insertIndex: 0
+      addedObject: {fileID: 4412432070301188090}
+    - targetCorrespondingSourceObject: {fileID: 2202057925278742276, guid: a1616083d86b50246bf9cc8e1aed4053,
+        type: 3}
+      insertIndex: 1
       addedObject: {fileID: 7814395105880825222}
     - targetCorrespondingSourceObject: {fileID: 2202057925278742276, guid: a1616083d86b50246bf9cc8e1aed4053,
         type: 3}
-      insertIndex: 2
+      insertIndex: 3
       addedObject: {fileID: 7666716622601737694}
     - targetCorrespondingSourceObject: {fileID: 2202057925278742276, guid: a1616083d86b50246bf9cc8e1aed4053,
         type: 3}
-      insertIndex: 6
+      insertIndex: 7
       addedObject: {fileID: 4081187872085479188}
     - targetCorrespondingSourceObject: {fileID: 2202057925278742276, guid: a1616083d86b50246bf9cc8e1aed4053,
         type: 3}
@@ -7116,7 +7126,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1185125852642947752}
+    m_TransformParent: {fileID: 2074406967283446042}
     m_Modifications:
     - target: {fileID: 470555365393007014, guid: 299b52f8ffd103d489c7db6ab8dbf092,
         type: 3}
