@@ -47,7 +47,7 @@ namespace _Project.Visual.UI.Menus.GameMenu
             {
                 Debug.Log($"Направлений пройдено: {_pressedDirections.Count}/4");
                 
-                if (_pressedDirections.Count == 4)
+                if (_pressedDirections.Count == 2)
                 {
                     FinishTutorial();
                 }
