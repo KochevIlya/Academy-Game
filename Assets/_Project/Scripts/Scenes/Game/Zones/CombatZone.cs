@@ -167,7 +167,7 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
                 if(isLast)
                     _hackingService.ReturnToOriginalBody(false);
                 else
-                    _hackingService.ReturnToOriginalBody(true);
+                    _hackingService.ReturnToOriginalBody();
                 _hackingService.StopBattle();
             }
 
