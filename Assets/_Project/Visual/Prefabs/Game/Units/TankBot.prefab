@@ -436,9 +436,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: dc740ded6e5262d4e86ac1da89037be7,
         type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: dc740ded6e5262d4e86ac1da89037be7,
+        type: 3}
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e7a38b3f4b17e9c4fa5fd65ca0d3ca0a, type: 2}
+    - target: {fileID: 5866666021909216657, guid: dc740ded6e5262d4e86ac1da89037be7,
+        type: 3}
+      propertyPath: m_WarningMessage
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6386480451222621022, guid: dc740ded6e5262d4e86ac1da89037be7,
         type: 3}
       propertyPath: m_Layer
