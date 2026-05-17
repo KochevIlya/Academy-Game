@@ -79,7 +79,6 @@ public class HackingService : IDisposable
     public void StopBattle()
     {
         _isBattleActive.Value = false;
-        _soundService.Stop(Audio.AudioType.War);
     }
     public void RequestCancel(bool silent = false)
     {

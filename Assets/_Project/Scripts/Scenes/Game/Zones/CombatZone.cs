@@ -26,6 +26,7 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
         public List<HackingTerminal> _activeTerminals = new List<HackingTerminal>();
         [SerializeField] private List<Post> _posts;
         private bool _isAlarmActive = false;
+        
         private CompositeDisposable _disposables = new CompositeDisposable();
         private int _botsCount = 0;
 
