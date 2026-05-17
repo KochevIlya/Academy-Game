@@ -44,11 +44,11 @@ public class MeleeWeapon : WeaponBase
                 _soundService.Stop(Audio.AudioType.Sword);
                 _soundService.Play(Audio.AudioType.Sword);
                 
-                if (_coneMeshFilter != null)
-                {
-                    if (_visualRoutine != null) StopCoroutine(_visualRoutine);
-                    _visualRoutine = StartCoroutine(DrawConeMesh(unit.transform));
-                }
+                // if (_coneMeshFilter != null)
+                // {
+                //     if (_visualRoutine != null) StopCoroutine(_visualRoutine);
+                //     _visualRoutine = StartCoroutine(DrawConeMesh(unit.transform));
+                // }
                 
                 PerformAttack(unit);
 

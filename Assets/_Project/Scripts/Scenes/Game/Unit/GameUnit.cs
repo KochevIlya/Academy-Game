@@ -92,7 +92,10 @@ namespace _Project.Scripts.Scenes.Game.Unit
         Destroy(GetComponent<HackableComponent>());
         UpdateControls(new DummyInputControls(InputControls.MousePosition));
         Animator.Die();
-        
+        foreach (var collider in GetComponentsInChildren<Collider>())
+        {
+          collider.enabled = false;
+        }
         Destroy(gameObject, 10f);
         
       }).AddTo(this);
