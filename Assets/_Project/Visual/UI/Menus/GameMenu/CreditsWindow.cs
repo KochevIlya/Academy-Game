@@ -24,6 +24,7 @@ public class CreditsWindow : BaseScreen
 
     private bool _isEnd = false;
     [SerializeField] private float _speed = 50f;
+    private float _canvasHeight;
     
     public override bool IsOverlay => true;
     
@@ -39,15 +40,26 @@ public class CreditsWindow : BaseScreen
 
     private void Start()
     {
-        Debug.Log(Screen.currentResolution.height);
-        Debug.Log($"[CreditsWindow] MovingPart.SizeDelta.y: {_movingPart.sizeDelta.y}");
-        _movingPosY = - Screen.currentResolution.height;
-        Debug.Log($"[CreditsWindow] _movingPosY: {_movingPosY}");
-        _startMovingPosY = - Screen.currentResolution.height;
-        Debug.Log($"[CreditsWindow] _startMovingPosY: {_startMovingPosY}");
-        _lastObject.sizeDelta = new Vector2(_lastObject.sizeDelta.x, _lastObject.sizeDelta.y 
-            + Screen.currentResolution.height / 2 - _logo.sizeDelta.y / 2);
+        Canvas.ForceUpdateCanvases();
+        Canvas canvas = GetComponentInParent<Canvas>();
         
+        
+        
+        if (canvas != null)
+        {
+            _canvasHeight = canvas.GetComponent<RectTransform>().rect.height;
+        }
+        else
+        {
+            _canvasHeight = 1080f; 
+        }
+        float movingPartHeight = _movingPart.rect.height;
+        
+        _movingPosY = -_canvasHeight - movingPartHeight / 2 + movingPartHeight / 4;
+        _startMovingPosY = _movingPosY;
+        _movingPart.anchoredPosition = new Vector2(_movingPart.anchoredPosition.x, _movingPosY);
+        
+        LayoutRebuilder.ForceRebuildLayoutImmediate(_movingPart);
         //_movingPosY = _startMovingPosY - 300;
     }
 

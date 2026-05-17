@@ -108,7 +108,10 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
                     }
                 })
                 .AddTo(_disposables);
-            
+            if (GetActiveUnits().Count == 0)
+            {
+                _zoneClearedSubject.OnNext(UniRx.Unit.Default);
+            }
         }
 
         public void RegisterUnit(GameUnit unit)

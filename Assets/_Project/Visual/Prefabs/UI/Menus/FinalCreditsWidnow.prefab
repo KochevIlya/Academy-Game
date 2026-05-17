@@ -5363,7 +5363,7 @@ MonoBehaviour:
   _startMovingPosY: 0
   _lastObject: {fileID: 8548484285172509473}
   _logo: {fileID: 4979005031891452835}
-  _speed: 50
+  _speed: 40
 --- !u!1 &4820788289330435140
 GameObject:
   m_ObjectHideFlags: 0
