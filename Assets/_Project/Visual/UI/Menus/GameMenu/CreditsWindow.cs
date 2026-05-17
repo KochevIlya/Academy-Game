@@ -23,6 +23,7 @@ public class CreditsWindow : BaseScreen
     [SerializeField] private RectTransform _logo;
 
     private bool _isEnd = false;
+    [SerializeField] private float _speed = 50f;
     
     public override bool IsOverlay => true;
     
@@ -52,7 +53,7 @@ public class CreditsWindow : BaseScreen
 
     private void Update()
     {
-        _movingPosY += 0.4f;
+        _movingPosY += _speed * Time.unscaledDeltaTime;
         
         if (_movingPosY <= -_startMovingPosY //+ _logo.GetComponent<RectTransform>().anchoredPosition.y/2)
             )

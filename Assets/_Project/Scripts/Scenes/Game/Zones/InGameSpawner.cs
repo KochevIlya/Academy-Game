@@ -14,24 +14,26 @@ namespace _Project.Scripts.Scenes.Game.Zones
     /// </summary>
     public class InGameSpawner : MonoBehaviour
     {
-        [Header("References")]
-        [SerializeField] private CombatZone combatZone;
+        [Header("References")] [SerializeField]
+        private CombatZone combatZone;
 
-        [Header("Spawn Settings")]
-        [SerializeField] private UnitСharacteristicsType unitType;
+        [Header("Spawn Settings")] [SerializeField]
+        private UnitСharacteristicsType unitType;
+
         [SerializeField] private int triggerThreshold = 2;
         [SerializeField] private int maxActivations = 2;
         [SerializeField] private float delayBetweenWaves = 3f;
 
         [Inject] private IGameFactory _gameFactory;
 
-        private int _activationsCount = 0;
+        private int _activationsCount;
         private bool _isBattleActive = false;
         private bool _isSpawning = false;
         private readonly CompositeDisposable _disposables = new CompositeDisposable();
 
         private void Start()
         {
+            _activationsCount = 0;
             if (combatZone == null)
             {
                 Debug.LogError($"[InGameSpawner] Не указана CombatZone на объекте {gameObject.name}");
@@ -98,7 +100,8 @@ namespace _Project.Scripts.Scenes.Game.Zones
 
             _activationsCount++;
 
-            Debug.Log($"<color=yellow>[InGameSpawner]</color> Волна {_activationsCount}/{maxActivations}. Спавн юнита типа {unitType}");
+            Debug.Log(
+                $"<color=yellow>[InGameSpawner]</color> Волна {_activationsCount}/{maxActivations}. Спавн юнита типа {unitType}");
 
             GameUnit unit = await _gameFactory.SpawnGameUnit(transform.position, unitType, null);
 
@@ -106,12 +109,15 @@ namespace _Project.Scripts.Scenes.Game.Zones
             {
                 combatZone.RegisterUnit(unit);
                 combatZone.ActivateAggroOnUnit(unit);
-                Debug.Log($"<color=green>[InGameSpawner]</color> Заспавнен юнит {unit.name}, зарегистрирован и переведён в Aggro режим в CombatZone {combatZone.name}");
+                Debug.Log(
+                    $"<color=green>[InGameSpawner]</color> Заспавнен юнит {unit.name}, зарегистрирован и переведён в Aggro режим в CombatZone {combatZone.name}");
             }
 
-            Debug.Log($"<color=cyan>[InGameSpawner]</color> Волна {_activationsCount} завершена. Ожидание {delayBetweenWaves}с...");
+            Debug.Log(
+                $"<color=cyan>[InGameSpawner]</color> Волна {_activationsCount} завершена. Ожидание {delayBetweenWaves}с...");
             await UniTask.Delay(System.TimeSpan.FromSeconds(delayBetweenWaves));
-            Debug.Log($"<color=cyan>[InGameSpawner]</color> Задержка завершена. Осталось активаций: {maxActivations - _activationsCount}");
+            Debug.Log(
+                $"<color=cyan>[InGameSpawner]</color> Задержка завершена. Осталось активаций: {maxActivations - _activationsCount}");
 
             _isSpawning = false;
 
@@ -121,7 +127,12 @@ namespace _Project.Scripts.Scenes.Game.Zones
             }
         }
 
-        private void OnDestroy()
+        public void Reset()
+        {
+            _activationsCount = 0;
+        }
+
+    private void OnDestroy()
         {
             _disposables.Clear();
         }

@@ -20,6 +20,9 @@ public class GateController : MonoBehaviour
             .Take(1)
             .Subscribe(_ => _isActive = true)
             .AddTo(this);
+        
+        
+        
         _openingTrigger.OnTriggerEnterSubject
             .Subscribe(_ =>
                 {

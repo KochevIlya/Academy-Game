@@ -12,7 +12,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
         [SerializeField] private Image _fillImage;
         [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private TextMeshProUGUI _healthText;
-
+        private bool _isInitialized;
         [SerializeField] private Vector3 _offset = new Vector3(0, 2f, 0);
 
         private GameUnit _targetUnit;
@@ -40,6 +40,8 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
             unit.Health.Die
                 .Subscribe(_ => Destroy(gameObject))
                 .AddTo(this);
+            
+            _isInitialized = true;
         }
 
         private void UnitChecking(GameUnit unit)
@@ -67,10 +69,18 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
         }
         private void LateUpdate()
         {
+            if (!_isInitialized) return;
+            
             if (_targetUnit == null || _targetUnit.gameObject == null)
             {
                 Destroy(gameObject);
                 return;
+            }
+            
+            if (_mainCamera == null)
+            {
+                _mainCamera = Camera.main;
+                if (_mainCamera == null) return; 
             }
 
             Vector3 targetPosition = _targetUnit.transform.position + _offset;
@@ -80,7 +90,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
             _canvasGroup.alpha = isBehind ? 0 : 1;
 
             if (!isBehind)
-                _rectTransform.position = screenPoint;
+                _rectTransform.position = new Vector3(screenPoint.x, screenPoint.y, 0f);;
             
         }
     }

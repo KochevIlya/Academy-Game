@@ -9,6 +9,7 @@ using _Project.Scripts.Scenes.Game.Shoot.Data;
 using _Project.Scripts.Scenes.Game.Unit;
 using _Project.Scripts.Scenes.Game.Unit._Data;
 using _Project.Scripts.Scenes.Game.Unit.Components.Spawner;
+using _Project.Scripts.Scenes.Game.Zones;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
@@ -56,6 +57,11 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
         }
         
       }
+
+      // foreach (InGameSpawner spawner in Object.FindObjectsOfType<InGameSpawner>())
+      // {
+      //   spawner.Reset();
+      // }
       
       foreach (TerminalSpawner spawner in Object.FindObjectsOfType<TerminalSpawner>())
       {
