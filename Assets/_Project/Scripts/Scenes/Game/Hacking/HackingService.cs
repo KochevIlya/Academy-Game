@@ -223,7 +223,6 @@ public class HackingService : IDisposable
     {
         var currentUnit = _currentPossessedUnit.GetComponentInChildren<GameUnit>();
         currentUnit.SelfDestroy();
-        ReturnToOriginalBody();
     }
     public void ReturnToOriginalBody(bool isWar = true)
     {
