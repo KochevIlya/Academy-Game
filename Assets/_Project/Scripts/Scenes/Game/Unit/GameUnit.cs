@@ -92,6 +92,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
         Destroy(GetComponent<HackableComponent>());
         UpdateControls(new DummyInputControls(InputControls.MousePosition));
         Animator.Die();
+        
         Destroy(gameObject, 10f);
         
       }).AddTo(this);
