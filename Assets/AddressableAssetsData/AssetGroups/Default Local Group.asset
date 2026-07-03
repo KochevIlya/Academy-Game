@@ -112,6 +112,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dea5533b98643fd40b5b97597fba9895
+    m_Address: Assets/_Project/Visual/Prefabs/Game/Units/Summons/Drone.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e5e9828cc2ed9a443b9822e1fd871237
     m_Address: Assets/_Project/Visual/Prefabs/Game/Units/MeleeBot.prefab
     m_ReadOnly: 0

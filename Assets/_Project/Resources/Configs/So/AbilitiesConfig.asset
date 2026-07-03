@@ -31,9 +31,18 @@ MonoBehaviour:
   - abilityType: 3
     settings:
       rid: 4397388231571668992
+  - abilityType: 4
+    settings:
+      rid: 369622901401321473
   references:
     version: 2
     RefIds:
+    - rid: 369622901401321473
+      type: {class: DroneSettings, ns: _Project.Scripts.Scenes.Game.Unit._Configs,
+        asm: Assembly-CSharp}
+      data:
+        cooldown: 3
+        speed: 10
     - rid: 686165173161426946
       type: {class: GrenadeSettings, ns: _Project.Scripts.Scenes.Game.Unit._Configs,
         asm: Assembly-CSharp}

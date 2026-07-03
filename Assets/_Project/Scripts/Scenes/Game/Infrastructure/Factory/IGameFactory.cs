@@ -20,6 +20,7 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     UniTask<GameUnit> SpawnGameUnit(Vector3 position,  UnitСharacteristicsType unitСharacteristicsType, PatrolPath patrolPath);
     
     UniTask<Grenade> SpawnGrenade(Vector3 position);
+    UniTask<Drone> SpawnDrone(GameUnit owner);
     UniTask<GameUnit> RestoreGameUnit(EnemySaveData data);
   }
 }

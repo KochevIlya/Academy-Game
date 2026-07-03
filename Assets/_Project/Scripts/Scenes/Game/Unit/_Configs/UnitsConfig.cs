@@ -11,6 +11,7 @@ public class UnitsConfig : SoConfig<UnitsConfig>
 {
   public AssetReference Crosshair;
   public AssetReference Grenade;
+  public AssetReference Drone;
   [Serializable]
   public struct BehaviourPrefabMap
   {

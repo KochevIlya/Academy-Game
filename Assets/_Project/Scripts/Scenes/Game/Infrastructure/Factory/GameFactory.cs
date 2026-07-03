@@ -83,6 +83,9 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
         else if(unitData.abilityType == BotAbilityType.Shield)
           AddAbility<ShieldAbility>(bot, unitData.ability);
         
+        else if (unitData.abilityType == BotAbilityType.ThrowDrone)
+          AddAbility<DroneAbility>(bot, unitData.ability);
+        
         bot.UpdateWeapon(await SpawnWeapon(unitData.weaponType, bot));
         bot.AddComponent<HackableComponent>();
         bot.PatrolPath = path;
@@ -120,6 +123,15 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     
       return _diContainer.InstantiatePrefabForComponent<Grenade>
         (prefab, position, Quaternion.identity, null);
+    }
+
+    public async UniTask<Drone> SpawnDrone(GameUnit owner)
+    {
+      var prefabReference = _staticData.UnitsConfig.Drone;
+      var prefab = await _assetProvider.LoadFromAddressable<GameObject>(prefabReference);
+      Vector3 spawnPosition = owner.transform.position + Vector3.up * 1.5f;
+      return _diContainer.InstantiatePrefabForComponent<Drone>
+        (prefab, spawnPosition, Quaternion.identity, null);
     }
 
     public async UniTask<GameUnit> RestoreGameUnit(EnemySaveData data)

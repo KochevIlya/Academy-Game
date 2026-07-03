@@ -17,7 +17,8 @@ namespace _Project.Scripts.Scenes.Game.Unit._Configs
         None,
         ThrowGrenade,
         Dash,
-        Shield
+        Shield,
+        ThrowDrone
     }
 
     [Serializable]
@@ -32,6 +33,12 @@ namespace _Project.Scripts.Scenes.Game.Unit._Configs
         public float radius = 3f;
         public float fuseTime = 2f;
         public float speed = 5f;
+    }
+
+    [Serializable]
+    public class DroneSettings : AbilitySettings
+    {
+        public float speed = 10f;
     }
 
     [Serializable]

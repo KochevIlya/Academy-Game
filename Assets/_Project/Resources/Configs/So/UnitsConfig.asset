@@ -31,6 +31,11 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 1
+  Drone:
+    m_AssetGUID: dea5533b98643fd40b5b97597fba9895
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1
   BehaviourMaps:
   - Behaviour: 0
     Prefab:
