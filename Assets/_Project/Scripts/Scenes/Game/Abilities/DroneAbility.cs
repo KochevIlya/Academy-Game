@@ -12,11 +12,13 @@ using Zenject;
 public class DroneAbility : BaseAbility<DroneSettings>
 {
     private IGameFactory _gameFactory;
+    private IPosessionService _posessionService;
     
     [Inject]    
-    public void Construct(IGameFactory gameFactory)
+    public void Construct(IGameFactory gameFactory, IPosessionService posessionService)
     {
         _gameFactory = gameFactory;
+        _posessionService = posessionService;
     }
 
     public override void Use(Vector3 targetPosition)
@@ -56,11 +58,16 @@ public class DroneAbility : BaseAbility<DroneSettings>
     private async UniTaskVoid ThrowDrone(Vector3 targetPosition)
     {
         if (_settings == null) return;
+        bool isPlayerCaster = _unit.IsUnderControl;
     
-        // Фабрика сама знает, где должен появиться дрон, так как мы передали владельца (_unit)
         var drone = await _gameFactory.SpawnDrone(_unit); 
+        drone.Setup(targetPosition, Settings.speed);
     
         drone.Setup(targetPosition, Settings.speed);
+        if (isPlayerCaster)
+        {
+            _posessionService.Possess(drone);
+        }
     }
 
     public override BotAbilityType GetAbilityType()

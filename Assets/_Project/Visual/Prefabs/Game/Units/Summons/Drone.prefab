@@ -117,6 +117,8 @@ GameObject:
   - component: {fileID: -2941539445563805264}
   - component: {fileID: -2947791503499750585}
   - component: {fileID: 973203119214203731}
+  - component: {fileID: -8904538047669181873}
+  - component: {fileID: -6410443862511196811}
   m_Layer: 0
   m_Name: Drone
   m_TagString: Untagged
@@ -152,6 +154,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29c0b7ce2b3c74db04aed420840a45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Animator: {fileID: 0}
+  Health: {fileID: 0}
+  <HealthView>k__BackingField: {fileID: 0}
+  <TimerView>k__BackingField: {fileID: 0}
+  <WeaponPoint>k__BackingField: {fileID: 0}
+  IsUnderControl: 0
+  _mover:
+    underlyingValue: {fileID: -2947791503499750585}
+  _botMover:
+    underlyingValue: {fileID: 0}
+  _rotator:
+    underlyingValue: {fileID: 973203119214203731}
+  _attacker:
+    underlyingValue: {fileID: 0}
+  _explosionPrefab: {fileID: 0}
+  _timeToSelfDestroy: 5
+  _explosionRadius: 3
+  _explosionDamage: 500
+  VFXPrefab: {fileID: 0}
+  vfxOffset: {x: 0, y: 0, z: 0}
+  vfxScaleModifier: 1
 --- !u!114 &-2947791503499750585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,3 +201,56 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _smoothFactor: 15
   _minAngleForAnimation: 1
+--- !u!143 &-8904538047669181873
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3512759897602314584}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.05
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &-6410443862511196811
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3512759897602314584}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

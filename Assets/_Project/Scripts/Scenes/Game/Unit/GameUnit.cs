@@ -84,21 +84,25 @@ namespace _Project.Scripts.Scenes.Game.Unit
       
       if (HealthView != null)
         HealthView.Initialize(this);
-      
-      Health.Die.Where(_ => !isDying).Subscribe(_ =>
+
+      if (Health != null)
       {
-        isDying = true;
-        Weapon = null;
-        Destroy(GetComponent<HackableComponent>());
-        UpdateControls(new DummyInputControls(InputControls.MousePosition));
-        Animator.Die();
-        foreach (var collider in GetComponentsInChildren<Collider>())
-        {
-          collider.enabled = false;
-        }
-        Destroy(gameObject, 10f);
-        
-      }).AddTo(this);
+        Health.Die.Where(_ => !isDying).Subscribe(_ =>
+              {
+                isDying = true;
+                Weapon = null;
+                Destroy(GetComponent<HackableComponent>());
+                UpdateControls(new DummyInputControls(InputControls.MousePosition));
+                Animator.Die();
+                foreach (var collider in GetComponentsInChildren<Collider>())
+                {
+                  collider.enabled = false;
+                }
+                Destroy(gameObject, 10f);
+                
+              }).AddTo(this);
+      }
+      
       if (TimerView != null)
         TimerView.Initialize(this);
       
@@ -180,6 +184,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
 
     private void SubscribeShoot()
     {
+      if (_attacker.Value == null) return;
       InputControls.OnShoot
         .Subscribe(_ =>
         {
@@ -195,6 +200,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
 
     private void SubscribeAbility()
     {
+      if (_attacker.Value == null) return;
       InputControls.OnAbilityUse
         .Subscribe(_ => _attacker.Value.AbilityUse(this))
         .AddTo(_lifetimeDisposable);

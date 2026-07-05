@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using _Project.Scripts.Scenes.Game.Unit;
 using UnityEngine;
 
-public class Drone : MonoBehaviour
+public class Drone : GameUnit
 {
     private float speed = 10f;
     private Vector3 _targetPosition;
