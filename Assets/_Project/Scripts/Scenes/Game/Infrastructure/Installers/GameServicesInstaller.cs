@@ -35,9 +35,8 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
       
       Container.Bind<IInputHelper>().To<InputHelper>().AsSingle();
       
-      Container.Bind<IGameFactory>().To<GameFactory>().AsSingle();
-      Container.Bind<InputControllsFactory>().AsSingle();
       
+      Container.Bind<InputControllsFactory>().AsSingle();
       Container.Bind<HackableSelector>().AsSingle();
       
       Container.BindInterfacesAndSelfTo<HackingService>().AsSingle();
@@ -50,7 +49,10 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure
         .NonLazy();
       
       Container.BindInterfacesAndSelfTo<UserInputControls>().AsSingle();
+      Container.Bind<ITacticalHacking>().To<TacticalHacking>().AsSingle();
+      Container.Bind<ArrowsMiniGame>().AsSingle();
       Container.Bind<IPosessionService>().To<PosessionService>().AsSingle();
+      Container.Bind<IGameFactory>().To<GameFactory>().AsSingle();
       
       Container.BindInterfacesAndSelfTo<UIMediator>().AsSingle().NonLazy();
       

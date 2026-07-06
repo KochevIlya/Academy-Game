@@ -10,8 +10,11 @@ namespace _Project.Scripts.Scenes.Game.Hacking.Terminal
 {
     public class HackingTerminal : MonoBehaviour
     {
-        [Inject] private HackingService _hackingService;
-        [Inject] private HackableSelector _hackableSelector;
+        
+        private CombatZone _combatZone;
+        
+        [Inject] private ITacticalHacking _tacticalHacking;
+        
         public Transform WarZoneTransform;
         
         private readonly BoolReactiveProperty _canHack = new BoolReactiveProperty(false);
@@ -38,6 +41,9 @@ namespace _Project.Scripts.Scenes.Game.Hacking.Terminal
             _canHack.Value = true;
         }
 
+        public CombatZone GetCombatZone => _combatZone;
+        public void SetCombatZone(CombatZone combatZone) => _combatZone = combatZone; 
+        
         private void OnTriggerStay(Collider other)
         {
             if (other.CompareTag("Player"))
@@ -68,15 +74,16 @@ namespace _Project.Scripts.Scenes.Game.Hacking.Terminal
             if (active)
             {
                 _isActive = true;
-                _hackingService.SetHackingZoneStatus(true);
-                _hackableSelector.SetContext(WarZoneTransform);
+                _tacticalHacking.SetHackingZoneStatus(true);
+                _tacticalHacking.SetContext(WarZoneTransform, _combatZone.GetHackableObjects());
+                
                 ShowInteractionUI();
             }
             else
             {
                 _isActive = false;
-                _hackingService.SetHackingZoneStatus(false);
-                _hackableSelector.ClearContext();
+                _tacticalHacking.SetHackingZoneStatus(false);
+                _tacticalHacking.ClearContext();
                 HideInteractionUI();
             }
         }

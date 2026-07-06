@@ -8,4 +8,6 @@ public interface IPlayerProvider
 {
     IReadOnlyReactiveProperty<GameUnit> ActiveUnit { get; }
     void SetActiveUnit(GameUnit unit);
+
+    public GameUnit GetActiveUnit();
 }

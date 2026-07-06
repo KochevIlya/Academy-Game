@@ -139,14 +139,15 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     }
 
 
-    public async UniTask<HackingTerminal> SpawnTerminal(Vector3 position, Quaternion rotation, Transform warZoneTransform, string id)
+    public async UniTask<HackingTerminal> SpawnTerminal(Vector3 position,
+      Quaternion rotation, Transform warZoneTransform, string id, CombatZone combatZone)
     {
       var prefab = await _assetProvider.LoadFromAddressable<GameObject>(_staticData.TerminalConfig.Prefab);
       GameObject terminalObject =
         _diContainer.InstantiatePrefab(prefab, position, rotation, null);
       HackingTerminal terminal = terminalObject.GetComponentInChildren<HackingTerminal>();
       
-      
+      terminal.SetCombatZone(combatZone);
       terminal.WarZoneTransform = warZoneTransform; 
       SaveTrigger trigger = terminalObject.GetComponentInChildren<SaveTrigger>();
       trigger.SetId(id);

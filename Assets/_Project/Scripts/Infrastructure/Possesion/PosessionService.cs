@@ -39,5 +39,10 @@ namespace _Project.Scripts.Infrastructure.Possesion
         {
             _input.IsBlocked.Value = blocking;
         }
+
+        public GameUnit GetCurrentUnit()
+        {
+            return _playerProvider.GetActiveUnit();
+        }
     }
 }

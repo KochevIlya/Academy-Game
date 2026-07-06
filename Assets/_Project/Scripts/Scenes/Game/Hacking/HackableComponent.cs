@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using _Project.Scripts.Scenes.Game.Unit;
 using UnityEngine;
 
-public class HackableComponent : MonoBehaviour
+public class HackableComponent : MonoBehaviour, IHackable
 {
     
     [field: SerializeField] public int Difficulty { get; private set; } = 4;

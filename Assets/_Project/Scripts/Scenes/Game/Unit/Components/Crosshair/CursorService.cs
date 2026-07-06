@@ -5,6 +5,7 @@ using UnityEngine;
 public class CursorService : ICursorService
 {
     private CursorController _controller;
+    private ICursorService _iCursorServiceImplementation;
 
     public void Register(CursorController controller)
     {
@@ -33,5 +34,10 @@ public class CursorService : ICursorService
         Cursor.lockState = isLocked ? CursorLockMode.Locked : CursorLockMode.None;
     }
 
-    
+    public void SetInGameCursor()
+    {
+        SetVisible(true);
+        SetLockState(false);
+        SetDefaultCursor();
+    }
 }

@@ -128,7 +128,7 @@ public class HackingService : IDisposable
 
         if (_currentZoneContext != null)
         {
-            _hackableSelector.SetAllowedTargets(_currentZoneContext.GetActiveUnits());
+            // _hackableSelector.SetAllowedTargets(_currentZoneContext.GetActiveUnits());
         }
         else
         {
@@ -142,7 +142,6 @@ public class HackingService : IDisposable
             _soundService.Play(Audio.AudioType.Terminal);
             _cursorService.SetDefaultCursor();
             _hackerUnit.DisableControl();
-            
             target = await _hackableSelector.SelectTarget(_hackingCts.Token);
             
         }
@@ -160,12 +159,14 @@ public class HackingService : IDisposable
             _hackingCts?.Cancel();
             Debug.LogError($"Непредвиденная ошибка при выборе цели: {e}");
             return;
+            
         }
         finally
         {
             _hackableSelector.SetAllowedTargets(null);
             _hackingCompletionSource?.TrySetResult(); 
             _hackingCompletionSource = null;
+            
         }
 
         if (target != null)
@@ -207,15 +208,17 @@ public class HackingService : IDisposable
 
     private void SubscribeToInput()
     {
-        _input.OnRawMovement
-            .Where(_ => IsHacking.Value)
-            .Subscribe(CheckInput)
-            .AddTo(_disposables);
         
-        _input.OnAction
-            .Where(_ => _isPossessing && !IsHacking.Value)
-            .Subscribe(_ => SelfDestroy())
-            .AddTo(_disposables);
+        // _input.OnRawMovement
+        //     .Where(_ => IsHacking.Value)
+        //     .Subscribe(CheckInput)
+        //     .AddTo(_disposables);
+        //
+        // _input.OnAction
+        //     .Where(_ => _isPossessing && !IsHacking.Value)
+        //     .Subscribe(_ => SelfDestroy())
+        //     .AddTo(_disposables);
+        
     }
 
     private void SelfDestroy()

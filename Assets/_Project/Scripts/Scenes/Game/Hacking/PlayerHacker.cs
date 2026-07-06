@@ -16,20 +16,29 @@ public class PlayerHacker : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float _interactionRadius = 10f;
 
-    private HackingService _hackingService;
+    private ITacticalHacking _tacticalHacking;
     private UserInputControls _input;
     private GameUnit _myUnit;
+    private IPosessionService _posessionService;
     [Inject] HackableSelector _hackableSelector; 
+    
     [Inject]
-    public void Construct(HackingService hackingService, UserInputControls input)
+    public void Construct(ITacticalHacking hackingService
+        , UserInputControls input
+    , IPosessionService posessionService
+    
+    )
     { 
-        _hackingService = hackingService;
+        _tacticalHacking = hackingService;
         _input = input;
+        posessionService.Possess(GetComponent<GameUnit>());
     }
 
     private void Awake()
     {
+        
         _myUnit = GetComponent<GameUnit>();
+        
     }
     private void Start()
     {
@@ -37,7 +46,6 @@ public class PlayerHacker : MonoBehaviour
         try
         {
             _input.OnAction
-                .Where(_ => !_hackingService.IsHacking.Value && _hackingService.CanHack.Value)
                 .TakeUntilDestroy(this)
                 .Subscribe(_ => TryToHack())
                 .AddTo(this);
@@ -50,9 +58,9 @@ public class PlayerHacker : MonoBehaviour
     private async void TryToHack()
     {
         if (!(_myUnit.InputControls is UserInputControls)) return;
-        Debug.Log("PlayerHacker: TryToHack, isPosessing: " + _hackingService.IsPossessing);
-        if (_hackingService.IsPossessing) return;
-        _hackingService.RequestHacking(_myUnit);
+        Debug.Log("PlayerHacker: TryToHack, isPosessing: ");
+        
+        _tacticalHacking.TryHack();
     }
 
     private void OnDrawGizmosSelected()

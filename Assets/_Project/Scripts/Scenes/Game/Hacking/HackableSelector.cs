@@ -18,10 +18,10 @@ namespace _Project.Scripts.Scenes.Game.Hacking
         [Inject] private ICameraService _cameraService;
         private Transform _currentViewPoint;
         [Inject] private ICursorService _cursorService;
-        [Inject] private IGuiGameService _guiGameService;
-        private List<GameUnit> _allowedTargets;
+        private List<IHackable> _allowedTargets;
         
-        public void SetAllowedTargets(List<GameUnit> targets)
+        
+        public void SetAllowedTargets(List<IHackable> targets)
         {
             _allowedTargets = targets;
         }
@@ -37,12 +37,9 @@ namespace _Project.Scripts.Scenes.Game.Hacking
         
         public async UniTask<HackableComponent> SelectTarget(CancellationToken token)
         {
-            _guiGameService.ShowHackingSelectionWindow();
             _cursorService.SetDefaultCursor();
             _cursorService.SetVisible(true);
             _cursorService.SetLockState(false);
-            
-            _cameraService.SetPoint(_currentViewPoint);
 
             HackableComponent lastHovered = null;
 
@@ -84,7 +81,6 @@ namespace _Project.Scripts.Scenes.Game.Hacking
             {
                 if (lastHovered != null) SetOutlineState(lastHovered, false);
                 Debug.Log($"[HackableSelector] SelectTarget() GuiGameService.Pop()");
-                await _guiGameService.CloseScreen(ScreenType.HackingSelectionWindow);
             }
             return null;
         }

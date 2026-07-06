@@ -14,4 +14,9 @@ public class PlayerProvider : IPlayerProvider
     {
         _activeUnit.Value = unit;
     }
+
+    public GameUnit GetActiveUnit()
+    {
+        return _activeUnit.Value;
+    }
 }

@@ -9,6 +9,7 @@ public interface ICursorService
     void SetCrosshairCursor();
     void SetDefaultCursor();
     void SetLockState(bool isLocked);
-    
- 
+    public void SetInGameCursor();
+
+
 }

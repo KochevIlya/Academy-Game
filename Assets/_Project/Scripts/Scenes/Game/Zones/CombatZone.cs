@@ -38,7 +38,7 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
         
         private readonly Subject<UniRx.Unit> _zoneClearedSubject = new Subject<UniRx.Unit>();
         public IObservable<UniRx.Unit> OnZoneCleared => _zoneClearedSubject;
-        
+        private List<IHackable> _hackableObjects;
 
         public bool IsBattleActive => _isAlarmActive;
         [Inject] HackingService  _hackingService;
@@ -58,6 +58,20 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
         public List<GameUnit> GetActiveUnits()
         {
             return _activeUnits;
+        }
+
+        public List<IHackable> GetHackableObjects()
+        {
+            if (_hackableObjects == null)
+            {
+                _hackableObjects = new List<IHackable>();
+                foreach (var activeUnit in _activeUnits)
+                {
+                    _hackableObjects.Add(activeUnit);
+                }
+            }
+
+            return _hackableObjects;
         }
         
         public void InitializeZone()

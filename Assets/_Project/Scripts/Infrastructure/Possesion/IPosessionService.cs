@@ -8,5 +8,7 @@ public interface IPosessionService
     public void Possess(GameUnit newUnit);
     
     public void UpdateBlocking(bool blocking);
+    
+    public GameUnit GetCurrentUnit();
 
 }

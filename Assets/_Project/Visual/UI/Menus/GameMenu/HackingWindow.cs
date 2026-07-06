@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using _Project.Scripts.Infrastructure.Gui.Screens;
 using _Project.Scripts.Infrastructure.Gui.Service;
+using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,24 +24,31 @@ public class HackingWindow : BaseScreen
     [SerializeField] private Color _futureColor = new Color(1f, 1f, 1f, 0.3f);
     [SerializeField] private Color _errorColor = Color.red;
 
-    private HackingService _service;
+    private ArrowsMiniGame _service;
     private List<Image> _spawnedArrows1 = new List<Image>();
     private IGuiGameService _guiGameService;
+    private ITacticalHacking _tacticalHacking;
+    [SerializeField] private TextMeshProUGUI _textView;
+    private TimeSpan _time;
+    
+    
     [Inject]
-    public void Construct(HackingService service
+    public void Construct(ArrowsMiniGame arrowsMiniGame
         ,IGuiGameService guiGameService
+        ,ITacticalHacking tacticalHacking
     )
     {
-        _service = service;
+        _service = arrowsMiniGame;
         _guiGameService = guiGameService;
+        _tacticalHacking = tacticalHacking;
         
-        Debug.Log($"HackingView заинжекчен. Сервис: {(_service != null ? "ОК" : "NULL")}");
     }
     
     private void Awake()
-    {
+    { 
         
          _service.OnHackingStarted
+             .Where(sequence => sequence != null)
             .Subscribe(sequence => Show(sequence))
             .AddTo(this);
 
@@ -51,11 +60,22 @@ public class HackingWindow : BaseScreen
             .Subscribe(index => ShowError(index))
             .AddTo(this);
 
+        _tacticalHacking.HackingUITimer
+            .Subscribe(time =>
+            {
+                _time = TimeSpan.FromSeconds(time);
+                string seconds = _time.Seconds > 10 ? _time.Seconds.ToString() : $"0{_time.Seconds}";
+                _textView.text = $"{_time.Minutes}:{seconds}";
+            })
+            .AddTo(this);
+
         UpdateProgress(0);
     }
     
     private void Show(List<Vector2> sequence)
     {
+        Debug.Log("Showing Sequence");
+        
         Clear();
 
         foreach (var direction in sequence)

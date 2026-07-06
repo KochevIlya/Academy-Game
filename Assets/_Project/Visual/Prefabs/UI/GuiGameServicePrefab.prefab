@@ -76,6 +76,11 @@ MonoBehaviour:
   - ScreenType: 14
     Prefab: {fileID: 1297523339801135119, guid: f4f7fe96c1eb9eb458c922e4e99df114,
       type: 3}
+  - ScreenType: 9
+    Prefab: {fileID: 6735911211280370153, guid: e82c12b9ddc75544e99007dc0c323496,
+      type: 3}
+  - ScreenType: 8
+    Prefab: {fileID: 520037038498309279, guid: 5f9abbac97b0edc4cabb306a9a2860a8, type: 3}
   pauseMenuWindowPrefab: {fileID: 4420036374338241017, guid: aa84e0301a7c1b04da9ba77afc8a5f6e,
     type: 3}
 --- !u!1 &7850851786578166575

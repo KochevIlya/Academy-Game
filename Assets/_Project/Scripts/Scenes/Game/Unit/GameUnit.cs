@@ -23,7 +23,7 @@ using Zenject;
 
 namespace _Project.Scripts.Scenes.Game.Unit
 {
-  public class GameUnit : MonoBehaviour, IUnitSaveable
+  public class GameUnit : MonoBehaviour, IUnitSaveable, IHackable
   {
     [Inject] private DiContainer _container;
     public UnitAnimator Animator;
