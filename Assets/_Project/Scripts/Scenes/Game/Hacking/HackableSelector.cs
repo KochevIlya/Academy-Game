@@ -97,7 +97,7 @@ namespace _Project.Scripts.Scenes.Game.Hacking
                 var hackable = hit.collider.GetComponentInParent<HackableComponent>();
                 if (hackable != null)
                 {
-                    var unit = hackable.GetComponent<GameUnit>();
+                    var unit = hackable.GetComponent<IHackable>();
                     if (_allowedTargets != null && !_allowedTargets.Contains(unit))
                     {
                         continue;

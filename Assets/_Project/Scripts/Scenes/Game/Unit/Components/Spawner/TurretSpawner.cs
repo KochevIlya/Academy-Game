@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MachineGunSpawner : MonoBehaviour
+public class TurretSpawner : MonoBehaviour
 {
 
-    public ITurret SpawnedTurret { get; private set; }
+    public TurretBase SpawnedTurret { get; private set; }
     public Vector3 Position => transform.position;
-    public void SetSpawnedTurret(ITurret turret)
+    public void SetSpawnedTurret(TurretBase turret)
     {
         SpawnedTurret = turret;   
     }

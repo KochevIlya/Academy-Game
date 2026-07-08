@@ -7,6 +7,7 @@ using UnityEngine;
 public class LaserTrigger : MonoBehaviour
 {
     private Turret _parentTurret;
+    private bool _isActive;
 
     public void Initialize(Turret parent)
     {
@@ -15,6 +16,7 @@ public class LaserTrigger : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        if (!_isActive) return;
         if (!other.CompareTag("HitBox")) return;
 
         if (_parentTurret == null) 
@@ -42,4 +44,15 @@ public class LaserTrigger : MonoBehaviour
         
         _parentTurret.TryDamageUnit(unit);
     }
+
+    public void Activate()
+    {
+        _isActive = true;
+    }
+
+    public void Deactivate()
+    {
+        _isActive = false;
+    }
+    
 }

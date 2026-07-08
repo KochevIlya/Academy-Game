@@ -138,11 +138,11 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       return unit;
     }
 
-    public async UniTask<ITurret> SpawnTurret(Vector3 position)
+    public async UniTask<TurretBase> SpawnTurret(Vector3 position)
     {
       var prefab = await _assetProvider.LoadFromAddressable<GameObject>(_staticData.TurretConfig.Prefab);
       GameObject turretObject = _diContainer.InstantiatePrefab(prefab, position,  Quaternion.identity, null);
-      ITurret turret =  turretObject.GetComponentInChildren<ITurret>();
+      TurretBase turret =  turretObject.GetComponentInChildren<TurretBase>();
 
       return turret;
     }

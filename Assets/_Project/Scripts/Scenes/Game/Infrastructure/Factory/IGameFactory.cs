@@ -21,6 +21,6 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     
     UniTask<Grenade> SpawnGrenade(Vector3 position);
     UniTask<GameUnit> RestoreGameUnit(EnemySaveData data);
-    UniTask<ITurret> SpawnTurret(Vector3 position);
+    UniTask<TurretBase> SpawnTurret(Vector3 position);
   }
 }

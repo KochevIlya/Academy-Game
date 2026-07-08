@@ -46,7 +46,6 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
       
       if (isNewGame)
       {
-        
         foreach (UnitSpawner spawner in Object.FindObjectsOfType<UnitSpawner>())
         {
           GameUnit unit = await _gameFactory.SpawnGameUnit(spawner.Position, spawner.UnitСharacteristicsType, spawner.Path);
@@ -55,15 +54,21 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
             spawner.SetSpawnedUnit(unit);
           }
         }
-
-        
-        
       }
 
       // foreach (InGameSpawner spawner in Object.FindObjectsOfType<InGameSpawner>())
       // {
       //   spawner.Reset();
       // }
+      foreach (TurretSpawner spawner in Object.FindObjectsOfType<TurretSpawner>())
+      {
+        Debug.Log("Spawning machinegun");
+        TurretBase turret = await _gameFactory.SpawnTurret(spawner.Position);
+        if (turret != null)
+        {
+          spawner.SetSpawnedTurret(turret);
+        }
+      }
       
       foreach (TerminalSpawner spawner in Object.FindObjectsOfType<TerminalSpawner>())
       {
@@ -76,17 +81,6 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
         
       }
       
-      foreach (MachineGunSpawner spawner in Object.FindObjectsOfType<MachineGunSpawner>())
-      {
-        Debug.Log("Spawning machinegun");
-        ITurret turret = await _gameFactory.SpawnTurret(spawner.Position);
-        if (turret != null)
-        {
-          spawner.SetSpawnedTurret(turret);
-        }
-      }
-      
-      
       foreach (var zone in Object.FindObjectsOfType<CombatZone>())
       {
         _container.Inject(zone);
@@ -94,6 +88,10 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
         zone.InitializeZone();
         
       }
+      
+      
+      
+      
       
       gameStateMachine.Enter<InitializeGameServices>();
     }

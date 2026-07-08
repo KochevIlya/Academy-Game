@@ -18,6 +18,7 @@ using Zenject;
 public class CombatZone : MonoBehaviour, IZoneSaveable
     {
         [SerializeField] private List<UnitSpawner> _mySpawners;
+        [SerializeField] private List<TurretSpawner> _turretSpawners;
         [Inject] private SignalBus _signalBus;
         [Inject] private ISoundService _soundService;
         public List<GameUnit> _activeUnits = new List<GameUnit>();
@@ -26,6 +27,7 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
         public List<HackingTerminal> _activeTerminals = new List<HackingTerminal>();
         [SerializeField] private List<Post> _posts;
         private bool _isAlarmActive = false;
+        public List<IHackable> _activeObjects = new List<IHackable>();
         
         private CompositeDisposable _disposables = new CompositeDisposable();
         private int _botsCount = 0;
@@ -69,6 +71,13 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
                 {
                     _hackableObjects.Add(activeUnit);
                 }
+
+                foreach (var activeObject in _activeObjects)
+                {
+                    _hackableObjects.Add(activeObject);
+                }
+                
+                
             }
 
             return _hackableObjects;
@@ -84,6 +93,10 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
                 {
                     RegisterUnit(spawner.SpawnedUnit);
                 }
+            }
+
+            foreach (var turretSpawner in _turretSpawners){
+                _activeObjects.Add(turretSpawner.SpawnedTurret);
             }
             
             foreach (var tSpawner in _myTerminalSpawners)

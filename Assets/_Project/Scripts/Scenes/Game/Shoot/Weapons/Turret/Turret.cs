@@ -16,8 +16,6 @@ public class Turret : TurretBase
     {
         _laserTrigger = GetComponentInChildren<LaserTrigger>();
         _laserTrigger.Initialize(this);
-        
-        Activate();
     }
     private void Update()
     {
@@ -34,6 +32,7 @@ public class Turret : TurretBase
     public override void Activate()
     {
         base.Activate();
+        _laserTrigger.Activate();
     }
     
     public void TryDamageUnit(GameUnit unit)

@@ -77,6 +77,7 @@ public class TacticalHacking : ITacticalHacking, IDisposable
         
         
         _hackableSelector.SetAllowedTargets(_hackableObjects);
+        Debug.Log($"[Tactical Hacking] num of el in _hackableObjects: {_hackableObjects.Count}");
         StartTimerCountdownAsync(_cts.Token).Forget();
         
         try
@@ -86,11 +87,14 @@ public class TacticalHacking : ITacticalHacking, IDisposable
                 _guiGameService.ShowHackingSelectionWindow();
                 IHackable selectedTarget = await _hackableSelector.SelectTarget(_cts.Token);
                 await _guiGameService.CloseScreen(ScreenType.HackingSelectionWindow);
+                
                 if (selectedTarget == null)
                     return;
                 
                 await _guiGameService.ShowWindow(ScreenType.HackingWindow);
+                
                 await _hackingGame.StartHackingGame().ToUniTask(cancellationToken: _cts.Token);
+                
                 await _guiGameService.CloseScreen(ScreenType.HackingWindow);
                 _hackingGame.StopHackingGame();
             }

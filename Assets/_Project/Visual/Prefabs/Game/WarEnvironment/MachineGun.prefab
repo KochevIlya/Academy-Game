@@ -296,6 +296,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5940837821629366869}
   - component: {fileID: 3093519243992755980}
+  - component: {fileID: 8438544714097025312}
+  - component: {fileID: 8372839139292665251}
   m_Layer: 0
   m_Name: MachineGun
   m_TagString: Untagged
@@ -335,3 +337,30 @@ MonoBehaviour:
   _damagePerTick: 15
   _damageInterval: 0.1
   _rotationSpeed: 20
+--- !u!114 &8438544714097025312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2768729715905461364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fd386c8636b8994f8028d5f5ee495f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Difficulty>k__BackingField: 4
+--- !u!114 &8372839139292665251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2768729715905461364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b276c28c87854e54592318bd43c376ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineColor: {r: 0, g: 1, b: 1, a: 1}
+  outlineWidth: 6
