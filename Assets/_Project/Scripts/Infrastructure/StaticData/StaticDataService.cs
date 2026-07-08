@@ -14,7 +14,8 @@ namespace _Project.Scripts.Infrastructure.StaticData
     public TerminalConfig TerminalConfig { get; private set; }
     
     public UnitStatsConfig UnitStatsConfig { get; private set; }
-    
+    public TurretConfig TurretConfig { get; private set; }
+
 
     public StaticDataService(IConfigsLoader configsLoader)
     {
@@ -27,7 +28,8 @@ namespace _Project.Scripts.Infrastructure.StaticData
       WeaponsConfig = _configsLoader.LoadSoConfig<WeaponsConfig>();
       TerminalConfig = _configsLoader.LoadSoConfig<TerminalConfig>();
       UnitStatsConfig = _configsLoader.LoadSoConfig<UnitStatsConfig>();
-      
+      TurretConfig = _configsLoader.LoadSoConfig<TurretConfig>();
+
     }
   }
 }

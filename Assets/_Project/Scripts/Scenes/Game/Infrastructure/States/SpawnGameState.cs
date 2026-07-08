@@ -55,6 +55,8 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
             spawner.SetSpawnedUnit(unit);
           }
         }
+
+        
         
       }
 
@@ -73,6 +75,17 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.States
         }
         
       }
+      
+      foreach (MachineGunSpawner spawner in Object.FindObjectsOfType<MachineGunSpawner>())
+      {
+        Debug.Log("Spawning machinegun");
+        ITurret turret = await _gameFactory.SpawnTurret(spawner.Position);
+        if (turret != null)
+        {
+          spawner.SetSpawnedTurret(turret);
+        }
+      }
+      
       
       foreach (var zone in Object.FindObjectsOfType<CombatZone>())
       {

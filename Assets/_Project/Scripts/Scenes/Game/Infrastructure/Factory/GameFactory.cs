@@ -138,6 +138,15 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
       return unit;
     }
 
+    public async UniTask<ITurret> SpawnTurret(Vector3 position)
+    {
+      var prefab = await _assetProvider.LoadFromAddressable<GameObject>(_staticData.TurretConfig.Prefab);
+      GameObject turretObject = _diContainer.InstantiatePrefab(prefab, position,  Quaternion.identity, null);
+      ITurret turret =  turretObject.GetComponentInChildren<ITurret>();
+
+      return turret;
+    }
+
 
     public async UniTask<HackingTerminal> SpawnTerminal(Vector3 position,
       Quaternion rotation, Transform warZoneTransform, string id, CombatZone combatZone)

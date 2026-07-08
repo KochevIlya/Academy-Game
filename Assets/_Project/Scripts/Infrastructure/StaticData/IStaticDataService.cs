@@ -13,5 +13,7 @@ namespace _Project.Scripts.Infrastructure.StaticData
     WeaponsConfig WeaponsConfig { get; }
     TerminalConfig TerminalConfig { get; }
     UnitStatsConfig UnitStatsConfig { get; }
+    TurretConfig TurretConfig { get; }
+    
   }
 }
