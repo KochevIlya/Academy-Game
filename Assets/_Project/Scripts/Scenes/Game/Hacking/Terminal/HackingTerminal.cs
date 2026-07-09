@@ -75,8 +75,7 @@ namespace _Project.Scripts.Scenes.Game.Hacking.Terminal
             {
                 _isActive = true;
                 _tacticalHacking.SetHackingZoneStatus(true);
-                _tacticalHacking.SetContext(WarZoneTransform, _combatZone.GetHackableObjects());
-                
+                _tacticalHacking.SetContext(WarZoneTransform, _combatZone.GetHackableObjects(), _combatZone);
                 ShowInteractionUI();
             }
             else

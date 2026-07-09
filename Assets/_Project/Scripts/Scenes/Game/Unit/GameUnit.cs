@@ -23,11 +23,12 @@ using Zenject;
 
 namespace _Project.Scripts.Scenes.Game.Unit
 {
-  public class GameUnit : MonoBehaviour, IUnitSaveable, IHackable
+  public class GameUnit : HackableComponent, IUnitSaveable
   {
     [Inject] private DiContainer _container;
     public UnitAnimator Animator;
     public Health Health;
+    private const int _hackingDamage  = 200;
 
     public PatrolPath PatrolPath { get; set; } = null;
     private UnitСharacteristicsType _characteristicsType;
@@ -282,6 +283,11 @@ namespace _Project.Scripts.Scenes.Game.Unit
     {
       Destroy(gameObject);
     }
-    
+
+    public override void Activate()
+    {
+      base.Activate();
+      Health.TakeDamage(_hackingDamage);
+    }
   }
 }

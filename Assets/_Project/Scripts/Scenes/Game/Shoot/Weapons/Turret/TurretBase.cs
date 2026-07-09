@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurretBase : MonoBehaviour, ITurret, IHackable
+public class TurretBase : HackableComponent, ITurret
 {
 
     protected float _hp;
-    protected bool _isActive;
     
     
     
@@ -24,14 +23,7 @@ public class TurretBase : MonoBehaviour, ITurret, IHackable
     {
         return _isActive;
     }
-
-    public virtual void Activate()
-    {
-        _isActive = true;
-    }
-
-    public virtual void Deactivate()
-    {
-        _isActive = false;
-    }
+    
+    
+    
 }

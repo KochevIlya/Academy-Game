@@ -23,14 +23,16 @@ public class TacticalHacking : ITacticalHacking, IDisposable
     public ReactiveProperty<double> HackingUITimer { get; } = new ReactiveProperty<double>(0);
     public ReactiveProperty<bool> IsHacking { get; } = new ReactiveProperty<bool>(false);
     public ReactiveProperty<bool> CanHackProperty { get; } = new ReactiveProperty<bool>(false);
-    public Subject<HackableComponent> OnHackingStarted { get; } 
-    
+    public Subject<HackableComponent> OnHackingStarted { get; }
+
+
+    private CombatZone _combatZone;
     private CancellationTokenSource _cts;
     private IPosessionService _posessionService;
     private HackableSelector _hackableSelector;
     private Transform _currentViewPoint;
     private ICameraService _cameraService;
-    private List<IHackable> _hackableObjects;
+    private List<HackableComponent> _hackableObjects;
     private ICursorService _cursorService;
     private IGuiGameService _guiGameService;
     
@@ -85,7 +87,8 @@ public class TacticalHacking : ITacticalHacking, IDisposable
             while (!_cts.Token.IsCancellationRequested)
             {
                 _guiGameService.ShowHackingSelectionWindow();
-                IHackable selectedTarget = await _hackableSelector.SelectTarget(_cts.Token);
+                HackableComponent selectedTarget = await _hackableSelector.SelectTarget(_cts.Token);
+                
                 await _guiGameService.CloseScreen(ScreenType.HackingSelectionWindow);
                 
                 if (selectedTarget == null)
@@ -94,6 +97,11 @@ public class TacticalHacking : ITacticalHacking, IDisposable
                 await _guiGameService.ShowWindow(ScreenType.HackingWindow);
                 
                 await _hackingGame.StartHackingGame().ToUniTask(cancellationToken: _cts.Token);
+
+                selectedTarget.Activate();
+                
+                    
+                    
                 
                 await _guiGameService.CloseScreen(ScreenType.HackingWindow);
                 _hackingGame.StopHackingGame();
@@ -121,14 +129,15 @@ public class TacticalHacking : ITacticalHacking, IDisposable
             
             _time -= TimeSpan.FromSeconds(Time.deltaTime);
 
-            // [ОПЦИОНАЛЬНО] Если у тебя есть ReactiveProperty для вывода таймера на UI:
             HackingUITimer.Value = _time.TotalSeconds;
         }
 
         if (!ct.IsCancellationRequested)
         {
             Debug.Log("[Таймер] Время вышло! Нажимаем кнопку СТОП для всего взлома.");
-            _cts?.Cancel();
+            _cts?.Cancel(); 
+            _combatZone.ActivateAggroAll();
+              
         }
     }
     
@@ -161,8 +170,10 @@ public class TacticalHacking : ITacticalHacking, IDisposable
         return true;
     }
     
-    public void SetContext(Transform point, List<IHackable> units)
+    public void SetContext(Transform point, List<HackableComponent> units, CombatZone combatZone)
     {
+        
+        _combatZone =  combatZone;
         _hackableObjects = units;
         _currentViewPoint = point;
     }

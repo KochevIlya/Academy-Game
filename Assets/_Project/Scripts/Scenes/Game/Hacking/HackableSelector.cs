@@ -18,10 +18,10 @@ namespace _Project.Scripts.Scenes.Game.Hacking
         [Inject] private ICameraService _cameraService;
         private Transform _currentViewPoint;
         [Inject] private ICursorService _cursorService;
-        private List<IHackable> _allowedTargets;
+        private List<HackableComponent> _allowedTargets;
         
         
-        public void SetAllowedTargets(List<IHackable> targets)
+        public void SetAllowedTargets(List<HackableComponent> targets)
         {
             _allowedTargets = targets;
         }
@@ -55,7 +55,7 @@ namespace _Project.Scripts.Scenes.Game.Hacking
                     }
                     
                     HackableComponent currentHovered = ScanForTarget(activeCamera);
-
+                
                     if (currentHovered != lastHovered)
                     {
                         
@@ -97,8 +97,7 @@ namespace _Project.Scripts.Scenes.Game.Hacking
                 var hackable = hit.collider.GetComponentInParent<HackableComponent>();
                 if (hackable != null)
                 {
-                    var unit = hackable.GetComponent<IHackable>();
-                    if (_allowedTargets != null && !_allowedTargets.Contains(unit))
+                    if (_allowedTargets != null && !_allowedTargets.Contains(hackable))
                     {
                         continue;
                     }

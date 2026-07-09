@@ -27,7 +27,7 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
         public List<HackingTerminal> _activeTerminals = new List<HackingTerminal>();
         [SerializeField] private List<Post> _posts;
         private bool _isAlarmActive = false;
-        public List<IHackable> _activeObjects = new List<IHackable>();
+        public List<HackableComponent> _activeObjects = new List<HackableComponent>();
         
         private CompositeDisposable _disposables = new CompositeDisposable();
         private int _botsCount = 0;
@@ -40,18 +40,22 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
         
         private readonly Subject<UniRx.Unit> _zoneClearedSubject = new Subject<UniRx.Unit>();
         public IObservable<UniRx.Unit> OnZoneCleared => _zoneClearedSubject;
-        private List<IHackable> _hackableObjects;
+        private List<HackableComponent> _hackableObjects;
 
         public bool IsBattleActive => _isAlarmActive;
         [Inject] HackingService  _hackingService;
         [Inject] InputControllsFactory _inputControllsFactory;
-        [Inject] private ISaveLoadService _saveLoadService;
+        private ISaveLoadService _saveLoadService;
+        private IPosessionService _posessionService;
         private int _hackingAttempts = 0;
         private HackingTerminal _terminal;
+        
         [Inject]
-        public void Construct(ISaveLoadService saveLoadService)
+        public void Construct(ISaveLoadService saveLoadService
+        ,IPosessionService posessionService)
         {
             _saveLoadService = saveLoadService;
+            _posessionService = posessionService;
         }
         
 
@@ -62,11 +66,11 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
             return _activeUnits;
         }
 
-        public List<IHackable> GetHackableObjects()
+        public List<HackableComponent> GetHackableObjects()
         {
             if (_hackableObjects == null)
             {
-                _hackableObjects = new List<IHackable>();
+                _hackableObjects = new List<HackableComponent>();
                 foreach (var activeUnit in _activeUnits)
                 {
                     _hackableObjects.Add(activeUnit);
@@ -293,20 +297,22 @@ public class CombatZone : MonoBehaviour, IZoneSaveable
             _isAlarmActive = true;
             _battleStateSubject.OnNext(true);
             
-
-            target.Health.Die
-                .Take(1)
-                .Subscribe(_ => ActivateWalk(_terminal))
-                .AddTo(_disposables);
-            
             Debug.Log($"<color=red>ЗОНА {name}: ТРЕВОГА! Цель: {target.name}</color>");
 
             foreach (var bot in _activeUnits)
             {
                 if (bot == null || bot.IsUnderControl || bot.Data.behaviourType == UnitBehaviourType.Melee) continue;
                 
-                var aggro = _inputControllsFactory.ChangeAggressiveControls(bot, target, _terminal);
+                var aggro = _inputControllsFactory.ChangeAggressiveControls(bot, _posessionService.GetCurrentUnit(), _terminal);
                 bot.UpdateControls(aggro);
+            }
+        }
+
+        public void ActivateAggroAll()
+        {
+            foreach (var unit in _activeUnits)
+            {
+                ActivateAggro(unit);   
             }
         }
 
