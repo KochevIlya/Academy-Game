@@ -2,6 +2,7 @@
 using UniRx;
 using UnityEngine;
 using _Project.Scripts.Scenes.Game.Unit._Data;
+using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using UnityEngine.Serialization;
 
@@ -57,6 +58,15 @@ namespace _Project.Scripts.Scenes.Game.Unit.Components.Health
         _die.OnNext(UniRx.Unit.Default);
         _die.OnCompleted();
       }
+    }
+    
+    public void AddHealth(int amount)
+    {
+      //int actualAmount = (int)(IncomingDamageMultiplier * amount);
+      //Debug.Log($"In Taking Damage IncomingDamageMultiplier: {IncomingDamageMultiplier}, Amount: {amount}, CurrentAmount: {actualAmount}" );
+      if (IsDead()) return;
+      
+      _currentHealth.Value = Mathf.Min(_currentHealth.Value + amount, MaxHealth.Value);
     }
     
     public void UpdateMaxHealth(int value, bool currentToMax = true)

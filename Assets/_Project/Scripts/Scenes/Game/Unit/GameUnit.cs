@@ -17,6 +17,7 @@ using System.Linq;
 using _Project.Scripts.Infrastructure.SaveLoad;
 using _Project.Scripts.Scenes.Game.Unit._Configs;
 using _Project.Scripts.Scenes.Game.Unit.Behaviour.Controls;
+using _Project.Scripts.Scenes.Game.Unit.Components.Drop;
 using JetBrains.Annotations;
 using _Project.Sounds;
 using Zenject;
@@ -28,6 +29,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
     [Inject] private DiContainer _container;
     public UnitAnimator Animator;
     public Health Health;
+    public Drop Drop;
 
     public PatrolPath PatrolPath { get; set; } = null;
     private UnitСharacteristicsType _characteristicsType;
@@ -89,6 +91,7 @@ namespace _Project.Scripts.Scenes.Game.Unit
       {
         isDying = true;
         Weapon = null;
+        if (Drop) Drop.DropObject(transform.position);
         Destroy(GetComponent<HackableComponent>());
         UpdateControls(new DummyInputControls(InputControls.MousePosition));
         Animator.Die();
