@@ -61,7 +61,6 @@ public class DroneAbility : BaseAbility<DroneSettings>
         bool isPlayerCaster = _unit.IsUnderControl;
     
         var drone = await _gameFactory.SpawnDrone(_unit); 
-        drone.Setup(targetPosition, Settings.speed);
     
         drone.Setup(targetPosition, Settings.speed);
         if (isPlayerCaster)

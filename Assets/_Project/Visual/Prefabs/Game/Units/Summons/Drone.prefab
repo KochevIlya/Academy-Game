@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3420588903256287517}
   - component: {fileID: 2459323885730905797}
   - component: {fileID: 2986320404569193895}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,11 +115,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1481662329545097577}
   - component: {fileID: -2941539445563805264}
-  - component: {fileID: -2947791503499750585}
+  - component: {fileID: -6934861953942801012}
+  - component: {fileID: 8336835182083128072}
   - component: {fileID: 973203119214203731}
   - component: {fileID: -8904538047669181873}
   - component: {fileID: -6410443862511196811}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Drone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,13 +156,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Animator: {fileID: 0}
-  Health: {fileID: 0}
+  Health: {fileID: -6934861953942801012}
   <HealthView>k__BackingField: {fileID: 0}
   <TimerView>k__BackingField: {fileID: 0}
   <WeaponPoint>k__BackingField: {fileID: 0}
   IsUnderControl: 0
   _mover:
-    underlyingValue: {fileID: -2947791503499750585}
+    underlyingValue: {fileID: 8336835182083128072}
   _botMover:
     underlyingValue: {fileID: 0}
   _rotator:
@@ -175,7 +176,7 @@ MonoBehaviour:
   VFXPrefab: {fileID: 0}
   vfxOffset: {x: 0, y: 0, z: 0}
   vfxScaleModifier: 1
---- !u!114 &-2947791503499750585
+--- !u!114 &-6934861953942801012
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -184,7 +185,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 3512759897602314584}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f06789c2fe49465d80e99880f9dfdb6d, type: 3}
+  m_Script: {fileID: 11500000, guid: 794f7fc6be4e4713a28cc2ef035af788, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VFXPrefab: {fileID: 0}
+  vfxOffset: {x: 0, y: 0, z: 0}
+  vfxScaleModifier: 1
+--- !u!114 &8336835182083128072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3512759897602314584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54540912d22d8864b8387359ac4d83be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &973203119214203731
@@ -220,7 +236,7 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 2
+  m_Height: 0.5
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.05
@@ -249,7 +265,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0

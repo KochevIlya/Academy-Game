@@ -13,7 +13,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Mover
     //[SerializeField] private UnitStatsData _unitStatsData;
     
     private ICameraService _cameraService;
-    private CharacterController _controller;
+    protected CharacterController _controller;
 
     private Vector3 _verticalVelocity;
 
@@ -67,7 +67,7 @@ namespace _Project.Scripts.Scenes.Game.Unit.Mover
       } 
     }
 
-    private void ApplyMovement(Vector3 horizontal, float deltaTime)
+    protected virtual void ApplyMovement(Vector3 horizontal, float deltaTime)
     {
       var finalMovement = horizontal * deltaTime; 
       finalMovement += _verticalVelocity * deltaTime; 

@@ -129,9 +129,14 @@ namespace _Project.Scripts.Scenes.Game.Infrastructure.Factory
     {
       var prefabReference = _staticData.UnitsConfig.Drone;
       var prefab = await _assetProvider.LoadFromAddressable<GameObject>(prefabReference);
-      Vector3 spawnPosition = owner.transform.position + Vector3.up * 1.5f;
-      return _diContainer.InstantiatePrefabForComponent<Drone>
-        (prefab, spawnPosition, Quaternion.identity, null);
+      Vector3 spawnPosition = owner.transform.position + Vector3.up * 3f;
+      return _diContainer.InstantiatePrefabForComponent<Drone>(
+        prefab, 
+        spawnPosition, 
+        Quaternion.identity, 
+        null, 
+        new object[] { owner }
+      );
     }
 
     public async UniTask<GameUnit> RestoreGameUnit(EnemySaveData data)
